@@ -1,8 +1,7 @@
 <?php 
-
 /**
- * Post class
+ * Comment
  * 
  * @author Junior Grossi <me@juniorgrossi.com>
  */
-class Post extends Corcel\Post {}
+class Comment extends Corcel\Comment {}
