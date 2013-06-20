@@ -11,7 +11,7 @@ class PostMeta extends Eloquent
 
     public function post()
     {
-        return $this->belongsTo('Post');
+        return $this->belongsTo('Corcel\Post');
     }
 
     public function newCollection(array $models = array())

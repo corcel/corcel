@@ -5,7 +5,11 @@ Wrappers to use Wordpress backend with you framework of choice. Under developmen
 
     $posts = Post::published()->type('post_type')->take(4)->orderBy('post_title')->get();
     foreach ($posts as $post) {
-        echo $post->post_title . ' - ' . $post->meta->some_meta;
+        echo $post->post_title . ' - ' . $post->meta->some_meta_key . '<br />';
+        $comments = $post->comments;
+        foreach ($comments as $comment) {
+            echo 'Author: ' . $comment->comment_author;
+        }
     }
 
 
