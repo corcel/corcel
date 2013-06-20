@@ -3,11 +3,6 @@ Wordpress Corcel
 
 *Corcel is under development.*
 
-<<<<<<< HEAD
-    $posts = Post::published()->type('post_type')->take(4)->orderBy('post_title')->get();
-    foreach ($posts as $post) {
-        echo $post->post_title . ' - ' . $post->meta->some_meta;
-=======
 --
 
 Corcel is a class collection created to retrieve Wordpress database data using a better syntax. It uses the Eloquent ORM developed for the Laravel Framework, but you can use Corcel in any type of PHP project.
