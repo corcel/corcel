@@ -86,6 +86,10 @@ Pages are like custom post types. You can use `Post::type('page')` or the `Page`
     $page = Post::type('page')->slug('about')->first();
     echo $page->post_title;
 
+## TODO
+
+I'm already working with Wordpress comments integration.
+
 ## Licence
 
 Corcel is licensed under the MIT license.

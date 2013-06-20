@@ -1,11 +1,20 @@
 <?php 
 
+/**
+ * Corcel\Database
+ * 
+ * @author Junior Grossi <me@juniorgrossi.com>
+ */
+
 namespace Corcel;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Database
 {
+    /**
+     * Base params. Wordpress use by default MySQL databases and more.
+     */
     static protected $baseParams = array(
         'driver'    => 'mysql',
         'host'      => 'localhost',
@@ -14,6 +23,11 @@ class Database
         'prefix'    => '',
     );
 
+    /**
+     * Connect to the Wordpress database
+     * 
+     * @param array $params
+     */
     public static function connect(array $params)
     {
         $capsule = new Capsule;
