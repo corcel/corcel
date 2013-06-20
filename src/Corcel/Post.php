@@ -15,6 +15,7 @@ class Post extends Eloquent
     protected $table = 'wp_posts';
     protected $primaryKey = 'ID';
     protected $with = array('meta', 'comments');
+    protected $postType = 'post';
 
     /**
      * Meta data relationship
@@ -50,7 +51,7 @@ class Post extends Eloquent
         if (isset($this->postType) and $this->postType) {
             $builder->type($this->postType);
         }
-
+        
         if ($excludeDeleted and $this->softDelete) {
             $builder->whereNull($this->getQualifiedDeletedAtColumn());
         }
