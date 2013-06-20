@@ -14,7 +14,7 @@ This way you can use Wordpress as back-end, to insert posts, custom types, etc, 
 To install Corcel just create a `composer.json` file and add:
 
     "require": {
-        "juniorgrossi/corcel": "*"
+        "juniorgrossi/corcel": "dev-master"
     },
 
 After that run `composer install` and wait.
