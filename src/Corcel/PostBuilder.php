@@ -54,4 +54,17 @@ class PostBuilder extends Builder
     {
         return $this->where('post_name', $slug);
     }
+
+    /**
+     * Overrides the paginate() method to a custom and simple way.
+     * 
+     * @param int $perPage
+     * @param int $currentPage
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function paginate($perPage = 10, $currentPage = 1)
+    {
+        $skip = $currentPage * $perPage - $perPage;
+        return $this->skip($skip)->take($perPage)->get();
+    }
 }
