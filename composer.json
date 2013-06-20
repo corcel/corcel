@@ -5,7 +5,8 @@
     "authors": [
         {
             "name": "Junior Grossi",
-            "email": "me@juniorgrossi.com"
+            "email": "me@juniorgrossi.com",
+            "homepage": "http://www.juniorgrossi.com"
         }
     ],
     "minimum-stability": "dev",
