@@ -1,5 +1,5 @@
-Corcel
-======
+Wordpress Corcel
+================
 
 *Corcel is under development.*
 
