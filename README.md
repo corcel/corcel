@@ -70,7 +70,6 @@ You can work with custom post types too. You can use the `type(string)` method o
     class Video extends Corcel\Post
     {
         protected $postType = 'video';
->>>>>>> devel
     }
     $videos = Video::status('publish')->get();
 
