@@ -8,16 +8,15 @@ class Comment extends Eloquent
 {
     protected $table = 'wp_comments';
     protected $primaryKey = 'comment_ID';
-    protected $with = array('post', 'original', 'replies');
 
     public function post()
     {
-        return $this->belongsTo('Corcel\Post');
+        return $this->belongsTo('Corcel\Post', 'comment_post_ID');
     }
 
     public function original()
     {
-        return $this->belongsTo('Corcel\Comment');
+        return $this->belongsTo('Corcel\Comment', 'comment_parent');
     }
 
     public function replies()
@@ -46,4 +45,15 @@ class Comment extends Eloquent
         return $instance->where('comment_post_ID', $postId)->get();
     }
 
+    public function newQuery($excludeDeleted = true)
+    {
+        $builder = new CommentBuilder($this->newBaseQueryBuilder());
+        $builder->setModel($this)->with($this->with);
+
+        if ($excludeDeleted and $this->softDelete) {
+            $builder->whereNull($this->getQualifiedDeletedAtColumn());
+        }
+
+        return $builder;
+    }
 }

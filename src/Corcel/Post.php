@@ -20,26 +20,13 @@ class Post extends Eloquent
         return $this->hasMany('Corcel\Comment', 'comment_post_ID');
     }
 
-    public static function findBySlug($slug)
-    {
-        $instance = new static;
-        $builder = $instance->newQuery();
-        $post = $builder->where('post_name', $slug)->first();
-
-        if ($post == null) {
-            throw new \Exception("Post not found with slug [{$slug}] and postType [{$instance->postType}]");
-        }
-
-        return $post;
-    }
-
     public function newQuery($excludeDeleted = true)
     {
         $builder = new PostBuilder($this->newBaseQueryBuilder());
         $builder->setModel($this)->with($this->with);
-        $builder->published();
+        // $builder->published();
 
-        if (isset($this->postType)) {
+        if (isset($this->postType) and $this->postType) {
             $builder->type($this->postType);
         }
 
@@ -48,6 +35,15 @@ class Post extends Eloquent
         }
 
         return $builder;
+    }
+
+    public function __get($key)
+    {
+        if (!isset($this->$key)) {
+            return $this->meta->$key;    
+        }
+
+        return parent::__get($key);
     }
 
 }

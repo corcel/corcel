@@ -20,4 +20,9 @@ class PostBuilder extends Builder
     {
         return $this->where('post_type', $type);
     }
+
+    public function slug($slug)
+    {
+        return $this->where('post_name', $slug);
+    }
 }
