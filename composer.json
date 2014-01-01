@@ -1,5 +1,6 @@
 {
     "name": "jgrossi/corcel",
+    "replace": { "juniorgrossi/corcel": "self.version" },
     "description": "Wrappers to collect data from Wordpress databases",
     "homepage": "http://github.com/jgrossi/corcel",
     "license": "MIT",
