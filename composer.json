@@ -1,7 +1,7 @@
 {
-    "name": "juniorgrossi/corcel",
+    "name": "jgrossi/corcel",
     "description": "Wrappers to collect data from Wordpress databases",
-    "homepage": "http://github.com/juniorgrossi/passkit",
+    "homepage": "http://github.com/jgrossi/corcel",
     "license": "MIT",
     "authors": [
         {
