@@ -44,6 +44,15 @@ class PostBuilder extends Builder
         return $this->where('post_type', $type);
     }
 
+    public function taxonomy($taxonomy, $term)
+    {
+        return $this->whereHas('taxonomies', function($query) use ($taxonomy, $term) {
+            $query->where('taxonomy', $taxonomy)->whereHas('term', function($query) use ($term) {
+                $query->where('slug', $term);
+            });
+        });
+    }
+
     /**
      * Get only posts with a specific slug
      * 

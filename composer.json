@@ -7,13 +7,14 @@
     "authors": [
         {
             "name": "Junior Grossi",
-            "email": "me@juniorgrossi.com",
-            "homepage": "http://www.juniorgrossi.com"
+            "email": "juniorgro@gmail.com",
+            "homepage": "http://grossi.io"
         }
     ],
     "require": {
         "php":  ">=5.3.0",
-        "illuminate/database": "*"
+        "illuminate/database": "*",
+        "phpunit/phpunit": "4.2.2"
     },
     "autoload": {
         "psr-0": {

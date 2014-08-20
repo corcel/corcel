@@ -12,10 +12,12 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Post extends Eloquent
 {
+    const CREATED_AT = 'post_date';
+    const UPDATED_AT = 'post_modified';
+
     protected $table = 'wp_posts';
     protected $primaryKey = 'ID';
     protected $with = array('meta', 'comments');
-    protected $postType = 'post';
 
     /**
      * Meta data relationship
@@ -25,6 +27,16 @@ class Post extends Eloquent
     public function meta()
     {
         return $this->hasMany('Corcel\PostMeta', 'post_id');
+    }
+
+    public function fields()
+    {
+        return $this->meta();
+    }
+
+    public function taxonomies()
+    {
+        return $this->belongsToMany('Corcel\TermTaxonomy', 'wp_term_relationships', 'object_id', 'term_taxonomy_id');
     }
 
     /**
@@ -38,7 +50,7 @@ class Post extends Eloquent
     }
 
     /**
-     * Overriding newQuery() to the custom PostBuilder with some intereting methods
+     * Overriding newQuery() to the custom PostBuilder with some interesting methods
      * 
      * @param bool $excludeDeleted
      * @return Corcel\PostBuilder
@@ -69,10 +81,22 @@ class Post extends Eloquent
     public function __get($key)
     {
         if (!isset($this->$key)) {
-            return $this->meta->$key;    
+            if (isset($this->meta()->get()->$key)) {
+                return $this->meta()->get()->$key;
+            }
         }
 
         return parent::__get($key);
     }
+
+    public function save(array $options = array())
+    {
+        if (isset($this->attributes[$this->primaryKey])) {
+            $this->meta->save($this->attributes[$this->primaryKey]);
+        }
+
+        return parent::save($options);
+    }
+
 
 }
