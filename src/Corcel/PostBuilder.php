@@ -83,8 +83,12 @@ class PostBuilder extends Builder
                 {
                     if($lastId == 'init')
                     {
-                        $lastId = $match->ID;
-                        $hierarchy[$slug] = $match->ID;
+                        if($match->post_parent == 0)
+                        {
+                            $lastId = $match->ID;
+                            $hierarchy[$slug] = $match->ID;    
+                        }
+                        
                     }
                     if($match->post_parent <> 0)
                     {
