@@ -90,6 +90,19 @@ Pages are like custom post types. You can use `Post::type('page')` or the `Page`
     $page = Post::type('page')->slug('about')->first();
     echo $page->post_title;
 
+### Attachment and Revision
+
+Getting the attachment and/or revision from a post or page
+
+    $page = Page::slug('about')->with('attachment')->first();
+    // get feature image from page or post
+    print_r($page->attachment);
+
+    $post = Post::slug('test')->with('revision')->first();
+    // get all revisions from a post or page
+    print_r($post->revision);
+
+
 ## TODO
 
 I'm already working with Wordpress comments integration.
