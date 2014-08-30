@@ -90,6 +90,7 @@ class PostBuilder extends Builder
                     {
                         if($match->post_parent == $lastId) {
                             $hierarchy[$slug] = $match->ID;
+                            $lastId = $match->ID;
                         }
                     }
                 }                
