@@ -38,11 +38,11 @@ class TermTaxonomyBuilder extends Builder
 
             // exception to filter on slug from category
             $exception = function($query) {
-                $query->where('slug', $this->category_slug);
+                $query->where('slug', '=', $this->category_slug);
             };
 
             // load term to filter
-            return $this->with([ 'term' => $exception ]);
+            return $this->whereHas('term', $exception);
         }
 
         return $this;
