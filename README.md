@@ -90,14 +90,14 @@ Pages are like custom post types. You can use `Post::type('page')` or the `Page`
     $page = Post::type('page')->slug('about')->first();
     echo $page->post_title;
 
-### Categories && Taxonomies
+### Categories & Taxonomies
 
 Get a category or taxonomy or load posts from a certain category. There are multiple ways
 to achief it.
 
     // all categories
-    $cat = Taxonomy::category()->slug('uncategorized')->posts()->get();
-    echo "<pre>"; print_r($cat->toArray()); echo "</pre>";
+    $cat = Taxonomy::category()->slug('uncategorized')->posts()->first();
+    echo "<pre>"; print_r($cat->name); echo "</pre>";
 
     // only all categories and posts connected with it
     $cat = Taxonomy::where('taxonomy', 'category')->with('posts')->get();
