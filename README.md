@@ -83,12 +83,47 @@ Custom post types and meta data.
 
 ### Pages
 
-Pages are like custom post types. You can use `Post::type('page')` or the `Page` class:
+Pages are like custom post types. You can use `Post::type('page')` or the `Page` class.
 
     // Find a page by slug
     $page = Page::slug('about')->first(); // OR
     $page = Post::type('page')->slug('about')->first();
     echo $page->post_title;
+
+### Categories & Taxonomies
+
+Get a category or taxonomy or load posts from a certain category. There are multiple ways
+to achief it.
+
+    // all categories
+    $cat = Taxonomy::category()->slug('uncategorized')->posts()->first();
+    echo "<pre>"; print_r($cat->name); echo "</pre>";
+
+    // only all categories and posts connected with it
+    $cat = Taxonomy::where('taxonomy', 'category')->with('posts')->get();
+    $cat->each(function($category) {
+        echo $category->name;
+    });
+
+    // clean and simple all posts from a category
+    $cat = Category::slug('uncategorized')->posts()->first();
+    $cat->posts->each(function($post) {
+        echo $post->post_title;
+    });
+
+
+### Attachment and Revision
+
+Getting the attachment and/or revision from a `Post` or `Page`.
+
+    $page = Page::slug('about')->with('attachment')->first();
+    // get feature image from page or post
+    print_r($page->attachment);
+
+    $post = Post::slug('test')->with('revision')->first();
+    // get all revisions from a post or page
+    print_r($post->revision);
+
 
 ## TODO
 

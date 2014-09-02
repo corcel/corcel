@@ -8,6 +8,4 @@ class Term extends Eloquent
 {
     protected $table = 'wp_terms';
     protected $primaryKey = 'term_id';
-
-
 }

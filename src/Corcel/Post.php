@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 /**
  * Post model
- * 
+ *
  * @author Junior Grossi <me@juniorgrossi.com>
  */
 
@@ -17,11 +17,12 @@ class Post extends Eloquent
 
     protected $table = 'wp_posts';
     protected $primaryKey = 'ID';
-    protected $with = array('meta', 'comments');
+    protected $with = array('meta');
+    protected $postType = 'post';
 
     /**
      * Meta data relationship
-     * 
+     *
      * @return Corcel\PostMetaCollection
      */
     public function meta()
@@ -34,6 +35,11 @@ class Post extends Eloquent
         return $this->meta();
     }
 
+    /**
+     * Taxonomy relationship
+     *
+     * @return Illuminate\Database\Eloquent\Collection
+     */
     public function taxonomies()
     {
         return $this->belongsToMany('Corcel\TermTaxonomy', 'wp_term_relationships', 'object_id', 'term_taxonomy_id');
@@ -41,7 +47,7 @@ class Post extends Eloquent
 
     /**
      * Comments relationship
-     * 
+     *
      * @return Illuminate\Database\Eloquent\Collection
      */
     public function comments()
@@ -50,8 +56,29 @@ class Post extends Eloquent
     }
 
     /**
+     * Get attachment
+     *
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function attachment()
+    {
+        return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'attachment');
+    }
+
+
+    /**
+     * Get revisions from post
+     *
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function revision()
+    {
+        return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'revision');
+    }
+
+    /**
      * Overriding newQuery() to the custom PostBuilder with some interesting methods
-     * 
+     *
      * @param bool $excludeDeleted
      * @return Corcel\PostBuilder
      */
@@ -74,7 +101,7 @@ class Post extends Eloquent
 
     /**
      * Magic method to return the meta data like the post original fields
-     * 
+     *
      * @param string $key
      * @return string
      */
