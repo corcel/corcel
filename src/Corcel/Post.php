@@ -18,7 +18,6 @@ class Post extends Eloquent
     protected $table = 'wp_posts';
     protected $primaryKey = 'ID';
     protected $with = array('meta');
-    protected $postType = 'post';
 
     /**
      * Meta data relationship
@@ -62,7 +61,7 @@ class Post extends Eloquent
      */
     public function attachment()
     {
-        return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'attachment');
+        return $this->hasOne('Corcel\Post', 'post_parent')->type('attachment');
     }
 
 
@@ -73,7 +72,28 @@ class Post extends Eloquent
      */
     public function revision()
     {
-        return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'revision');
+        return $this->hasMany('Corcel\Post', 'post_parent')->type('revision');
+    }
+
+    /**
+     *
+     * @return boolean [description]
+     */
+    public function hasAttachment()
+    {
+        return (bool) $this->attachment && (bool)$this->getModel()->attachment->exists;
+    }
+
+    /**
+     * [url description]
+     * @return [type] [description]
+     */
+    public function url()
+    {
+        if( $this->post_type == 'attachment')
+            return $this->meta->_wp_attached_file;
+        else
+            return $this->guid;
     }
 
     /**

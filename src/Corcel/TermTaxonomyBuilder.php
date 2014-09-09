@@ -33,12 +33,10 @@ class TermTaxonomyBuilder extends Builder
     public function slug( $category_slug=null )
     {
         if( !is_null($category_slug) and !empty($category_slug) ) {
-            // set this category_slug to be used in with callback
-            $this->category_slug = $category_slug;
 
             // exception to filter on slug from category
-            $exception = function($query) {
-                $query->where('slug', '=', $this->category_slug);
+            $exception = function($query) use ($category_slug) {
+                $query->where('slug', '=', $category_slug);
             };
 
             // load term to filter
