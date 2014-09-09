@@ -117,8 +117,17 @@ to achief it.
 Getting the attachment and/or revision from a `Post` or `Page`.
 
     $page = Page::slug('about')->with('attachment')->first();
+    // check if the page or post has attachment
+    var_dump( $page->hasAttachment() );
     // get feature image from page or post
     print_r($page->attachment);
+
+    // quick get the url of the post/page or attachment
+    print_r($page->url());
+
+    // stripped version can be used, when having htaccess rules for files. Can be done in the following way:
+    print_r($page->url(true));
+
 
     $post = Post::slug('test')->with('revision')->first();
     // get all revisions from a post or page
