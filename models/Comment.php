@@ -2,6 +2,6 @@
 /**
  * Comment
  * 
- * @author Junior Grossi <me@juniorgrossi.com>
+ * @author Junior Grossi <juniorgro@gmail.com>
  */
 class Comment extends Corcel\Comment {}

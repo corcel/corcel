@@ -3,7 +3,7 @@
 /**
  * Corcel\Database
  * 
- * @author Junior Grossi <me@juniorgrossi.com>
+ * @author Junior Grossi <juniorgro@gmail.com>
  */
 
 namespace Corcel;
