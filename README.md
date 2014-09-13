@@ -57,7 +57,24 @@ You can retrieve meta data from posts too.
     // Get a custom meta value (like 'link' or whatever) from a post (any type)
     $post = Post::find(31);
     echo $post->meta->link; // OR
-    echo $post->link;
+    echo $post->fields->link;
+    echo $post->link; // OR
+
+Updating post custom fields:
+
+    $post = Post::find(1);
+    $post->meta->username = 'juniorgrossi';
+    $post->meta->url = 'http://grossi.io';
+    $post->save();
+
+Inserting custom fields:
+
+    $post = new Post;
+    $post->save();
+
+    $post->meta->username = 'juniorgrossi';
+    $post->meta->url = 'http://grossi.io';
+    $post->save();
 
 ### Custom Post Type
 
@@ -82,22 +99,6 @@ Custom post types and meta data:
         $storeAddress = $store->meta->address; // option 2
         $storeAddress = $store->fields->address; // option 3
     }
-
-Updating post custom fields:
-
-    $post = Post::find(1);
-    $post->meta->username = 'juniorgrossi';
-    $post->meta->url = 'http://grossi.io';
-    $post->save();
-
-Inserting custom fields:
-
-    $post = new Post;
-    $post->save();
-
-    $post->meta->username = 'juniorgrossi';
-    $post->meta->url = 'http://grossi.io';
-    $post->save();
 
 ### Taxonomies
 
