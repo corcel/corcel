@@ -73,13 +73,43 @@ You can work with custom post types too. You can use the `type(string)` method o
     }
     $videos = Video::status('publish')->get();
 
-Custom post types and meta data.
+Custom post types and meta data:
 
     // Get 3 posts with custom post type (store) and show its title
     $stores = Post::type('store')->status('publish')->take(3)->get();
     foreach ($stores as $store) {
-        $storeAddress = $store->address;
+        $storeAddress = $store->address; // option 1
+        $storeAddress = $store->meta->address; // option 2
+        $storeAddress = $store->fields->address; // option 3
     }
+
+Updating post custom fields:
+
+    $post = Post::find(1);
+    $post->meta->username = 'juniorgrossi';
+    $post->meta->url = 'http://grossi.io';
+    $post->save();
+
+Inserting custom fields:
+
+    $post = new Post;
+    $post->save();
+
+    $post->meta->username = 'juniorgrossi';
+    $post->meta->url = 'http://grossi.io';
+    $post->save();
+
+### Taxonomies
+
+You can get taxonomies for a specific post like:
+
+    $post = Post::find(1);
+    $taxonomy = $post->taxonomies()->first();
+    echo $taxonomy->taxonomy;
+
+Or you can search for posts using its taxonomies:
+
+    $post = Post::taxonomy('category', 'php')->first();
 
 ### Pages
 
