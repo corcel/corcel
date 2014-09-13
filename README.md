@@ -1,7 +1,7 @@
 Wordpress Corcel
 ================
 
-*Corcel is under development.*
+*Corcel is under development, but it's working :D*
 
 --
 
