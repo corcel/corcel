@@ -18,7 +18,6 @@ class Post extends Eloquent
     protected $table = 'wp_posts';
     protected $primaryKey = 'ID';
     protected $with = array('meta');
-    protected $postType = 'post';
 
     /**
      * Meta data relationship
