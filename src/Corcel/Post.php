@@ -15,7 +15,7 @@ class Post extends Eloquent
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
 
-    protected $table = 'wp_posts';
+    protected $table = 'posts';
     protected $primaryKey = 'ID';
     protected $with = array('meta');
 
@@ -41,7 +41,7 @@ class Post extends Eloquent
      */
     public function taxonomies()
     {
-        return $this->belongsToMany('Corcel\TermTaxonomy', 'wp_term_relationships', 'object_id', 'term_taxonomy_id');
+        return $this->belongsToMany('Corcel\TermTaxonomy', 'term_relationships', 'object_id', 'term_taxonomy_id');
     }
 
     /**

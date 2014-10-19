@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 /**
  * Corcel\Database
- * 
+ *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 
@@ -20,12 +20,12 @@ class Database
         'host'      => 'localhost',
         'charset'   => 'utf8',
         'collation' => 'utf8_unicode_ci',
-        'prefix'    => '',
+        'prefix'    => 'wp_',
     );
 
     /**
      * Connect to the Wordpress database
-     * 
+     *
      * @param array $params
      */
     public static function connect(array $params)
@@ -33,7 +33,7 @@ class Database
         $capsule = new Capsule;
         $params = array_merge(static::$baseParams, $params);
         $capsule->addConnection($params);
-        $capsule->bootEloquent();        
+        $capsule->bootEloquent();
     }
 }
 
