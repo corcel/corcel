@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TermTaxonomy extends Model
 {
-    protected $table = 'wp_term_taxonomy';
+    protected $table = 'term_taxonomy';
     protected $primaryKey = 'term_taxonomy_id';
     protected $with = array('term');
 
@@ -22,7 +22,7 @@ class TermTaxonomy extends Model
 
     public function posts()
     {
-        return $this->belongsToMany('Corcel\Post', 'wp_term_relationships', 'term_taxonomy_id', 'object_id');
+        return $this->belongsToMany('Corcel\Post', 'term_relationships', 'term_taxonomy_id', 'object_id');
     }
 
     /**

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TermRelationship extends Model
 {
-    protected $table = 'wp_term_relationships';
+    protected $table = 'term_relationships';
     protected $primaryKey = array('object_id', 'term_taxonomy_id');
 
     public function post()

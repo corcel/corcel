@@ -31,6 +31,7 @@ Now you must set your Wordpress database params:
         'database'  => 'database_name',
         'username'  => 'username',
         'password'  => 'pa$$word',
+        'prefix'    => 'wp_' // default prefix is 'wp_', you can change to your own prefix
     );
     Corcel\Database::connect($params);
 
@@ -40,7 +41,7 @@ You can specify all Eloquent params, but some are default (but you can override 
     'host'      => 'localhost',
     'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci',
-    'prefix'    => '',
+    'prefix'    => 'wp_', // Specify the prefix for wordpress tables, default prefix is 'wp_'
 
 ### Posts
 
