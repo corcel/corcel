@@ -144,6 +144,38 @@ to achief it.
     });
 
 
+### Thumbnails
+Get the thumbnails for a post or getting multiple thumbnails:
+
+    // get single thumbnail
+    $thumbnail = Post::thumbnails(1);
+    echo $thumbnail->id;
+    echo $thumbnail->url;
+
+    // get thumbnails that are connected to multiple posts
+    $thumbnails = Post::thumbnails([ 1,3,9 ]);
+    $thumbnails->each(function($thumbnail) {
+        echo $thumbnail->url;
+    });
+
+A more complete example:
+
+    // get the category plus connected posts
+    $category = Category::slug('....')->first();
+    $postIds = $category->posts->lists('ID');
+    $thumbnails = Post::thumbnails($postIds);
+
+    // loop through posts
+    foreach($category->posts as $post) {
+        $thumbnail = $thumbnails->filter(function($thumb) use ($post) {
+            if ($thumb->id == $post->ID)
+                return true;
+        })->first();
+        echo $thumbnail->url;
+    }
+
+Working on a cleaner way to get the thumbnail model from a Collection.
+
 ### Attachment and Revision
 
 Getting the attachment and/or revision from a `Post` or `Page`.
