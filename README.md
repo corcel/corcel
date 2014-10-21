@@ -133,7 +133,7 @@ to achief it.
 
     // all categories
     $cat = Taxonomy::category()->slug('uncategorized')->posts()->first();
-    echo "<pre>"; print_r($cat->name); echo "</pre>";
+    print_r($cat->name);
 
     // only all categories and posts connected with it
     $cat = Taxonomy::where('taxonomy', 'category')->with('posts')->get();
@@ -171,13 +171,9 @@ A more complete example:
 
     // loop through posts
     foreach($category->posts as $post) {
-        $thumbnail = $thumbnails->filter(function($thumb) use ($post) {
-            return (bool) $thumb->id == $post->ID;
-        })->first();
+        $thumbnail = $thumbnails->where('id', $post->ID);
         echo $thumbnail->url;
     }
-
-Working on a cleaner way to get the thumbnail model from a Collection.
 
 ### Attachment and Revision
 
@@ -193,15 +189,14 @@ Getting the attachment and/or revision from a `Post` or `Page`.
     print_r($page->url());
 
     // stripped version can be used, when having htaccess rules for files. Can be done in the following way:
-    print_r($page->url(true));
-
+    echo $page->url(true);
 
     $post = Post::slug('test')->with('revision')->first();
     // get all revisions from a post or page
     print_r($post->revision);
 
 
-## Solution for non-Wordpress models/connections
+## Suggestion for non-Wordpress models/connections
 For when you not use the Corcel\Database connector and you have non-Wordpress models or Eloquent queries.
 There is a simple solution (example mostly for Laravel users):
 
