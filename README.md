@@ -31,7 +31,8 @@ Now you must set your Wordpress database params:
         'database'  => 'database_name',
         'username'  => 'username',
         'password'  => 'pa$$word',
-        'prefix'    => 'wp_' // default prefix is 'wp_', you can change to your own prefix
+        // default prefix is 'wp_', you can change to your own prefix
+        'prefix'    => 'wp_'
     );
     Corcel\Database::connect($params);
 
@@ -41,7 +42,10 @@ You can specify all Eloquent params, but some are default (but you can override 
     'host'      => 'localhost',
     'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci',
-    'prefix'    => 'wp_', // Specify the prefix for wordpress tables, default prefix is 'wp_'
+    // Specify the prefix for wordpress tables, default prefix is 'wp_'
+    'prefix'    => 'wp_',
+
+Using Laravel? and using more models that are not prefixed? See on the bottom for a solution.
 
 ### Posts
 
@@ -168,8 +172,7 @@ A more complete example:
     // loop through posts
     foreach($category->posts as $post) {
         $thumbnail = $thumbnails->filter(function($thumb) use ($post) {
-            if ($thumb->id == $post->ID)
-                return true;
+            return (bool) $thumb->id == $post->ID;
         })->first();
         echo $thumbnail->url;
     }
@@ -197,6 +200,45 @@ Getting the attachment and/or revision from a `Post` or `Page`.
     // get all revisions from a post or page
     print_r($post->revision);
 
+
+## Solution for non-Wordpress models/connections
+For when you not use the Corcel\Database connector and you have non-Wordpress models or Eloquent queries.
+There is a simple solution (example mostly for Laravel users):
+
+    // Add a new connection to you're database config file.
+    'wordpress' => array(
+        'driver'    => 'mysql',
+        'host'      => 'localhost',
+        ....
+        'prefix'    => 'wp_',
+    ),
+    'second' => array(
+        'driver'    => 'mysql',
+        'host'      => 'localhost',
+        ....
+        // make sure the prefix is empty for you'r not Wordpress connection
+        'prefix'    => '',
+    ),
+
+    // Note to laravel users, to set you're default connection.
+
+After defined the extra connection, make sure you're model is using that connection:
+
+    <?php
+
+    use Illuminate\Database\Eloquent\Model as Eloquent;
+
+    class NonWordpressPost extends Eloquent
+    {
+        // define the database connection to use by Eloquent
+        protected $connection = 'second';
+
+        ....
+    }
+
+And of course while direct quering:
+
+    DB::connection('second')->select(...)
 
 ## TODO
 
