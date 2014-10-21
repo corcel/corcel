@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 /**
  * Corcel\PostMeta
- * 
+ *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 
@@ -12,14 +12,14 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class PostMeta extends Eloquent
 {
-    protected $table = 'wp_postmeta';
+    protected $table = 'postmeta';
     protected $primaryKey = 'meta_id';
     public $timestamps = false;
     protected $fillable = array('meta_key', 'meta_value', 'post_id');
 
     /**
      * Post relationship
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function post()
@@ -29,7 +29,7 @@ class PostMeta extends Eloquent
 
     /**
      * Override newCollection() to return a custom collection
-     * 
+     *
      * @param array $models
      * @return \Corcel\PostMetaCollection
      */

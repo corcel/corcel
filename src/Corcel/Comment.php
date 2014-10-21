@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 /**
  * Corcel\Comment
- * 
+ *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 
@@ -12,12 +12,12 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Comment extends Eloquent
 {
-    protected $table = 'wp_comments';
+    protected $table = 'comments';
     protected $primaryKey = 'comment_ID';
 
     /**
      * Post relationship
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function post()
@@ -27,7 +27,7 @@ class Comment extends Eloquent
 
     /**
      * Original relationship
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function original()
@@ -37,7 +37,7 @@ class Comment extends Eloquent
 
     /**
      * Replies relationship
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function replies()
@@ -47,7 +47,7 @@ class Comment extends Eloquent
 
     /**
      * Verify if the current comment is approved
-     * 
+     *
      * @return bool
      */
     public function isApproved()
@@ -57,7 +57,7 @@ class Comment extends Eloquent
 
     /**
      * Verify if the current comment is a reply from another comment
-     * 
+     *
      * @return bool
      */
     public function isReply()
@@ -67,7 +67,7 @@ class Comment extends Eloquent
 
     /**
      * Verify if the current comment has replies
-     * 
+     *
      * @return bool
      */
     public function hasReplies()
@@ -77,7 +77,7 @@ class Comment extends Eloquent
 
     /**
      * Find a comment by post ID
-     * 
+     *
      * @param int $postId
      * @return \Corcel\Comment
      */
@@ -89,7 +89,7 @@ class Comment extends Eloquent
 
     /**
      * Override the parent newQuery() to the custom CommentBuilder class
-     * 
+     *
      * @param bool $excludeDeleted
      * @return \Corcel\CommentBuilder
      */
