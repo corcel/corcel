@@ -156,6 +156,23 @@ Getting the attachment and/or revision from a `Post` or `Page`.
     // get all revisions from a post or page
     print_r($post->revision);
 
+### Menu
+
+Show a menu by name in a easier way. Created an alias (nav_items) for the posts
+connected to this taxonomy. Basicly this is a taxonomy `with()` the related posts.
+
+    $menu = Menu::name('primary')->first();
+
+    foreach ($menu->nav_items as $item) {
+        // ....
+        'post_title'    => '....', // Nav item name
+        'post_name'     => '....', // Nav item slug
+        'guid'          => '....', // Nav full url, influent by permalinks
+        // ....
+    }
+
+Work in progress: Current issue is when using a category as nav_item it wouldn't show it's name until you gife
+it a custom.
 
 ## TODO
 

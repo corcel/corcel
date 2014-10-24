@@ -4,6 +4,7 @@
  * Corcel\TermTaxonomyBuilder
  *
  * @author Junior Grossi <juniorgro@gmail.com>
+ * @author  Yoram de Langen <yoramdelangen@gmail.com>
  */
 
 namespace Corcel;
@@ -14,14 +15,38 @@ class TermTaxonomyBuilder extends Builder
 {
     private $category_slug;
 
+    /**
+     * Add posts to the relationship builder
+     * @return Corcel\TermTaxonomyBuilder
+     */
     public function posts()
     {
         return $this->with('posts');
     }
 
+    /**
+     * Set taxonomy type to category
+     * @return Corcel\TermTaxonomyBuilder
+     */
     public function category()
     {
         return $this->where('taxonomy', 'category');
+    }
+
+    /**
+     * Get a term taxonomy by name/slug
+     * @param  string $name
+     * @return \Corcel\PostBuilder
+     */
+    public function name($name)
+    {
+        // make sure this can only be called when taxonomy is a NAV_MENU
+        if ($this->model['taxonomy'] == 'nav_menu') {
+            return $this->whereHas('term', function($query) use ($name) {
+                $query->where('slug', '=', $name);
+            });
+        }
+        return $this;
     }
 
     /**
