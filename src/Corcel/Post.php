@@ -113,21 +113,29 @@ class Post extends Eloquent
                 return $this->meta()->get()->$key;
             }
         } else if (isset($this->$key) && empty($this->$key) ) {
-
             // fix for menu items when chosing category to show
-            // if (in_array($key, ['post_title', 'post_name']) && $this->meta()->get()->_menu_item_object == 'category') {
-            //     $this->object_id = $this->meta()->get()->_menu_item_object_id;
-            //     // load taxonomy from a category
-            //     $taxonomy = $this->taxonomies()->first();
+            if (in_array($key, ['post_title', 'post_name'])) {
+                $type = $this->meta()->get()->_menu_item_object;
+                $taxonomy = null;
 
-            //     if (isset($taxonomy) && $taxonomy->exists) {
-            //         if ($key == 'post_title')
-            //             return $taxonomy->name;
-            //         elseif ($key == 'post_name') {
-            //             return $taxonomy->slug;
-            //         }
-            //     }
-            // }
+                // Support certain types of meta objects
+                if ($type == 'category') {
+                    $taxonomy = $this->meta()->where('meta_key', '_menu_item_object_id')->first()->taxonomy('meta_value')->first();
+                } elseif ($type == 'post_tag') {
+                    $taxonomy = $this->meta()->where('meta_key', '_menu_item_object_id')->first()->taxonomy('meta_value')->first();
+                } elseif ($type == 'post') {
+                    $post = $this->meta()->where('meta_key', '_menu_item_object_id')->first()->post(true)->first();
+                    return $post->$key;
+                }
+
+                if (isset($taxonomy) && $taxonomy->exists) {
+                    if ($key == 'post_title')
+                        return $taxonomy->name;
+                    elseif ($key == 'post_name') {
+                        return $taxonomy->slug;
+                    }
+                }
+            }
         }
 
         return parent::__get($key);

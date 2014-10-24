@@ -160,6 +160,8 @@ Getting the attachment and/or revision from a `Post` or `Page`.
 
 Show a menu by name in a easier way. Created an alias (nav_items) for the posts
 connected to this taxonomy. Basicly this is a taxonomy `with()` the related posts.
+Menu model will support the following navigate items: Pages, Posts, Links, Categories, Tags
+
 
     $menu = Menu::name('primary')->first();
 
@@ -171,8 +173,26 @@ connected to this taxonomy. Basicly this is a taxonomy `with()` the related post
         // ....
     }
 
-Work in progress: Current issue is when using a category as nav_item it wouldn't show it's name until you gife
-it a custom.
+Recommandation when using nested navigation, is to loop through it first to put all navigation items on level in a array.
+When you have deeper navigation items walk through the items recursively.
+Here's just a basic example:
+
+    // first set all menu items on level
+    $menuArray = array();
+    foreach ($menu->nav_items as $item) {
+        $menuArray[ $item->parent_post ][] = $item;
+    }
+
+    // now build the menu
+    foreach ($menuArray[0] as $item) {
+        echo '.. menu item main ..';
+        if (isset($menuArray[$item->ID])) {
+            foreach($menuArray[$item->ID] as $subItem) {
+                echo '.. show sub menu item ..';
+            }
+        }
+    }
+
 
 ## TODO
 
