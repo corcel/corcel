@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 /**
  * Corcel\PostMetaCollection
- * 
+ *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 
@@ -16,7 +16,7 @@ class PostMetaCollection extends Collection
 
     /**
      * Search for the desired key and return only the row that represent it
-     * 
+     *
      * @param string $key
      * @return string
      */
@@ -56,6 +56,27 @@ class PostMetaCollection extends Collection
                 $item->save();
             }
         });
+    }
+
+    /**
+     * Easy why to get a PostMeta object from the collection.
+     *
+     * @param  string $column
+     * @param  mixed $value
+     * @return Corcel\PostMeta
+     */
+    public function where($column, $value)
+    {
+        foreach ($this->items as $item) {
+            // check if the column name exists in clause
+            if (!isset($item->{$column}))
+                return false;
+
+            // check if the values match up
+            if ($item->{$column} == $value)
+                return $item;
+        }
+        return false;
     }
 
 }

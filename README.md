@@ -31,7 +31,8 @@ Now you must set your Wordpress database params:
         'database'  => 'database_name',
         'username'  => 'username',
         'password'  => 'pa$$word',
-        'prefix'    => 'wp_' // default prefix is 'wp_', you can change to your own prefix
+        // default prefix is 'wp_', you can change to your own prefix
+        'prefix'    => 'wp_'
     );
     Corcel\Database::connect($params);
 
@@ -41,7 +42,10 @@ You can specify all Eloquent params, but some are default (but you can override 
     'host'      => 'localhost',
     'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci',
-    'prefix'    => 'wp_', // Specify the prefix for wordpress tables, default prefix is 'wp_'
+    // Specify the prefix for wordpress tables, default prefix is 'wp_'
+    'prefix'    => 'wp_',
+
+Using Laravel? and using more models that are not prefixed? See on the bottom for a solution.
 
 ### Posts
 
@@ -129,7 +133,7 @@ to achief it.
 
     // all categories
     $cat = Taxonomy::category()->slug('uncategorized')->posts()->first();
-    echo "<pre>"; print_r($cat->name); echo "</pre>";
+    print_r($cat->name);
 
     // only all categories and posts connected with it
     $cat = Taxonomy::where('taxonomy', 'category')->with('posts')->get();
@@ -144,18 +148,92 @@ to achief it.
     });
 
 
+### Thumbnails
+Get the thumbnails for a post or getting multiple thumbnails:
+
+    // get single thumbnail
+    $thumbnail = Post::thumbnails(1);
+    echo $thumbnail->id;
+    echo $thumbnail->url;
+
+    // get thumbnails that are connected to multiple posts
+    $thumbnails = Post::thumbnails([ 1,3,9 ]);
+    $thumbnails->each(function($thumbnail) {
+        echo $thumbnail->url;
+    });
+
+A more complete example:
+
+    // get the category plus connected posts
+    $category = Category::slug('....')->first();
+    $postIds = $category->posts->lists('ID');
+    $thumbnails = Post::thumbnails($postIds);
+
+    // loop through posts
+    foreach($category->posts as $post) {
+        $thumbnail = $thumbnails->where('id', $post->ID);
+        echo $thumbnail->url;
+    }
+
 ### Attachment and Revision
 
 Getting the attachment and/or revision from a `Post` or `Page`.
 
     $page = Page::slug('about')->with('attachment')->first();
+    // check if the page or post has attachment
+    var_dump( $page->hasAttachment() );
     // get feature image from page or post
     print_r($page->attachment);
+
+    // quick get the url of the post/page or attachment
+    print_r($page->url());
+
+    // stripped version can be used, when having htaccess rules for files. Can be done in the following way:
+    echo $page->url(true);
 
     $post = Post::slug('test')->with('revision')->first();
     // get all revisions from a post or page
     print_r($post->revision);
 
+
+## Suggestion for non-Wordpress models/connections
+For when you not use the Corcel\Database connector and you have non-Wordpress models or Eloquent queries.
+There is a simple solution (example mostly for Laravel users):
+
+    // Add a new connection to you're database config file.
+    'wordpress' => array(
+        'driver'    => 'mysql',
+        'host'      => 'localhost',
+        ....
+        'prefix'    => 'wp_',
+    ),
+    'second' => array(
+        'driver'    => 'mysql',
+        'host'      => 'localhost',
+        ....
+        // make sure the prefix is empty for you'r not Wordpress connection
+        'prefix'    => '',
+    ),
+
+    // Note to laravel users, to set you're default connection.
+
+After defined the extra connection, make sure you're model is using that connection:
+
+    <?php
+
+    use Illuminate\Database\Eloquent\Model as Eloquent;
+
+    class NonWordpressPost extends Eloquent
+    {
+        // define the database connection to use by Eloquent
+        protected $connection = 'second';
+
+        ....
+    }
+
+And of course while direct quering:
+
+    DB::connection('second')->select(...)
 
 ## TODO
 

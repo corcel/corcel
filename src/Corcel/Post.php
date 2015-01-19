@@ -31,9 +31,24 @@ class Post extends Eloquent
         return $this->hasMany('Corcel\PostMeta', 'post_id');
     }
 
+    /**
+     * Return all meta fields
+     *
+     * @return Corcel\PostMetaCollection
+     */
     public function fields()
     {
         return $this->meta();
+    }
+
+    /**
+     * Get parent post of current post
+     *
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function parent()
+    {
+        return $this->hasOne('Corcel\Post', 'ID', 'post_parent');
     }
 
     /**
@@ -63,7 +78,7 @@ class Post extends Eloquent
      */
     public function attachment()
     {
-        return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'attachment');
+        return $this->hasOne('Corcel\Post', 'post_parent')->type('attachment');
     }
 
 
@@ -74,7 +89,40 @@ class Post extends Eloquent
      */
     public function revision()
     {
-        return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'revision');
+        return $this->hasMany('Corcel\Post', 'post_parent')->type('revision');
+    }
+
+    /**
+     * Check if the current Post/Page has a attachment
+     *
+     * @return boolean
+     */
+    public function hasAttachment()
+    {
+        return (bool) $this->attachment && (bool)$this->getModel()->attachment->exists;
+    }
+
+    /**
+     * Get URL from post/page/attachment given by 'guid'. When $clean variable
+     * is true, the returned url will look clean and slug-wise (included category if is).
+     *
+     * @return string
+     */
+    public function url($clean=false)
+    {
+        if( $this->post_type == 'attachment' && $clean)
+
+            return $this->meta->_wp_attached_file;
+
+        else if( in_array($this->post_type, [ 'post', 'page' ]) && $clean)
+
+            if( (int) $this->post_parent > 0 )
+                return '/'. $this->parent()->first()->post_name .'/'. $this->post_name;
+            else
+                return '/'. $this->post_name;
+
+        else
+            return $this->guid;
     }
 
     /**
