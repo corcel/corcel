@@ -78,4 +78,10 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($post->meta->username, 'juniorgrossi');
         $this->assertEquals($post->meta->url, 'http://grossi.io');
     }
+
+    public function testAuthorFields(){
+        $post = Post::find(1);
+        $this->assertEquals($post->author->display_name, 'admin');
+        $this->assertEquals($post->author->user_email, 'juniorgro@gmail.com');
+    }
 }
