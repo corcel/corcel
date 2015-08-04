@@ -19,6 +19,7 @@ class Post extends Eloquent
 
     protected $table = 'posts';
     protected $primaryKey = 'ID';
+    protected $dates = ['post_date', 'post_date_gmt', 'post_modified', 'post_modified', 'post_modified_gmt'];
     protected $with = array('meta');
 
     /**
