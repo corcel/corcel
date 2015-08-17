@@ -156,6 +156,11 @@ Getting the attachment and/or revision from a `Post` or `Page`.
     // get all revisions from a post or page
     print_r($post->revision);
 
+## Running tests
+
+To run the phpunit tests, execute the following command :
+
+    ./vendor/phpunit/phpunit/phpunit --bootstrap tests/config/autoload.php tests
 
 ## TODO
 
