@@ -3,6 +3,7 @@
 /**
  * User model
  *
+ * @author Ashwin Sureshkumar<ashwin.sureshkumar@gmail.com>
  * @author Mickael Burguet <www.rundef.com>
  */
 
@@ -19,6 +20,7 @@ class User extends Eloquent
 
     protected $table = 'users';
     protected $primaryKey = 'ID';
+    protected $hidden = ['user_pass'];
     protected $dates = ['user_registered'];
     protected $with = array('meta');
 
@@ -41,6 +43,17 @@ class User extends Eloquent
     public function fields()
     {
         return $this->meta();
+    }
+
+
+    /**
+     * Posts relationship
+     *
+     * @return Corcel\PostMetaCollection
+     */
+    public function posts() {
+
+        return $this->hasMany('Corcel\Post', 'post_author');
     }
 
    
