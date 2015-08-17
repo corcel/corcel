@@ -55,10 +55,10 @@ class User extends Eloquent
     }
 
     /**
-     * Overriding newQuery() to the custom PostBuilder with some interesting methods
+     * Overriding newQuery() to the custom UserBuilder with some interesting methods
      *
      * @param bool $excludeDeleted
-     * @return Corcel\PostBuilder
+     * @return Corcel\UserBuilder
      */
     public function newQuery()
     {
@@ -70,7 +70,7 @@ class User extends Eloquent
     }
 
     /**
-     * Magic method to return the meta data like the post original fields
+     * Magic method to return the meta data like the user original fields
      *
      * @param string $key
      * @return string

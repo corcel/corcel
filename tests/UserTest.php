@@ -4,13 +4,13 @@ use Corcel\User;
 
 class UserTest extends PHPUnit_Framework_TestCase
 {
-    public function testPostConstructor()
+    public function testUserConstructor()
     {
         $user = new User;
         $this->assertTrue($user instanceof \Corcel\User);
     }
 
-    public function testPostId()
+    public function testUserId()
     {
         $user = User::find(1);
 
@@ -21,7 +21,7 @@ class UserTest extends PHPUnit_Framework_TestCase
         }
     }
 
-    public function testPostCustomFields()
+    public function testUserCustomFields()
     {
         $user = User::find(2);
         $this->assertNotEmpty($user->meta);
