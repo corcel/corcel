@@ -64,7 +64,7 @@ class Post extends Eloquent
     */
     public function author(){
 
-        return $this->belongsTo('\Corcel\User', 'ID');
+        return $this->belongsTo('Corcel\User', 'post_author');
 
     }
 
