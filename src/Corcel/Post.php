@@ -58,6 +58,17 @@ class Post extends Eloquent
     }
 
     /**
+    *   Author relationship
+    * 
+    *   @return Illuminate\Database\Eloquent\Collection
+    */
+    public function author(){
+
+        return $this->belongsTo('\Corcel\Author', 'ID');
+
+    }
+
+    /**
      * Get attachment
      *
      * @return Illuminate\Database\Eloquent\Collection
