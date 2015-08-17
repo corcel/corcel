@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Post model
+ * User model
  *
- * @author Junior Grossi <juniorgro@gmail.com>
+ * @author Ashwin Sureshkumar<ashwin.sureshkumar@gmail.com>
+ * @author Mickael Burguet <www.rundef.com>
  */
 
 namespace Corcel;
@@ -12,24 +13,31 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Post extends Eloquent
+class User extends Eloquent
 {
-    const CREATED_AT = 'post_date';
-    const UPDATED_AT = 'post_modified';
+    const CREATED_AT = 'user_registered';
+    const UPDATED_AT = 'updated_at';
 
-    protected $table = 'posts';
+    protected $table = 'users';
     protected $primaryKey = 'ID';
-    protected $dates = ['post_date', 'post_date_gmt', 'post_modified', 'post_modified', 'post_modified_gmt'];
+    protected $hidden = ['user_pass'];
+    protected $dates = ['user_registered'];
     protected $with = array('meta');
+
+
+    // Disable updated_at
+    public function setUpdatedAtAttribute($value)
+    {
+    }
 
     /**
      * Meta data relationship
      *
-     * @return Corcel\PostMetaCollection
+     * @return Corcel\UserMetaCollection
      */
     public function meta()
     {
-        return $this->hasMany('Corcel\PostMeta', 'post_id');
+        return $this->hasMany('Corcel\UserMeta', 'user_id');
     }
 
     public function fields()
@@ -37,16 +45,18 @@ class Post extends Eloquent
         return $this->meta();
     }
 
+
     /**
-     * Taxonomy relationship
+     * Posts relationship
      *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return Corcel\PostMetaCollection
      */
-    public function taxonomies()
-    {
-        return $this->belongsToMany('Corcel\TermTaxonomy', 'term_relationships', 'object_id', 'term_taxonomy_id');
+    public function posts() {
+
+        return $this->hasMany('Corcel\Post', 'post_author');
     }
 
+   
     /**
      * Comments relationship
      *
@@ -54,66 +64,26 @@ class Post extends Eloquent
      */
     public function comments()
     {
-        return $this->hasMany('Corcel\Comment', 'comment_post_ID');
+        return $this->hasMany('Corcel\Comment', 'user_id');
     }
 
     /**
-    *   Author relationship
-    * 
-    *   @return Illuminate\Database\Eloquent\Collection
-    */
-    public function author(){
-
-        return $this->belongsTo('Corcel\User', 'post_author');
-
-    }
-
-    /**
-     * Get attachment
-     *
-     * @return Illuminate\Database\Eloquent\Collection
-     */
-    public function attachment()
-    {
-        return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'attachment');
-    }
-
-
-    /**
-     * Get revisions from post
-     *
-     * @return Illuminate\Database\Eloquent\Collection
-     */
-    public function revision()
-    {
-        return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'revision');
-    }
-
-    /**
-     * Overriding newQuery() to the custom PostBuilder with some interesting methods
+     * Overriding newQuery() to the custom UserBuilder with some interesting methods
      *
      * @param bool $excludeDeleted
-     * @return Corcel\PostBuilder
+     * @return Corcel\UserBuilder
      */
-    public function newQuery($excludeDeleted = true)
+    public function newQuery()
     {
-        $builder = new PostBuilder($this->newBaseQueryBuilder());
+        $builder = new UserBuilder($this->newBaseQueryBuilder());
         $builder->setModel($this)->with($this->with);
-        $builder->orderBy('post_date', 'desc');
-
-        if (isset($this->postType) and $this->postType) {
-            $builder->type($this->postType);
-        }
-
-        if ($excludeDeleted and $this->softDelete) {
-            $builder->whereNull($this->getQualifiedDeletedAtColumn());
-        }
+        $builder->orderBy('user_registered', 'desc');
 
         return $builder;
     }
 
     /**
-     * Magic method to return the meta data like the post original fields
+     * Magic method to return the meta data like the user original fields
      *
      * @param string $key
      * @return string
