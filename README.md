@@ -158,7 +158,7 @@ Getting the attachment and/or revision from a `Post` or `Page`.
 
 ### Users
 
-You can manipulate users the same manner you work with posts.
+You can manipulate users in the same manner you work with posts.
 
     // All users
     $users = User::get();
