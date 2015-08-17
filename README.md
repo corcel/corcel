@@ -156,6 +156,18 @@ Getting the attachment and/or revision from a `Post` or `Page`.
     // get all revisions from a post or page
     print_r($post->revision);
 
+### Users
+
+You can manipulate users the same manner you work with posts.
+
+    // All users
+    $users = User::get();
+
+    // A specific user
+    $user = User::find(1);
+    echo $user->user_login;
+
+
 ## Running tests
 
 To run the phpunit tests, execute the following command :
