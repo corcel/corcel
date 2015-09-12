@@ -34,7 +34,7 @@ class PostBuilder extends Builder
     }
 
     /**
-     * Get only posts from a custo post type
+     * Get only posts from a custom post type
      * 
      * @param string $type
      * @return \Corcel\PostBuilder
