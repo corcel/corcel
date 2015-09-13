@@ -35,181 +35,209 @@ Corcel\Database::connect($params);
 
 You can specify all Eloquent params, but some are default (but you can override them).
 
-    'driver'    => 'mysql',
-    'host'      => 'localhost',
-    'charset'   => 'utf8',
-    'collation' => 'utf8_unicode_ci',
-    'prefix'    => 'wp_', // Specify the prefix for wordpress tables, default prefix is 'wp_'
+```php
+'driver'    => 'mysql',
+'host'      => 'localhost',
+'charset'   => 'utf8',
+'collation' => 'utf8_unicode_ci',
+'prefix'    => 'wp_', // Specify the prefix for wordpress tables, default prefix is 'wp_'
+```
 
 ### Posts
 
-    // All published posts
-    $posts = Post::published()->get();
-    $posts = Post::status('publish')->get();
+```php
+// All published posts
+$posts = Post::published()->get();
+$posts = Post::status('publish')->get();
 
-    // A specific post
-    $post = Post::find(31);
-    echo $post->post_title;
+// A specific post
+$post = Post::find(31);
+echo $post->post_title;
+```
 
 You can retrieve meta data from posts too.
 
-    // Get a custom meta value (like 'link' or whatever) from a post (any type)
-    $post = Post::find(31);
-    echo $post->meta->link; // OR
-    echo $post->fields->link;
-    echo $post->link; // OR
+```php
+// Get a custom meta value (like 'link' or whatever) from a post (any type)
+$post = Post::find(31);
+echo $post->meta->link; // OR
+echo $post->fields->link;
+echo $post->link; // OR
+```
 
 Updating post custom fields:
 
-    $post = Post::find(1);
-    $post->meta->username = 'juniorgrossi';
-    $post->meta->url = 'http://grossi.io';
-    $post->save();
+```php
+$post = Post::find(1);
+$post->meta->username = 'juniorgrossi';
+$post->meta->url = 'http://grossi.io';
+$post->save();
+```
 
 Inserting custom fields:
 
-    $post = new Post;
-    $post->save();
+```php
+$post = new Post;
+$post->save();
 
-    $post->meta->username = 'juniorgrossi';
-    $post->meta->url = 'http://grossi.io';
-    $post->save();
+$post->meta->username = 'juniorgrossi';
+$post->meta->url = 'http://grossi.io';
+$post->save();
+```
 
 ### Custom Post Type
 
 You can work with custom post types too. You can use the `type(string)` method or create your own class.
 
-    // using type() method
-    $videos = Post::type('video')->status('publish')->get();
+```php
+// using type() method
+$videos = Post::type('video')->status('publish')->get();
 
-    // using your own class
-    class Video extends Corcel\Post
-    {
-        protected $postType = 'video';
-    }
-    $videos = Video::status('publish')->get();
+// using your own class
+class Video extends Corcel\Post
+{
+    protected $postType = 'video';
+}
+$videos = Video::status('publish')->get();
+```
 
 Custom post types and meta data:
 
-    // Get 3 posts with custom post type (store) and show its title
-    $stores = Post::type('store')->status('publish')->take(3)->get();
-    foreach ($stores as $store) {
-        $storeAddress = $store->address; // option 1
-        $storeAddress = $store->meta->address; // option 2
-        $storeAddress = $store->fields->address; // option 3
-    }
+```php
+// Get 3 posts with custom post type (store) and show its title
+$stores = Post::type('store')->status('publish')->take(3)->get();
+foreach ($stores as $store) {
+    $storeAddress = $store->address; // option 1
+    $storeAddress = $store->meta->address; // option 2
+    $storeAddress = $store->fields->address; // option 3
+}
+```
 
 ### Taxonomies
 
 You can get taxonomies for a specific post like:
 
-    $post = Post::find(1);
-    $taxonomy = $post->taxonomies()->first();
-    echo $taxonomy->taxonomy;
+```php
+$post = Post::find(1);
+$taxonomy = $post->taxonomies()->first();
+echo $taxonomy->taxonomy;
+```
 
 Or you can search for posts using its taxonomies:
 
-    $post = Post::taxonomy('category', 'php')->first();
+```php
+$post = Post::taxonomy('category', 'php')->first();
+```
 
 ### Pages
 
 Pages are like custom post types. You can use `Post::type('page')` or the `Page` class.
 
-    // Find a page by slug
-    $page = Page::slug('about')->first(); // OR
-    $page = Post::type('page')->slug('about')->first();
-    echo $page->post_title;
+```php
+// Find a page by slug
+$page = Page::slug('about')->first(); // OR
+$page = Post::type('page')->slug('about')->first();
+echo $page->post_title;
+```
 
 ### Categories & Taxonomies
 
 Get a category or taxonomy or load posts from a certain category. There are multiple ways
 to achieve it.
 
-    // all categories
-    $cat = Taxonomy::category()->slug('uncategorized')->posts()->first();
-    echo "<pre>"; print_r($cat->name); echo "</pre>";
+```php
+// all categories
+$cat = Taxonomy::category()->slug('uncategorized')->posts()->first();
+echo "<pre>"; print_r($cat->name); echo "</pre>";
 
-    // only all categories and posts connected with it
-    $cat = Taxonomy::where('taxonomy', 'category')->with('posts')->get();
-    $cat->each(function($category) {
-        echo $category->name;
-    });
+// only all categories and posts connected with it
+$cat = Taxonomy::where('taxonomy', 'category')->with('posts')->get();
+$cat->each(function($category) {
+    echo $category->name;
+});
 
-    // clean and simple all posts from a category
-    $cat = Category::slug('uncategorized')->posts()->first();
-    $cat->posts->each(function($post) {
-        echo $post->post_title;
-    });
-
+// clean and simple all posts from a category
+$cat = Category::slug('uncategorized')->posts()->first();
+$cat->posts->each(function($post) {
+    echo $post->post_title;
+});
+```
 
 ### Attachment and Revision
 
 Getting the attachment and/or revision from a `Post` or `Page`.
 
-    $page = Page::slug('about')->with('attachment')->first();
-    // get feature image from page or post
-    print_r($page->attachment);
+```php
+$page = Page::slug('about')->with('attachment')->first();
+// get feature image from page or post
+print_r($page->attachment);
 
-    $post = Post::slug('test')->with('revision')->first();
-    // get all revisions from a post or page
-    print_r($post->revision);
+$post = Post::slug('test')->with('revision')->first();
+// get all revisions from a post or page
+print_r($post->revision);
+```
 
 ### Menu
 
 To get a menu by its slug, use the syntax below.
 The menu items will be loaded in the `nav_items` variable. The currently supported menu items are: Pages, Posts, Links, Categories, Tags.
 
+```php
+$menu = Menu::slug('primary')->first();
 
-    $menu = Menu::slug('primary')->first();
-
-    foreach ($menu->nav_items as $item) {
-        // ....
-        'post_title'    => '....', // Nav item name
-        'post_name'     => '....', // Nav item slug
-        'guid'          => '....', // Nav full url, influent by permalinks
-        // ....
-    }
-
+foreach ($menu->nav_items as $item) {
+    // ....
+    'post_title'    => '....', // Nav item name
+    'post_name'     => '....', // Nav item slug
+    'guid'          => '....', // Nav full url, influent by permalinks
+    // ....
+}
+```
 
 
-Recommandation when using nested navigation, is to loop through it first to put all navigation items on level in a array.
-When you have deeper navigation items walk through the items recursively.
+To handle multi-levels menus, loop through all the menu items to put them on the right levels in an array.
+Then, you can walk through the items recursively.
 Here's just a basic example:
 
-    // first, set all menu items on their level
-    $menuArray = array();
-    foreach ($menu->nav_items as $item) {
-        $parent_id = $item->meta->_menu_item_menu_item_parent;
-        $menuArray[$parent_id][] = $item;
-    }
+```php
+// first, set all menu items on their level
+$menuArray = array();
+foreach ($menu->nav_items as $item) {
+    $parent_id = $item->meta->_menu_item_menu_item_parent;
+    $menuArray[$parent_id][] = $item;
+}
 
-    // now build the menu
-    foreach ($menuArray[0] as $item) {
-        echo '.. menu item main ..';
-        if (isset($menuArray[$item->ID])) {
-            foreach($menuArray[$item->ID] as $subItem) {
-                echo '.. show sub menu item ..';
-            }
+// now build the menu
+foreach ($menuArray[0] as $item) {
+    echo '.. menu item main ..';
+    if (isset($menuArray[$item->ID])) {
+        foreach($menuArray[$item->ID] as $subItem) {
+            echo '.. show sub menu item ..';
         }
     }
+}
+```
 
 ### Users
 
 You can manipulate users in the same manner you work with posts.
 
-    // All users
-    $users = User::get();
+```php
+// All users
+$users = User::get();
 
-    // A specific user
-    $user = User::find(1);
-    echo $user->user_login;
-
+// A specific user
+$user = User::find(1);
+echo $user->user_login;
+```
 
 ## Running tests
 
 To run the phpunit tests, execute the following command :
 
-    ./vendor/phpunit/phpunit/phpunit --colors --bootstrap tests/config/autoload.php tests
+```
+./vendor/phpunit/phpunit/phpunit --colors --bootstrap tests/config/autoload.php tests
+```
 
 ## TODO
 
