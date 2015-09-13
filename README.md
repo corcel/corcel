@@ -5,23 +5,17 @@ Wordpress Corcel
 
 --
 
-Corcel is a class collection created to retrieve Wordpress database data using a better syntax. It uses the Eloquent ORM developed for the Laravel Framework, but you can use Corcel in any type of PHP project.
+Corcel is a class collection created to retrieve Wordpress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project.
 
-This way you can use Wordpress as back-end, to insert posts, custom types, etc, and you can use what you want in front-end, like Silex, Slim Framework, Laravel, Zend, or even pure PHP (why not?).
+This way, you can use Wordpress as the back-end, to insert posts, custom types, etc, and you can use whatever you want in the front-end, like Silex, Slim Framework, Laravel, Zend, or even pure PHP (why not?).
 
 ## Installation
 
-To install Corcel just create a `composer.json` file and add:
-
-    "require": {
-        "jgrossi/corcel": "dev-master"
-    },
-
-After that run `composer install` and wait.
+To install Corcel, just run the following command `composer require "jgrossi/corcel":"dev-master"`.
 
 ## Usage
 
-First you must include the Composer `autoload` file.
+First, you must include the Composer `autoload` file.
 
     require __DIR__ . '/vendor/autoload.php';
 
@@ -125,7 +119,7 @@ Pages are like custom post types. You can use `Post::type('page')` or the `Page`
 ### Categories & Taxonomies
 
 Get a category or taxonomy or load posts from a certain category. There are multiple ways
-to achief it.
+to achieve it.
 
     // all categories
     $cat = Taxonomy::category()->slug('uncategorized')->posts()->first();
@@ -159,7 +153,7 @@ Getting the attachment and/or revision from a `Post` or `Page`.
 ### Menu
 
 Show a menu by name in a easier way. Created an alias (nav_items) for the posts
-connected to this taxonomy. Basicly this is a taxonomy `with()` the related posts.
+connected to this taxonomy. Basically, this is a taxonomy `with()` the related posts.
 Menu model will support the following navigate items: Pages, Posts, Links, Categories, Tags
 
 
@@ -192,7 +186,7 @@ Here's just a basic example:
             }
         }
     }
-    
+
 ### Users
 
 You can manipulate users in the same manner you work with posts.
