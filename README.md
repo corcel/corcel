@@ -197,6 +197,7 @@ foreach ($menu->nav_items as $item) {
 
 To handle multi-levels menus, loop through all the menu items to put them on the right levels in an array.
 Then, you can walk through the items recursively.
+
 Here's just a basic example:
 
 ```php
