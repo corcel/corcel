@@ -487,7 +487,9 @@ VALUES
 	(13,1,'show_welcome_panel','1'),
 	(14,1,'wp_user-settings','libraryContent=browse&wplink=0&mfold=o&editor=tinymce&hidetb=1'),
 	(15,1,'wp_user-settings-time','1408573568'),
-	(16,1,'wp_dashboard_quick_press_last_post_id','3');
+	(16,1,'wp_dashboard_quick_press_last_post_id','3'),
+	(17,2,'wp_capabilities','a:1:{s:13:\"administrator\";b:1;}'),
+	(18,2,'wp_user_level','10');
 
 /*!40000 ALTER TABLE `wp_usermeta` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -519,7 +521,8 @@ LOCK TABLES `wp_users` WRITE;
 
 INSERT INTO `wp_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`)
 VALUES
-	(1,'admin','$P$B2Lceeosw6Md2kOTwY1QAOq0XPG7kl.','admin','juniorgro@gmail.com','','2014-08-20 22:25:54','',0,'admin');
+	(1,'admin','$P$B2Lceeosw6Md2kOTwY1QAOq0XPG7kl.','admin','juniorgro@gmail.com','','2014-08-20 22:25:54','',0,'admin'),
+	(2,'testuser','$P$B2Lceeosw6Md2kOTwY1QAOq0XPG7kl.','testuser','testuser@gmail.com','','2015-08-20 22:25:54','',0,'testuser');
 
 /*!40000 ALTER TABLE `wp_users` ENABLE KEYS */;
 UNLOCK TABLES;

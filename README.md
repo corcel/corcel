@@ -203,7 +203,7 @@ You can manipulate users in the same manner you work with posts.
 
 To run the phpunit tests, execute the following command :
 
-    ./vendor/phpunit/phpunit/phpunit --bootstrap tests/config/autoload.php tests
+    ./vendor/phpunit/phpunit/phpunit --colors --bootstrap tests/config/autoload.php tests
 
 ## TODO
 
