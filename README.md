@@ -17,17 +17,21 @@ To install Corcel, just run the following command `composer require "jgrossi/cor
 
 First, you must include the Composer `autoload` file.
 
-    require __DIR__ . '/vendor/autoload.php';
+```php
+require __DIR__ . '/vendor/autoload.php';
+```
 
 Now you must set your Wordpress database params:
 
-    $params = array(
-        'database'  => 'database_name',
-        'username'  => 'username',
-        'password'  => 'pa$$word',
-        'prefix'    => 'wp_' // default prefix is 'wp_', you can change to your own prefix
-    );
-    Corcel\Database::connect($params);
+```php
+$params = array(
+    'database'  => 'database_name',
+    'username'  => 'username',
+    'password'  => 'pa$$word',
+    'prefix'    => 'wp_' // default prefix is 'wp_', you can change to your own prefix
+);
+Corcel\Database::connect($params);
+```
 
 You can specify all Eloquent params, but some are default (but you can override them).
 
