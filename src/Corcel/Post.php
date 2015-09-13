@@ -99,7 +99,9 @@ class Post extends Eloquent
     {
         $builder = new PostBuilder($this->newBaseQueryBuilder());
         $builder->setModel($this)->with($this->with);
-        $builder->orderBy('post_date', 'desc');
+        // disabled the default orderBy because else Post::all()->orderBy(..)
+        // is not working properly anymore.
+        // $builder->orderBy('post_date', 'desc');
 
         if (isset($this->postType) and $this->postType) {
             $builder->type($this->postType);
@@ -123,6 +125,30 @@ class Post extends Eloquent
         if (!isset($this->$key)) {
             if (isset($this->meta()->get()->$key)) {
                 return $this->meta()->get()->$key;
+            }
+        } else if (isset($this->$key) && empty($this->$key) ) {
+            // fix for menu items when chosing category to show
+            if (in_array($key, ['post_title', 'post_name'])) {
+                $type = $this->meta()->get()->_menu_item_object;
+                $taxonomy = null;
+
+                // Support certain types of meta objects
+                if ($type == 'category') {
+                    $taxonomy = $this->meta()->where('meta_key', '_menu_item_object_id')->first()->taxonomy('meta_value')->first();
+                } elseif ($type == 'post_tag') {
+                    $taxonomy = $this->meta()->where('meta_key', '_menu_item_object_id')->first()->taxonomy('meta_value')->first();
+                } elseif ($type == 'post') {
+                    $post = $this->meta()->where('meta_key', '_menu_item_object_id')->first()->post(true)->first();
+                    return $post->$key;
+                }
+
+                if (isset($taxonomy) && $taxonomy->exists) {
+                    if ($key == 'post_title')
+                        return $taxonomy->name;
+                    elseif ($key == 'post_name') {
+                        return $taxonomy->slug;
+                    }
+                }
             }
         }
 
