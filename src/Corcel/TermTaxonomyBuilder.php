@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class TermTaxonomyBuilder extends Builder
 {
-    private $category_slug;
+    private $slug;
 
     /**
      * Add posts to the relationship builder
@@ -33,37 +33,33 @@ class TermTaxonomyBuilder extends Builder
         return $this->where('taxonomy', 'category');
     }
 
+
     /**
-     * Get a term taxonomy by name/slug
-     * @param  string $name
-     * @return \Corcel\PostBuilder
+     * Set taxonomy type to nav_menu
+     * @return Corcel\TermTaxonomyBuilder
      */
-    public function name($name)
+    public function menu()
     {
-        // make sure this can only be called when taxonomy is a NAV_MENU
-        if ($this->model['taxonomy'] == 'nav_menu') {
-            return $this->whereHas('term', function($query) use ($name) {
-                $query->where('slug', '=', $name);
-            });
-        }
-        return $this;
+        return $this->where('taxonomy', 'nav_menu');
     }
 
+
+
     /**
-     * Get only posts with a specific slug
+     * Get a term taxonomy by specific slug
      *
      * @param string slug
-     * @return \Corcel\PostBuilder
+     * @return \Corcel\TermTaxonomyBuilder
      */
-    public function slug( $category_slug=null )
+    public function slug( $slug=null )
     {
-        if( !is_null($category_slug) and !empty($category_slug) ) {
-            // set this category_slug to be used in with callback
-            $this->category_slug = $category_slug;
+        if( !is_null($slug) and !empty($slug) ) {
+            // set this slug to be used in with callback
+            $this->slug = $slug;
 
-            // exception to filter on slug from category
+            // exception to filter on specific slug
             $exception = function($query) {
-                $query->where('slug', '=', $this->category_slug);
+                $query->where('slug', '=', $this->slug);
             };
 
             // load term to filter

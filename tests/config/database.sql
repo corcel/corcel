@@ -305,7 +305,31 @@ VALUES
 	(29,14,'username','juniorgrossi'),
 	(30,14,'url','http://grossi.io'),
 	(31,15,'username','juniorgrossi'),
-	(32,15,'url','http://grossi.io');
+	(32,15,'url','http://grossi.io'),
+	(33, 16, '_menu_item_type', 'post_type'),
+	(34, 16, '_menu_item_menu_item_parent', '0'),
+	(35, 16, '_menu_item_object_id', '2'),
+	(36, 16, '_menu_item_object', 'page'),
+	(37, 16, '_menu_item_target', ''),
+	(38, 16, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
+	(39, 16, '_menu_item_xfn', ''),
+	(40, 16, '_menu_item_url', ''),
+	(41, 17, '_menu_item_type', 'post_type'),
+	(42, 17, '_menu_item_menu_item_parent', '16'),
+	(43, 17, '_menu_item_object_id', '1'),
+	(44, 17, '_menu_item_object', 'post'),
+	(45, 17, '_menu_item_target', ''),
+	(46, 17, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
+	(47, 17, '_menu_item_xfn', ''),
+	(48, 17, '_menu_item_url', ''),
+	(49, 18, '_menu_item_type', 'custom'),
+	(50, 18, '_menu_item_menu_item_parent', '0'),
+	(51, 18, '_menu_item_object_id', '18'),
+	(52, 18, '_menu_item_object', 'custom'),
+	(53, 18, '_menu_item_target', ''),
+	(54, 18, '_menu_item_classes', 'a:1:{i:0;s:0:"";}'),
+	(55, 18, '_menu_item_xfn', ''),
+	(56, 18, '_menu_item_url', 'http://google.com');
 
 /*!40000 ALTER TABLE `wp_postmeta` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -366,7 +390,12 @@ VALUES
 	(12,0,'2014-08-20 19:42:31','0000-00-00 00:00:00','','','','publish','open','open','','','','','2014-08-20 19:42:31','0000-00-00 00:00:00','',0,'',0,'post','',0),
 	(13,0,'2014-08-20 19:43:18','0000-00-00 00:00:00','','','','publish','open','open','','','','','2014-08-20 19:43:18','0000-00-00 00:00:00','',0,'',0,'post','',0),
 	(14,0,'2014-08-20 19:43:34','0000-00-00 00:00:00','','','','publish','open','open','','','','','2014-08-20 19:43:34','0000-00-00 00:00:00','',0,'',0,'post','',0),
-	(15,0,'2014-08-20 19:44:52','0000-00-00 00:00:00','','','','publish','open','open','','','','','2014-08-20 19:44:52','0000-00-00 00:00:00','',0,'',0,'post','',0);
+	(15,0,'2014-08-20 19:44:52','0000-00-00 00:00:00','','','','publish','open','open','','','','','2014-08-20 19:44:52','0000-00-00 00:00:00','',0,'',0,'post','',0),
+	(16, 1, '2015-09-13 12:56:55', '2015-09-13 12:56:55', ' ', '', '', 'publish', 'closed', 'closed', '', '16', '', '', '2015-09-13 12:56:55', '2015-09-13 12:56:55', '', 0, 'http://site.vagrant/admin/?p=5', 1, 'nav_menu_item', '', 0),
+	(17, 1, '2015-09-13 12:56:55', '2015-09-13 12:56:55', ' ', '', '', 'publish', 'closed', 'closed', '', '17', '', '', '2015-09-13 12:56:55', '2015-09-13 12:56:55', '', 0, 'http://site.vagrant/admin/?p=6', 2, 'nav_menu_item', '', 0),
+	(18, 1, '2015-09-13 12:56:55', '2015-09-13 12:56:55', '', 'Google', '', 'publish', 'closed', 'closed', '', 'google', '', '', '2015-09-13 12:56:55', '2015-09-13 12:56:55', '', 0, 'http://site.vagrant/admin/?p=7', 3, 'nav_menu_item', '', 0);
+;
+
 
 /*!40000 ALTER TABLE `wp_posts` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -390,7 +419,10 @@ LOCK TABLES `wp_term_relationships` WRITE;
 
 INSERT INTO `wp_term_relationships` (`object_id`, `term_taxonomy_id`, `term_order`)
 VALUES
-	(1,2,0);
+	(1,2,0),
+	(16,3,0),
+	(17,3,0),
+	(18,3,0);
 
 /*!40000 ALTER TABLE `wp_term_relationships` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -419,7 +451,8 @@ LOCK TABLES `wp_term_taxonomy` WRITE;
 INSERT INTO `wp_term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `description`, `parent`, `count`)
 VALUES
 	(1,1,'category','',0,0),
-	(2,2,'category','',0,1);
+	(2,2,'category','',0,1),
+	(3,3,'nav_menu','',0,3);
 
 /*!40000 ALTER TABLE `wp_term_taxonomy` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -446,7 +479,8 @@ LOCK TABLES `wp_terms` WRITE;
 INSERT INTO `wp_terms` (`term_id`, `name`, `slug`, `term_group`)
 VALUES
 	(1,'Uncategorized','uncategorized',0),
-	(2,'php','php',0);
+	(2,'php','php',0),
+	(3,'Menu1','menu1',0);
 
 /*!40000 ALTER TABLE `wp_terms` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -522,7 +556,7 @@ LOCK TABLES `wp_users` WRITE;
 INSERT INTO `wp_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`)
 VALUES
 	(1,'admin','$P$B2Lceeosw6Md2kOTwY1QAOq0XPG7kl.','admin','juniorgro@gmail.com','','2014-08-20 22:25:54','',0,'admin'),
-	(2,'testuser','$P$B2Lceeosw6Md2kOTwY1QAOq0XPG7kl.','testuser','testuser@gmail.com','','2015-08-20 22:25:54','',0,'testuser');
+	(2,'testuser','$P$B3XVcWLhmJ49k38ZJAf3ckouIIl1xZ.','testuser','testuser@gmail.com','','2015-08-20 22:25:54','',0,'testuser');
 
 /*!40000 ALTER TABLE `wp_users` ENABLE KEYS */;
 UNLOCK TABLES;
