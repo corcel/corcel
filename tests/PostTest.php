@@ -40,6 +40,30 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($post->meta instanceof \Corcel\PostMetaCollection);
     }
 
+
+    public function testPostOrderBy() {
+        $posts = Post::orderBy('post_date', 'asc')->get();
+
+        $lastDate = null;
+        foreach($posts as $post) {
+            if(!is_null($lastDate)) {
+                $this->assertGreaterThanOrEqual(0, strcmp($post->post_date, $lastDate));
+            }
+            $lastDate = $post->post_date;
+        }
+
+
+        $posts = Post::orderBy('post_date', 'desc')->get();
+
+        $lastDate = null;
+        foreach($posts as $post) {
+            if(!is_null($lastDate)) {
+                $this->assertLessThanOrEqual(0, strcmp($post->post_date, $lastDate));
+            }
+            $lastDate = $post->post_date;
+        }
+    }
+
     public function testTaxonomies()
     {
         $post = Post::find(1);
