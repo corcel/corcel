@@ -1,14 +1,13 @@
 {
-    "name": "jgrossi/corcel",
-    "replace": { "juniorgrossi/corcel": "self.version" },
-    "description": "Wrappers to collect data from Wordpress databases",
-    "homepage": "http://github.com/jgrossi/corcel",
+    "name": "kummerer94/corcel",
+    "description": "Wrappers to collect data from Wordpress databases (maintained fork of jgrossi/corcel)",
+    "homepage": "http://github.com/kummerer94/corcel",
     "license": "MIT",
     "authors": [
         {
-            "name": "Junior Grossi",
-            "email": "juniorgro@gmail.com",
-            "homepage": "http://grossi.io"
+            "name": "Alexander Kammerer",
+            "email": "alexander.kammerer@online.de",
+            "homepage": "http://github.com/kummerer94/corcel"
         }
     ],
     "require": {
