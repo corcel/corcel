@@ -28,6 +28,16 @@ class PostMetaCollection extends Collection
             }
         }
     }
+    
+    public function __isset($key)
+    {
+        foreach ($this->items as $item) {
+            if ($item->meta_key == $key) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public function __set($key, $value)
     {
