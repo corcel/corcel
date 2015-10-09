@@ -99,7 +99,6 @@ class Post extends Eloquent
     {
         $builder = new PostBuilder($this->newBaseQueryBuilder());
         $builder->setModel($this)->with($this->with);
-        $builder->orderBy('post_date', 'desc');
 
         if (isset($this->postType) and $this->postType) {
             $builder->type($this->postType);
