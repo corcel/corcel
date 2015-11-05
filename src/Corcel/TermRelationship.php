@@ -8,6 +8,7 @@ class TermRelationship extends Model
 {
     protected $table = 'term_relationships';
     protected $primaryKey = array('object_id', 'term_taxonomy_id');
+    public $timestamps = false;
 
     public function post()
     {
