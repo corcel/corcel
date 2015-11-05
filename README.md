@@ -1,6 +1,12 @@
 Wordpress Corcel
 ================
 
+This package extends `jgrossi/corcel` as it enables you to use the database configuration from laravel:
+
+```
+Corcel\BaseModel::setConfiguredConnection('mysql_wp');
+```
+
 *Corcel is under development, but it's working :D*
 
 --
@@ -14,7 +20,7 @@ This way you can use Wordpress as back-end, to insert posts, custom types, etc, 
 To install Corcel just create a `composer.json` file and add:
 
     "require": {
-        "jgrossi/corcel": "dev-master"
+        "kummerer94/corcel": "dev-master"
     },
 
 After that run `composer install` and wait.

@@ -2,9 +2,7 @@
 
 namespace Corcel;
 
-use Illuminate\Database\Eloquent\Model;
-
-class TermRelationship extends Model
+class TermRelationship extends BaseModel
 {
     protected $table = 'term_relationships';
     protected $primaryKey = array('object_id', 'term_taxonomy_id');

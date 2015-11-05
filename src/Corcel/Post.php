@@ -8,11 +8,10 @@
 
 namespace Corcel;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Post extends Eloquent
+class Post extends BaseModel
 {
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
