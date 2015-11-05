@@ -9,6 +9,7 @@ class TermTaxonomy extends Eloquent
     protected $table = 'term_taxonomy';
     protected $primaryKey = 'term_taxonomy_id';
     protected $with = array('term');
+    public $timestamps = false;
 
     /**
      * Relationship with Term model

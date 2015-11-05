@@ -8,4 +8,5 @@ class Term extends Eloquent
 {
     protected $table = 'terms';
     protected $primaryKey = 'term_id';
+    public $timestamps = false;
 }
