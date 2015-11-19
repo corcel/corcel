@@ -61,7 +61,64 @@ class PostBuilder extends Builder
      */
     public function slug($slug)
     {
-        return $this->where('post_name', $slug);
+        if(strstr($slug, "/"))
+        {
+            return $this->slugSubPage($slug);
+        }
+
+        return $this->where('post_name', $slug)->where('post_parent','=',0);
+    }
+    /**
+     * Get only posts with a specific slug where the slug contains a page hierarchy ( page/subpage )
+     * 
+     * @param string slug
+     * @return \Corcel\PostBuilder
+     */
+    public function slugSubPage($slug)
+    {
+        $hierarchy = array();
+        $lastId = 'init';
+        $slugs = explode('/', $slug);
+        $matches = Post::whereIn('post_name', $slugs )
+            ->get(array("ID","post_name","post_parent")
+        );
+
+        foreach($slugs as $slug) 
+        {
+            $hierarchy[$slug] = 'nomatch';
+            foreach($matches as $match)
+            {
+                if($match->post_name == $slug)
+                {
+                    if($lastId == 'init')
+                    {
+                        if($match->post_parent == 0)
+                        {
+                            $lastId = $match->ID;
+                            $hierarchy[$slug] = $match->ID;    
+                        }
+                        
+                    }
+                    if($match->post_parent <> 0)
+                    {
+                        if($match->post_parent == $lastId) {
+                            $hierarchy[$slug] = $match->ID;
+                            $lastId = $match->ID;
+                        }
+                    }
+                }                
+            }
+        }
+
+        $post = end($hierarchy);
+
+        //no match found make sure the query returns nothing
+        if($post == "nomatch") {
+            return $this->where('ID', '=',-1);
+        }
+
+        //found a match
+        return $this->where("ID",'=',$post);
     }
 
     /**
