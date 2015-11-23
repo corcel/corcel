@@ -211,10 +211,12 @@ class Post extends Eloquent
      */
     public function scopeHasMeta($query, $meta, $value = null)
     {
-        $metas = DB::connection($this->getConnection()->getName())->table('postmeta')->where('meta_key', $meta);
+        $metas = DB::connection($this->getConnection()->getName())
+            ->table('postmeta')->where('meta_key', $meta);
 
-        if ($value)
+        if ($value) {
             $metas = $metas->where('meta_value', $value);
+        }
 
         $posts = array_map(function ($meta) {
             return $meta->post_id;
