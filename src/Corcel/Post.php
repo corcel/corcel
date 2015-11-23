@@ -20,7 +20,7 @@ class Post extends Eloquent
     protected $table = 'posts';
     protected $primaryKey = 'ID';
     protected $dates = ['post_date', 'post_date_gmt', 'post_modified', 'post_modified', 'post_modified_gmt'];
-    protected $with = array('meta');
+    protected $with = ['meta'];
 
     /**
      * Meta data relationship
@@ -62,10 +62,9 @@ class Post extends Eloquent
     * 
     *   @return Illuminate\Database\Eloquent\Collection
     */
-    public function author(){
-
+    public function author()
+    {
         return $this->belongsTo('Corcel\User', 'post_author');
-
     }
 
     /**
@@ -77,7 +76,6 @@ class Post extends Eloquent
     {
         return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'attachment');
     }
-
 
     /**
      * Get revisions from post
@@ -134,11 +132,14 @@ class Post extends Eloquent
 
                 // Support certain types of meta objects
                 if ($type == 'category') {
-                    $taxonomy = $this->meta()->where('meta_key', '_menu_item_object_id')->first()->taxonomy('meta_value')->first();
+                    $taxonomy = $this->meta()->where('meta_key', '_menu_item_object_id')
+                        ->first()->taxonomy('meta_value')->first();
                 } elseif ($type == 'post_tag') {
-                    $taxonomy = $this->meta()->where('meta_key', '_menu_item_object_id')->first()->taxonomy('meta_value')->first();
+                    $taxonomy = $this->meta()->where('meta_key', '_menu_item_object_id')
+                        ->first()->taxonomy('meta_value')->first();
                 } elseif ($type == 'post') {
-                    $post = $this->meta()->where('meta_key', '_menu_item_object_id')->first()->post(true)->first();
+                    $post = $this->meta()->where('meta_key', '_menu_item_object_id')
+                        ->first()->post(true)->first();
                     return $post->$key;
                 }
 
@@ -178,8 +179,7 @@ class Post extends Eloquent
 
     public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
     {
-        if (is_null($relation))
-        {
+        if (is_null($relation)) {
             $relation = $this->getBelongsToManyCaller();
         }
 
@@ -190,8 +190,7 @@ class Post extends Eloquent
 
         $otherKey = $otherKey ?: $instance->getForeignKey();
 
-        if (is_null($table))
-        {
+        if (is_null($table)) {
             $table = $this->joiningTable($related);
         }
 
