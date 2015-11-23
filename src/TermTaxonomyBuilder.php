@@ -43,17 +43,15 @@ class TermTaxonomyBuilder extends Builder
         return $this->where('taxonomy', 'nav_menu');
     }
 
-
-
     /**
      * Get a term taxonomy by specific slug
      *
      * @param string slug
      * @return \Corcel\TermTaxonomyBuilder
      */
-    public function slug( $slug=null )
+    public function slug($slug = null)
     {
-        if( !is_null($slug) and !empty($slug) ) {
+        if (!is_null($slug) and !empty($slug)) {
             // set this slug to be used in with callback
             $this->slug = $slug;
 

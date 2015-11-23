@@ -84,6 +84,7 @@ class Comment extends Eloquent
     public static function findByPostId($postId)
     {
         $instance = new static;
+
         return $instance->where('comment_post_ID', $postId)->get();
     }
 

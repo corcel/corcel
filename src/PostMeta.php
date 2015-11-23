@@ -15,18 +15,20 @@ class PostMeta extends Eloquent
     protected $table = 'postmeta';
     protected $primaryKey = 'meta_id';
     public $timestamps = false;
-    protected $fillable = array('meta_key', 'meta_value', 'post_id');
+    protected $fillable = ['meta_key', 'meta_value', 'post_id'];
 
     /**
      * Post relationship
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function post($ref=false)
+    public function post($ref = false)
     {
         if ($ref) {
             $this->primaryKey = 'meta_value';
+
             return $this->hasOne('Corcel\Post', 'ID');
         }
+
         return $this->belongsTo('Corcel\Post');
     }
 
@@ -35,7 +37,7 @@ class PostMeta extends Eloquent
      * @param  string $key
      * @return \Illuminate\Database\Eloquent\Relations\Relation
      */
-    public function taxonomy($primary=null, $where=null)
+    public function taxonomy($primary = null, $where = null)
     {
         // possible to exclude a relationship connection
         if (!is_null($primary) && !empty($primary)) {

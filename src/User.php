@@ -24,11 +24,8 @@ class User extends Eloquent
     protected $dates = ['user_registered'];
     protected $with = array('meta');
 
-
     // Disable updated_at
-    public function setUpdatedAtAttribute($value)
-    {
-    }
+    public function setUpdatedAtAttribute($value) {}
 
     /**
      * Meta data relationship
@@ -44,7 +41,6 @@ class User extends Eloquent
     {
         return $this->meta();
     }
-
 
     /**
      * Posts relationship
@@ -122,8 +118,7 @@ class User extends Eloquent
 
     public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
     {
-        if (is_null($relation))
-        {
+        if (is_null($relation)) {
             $relation = $this->getBelongsToManyCaller();
         }
 
@@ -134,8 +129,7 @@ class User extends Eloquent
 
         $otherKey = $otherKey ?: $instance->getForeignKey();
 
-        if (is_null($table))
-        {
+        if (is_null($table)) {
             $table = $this->joiningTable($related);
         }
 

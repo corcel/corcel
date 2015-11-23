@@ -18,5 +18,5 @@ class Menu extends TermTaxonomy
 	 * Add related relationships we need to use for a menu
 	 * @var array
 	 */
-	protected $with = array('term', 'nav_items');
+	protected $with = ['term', 'nav_items'];
 }

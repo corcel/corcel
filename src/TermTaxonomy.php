@@ -49,6 +49,7 @@ class TermTaxonomy extends Eloquent
         if ($this->taxonomy == 'nav_menu') {
             return $this->posts()->orderBy('menu_order');
         }
+
         return $this;
     }
 
@@ -62,8 +63,9 @@ class TermTaxonomy extends Eloquent
         $builder = new TermTaxonomyBuilder($this->newBaseQueryBuilder());
         $builder->setModel($this)->with($this->with);
 
-        if( isset($this->taxonomy) and !empty($this->taxonomy) and !is_null($this->taxonomy) )
+        if (isset($this->taxonomy) and !empty($this->taxonomy) and !is_null($this->taxonomy)) {
             $builder->where('taxonomy', $this->taxonomy);
+        }
 
         return $builder;
     }

@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class UserMetaCollection extends Collection
 {
-    protected $changedKeys = array();
+    protected $changedKeys = [];
 
     /**
      * Search for the desired key and return only the row that represent it
