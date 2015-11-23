@@ -19,8 +19,8 @@
         "phpunit/phpunit": "4.2.2"
     },
     "autoload": {
-        "psr-0": {
-            "Corcel": "src/"
+        "psr-4": {
+            "Corcel\\": "src/"
         },
         "classmap": [
             "models"
