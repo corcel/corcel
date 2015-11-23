@@ -11,6 +11,7 @@ namespace Corcel;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\DB;
 
 class Post extends Eloquent
 {
@@ -198,6 +199,28 @@ class Post extends Eloquent
         $query = $instance->newQuery();
 
         return new BelongsToMany($query, $this, $table, $foreignKey, $otherKey, $relation);
+    }
+
+    /**
+     * Meta filter scope
+     *
+     * @param $query
+     * @param $meta
+     * @param null $value
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function scopeHasMeta($query, $meta, $value = null)
+    {
+        $metas = DB::connection($this->getConnection()->getName())->table('postmeta')->where('meta_key', $meta);
+
+        if ($value)
+            $metas = $metas->where('meta_value', $value);
+
+        $posts = array_map(function ($meta) {
+            return $meta->post_id;
+        }, $metas->get());
+
+        return $query->whereIn('ID', $posts);
     }
 
 }

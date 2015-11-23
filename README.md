@@ -53,6 +53,10 @@ $posts = Post::status('publish')->get();
 // A specific post
 $post = Post::find(31);
 echo $post->post_title;
+
+// Filter by meta/custom field
+$posts = Post::published()->hasMeta('field')->get();
+$posts = Post::hasMeta('acf')->get();
 ```
 
 You can retrieve meta data from posts too.
