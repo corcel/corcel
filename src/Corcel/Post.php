@@ -173,5 +173,25 @@ class Post extends Eloquent
 
         return new BelongsToMany($query, $this, $table, $foreignKey, $otherKey, $relation);
     }
+    
+    /**
+     * Meta filter scope
+     *
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function scopeHasMeta($query, $meta, $value = null)
+	{
+		$posts = [];
+		$metas = DB::connection($this->connection)->table('postmeta')->where('meta_key', $meta);
+
+		if($value)
+			$metas = $metas->where('meta_value', $value);
+
+		foreach($metas->get() as $meta){
+			$posts[] = $meta->post_id;
+		}
+
+		return $query->whereIn('ID', $posts);
+	}
 
 }
