@@ -44,6 +44,17 @@ class PostBuilder extends Builder
         return $this->where('post_type', $type);
     }
 
+    /**
+     * Get only posts from an array of custom post types
+     * 
+     * @param array $type
+     * @return \Corcel\PostBuilder
+     */
+    public function typeIn($type)
+    {
+        return $this->whereIn('post_type', $type);
+    }
+
     public function taxonomy($taxonomy, $term)
     {
         return $this->whereHas('taxonomies', function($query) use ($taxonomy, $term) {
