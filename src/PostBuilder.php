@@ -50,7 +50,7 @@ class PostBuilder extends Builder
      * @param array $type
      * @return \Corcel\PostBuilder
      */
-    public function typeIn($type)
+    public function typeIn(array $type)
     {
         return $this->whereIn('post_type', $type);
     }
