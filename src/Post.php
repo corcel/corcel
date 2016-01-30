@@ -69,7 +69,17 @@ class Post extends Eloquent
     }
 
     /**
-     * Get attachment
+     * Parent post.
+     *
+     * @return Corcel\Post
+     */
+    public function parent()
+    {
+        return $this->belongsTo('Corcel\Post', 'post_parent');
+    }
+
+    /**
+     * Get attachment.
      *
      * @return Illuminate\Database\Eloquent\Collection
      */
