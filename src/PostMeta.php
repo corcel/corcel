@@ -8,6 +8,7 @@
 
 namespace Corcel;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class PostMeta extends Eloquent
@@ -30,6 +31,28 @@ class PostMeta extends Eloquent
         }
 
         return $this->belongsTo('Corcel\Post');
+    }
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['value'];
+
+    /**
+     * Gets the value.
+     * Tries to unserialize the object and returns the value if that doesn't work.
+     *
+     * @return value
+     */
+    public function getValueAttribute()
+    {
+        try {
+            return unserialize($this->meta_value);
+        } catch (Exception $ex) {
+            return $this->meta_value;
+        }
     }
 
     /**
