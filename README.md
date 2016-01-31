@@ -1,6 +1,8 @@
 Wordpress Corcel
 ================
 
+> Check out the `dev` branch. It has been update frequently and its ready to be used. We're working on our first release soon. :-)
+
 *Corcel is under development, but it's working :D*
 
 --
