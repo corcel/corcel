@@ -1,11 +1,10 @@
 <?php
 
 /**
- * Post model
+ * Post model.
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-
 namespace Corcel;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
@@ -24,7 +23,28 @@ class Post extends Eloquent
     protected $with = ['meta'];
 
     /**
-     * Meta data relationship
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'title',
+        'slug',
+        'content',
+        'type',
+        'mime_type',
+        'url',
+        'author_id',
+        'parent_id',
+        'created_at',
+        'updated_at',
+        'excerpt',
+        'status',
+        'image',
+    ];
+
+    /**
+     * Meta data relationship.
      *
      * @return Corcel\PostMetaCollection
      */
@@ -39,7 +59,7 @@ class Post extends Eloquent
     }
 
     /**
-     * Taxonomy relationship
+     * Taxonomy relationship.
      *
      * @return Illuminate\Database\Eloquent\Collection
      */
@@ -49,7 +69,7 @@ class Post extends Eloquent
     }
 
     /**
-     * Comments relationship
+     * Comments relationship.
      *
      * @return Illuminate\Database\Eloquent\Collection
      */
@@ -59,10 +79,10 @@ class Post extends Eloquent
     }
 
     /**
-    *   Author relationship
-    * 
-    *   @return Illuminate\Database\Eloquent\Collection
-    */
+     *   Author relationship.
+     *
+     *   @return Illuminate\Database\Eloquent\Collection
+     */
     public function author()
     {
         return $this->belongsTo('Corcel\User', 'post_author');
@@ -89,7 +109,7 @@ class Post extends Eloquent
     }
 
     /**
-     * Get revisions from post
+     * Get revisions from post.
      *
      * @return Illuminate\Database\Eloquent\Collection
      */
@@ -99,9 +119,10 @@ class Post extends Eloquent
     }
 
     /**
-     * Overriding newQuery() to the custom PostBuilder with some interesting methods
+     * Overriding newQuery() to the custom PostBuilder with some interesting methods.
      *
      * @param bool $excludeDeleted
+     *
      * @return Corcel\PostBuilder
      */
     public function newQuery($excludeDeleted = true)
@@ -124,9 +145,10 @@ class Post extends Eloquent
     }
 
     /**
-     * Magic method to return the meta data like the post original fields
+     * Magic method to return the meta data like the post original fields.
      *
      * @param string $key
+     *
      * @return string
      */
     public function __get($key)
@@ -135,7 +157,7 @@ class Post extends Eloquent
             if (isset($this->meta()->get()->$key)) {
                 return $this->meta()->get()->$key;
             }
-        } elseif (isset($this->$key) and empty($this->$key) ) {
+        } elseif (isset($this->$key) and empty($this->$key)) {
             // fix for menu items when chosing category to show
             if (in_array($key, ['post_title', 'post_name'])) {
                 $type = $this->meta()->get()->_menu_item_object;
@@ -181,7 +203,7 @@ class Post extends Eloquent
     {
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
-        $instance = new $related;
+        $instance = new $related();
         $instance->setConnection($this->getConnection()->getName());
 
         $localKey = $localKey ?: $this->getKeyName();
@@ -197,7 +219,7 @@ class Post extends Eloquent
 
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
-        $instance = new $related;
+        $instance = new $related();
         $instance->setConnection($this->getConnection()->getName());
 
         $otherKey = $otherKey ?: $instance->getForeignKey();
@@ -212,11 +234,12 @@ class Post extends Eloquent
     }
 
     /**
-     * Meta filter scope
+     * Meta filter scope.
      *
      * @param $query
      * @param $meta
      * @param null $value
+     *
      * @return Illuminate\Database\Eloquent\Collection
      */
     public function scopeHasMeta($query, $meta, $value = null)
@@ -235,4 +258,141 @@ class Post extends Eloquent
         return $query->whereIn('ID', $posts);
     }
 
+    /*
+     * Accessors.
+     */
+
+    /**
+     * Gets the title attribute.
+     *
+     * @return string
+     */
+    public function getTitleAttribute()
+    {
+        return $this->post_title;
+    }
+
+    /**
+     * Gets the slug attribute.
+     *
+     * @return string
+     */
+    public function getSlugAttribute()
+    {
+        return $this->post_name;
+    }
+    /**
+     * Gets the content attribute.
+     *
+     * @return string
+     */
+    public function getContentAttribute()
+    {
+        return $this->post_content;
+    }
+
+    /**
+     * Gets the type attribute.
+     *
+     * @return string
+     */
+    public function getTypeAttribute()
+    {
+        return $this->post_type;
+    }
+
+    /**
+     * Gets the mime type attribute.
+     *
+     * @return string
+     */
+    public function getMimeTypeAttribute()
+    {
+        return $this->post_mime_type;
+    }
+
+    /**
+     * Gets the url attribute.
+     *
+     * @return string
+     */
+    public function getUrlAttribute()
+    {
+        return $this->guid;
+    }
+
+    /**
+     * Gets the author id attribute.
+     *
+     * @return int
+     */
+    public function getAuthorIdAttribute()
+    {
+        return $this->post_author;
+    }
+
+    /**
+     * Gets the parent id attribute.
+     *
+     * @return int
+     */
+    public function getParentIdAttribute()
+    {
+        return $this->post_parent;
+    }
+
+    /**
+     * Gets the created at attribute.
+     *
+     * @return date
+     */
+    public function getCreatedAtAttribute()
+    {
+        return $this->post_date;
+    }
+    /**
+     * Gets the updated at attribute.
+     *
+     * @return date
+     */
+    public function getUpdatedAtAttribute()
+    {
+        return $this->post_modified;
+    }
+
+    /**
+     * Gets the excerpt attribute.
+     *
+     * @return string
+     */
+    public function getExcerptAttribute()
+    {
+        return $this->post_excerpt;
+    }
+    /**
+     * Gets the status attribute.
+     *
+     * @return string
+     */
+    public function getStatusAttribute()
+    {
+        return $this->post_status;
+    }
+
+    /**
+     * Gets the featured image if any
+     * Looks in meta the _thumbnail_id field.
+     *
+     * @return string
+     */
+    public function getImageAttribute()
+    {
+        if (!is_null($this->meta->_thumbnail_id)) {
+            $image = Attachment::find($this->meta->_thumbnail_id);
+
+            if (!is_null($image)) {
+                return $image->guid;
+            }
+        }
+    }
 }
