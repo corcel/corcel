@@ -7,7 +7,7 @@ class PostTest extends PHPUnit_Framework_TestCase
 {
     public function testPostConstructor()
     {
-        $post = new Post;
+        $post = new Post();
         $this->assertTrue($post instanceof \Corcel\Post);
     }
 
@@ -31,6 +31,27 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($page->post_type, 'page');
     }
 
+    /**
+     * Tests the post accessors
+     * Accessors should be equal to the original value.
+     */
+    public function testPostAccessors()
+    {
+        $post = Post::find(2);
+        $this->assertEquals($post->post_title, $post->title);
+        $this->assertEquals($post->post_name, $post->slug);
+        $this->assertEquals($post->post_content, $post->content);
+        $this->assertEquals($post->post_type, $post->type);
+        $this->assertEquals($post->post_mime_type, $post->mime_type);
+        $this->assertEquals($post->guid, $post->url);
+        $this->assertEquals($post->post_author, $post->author_id);
+        $this->assertEquals($post->post_parent, $post->parent_id);
+        $this->assertEquals($post->post_date, $post->created_at);
+        $this->assertEquals($post->post_modified, $post->updated_at);
+        $this->assertEquals($post->post_excerpt, $post->exceprt);
+        $this->assertEquals($post->post_status, $post->status);
+    }
+
     public function testPostCustomFields()
     {
         $post = Post::find(2);
@@ -40,24 +61,23 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($post->meta instanceof \Corcel\PostMetaCollection);
     }
 
-
-    public function testPostOrderBy() {
+    public function testPostOrderBy()
+    {
         $posts = Post::orderBy('post_date', 'asc')->get();
 
         $lastDate = null;
-        foreach($posts as $post) {
-            if(!is_null($lastDate)) {
+        foreach ($posts as $post) {
+            if (!is_null($lastDate)) {
                 $this->assertGreaterThanOrEqual(0, strcmp($post->post_date, $lastDate));
             }
             $lastDate = $post->post_date;
         }
 
-
         $posts = Post::orderBy('post_date', 'desc')->get();
 
         $lastDate = null;
-        foreach($posts as $post) {
-            if(!is_null($lastDate)) {
+        foreach ($posts as $post) {
+            if (!is_null($lastDate)) {
                 $this->assertLessThanOrEqual(0, strcmp($post->post_date, $lastDate));
             }
             $lastDate = $post->post_date;
@@ -91,7 +111,7 @@ class PostTest extends PHPUnit_Framework_TestCase
 
     public function testInsertCustomFields()
     {
-        $post = new Post;
+        $post = new Post();
         $post->save();
 
         $post->meta->username = 'juniorgrossi';
@@ -103,7 +123,8 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($post->meta->url, 'http://grossi.io');
     }
 
-    public function testAuthorFields(){
+    public function testAuthorFields()
+    {
         $post = Post::find(1);
         $this->assertEquals($post->author->display_name, 'admin');
         $this->assertEquals($post->author->user_email, 'juniorgro@gmail.com');
