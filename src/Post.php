@@ -41,6 +41,9 @@ class Post extends Eloquent
         'excerpt',
         'status',
         'image',
+
+        // Terms inside all taxonomies
+        'terms',
     ];
 
     /**
@@ -258,6 +261,19 @@ class Post extends Eloquent
         return $query->whereIn('ID', $posts);
     }
 
+    /**
+     * Whether the post contains the term or not.
+     *
+     * @param string $taxonomy
+     * @param string $term
+     *
+     * @return bool
+     */
+    public function hasTerm($taxonomy, $term)
+    {
+        return isset($this->terms[$taxonomy]) && isset($this->terms[$taxonomy][$term]);
+    }
+
     /*
      * Accessors.
      */
@@ -394,5 +410,24 @@ class Post extends Eloquent
                 return $image->guid;
             }
         }
+    }
+
+    /**
+     * Gets all the terms arranged taxonomy => terms[].
+     *
+     * @return array
+     */
+    public function getTermsAttribute()
+    {
+        $taxonomies = $this->taxonomies;
+        $terms = [];
+        foreach ($taxonomies as $taxonomy) {
+            $taxonomyName = $taxonomy['taxonomy'] == 'post_tag' ? 'tag' : $taxonomy['taxonomy'];
+
+            $terms[$taxonomyName][] = $taxonomy->term->toArray();
+            $terms[$taxonomyName][$taxonomy->term['slug']] = $taxonomy->term['name'];
+        }
+
+        return $terms;
     }
 }
