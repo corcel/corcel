@@ -44,6 +44,7 @@ class Post extends Eloquent
 
         // Terms inside all taxonomies
         'terms',
+        'termsList',
     ];
 
     /**
@@ -424,10 +425,24 @@ class Post extends Eloquent
         foreach ($taxonomies as $taxonomy) {
             $taxonomyName = $taxonomy['taxonomy'] == 'post_tag' ? 'tag' : $taxonomy['taxonomy'];
 
-            $terms[$taxonomyName][] = $taxonomy->term->toArray();
             $terms[$taxonomyName][$taxonomy->term['slug']] = $taxonomy->term['name'];
         }
 
         return $terms;
+    }
+
+    /**
+     * Gets a list of terms.
+     *
+     * @return array
+     */
+    public function getTermsListAttribute()
+    {
+        $list = [];
+        foreach ($this->terms as $name => $terms) {
+            $list[$name] = array_values($terms);
+        }
+
+        return $list;
     }
 }

@@ -1,12 +1,11 @@
 <?php
 
 /**
- * User model
+ * User model.
  *
  * @author Ashwin Sureshkumar<ashwin.sureshkumar@gmail.com>
  * @author Mickael Burguet <www.rundef.com>
  */
-
 namespace Corcel;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
@@ -25,10 +24,28 @@ class User extends Eloquent
     protected $with = array('meta');
 
     // Disable updated_at
-    public function setUpdatedAtAttribute($value) {}
+    public function setUpdatedAtAttribute($value)
+    {
+    }
 
     /**
-     * Meta data relationship
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'login',
+        'email',
+        'slug',
+        'url',
+        'nickname',
+        'first_name',
+        'last_name',
+        'created_at',
+    ];
+
+    /**
+     * Meta data relationship.
      *
      * @return Corcel\UserMetaCollection
      */
@@ -43,18 +60,17 @@ class User extends Eloquent
     }
 
     /**
-     * Posts relationship
+     * Posts relationship.
      *
      * @return Corcel\PostMetaCollection
      */
-    public function posts() {
-
+    public function posts()
+    {
         return $this->hasMany('Corcel\Post', 'post_author');
     }
 
-   
     /**
-     * Comments relationship
+     * Comments relationship.
      *
      * @return Illuminate\Database\Eloquent\Collection
      */
@@ -64,9 +80,10 @@ class User extends Eloquent
     }
 
     /**
-     * Overriding newQuery() to the custom UserBuilder with some interesting methods
+     * Overriding newQuery() to the custom UserBuilder with some interesting methods.
      *
      * @param bool $excludeDeleted
+     *
      * @return Corcel\UserBuilder
      */
     public function newQuery()
@@ -79,9 +96,10 @@ class User extends Eloquent
     }
 
     /**
-     * Magic method to return the meta data like the user original fields
+     * Magic method to return the meta data like the user original fields.
      *
      * @param string $key
+     *
      * @return string
      */
     public function __get($key)
@@ -108,7 +126,7 @@ class User extends Eloquent
     {
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
-        $instance = new $related;
+        $instance = new $related();
         $instance->setConnection($this->getConnection()->getName());
 
         $localKey = $localKey ?: $this->getKeyName();
@@ -124,7 +142,7 @@ class User extends Eloquent
 
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
-        $instance = new $related;
+        $instance = new $related();
         $instance->setConnection($this->getConnection()->getName());
 
         $otherKey = $otherKey ?: $instance->getForeignKey();
@@ -138,4 +156,81 @@ class User extends Eloquent
         return new BelongsToMany($query, $this, $table, $foreignKey, $otherKey, $relation);
     }
 
+    /**
+     * Accessors.
+     */
+
+    /**
+     * Get login attribute.
+     *
+     * @return string
+     */
+    public function getLoginAttribute()
+    {
+        return $this->user_login;
+    }
+    /**
+     * Get email attribute.
+     *
+     * @return string
+     */
+    public function getEmailAttribute()
+    {
+        return $this->user_email;
+    }
+    /**
+     * Get slug attribute.
+     *
+     * @return string
+     */
+    public function getSlugAttribute()
+    {
+        return $this->user_nicename;
+    }
+    /**
+     * Get url attribute.
+     *
+     * @return string
+     */
+    public function getUrlAttribute()
+    {
+        return $this->user_url;
+    }
+    /**
+     * Get nickname attribute.
+     *
+     * @return string
+     */
+    public function getNicknameAttribute()
+    {
+        return $this->meta->nickname;
+    }
+    /**
+     * Get first name attribute.
+     *
+     * @return string
+     */
+    public function getFirstNameAttribute()
+    {
+        return $this->meta->first_name;
+    }
+    /**
+     * Get last name attribute.
+     *
+     * @return string
+     */
+    public function getLastNameAttribute()
+    {
+        return $this->meta->last_name;
+    }
+
+    /**
+     * Get created at attribute.
+     *
+     * @return date
+     */
+    public function getCreatedAtAttribute()
+    {
+        return $this->user_registered;
+    }
 }
