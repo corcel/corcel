@@ -14,21 +14,21 @@ This way you can use Wordpress as back-end, to insert posts, custom types, etc, 
 ## Installation
 
 To install Corcel just create a `composer.json` file and add:
-
+```
     "require": {
         "jgrossi/corcel": "dev-master"
     },
-
+```
 After that run `composer install` and wait.
 
 ## Usage
 
 First you must include the Composer `autoload` file.
-
+```php
     require __DIR__ . '/vendor/autoload.php';
-
+```
 Now you must set your Wordpress database params:
-
+```php
     $params = array(
         'database'  => 'database_name',
         'username'  => 'username',
@@ -36,17 +36,17 @@ Now you must set your Wordpress database params:
         'prefix'    => 'wp_' // default prefix is 'wp_', you can change to your own prefix
     );
     Corcel\Database::connect($params);
-
+```
 You can specify all Eloquent params, but some are default (but you can override them).
-
+```php
     'driver'    => 'mysql',
     'host'      => 'localhost',
     'charset'   => 'utf8',
     'collation' => 'utf8_unicode_ci',
     'prefix'    => 'wp_', // Specify the prefix for wordpress tables, default prefix is 'wp_'
-
+```
 ### Posts
-
+```php
     // All published posts
     $posts = Post::published()->get();
     $posts = Post::status('publish')->get();
@@ -54,35 +54,35 @@ You can specify all Eloquent params, but some are default (but you can override 
     // A specific post
     $post = Post::find(31);
     echo $post->post_title;
-
+```
 You can retrieve meta data from posts too.
-
+```php
     // Get a custom meta value (like 'link' or whatever) from a post (any type)
     $post = Post::find(31);
     echo $post->meta->link; // OR
     echo $post->fields->link;
     echo $post->link; // OR
-
+```
 Updating post custom fields:
-
+```php
     $post = Post::find(1);
     $post->meta->username = 'juniorgrossi';
     $post->meta->url = 'http://grossi.io';
     $post->save();
-
+```
 Inserting custom fields:
-
+```php
     $post = new Post;
     $post->save();
 
     $post->meta->username = 'juniorgrossi';
     $post->meta->url = 'http://grossi.io';
     $post->save();
-
+```
 ### Custom Post Type
 
 You can work with custom post types too. You can use the `type(string)` method or create your own class.
-
+```php
     // using type() method
     $videos = Post::type('video')->status('publish')->get();
 
@@ -92,9 +92,9 @@ You can work with custom post types too. You can use the `type(string)` method o
         protected $postType = 'video';
     }
     $videos = Video::status('publish')->get();
-
+```
 Custom post types and meta data:
-
+```php
     // Get 3 posts with custom post type (store) and show its title
     $stores = Post::type('store')->status('publish')->take(3)->get();
     foreach ($stores as $store) {
@@ -102,33 +102,33 @@ Custom post types and meta data:
         $storeAddress = $store->meta->address; // option 2
         $storeAddress = $store->fields->address; // option 3
     }
-
+```
 ### Taxonomies
 
 You can get taxonomies for a specific post like:
-
+```php
     $post = Post::find(1);
     $taxonomy = $post->taxonomies()->first();
     echo $taxonomy->taxonomy;
-
+```
 Or you can search for posts using its taxonomies:
-
+```php
     $post = Post::taxonomy('category', 'php')->first();
-
+```
 ### Pages
 
 Pages are like custom post types. You can use `Post::type('page')` or the `Page` class.
-
+```php
     // Find a page by slug
     $page = Page::slug('about')->first(); // OR
     $page = Post::type('page')->slug('about')->first();
     echo $page->post_title;
-
+```
 ### Categories & Taxonomies
 
 Get a category or taxonomy or load posts from a certain category. There are multiple ways
 to achief it.
-
+```php
     // all categories
     $cat = Taxonomy::category()->slug('uncategorized')->posts()->first();
     echo "<pre>"; print_r($cat->name); echo "</pre>";
@@ -144,12 +144,12 @@ to achief it.
     $cat->posts->each(function($post) {
         echo $post->post_title;
     });
-
+```
 
 ### Attachment and Revision
 
 Getting the attachment and/or revision from a `Post` or `Page`.
-
+```php
     $page = Page::slug('about')->with('attachment')->first();
     // get feature image from page or post
     print_r($page->attachment);
@@ -157,7 +157,7 @@ Getting the attachment and/or revision from a `Post` or `Page`.
     $post = Post::slug('test')->with('revision')->first();
     // get all revisions from a post or page
     print_r($post->revision);
-
+```
 
 ## TODO
 
