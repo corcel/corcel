@@ -15,6 +15,14 @@ To install Corcel, just run the following command:
 composer require "jgrossi/corcel":"dev-master"`
 ```
 
+Or you can include Corcel inside `composer.json`, run `composer install` and wait the installation process.
+
+```
+    "require": {
+        "jgrossi/corcel": "dev-master"
+    },
+```
+
 ## Usage
 
 First, you must include the Composer `autoload` file.
@@ -226,7 +234,7 @@ foreach ($menuArray[0] as $item) {
 
 ### Users
 
-You can manipulate users in the same manner you work with posts.
+You can manipulate users in the same manner you work with posts:
 
 ```php
 // All users
