@@ -12,14 +12,14 @@ This way, you can use Wordpress as the backend (admin panel), to insert posts, c
 To install Corcel, just run the following command:
 
 ```
-composer require "jgrossi/corcel":"dev-master"`
+composer require "jgrossi/corcel":"v1.0.0"
 ```
 
 Or you can include Corcel inside `composer.json`, run `composer install` and wait the installation process.
 
 ```
     "require": {
-        "jgrossi/corcel": "dev-master"
+        "jgrossi/corcel": "v1.0.0"
     },
 ```
 
