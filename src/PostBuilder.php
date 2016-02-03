@@ -34,7 +34,7 @@ class PostBuilder extends Builder
     }
 
     /**
-     * Get only posts from a custo post type
+     * Get only posts from a custom post type
      * 
      * @param string $type
      * @return \Corcel\PostBuilder
@@ -42,6 +42,17 @@ class PostBuilder extends Builder
     public function type($type)
     {
         return $this->where('post_type', $type);
+    }
+
+    /**
+     * Get only posts from an array of custom post types
+     * 
+     * @param array $type
+     * @return \Corcel\PostBuilder
+     */
+    public function typeIn(array $type)
+    {
+        return $this->whereIn('post_type', $type);
     }
 
     public function taxonomy($taxonomy, $term)
@@ -74,6 +85,7 @@ class PostBuilder extends Builder
     public function paged($perPage = 10, $currentPage = 1)
     {
         $skip = $currentPage * $perPage - $perPage;
+
         return $this->skip($skip)->take($perPage)->get();
     }
 }
