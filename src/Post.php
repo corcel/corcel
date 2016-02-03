@@ -44,7 +44,11 @@ class Post extends Eloquent
 
         // Terms inside all taxonomies
         'terms',
-        'termsList',
+
+        // Terms analysis
+        'main_category',
+        'keywords',
+        'keywords_str',
     ];
 
     /**
@@ -432,17 +436,50 @@ class Post extends Eloquent
     }
 
     /**
-     * Gets a list of terms.
+     * Gets the first term of the first taxonomy found.
+     *
+     * @return string
+     */
+    public function getMainCategoryAttribute()
+    {
+        $mainCategory = 'Uncategorized';
+
+        if (!empty($this->terms)) {
+            $taxonomies = array_values($this->terms);
+
+            if (!empty($taxonomies[0])) {
+                $terms = array_values($taxonomies[0]);
+                $mainCategory = $terms[0];
+            }
+        }
+
+        return $mainCategory;
+    }
+
+    /**
+     * Gets the keywords as array.
      *
      * @return array
      */
-    public function getTermsListAttribute()
+    public function getKeywordsAttribute()
     {
-        $list = [];
-        foreach ($this->terms as $name => $terms) {
-            $list[$name] = array_values($terms);
+        $keywords = [];
+        foreach ($this->terms as $taxonomy) {
+            foreach ($taxonomy as $term) {
+                $keywords[] = $term;
+            }
         }
 
-        return $list;
+        return $keywords;
+    }
+
+    /**
+     * Gets the keywords as string.
+     *
+     * @return string
+     */
+    public function getKeywordsStrAttribute()
+    {
+        return implode(',', $this->keywords);
     }
 }
