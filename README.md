@@ -1,13 +1,11 @@
 Wordpress Corcel
 ================
 
-*Corcel is under development, but it's working :D*
+> Check out the `dev branch`. It has been update frequently and its ready to be used. We're working on our first release soon. :-)
 
---
+Corcel is a class collection created to retrieve Wordpress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project, with any framework, included Laravel.
 
-Corcel is a class collection created to retrieve Wordpress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project.
-
-This way, you can use Wordpress as the back-end, to insert posts, custom types, etc, and you can use whatever you want in the front-end, like Silex, Slim Framework, Laravel, Zend, or even pure PHP (why not?).
+This way, you can use Wordpress as the backend, to insert posts, custom types, etc, and you can use whatever you want in the frontend, like Silex, Slim Framework, Laravel, Zend, or even pure PHP (why not?). So, just use Corcel to retrieve data from Wordpress.
 
 ## Installation
 
@@ -198,7 +196,6 @@ foreach ($menu->nav_items as $item) {
 }
 ```
 
-
 To handle multi-levels menus, loop through all the menu items to put them on the right levels in an array.
 Then, you can walk through the items recursively.
 
@@ -241,13 +238,15 @@ echo $user->user_login;
 To run the phpunit tests, execute the following command :
 
 ```
-./vendor/phpunit/phpunit/phpunit --colors --bootstrap tests/config/autoload.php tests
+./vendor/bin/phpunit
 ```
 
-## TODO
+If you have the global `phpunit` command installed you can just type:
 
-I'm already working with Wordpress comments integration.
+```
+phpunit
+```
 
 ## Licence
 
-Corcel is licensed under the MIT license.
+[MIT License](http://jgrossi.mit-license.org/) © Junior Grossi
