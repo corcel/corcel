@@ -96,12 +96,14 @@ class PostTest extends PHPUnit_Framework_TestCase
         $post = Post::taxonomy('category', 'php')->first();
         $this->assertEquals($post->post_type, 'post');
 
-        $this->assertEquals('php', $post->termsList['category'][0]);
-        $this->assertEquals('php', $post->termsList['category'][0]);
         $this->assertEquals(true, $post->hasTerm('category', 'php'));
         $this->assertEquals(false, $post->hasTerm('category', 'not-term'));
         $this->assertEquals(false, $post->hasTerm('no-category', 'php'));
         $this->assertEquals(false, $post->hasTerm('no-category', 'no-term'));
+
+        $this->assertEquals('php', $post->main_category);
+        $this->assertEquals(['php'], $post->keywords);
+        $this->assertEquals('php', $post->keywords_str);
     }
 
     public function testUpdateCustomFields()
