@@ -22,6 +22,15 @@ class Post extends Eloquent
     protected $dates = ['post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt'];
     protected $with = ['meta'];
 
+    protected $fillable = [
+        'post_content',
+        'post_title',
+        'post_excerpt',
+        'to_ping',
+        'pinged',
+        'post_content_filtered'
+    ];
+
     /**
      * The accessors to append to the model's array form.
      *
@@ -50,6 +59,18 @@ class Post extends Eloquent
         'keywords',
         'keywords_str',
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        foreach ($this->fillable as $field) {
+            if (!isset($attributes[$field])) {
+                $attributes[$field] = '';
+            }
+        }
+
+        parent::__construct($attributes);
+    }
+
 
     /**
      * Meta data relationship.
