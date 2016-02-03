@@ -121,6 +121,12 @@ class PostTest extends PHPUnit_Framework_TestCase
     public function testInsertCustomFields()
     {
         $post = new Post();
+        $post->post_content = '';
+        $post->post_title = '';
+        $post->post_excerpt = '';
+        $post->to_ping = '';
+        $post->pinged = '';
+        $post->post_content_filtered = '';
         $post->save();
 
         $post->meta->username = 'juniorgrossi';
