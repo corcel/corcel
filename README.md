@@ -1,15 +1,19 @@
 Wordpress Corcel
 ================
 
-> Check out the `dev branch`. It has been update frequently and its ready to be used. We're working on our first release soon. :-)
+> This package allows you to use Wordpress as backend (admin panel) and retrieve its data using Eloquent, with any PHP project or even framework.
 
-Corcel is a class collection created to retrieve Wordpress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project, with any framework, included Laravel.
+Corcel is a class collection created to retrieve Wordpress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project, with any framework, including Laravel.
 
-This way, you can use Wordpress as the backend, to insert posts, custom types, etc, and you can use whatever you want in the frontend, like Silex, Slim Framework, Laravel, Zend, or even pure PHP (why not?). So, just use Corcel to retrieve data from Wordpress.
+This way, you can use Wordpress as the backend (admin panel), to insert posts, custom types, etc, and you can use whatever you want in the frontend, like Silex, Slim Framework, Laravel, Zend, or even pure PHP (why not?). So, just use Corcel to retrieve data from Wordpress.
 
 ## Installation
 
-To install Corcel, just run the following command `composer require "jgrossi/corcel":"dev-master"`.
+To install Corcel, just run the following command:
+
+```
+composer require "jgrossi/corcel":"dev-master"`
+```
 
 ## Usage
 
