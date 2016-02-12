@@ -138,4 +138,15 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($post->author->display_name, 'admin');
         $this->assertEquals($post->author->user_email, 'juniorgro@gmail.com');
     }
+
+    public function testCustomFieldWithAccessors()
+    {
+        $post = Post::find(1);
+        $post->meta->title = 'New title';
+        $post->save();
+
+        $this->assertEquals($post->post_title, $post->title);
+        $this->assertEquals($post->title, 'Hello world!');
+        $this->assertEquals($post->meta->title, 'New title');
+    }
 }
