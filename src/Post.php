@@ -183,13 +183,13 @@ class Post extends Eloquent
     public function __get($key)
     {
         if (!isset($this->$key)) {
-            if (isset($this->meta()->get()->$key)) {
-                return $this->meta()->get()->$key;
+            if (isset($this->meta->$key)) {
+                return $this->meta->$key;
             }
         } elseif (isset($this->$key) and empty($this->$key)) {
             // fix for menu items when chosing category to show
             if (in_array($key, ['post_title', 'post_name'])) {
-                $type = $this->meta()->get()->_menu_item_object;
+                $type = $this->meta->_menu_item_object;
                 $taxonomy = null;
 
                 // Support certain types of meta objects
