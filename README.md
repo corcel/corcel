@@ -25,7 +25,69 @@ Or you can include Corcel inside `composer.json`, run `composer install` and wai
 
 ## Usage
 
-First, you must include the Composer `autoload` file.
+### I'm using Laravel
+
+If you are using Laravel you **do not need** to configure database again. It's all already set by Laravel. So you have only to change the `config/database.php` config file and set yours connections. You can use just one connection or two (one for your Laravel app and another to Corcel). Your file will look like this:
+
+```php
+<?php // File: /config/database.php
+
+'connections' => [
+
+    'mysql' => [ // this is your Laravel database connection
+        'driver'    => 'mysql',
+        'host'      => 'localhost',
+        'database'  => 'app',
+        'username'  => 'admin'
+        'password'  => 'secret',
+        'charset'   => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'prefix'    => '',
+        'strict'    => false,
+        'engine'    => null,
+    ],
+
+    'wordpress' => [ // this is your Corcel database connection, where Wordpress tables are
+        'driver'    => 'mysql',
+        'host'      => 'localhost',
+        'database'  => 'corcel',
+        'username'  => 'admin',
+        'password'  => 'secret',
+        'charset'   => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'prefix'    => 'wp_',
+        'strict'    => false,
+        'engine'    => null,
+    ],
+    
+],
+```
+
+Now you should create your own `Post` model class. Laravel stores model classes in `app` directory, inside `App` namespace (or the name you gave it). Your `Post` class should extends `Corcel\Post` and set the connection name you're using, in this case `wordpress`:
+
+```php
+<?php // File: app/Post.php
+
+namespace App;
+
+use Corcel\Post as Corcel;
+
+class Post extends Corcel
+{
+    protected $connection = 'wordpress';
+}
+```
+
+So, now you can fetch database data:
+
+```php
+$posts = App\Post::all(); // using the 'wordpress' connection
+$posts = Corcel\Post::all(); // using the 'default' Laravel connection
+```
+
+### I'm using another PHP Framework
+
+Here you have to configure the database to fit the Corcel requirements. First, you should include the Composer `autoload` file if not already loaded:
 
 ```php
 require __DIR__ . '/vendor/autoload.php';
