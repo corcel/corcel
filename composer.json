@@ -23,7 +23,8 @@
             "Corcel\\": "src/"
         },
         "classmap": [
-            "models"
+            "models",
+            "serviceproviders"
         ]
     }
 }

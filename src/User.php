@@ -11,8 +11,9 @@ namespace Corcel;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Contracts\Auth\Authenticatable;
 
-class User extends Eloquent
+class User extends Eloquent implements Authenticatable
 {
     const CREATED_AT = 'user_registered';
     const UPDATED_AT = 'updated_at';
@@ -232,5 +233,75 @@ class User extends Eloquent
     public function getCreatedAtAttribute()
     {
         return $this->user_registered;
+    }
+
+
+
+
+
+
+    /**
+     * Get the name of the unique identifier for the user.
+     *
+     * @return string
+     */
+    public function getAuthIdentifierName() {
+
+    }
+
+
+
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifier() {
+        return $this->attributes[$this->primaryKey];
+    }
+
+
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword() {
+
+    }
+
+
+
+    /**
+     * Get the token value for the "remember me" session.
+     *
+     * @return string
+     */
+    public function getRememberToken() {
+
+    }
+
+
+
+    /**
+     * Set the token value for the "remember me" session.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setRememberToken($value) {
+
+    }
+
+
+
+    /**
+     * Get the column name for the "remember me" token.
+     *
+     * @return string
+     */
+    public function getRememberTokenName() {
+
     }
 }

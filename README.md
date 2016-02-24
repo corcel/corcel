@@ -307,6 +307,28 @@ $user = User::find(1);
 echo $user->user_login;
 ```
 
+### Authentication
+
+First, you will have to register Corcel's authentication provider in `config/app.php` :
+
+```php
+'providers' => [
+    // Other Service Providers
+
+    Corcel\AuthServiceProvider::class,
+],
+```
+
+And define it as the as an authentication driver within your app, in `config/auth.php` :
+
+```php
+'providers' => [
+    'users' => [
+        'driver' => 'corcel',
+    ],
+],
+```
+
 ## Running tests
 
 To run the phpunit tests, execute the following command :
