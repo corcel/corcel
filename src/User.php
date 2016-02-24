@@ -268,7 +268,7 @@ class User extends Eloquent implements Authenticatable
      * @return string
      */
     public function getAuthPassword() {
-
+        return $this->user_pass;
     }
 
 

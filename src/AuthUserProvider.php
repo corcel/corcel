@@ -4,6 +4,7 @@ namespace Corcel;
 
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Corcel\Password\Encrypter;
 
 /**
  * @author Mickael Burguet <www.rundef.com>
@@ -60,7 +61,11 @@ class AuthUserProvider implements UserProvider
      */
     public function retrieveByCredentials(array $credentials)
     {
-        return null;
+        $pass_encrypter = new Encrypter;
+
+        return User::whereUserLogin($credentials['username'])
+            ->whereUserPass($pass_encrypter->make($credentials['password']))
+            ->first();
     }
 
 
@@ -74,6 +79,8 @@ class AuthUserProvider implements UserProvider
      */
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
-        return false;
+        $pass_encrypter = new Encrypter;
+        
+        return $pass_encrypter->check($credentials['password'], $user->user_pass);
     }
 }
