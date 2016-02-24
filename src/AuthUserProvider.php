@@ -32,7 +32,7 @@ class AuthUserProvider implements UserProvider
      */
     public function retrieveByToken($identifier, $token)
     {
-        return null;
+        return User::whereId($identifier)->hasMeta('remember_token', $token)->first();
     }
 
 

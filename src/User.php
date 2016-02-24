@@ -246,7 +246,7 @@ class User extends Eloquent implements Authenticatable
      * @return string
      */
     public function getAuthIdentifierName() {
-
+        return $this->primaryKey;
     }
 
 
@@ -279,7 +279,7 @@ class User extends Eloquent implements Authenticatable
      * @return string
      */
     public function getRememberToken() {
-
+        return $this->meta->{$this->getRememberTokenName()};
     }
 
 
@@ -291,7 +291,7 @@ class User extends Eloquent implements Authenticatable
      * @return void
      */
     public function setRememberToken($value) {
-
+        $this->meta->{$this->getRememberTokenName()} = $value;
     }
 
 
@@ -302,6 +302,6 @@ class User extends Eloquent implements Authenticatable
      * @return string
      */
     public function getRememberTokenName() {
-
+        return 'remember_token';
     }
 }

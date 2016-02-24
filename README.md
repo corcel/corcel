@@ -325,6 +325,7 @@ And define it as the as an authentication driver within your app, in `config/aut
 'providers' => [
     'users' => [
         'driver' => 'corcel',
+        'model'  => 'Corcel\User',
     ],
 ],
 ```
