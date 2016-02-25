@@ -189,6 +189,26 @@ foreach ($stores as $store) {
 }
 ```
 
+## Single Table Inheritance
+
+If you choose to create a new class for your custom post type, you can have this class be returned for all instances of that post type.
+
+```php
+//all objects in the $videos Collection will be instances of Post
+$videos = Post::type('video')->status('publish')->get();
+
+// register the video custom post type and its particular class
+Post::registerPostType('video', '\App\Video')
+
+
+//now all objects in the $videos Collection will be instances of Video
+$videos = Post::type('video')->status('publish')->get();
+```
+
+You can also do this for inbuilt classes, such as Page or Post. Simply register the Page or Post class with the associated post type string, and that object will be returned instead of the default one.
+
+This is particular useful when you are intending to get a Collection of Posts of different types (e.g. when fetching the posts defined in a menu). 
+
 ### Taxonomies
 
 You can get taxonomies for a specific post like:
