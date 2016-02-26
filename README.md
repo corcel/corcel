@@ -12,7 +12,7 @@ This way, you can use Wordpress as the backend (admin panel), to insert posts, c
 To install Corcel, just run the following command:
 
 ```
-composer require "jgrossi/corcel":"v1.0.0"
+composer require jgrossi/corcel
 ```
 
 Or you can include Corcel inside `composer.json`, run `composer install` and wait the installation process.
@@ -177,10 +177,12 @@ class Video extends Corcel\Post
 $videos = Video::status('publish')->get();
 ```
 
+Using `type()` method will make Corcel to return all objects as `Corcel\Post`. Using your custom class you have the advantage to customize classes, including custom methods and properties, return all objects as `Video`, for example.
+
 Custom post types and meta data:
 
 ```php
-// Get 3 posts with custom post type (store) and show its title
+// Get 3 posts with custom post type (store) and show its address
 $stores = Post::type('store')->status('publish')->take(3)->get();
 foreach ($stores as $store) {
     $storeAddress = $store->address; // option 1
