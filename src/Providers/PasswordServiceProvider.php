@@ -1,5 +1,7 @@
 <?php 
 
+namespace Corcel\Providers;
+
 use Illuminate\Support\ServiceProvider;
 
 

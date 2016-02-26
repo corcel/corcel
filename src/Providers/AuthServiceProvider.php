@@ -1,5 +1,7 @@
 <?php
 
+namespace Corcel\Providers;
+
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -14,8 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Auth::provider('corcel', function($app, array $config) {
-            return new Corcel\AuthUserProvider();
+        \Auth::provider('corcel', function($app, array $config) {
+            return new AuthUserProvider();
         });
     }
 

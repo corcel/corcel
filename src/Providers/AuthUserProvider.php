@@ -1,10 +1,11 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Providers;
 
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Corcel\Password\Encrypter;
+use Corcel\Password\PasswordService;
+use Corcel\User;
 
 /**
  * @author Mickael Burguet <www.rundef.com>
@@ -19,7 +20,7 @@ class AuthUserProvider implements UserProvider
      */
     public function retrieveById($identifier)
     {
-        return User::findById($identifier);
+        return User::where('ID', $identifier)->first();
     }
 
 
@@ -61,11 +62,14 @@ class AuthUserProvider implements UserProvider
      */
     public function retrieveByCredentials(array $credentials)
     {
-        $pass_encrypter = new Encrypter;
+        $passwordService = new PasswordService;
 
-        return User::whereUserLogin($credentials['username'])
-            ->whereUserPass($pass_encrypter->make($credentials['password']))
-            ->first();
+        $user = User::whereUserLogin($credentials['username'])->first();
+
+        if(is_null($user) || !$passwordService->wp_check_password($credentials['password'], $user->user_pass))
+            return null;
+
+        return $user;
     }
 
 
@@ -79,8 +83,8 @@ class AuthUserProvider implements UserProvider
      */
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
-        $pass_encrypter = new Encrypter;
+        $passwordService = new PasswordService;
         
-        return $pass_encrypter->check($credentials['password'], $user->user_pass);
+        return $passwordService->wp_check_password($credentials['password'], $user->user_pass);
     }
 }

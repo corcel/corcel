@@ -309,23 +309,23 @@ echo $user->user_login;
 
 ### Authentication
 
-First, you will have to register Corcel's authentication provider in `config/app.php` :
+You will have to register Corcel's authentication service provider in `config/app.php` :
 
 ```php
 'providers' => [
     // Other Service Providers
 
-    Corcel\AuthServiceProvider::class,
+    Corcel\Providers\AuthServiceProvider::class,
 ],
 ```
 
-And define it as the as an authentication driver within your app, in `config/auth.php` :
+And then, define the user provider in `config/auth.php` :
 
 ```php
 'providers' => [
     'users' => [
         'driver' => 'corcel',
-        'model'  => 'Corcel\User',
+        'model'  => Corcel\User::class,
     ],
 ],
 ```
