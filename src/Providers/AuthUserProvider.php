@@ -66,7 +66,7 @@ class AuthUserProvider implements UserProvider
 
         $user = User::whereUserLogin($credentials['username'])->first();
 
-        if(is_null($user) || !$passwordService->wp_check_password($credentials['password'], $user->user_pass))
+        if(is_null($user) || !$this->validateCredentials($user, $credentials))
             return null;
 
         return $user;
