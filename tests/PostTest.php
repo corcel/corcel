@@ -149,4 +149,23 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($post->title, 'Hello world!');
         $this->assertEquals($post->meta->title, 'New title');
     }
+
+    public function testSingleTableInheritance()
+    {
+        Post::registerPostType('page', "\\Corcel\\Page");
+
+        $page = Post::type('page')->first();
+
+        $this->assertInstanceOf("\\Corcel\\Page", $page);
+    }
+
+    public function testclearRegisteredPostTypes()
+    {
+        Post::registerPostType('page', "\\Corcel\\Page");
+        Post::clearRegisteredPostTypes();
+
+        $page = Post::type('page')->first();
+
+        $this->assertInstanceOf("\\Corcel\\Post", $page);
+    }
 }
