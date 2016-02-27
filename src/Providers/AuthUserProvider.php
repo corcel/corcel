@@ -62,14 +62,14 @@ class AuthUserProvider implements UserProvider
      */
     public function retrieveByCredentials(array $credentials)
     {
-        $passwordService = new PasswordService;
+        $user = null;
 
-        $user = User::whereUserLogin($credentials['username'])->first();
+        if(isset($credentials['username']))
+            $user = User::whereUserLogin($credentials['username'])->first();
+        else if(isset($credentials['email']))
+            $user = User::whereUserEmail($credentials['email'])->first();
 
-        if(is_null($user) || !$this->validateCredentials($user, $credentials))
-            return null;
-
-        return $user;
+       return $user;
     }
 
 

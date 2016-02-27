@@ -3,6 +3,7 @@
 namespace Corcel\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Contracts\Auth\PasswordBroker as PasswordBrokerContract;
 
 /**
  * @author Mickael Burguet <www.rundef.com>

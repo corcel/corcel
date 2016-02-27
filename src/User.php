@@ -12,11 +12,13 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Corcel\Password\PasswordService;
 
-class User extends Eloquent implements Authenticatable
+class User extends Eloquent implements Authenticatable, CanResetPassword
 {
     const CREATED_AT = 'user_registered';
-    const UPDATED_AT = 'updated_at';
+    const UPDATED_AT = null;
 
     protected $table = 'users';
     protected $primaryKey = 'ID';
@@ -25,10 +27,10 @@ class User extends Eloquent implements Authenticatable
     protected $with = array('meta');
 
     // Disable updated_at
-    public function setUpdatedAtAttribute($value)
-    {
+    public function setUpdatedAtAttribute($value) {
     }
 
+ 
     /**
      * The accessors to append to the model's array form.
      *
@@ -303,5 +305,23 @@ class User extends Eloquent implements Authenticatable
      */
     public function getRememberTokenName() {
         return 'remember_token';
+    }
+
+
+    /**
+     * Get the e-mail address where password reset links are sent.
+     *
+     * @return string
+     */
+    public function getEmailForPasswordReset() {
+        return $this->user_email;
+    }
+
+
+    public function resetPassword($password)
+    {
+        $passwordService = new PasswordService;
+
+        $this->user_pass = $passwordService->wp_hash_password($password);
     }
 }
