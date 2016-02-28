@@ -83,6 +83,10 @@ class AuthUserProvider implements UserProvider
      */
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
+        if(!isset($credentials['password'])) {
+            return false;
+        }
+
         $passwordService = new PasswordService;
         
         return $passwordService->wp_check_password($credentials['password'], $user->user_pass);
