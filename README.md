@@ -327,6 +327,45 @@ $user = User::find(1);
 echo $user->user_login;
 ```
 
+### Authentication
+
+#### Using laravel
+
+You will have to register Corcel's authentication service provider in `config/app.php` :
+
+```php
+'providers' => [
+    // Other Service Providers
+
+    Corcel\Providers\Laravel\AuthServiceProvider::class,
+],
+```
+
+And then, define the user provider in `config/auth.php` :
+
+```php
+'providers' => [
+    'users' => [
+        'driver' => 'corcel',
+        'model'  => Corcel\User::class,
+    ],
+],
+```
+
+** Note: Corcel isn't compatible with Laravel's password resetting as of Laravel 5.2, but it should be fixed in Laravel 5.3 **
+
+#### Using something else
+
+You can use the `AuthUserProvider` class to authenticate an user :
+
+```php
+$userProvider = new Corcel\Providers\AuthUserProvider;
+$user = $userProvider->retrieveByCredentials(['username' => 'admin']);
+if(!is_null($user) && $userProvider->validateCredentials($user, ['password' => 'admin'])) {
+    // successfully login
+}
+```
+
 ## Running tests
 
 To run the phpunit tests, execute the following command :
