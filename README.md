@@ -341,6 +341,22 @@ If you have the global `phpunit` command installed you can just type:
 phpunit
 ```
 
+## Contributing
+
+All contributions are welcome to help improve Corcel.
+
+Before you submit your pull request consider the following guidelines:
+
+- Make your changes in a new git branch, based on the dev branch:
+
+`git checkout -b my-fix-branch dev`
+
+- Create your patch/feature, including appropriate test cases.
+
+- Run the unit tests, and ensure that all tests pass.
+
+- In GitHub, send a pull request to `corcel:dev`.
+
 ## Licence
 
 [MIT License](http://jgrossi.mit-license.org/) © Junior Grossi
