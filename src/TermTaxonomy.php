@@ -3,7 +3,7 @@
 namespace Corcel;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class TermTaxonomy extends Eloquent
 {
     protected $table = 'term_taxonomy';
@@ -36,6 +36,29 @@ class TermTaxonomy extends Eloquent
     public function posts()
     {
         return $this->belongsToMany('Corcel\Post', 'term_relationships', 'term_taxonomy_id', 'object_id');
+    }
+
+
+    public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
+    {
+        if (is_null($relation)) {
+            list($current, $caller) = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+
+            $relation = $caller['function'];
+        }
+
+        if (is_null($foreignKey)) {
+            $foreignKey = Str::snake($relation).'_id';
+        }
+
+        $instance = new $related();
+        $instance->setConnection($this->getConnection()->getName());
+
+        $query = $instance->newQuery();
+
+        $otherKey = $otherKey ?: $instance->getKeyName();
+
+        return new BelongsTo($query, $this, $foreignKey, $otherKey, $relation);
     }
 
     /**

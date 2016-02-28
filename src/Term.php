@@ -2,7 +2,7 @@
 
 namespace Corcel;
 
-use \Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Database\Eloquent\Model as Eloquent;
 
 class Term extends Eloquent
 {
