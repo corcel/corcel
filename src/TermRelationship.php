@@ -2,8 +2,6 @@
 
 namespace Corcel;
 
-use Illuminate\Database\Eloquent\Model;
-
 class TermRelationship extends Model
 {
     protected $table = 'term_relationships';

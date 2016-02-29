@@ -9,9 +9,8 @@
 namespace Corcel;
 
 use Exception;
-use Illuminate\Database\Eloquent\Model as Eloquent;
 
-class PostMeta extends Eloquent
+class PostMeta extends Model
 {
     protected $table = 'postmeta';
     protected $primaryKey = 'meta_id';
