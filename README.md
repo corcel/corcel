@@ -191,6 +191,26 @@ foreach ($stores as $store) {
 }
 ```
 
+## Single Table Inheritance
+
+If you choose to create a new class for your custom post type, you can have this class be returned for all instances of that post type.
+
+```php
+//all objects in the $videos Collection will be instances of Post
+$videos = Post::type('video')->status('publish')->get();
+
+// register the video custom post type and its particular class
+Post::registerPostType('video', '\App\Video')
+
+
+//now all objects in the $videos Collection will be instances of Video
+$videos = Post::type('video')->status('publish')->get();
+```
+
+You can also do this for inbuilt classes, such as Page or Post. Simply register the Page or Post class with the associated post type string, and that object will be returned instead of the default one.
+
+This is particular useful when you are intending to get a Collection of Posts of different types (e.g. when fetching the posts defined in a menu). 
+
 ### Taxonomies
 
 You can get taxonomies for a specific post like:
@@ -307,6 +327,45 @@ $users = User::get();
 // A specific user
 $user = User::find(1);
 echo $user->user_login;
+```
+
+### Authentication
+
+#### Using laravel
+
+You will have to register Corcel's authentication service provider in `config/app.php` :
+
+```php
+'providers' => [
+    // Other Service Providers
+
+    Corcel\Providers\Laravel\AuthServiceProvider::class,
+],
+```
+
+And then, define the user provider in `config/auth.php` :
+
+```php
+'providers' => [
+    'users' => [
+        'driver' => 'corcel',
+        'model'  => Corcel\User::class,
+    ],
+],
+```
+
+** Note: Corcel isn't compatible with Laravel's password resetting as of Laravel 5.2, but it should be fixed in Laravel 5.3 **
+
+#### Using something else
+
+You can use the `AuthUserProvider` class to authenticate an user :
+
+```php
+$userProvider = new Corcel\Providers\AuthUserProvider;
+$user = $userProvider->retrieveByCredentials(['username' => 'admin']);
+if(!is_null($user) && $userProvider->validateCredentials($user, ['password' => 'admin'])) {
+    // successfully login
+}
 ```
 
 ## Running tests

@@ -2,9 +2,7 @@
 
 namespace Corcel;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
-
-class TermTaxonomy extends Eloquent
+class TermTaxonomy extends Model
 {
     protected $table = 'term_taxonomy';
     protected $primaryKey = 'term_taxonomy_id';
@@ -37,6 +35,7 @@ class TermTaxonomy extends Eloquent
     {
         return $this->belongsToMany('Corcel\Post', 'term_relationships', 'term_taxonomy_id', 'object_id');
     }
+
 
     /**
      * Alias from posts, but made quering nav_items cleaner.
