@@ -2,9 +2,7 @@
 
 namespace Corcel;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
-
-class Term extends Eloquent
+class Term extends Model
 {
     protected $table = 'terms';
     protected $primaryKey = 'term_id';

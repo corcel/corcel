@@ -47,6 +47,7 @@ class UserTest extends PHPUnit_Framework_TestCase
     public function testInsertCustomFields()
     {
         $user = new User;
+        $user->user_login = 'test';
         $user->save();
 
         $user->meta->custom_meta1 = 'Hallo';
