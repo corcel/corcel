@@ -16,6 +16,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 
         if ($user) {
             $this->assertEquals($user->ID, 1);
+            $this->assertEquals($user->getAuthIdentifier(), 1);
         } else {
             $this->assertEquals($user, null);
         }
@@ -26,6 +27,7 @@ class UserTest extends PHPUnit_Framework_TestCase
         $user = User::find(2);
         $this->assertNotEmpty($user->meta);
         $this->assertNotEmpty($user->fields);
+        $this->assertEquals($user->getAuthIdentifier(), 2);
 
         $this->assertTrue($user->meta instanceof \Corcel\UserMetaCollection);
     }

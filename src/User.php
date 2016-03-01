@@ -8,10 +8,15 @@
  */
 namespace Corcel;
 
-class User extends Model
+
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Corcel\Password\PasswordService;
+
+class User extends Model implements Authenticatable, CanResetPassword
 {
     const CREATED_AT = 'user_registered';
-    const UPDATED_AT = 'updated_at';
+    const UPDATED_AT = null;
 
     protected $table = 'users';
     protected $primaryKey = 'ID';
@@ -20,10 +25,10 @@ class User extends Model
     protected $with = array('meta');
 
     // Disable updated_at
-    public function setUpdatedAtAttribute($value)
-    {
+    public function setUpdatedAtAttribute($value) {
     }
 
+ 
     /**
      * The accessors to append to the model's array form.
      *
@@ -195,5 +200,93 @@ class User extends Model
     public function getCreatedAtAttribute()
     {
         return $this->user_registered;
+    }
+
+
+
+
+
+
+    /**
+     * Get the name of the unique identifier for the user.
+     *
+     * @return string
+     */
+    public function getAuthIdentifierName() {
+        return $this->primaryKey;
+    }
+
+
+
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifier() {
+        return $this->attributes[$this->primaryKey];
+    }
+
+
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword() {
+        return $this->user_pass;
+    }
+
+
+
+    /**
+     * Get the token value for the "remember me" session.
+     *
+     * @return string
+     */
+    public function getRememberToken() {
+        return $this->meta->{$this->getRememberTokenName()};
+    }
+
+
+
+    /**
+     * Set the token value for the "remember me" session.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setRememberToken($value) {
+        $this->meta->{$this->getRememberTokenName()} = $value;
+    }
+
+
+
+    /**
+     * Get the column name for the "remember me" token.
+     *
+     * @return string
+     */
+    public function getRememberTokenName() {
+        return 'remember_token';
+    }
+
+
+    /**
+     * Get the e-mail address where password reset links are sent.
+     *
+     * @return string
+     */
+    public function getEmailForPasswordReset() {
+        return $this->user_email;
+    }
+
+
+    public function resetPassword($password)
+    {
+        $passwordService = new PasswordService;
+
+        $this->user_pass = $passwordService->wp_hash_password($password);
     }
 }
