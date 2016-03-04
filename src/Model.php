@@ -7,6 +7,7 @@
  */
 namespace Corcel;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,9 +25,8 @@ class Model extends Eloquent
 
         $localKey = $localKey ?: $this->getKeyName();
 
-        return new HasMany($instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey);
+        return new HasMany($instance->newQuery(), $this, $foreignKey, $localKey);
     }
-
 
     public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
     {
@@ -49,7 +49,7 @@ class Model extends Eloquent
 
         return new BelongsTo($query, $this, $foreignKey, $otherKey, $relation);
     }
-    
+
 
     public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
     {
@@ -71,5 +71,28 @@ class Model extends Eloquent
         $query = $instance->newQuery();
 
         return new BelongsToMany($query, $this, $table, $foreignKey, $otherKey, $relation);
+    }
+
+    public function getRelationValue($key)
+    {
+        $relation = parent::getRelationValue($key);
+
+        if ($relation instanceof Collection) {
+            $relation->each(function ($model) {
+                $this->setRelationConnection($model);
+            });
+            return $relation;
+        }
+
+        $this->setRelationConnection($relation);
+
+        return $relation;
+    }
+
+    protected function setRelationConnection($model)
+    {
+        if ($model instanceof Eloquent) {
+            $model->setConnection($this->getConnectionName());
+        }
     }
 }

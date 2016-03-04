@@ -27,7 +27,7 @@ class User extends Model implements Authenticatable, CanResetPassword
     public function setUpdatedAtAttribute($value) {
     }
 
- 
+
     /**
      * The accessors to append to the model's array form.
      *
@@ -286,16 +286,5 @@ class User extends Model implements Authenticatable, CanResetPassword
         $passwordService = new PasswordService;
 
         $this->user_pass = $passwordService->wp_hash_password($password);
-    }
-
-    protected function getRelationshipFromMethod($method)
-    {
-        $relations = parent::getRelationshipFromMethod($method);
-
-        $relations->listen('set', function ($relation) {
-            $relation->setConnection($this->getConnectionName());
-        });
-
-        return $this->relations[$method] = $relations;
     }
 }
