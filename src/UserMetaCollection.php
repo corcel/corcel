@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
 class UserMetaCollection extends Collection
 {
     protected $changedKeys = [];
+    protected $listeners = [];
 
     /**
      * Search for the desired key and return only the row that represent it
@@ -24,6 +25,7 @@ class UserMetaCollection extends Collection
     {
         foreach ($this->items as $item) {
             if ($item->meta_key == $key) {
+                $this->notify('get', [$item]);
                 return $item->meta_value;
             }
         }
@@ -35,6 +37,7 @@ class UserMetaCollection extends Collection
 
         foreach ($this->items as $item) {
             if ($item->meta_key == $key) {
+                $this->notify('set', [$item]);
                 $item->meta_value = $value;
                 return;
             }
@@ -44,6 +47,8 @@ class UserMetaCollection extends Collection
             'meta_key' => $key,
             'meta_value' => $value,
         ));
+
+        $this->notify('set', [$item]);
 
         $this->push($item);
     }
@@ -58,4 +63,21 @@ class UserMetaCollection extends Collection
         });
     }
 
+    public function listen($event, callable $listener)
+    {
+        if (! isset($this->listeners[$event])) {
+            $this->listeners[$event] = [];
+        }
+
+        $this->listeners[$event][] = $listener;
+    }
+
+    public function notify($event, $args = [])
+    {
+        if (isset($this->listeners[$event])) {
+            foreach ($this->listeners[$event] as $listener) {
+                call_user_func_array($listener, $args);
+            }
+        }
+    }
 }

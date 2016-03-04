@@ -58,4 +58,20 @@ class UserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($user->meta->custom_meta1, 'Hallo');
         $this->assertEquals($user->meta->custom_meta2, 'Wereld');
     }
+
+    public function testUserConnection()
+    {
+        $user = new User;
+        $user->setConnection('no_prefix');
+        $user->user_login = 'test';
+        $user->save();
+
+        $user->meta->active = 1;
+        $user->save();
+
+        $this->assertEquals('no_prefix', $user->getConnection()->getName());
+        $user->meta->each(function ($meta) {
+            $this->assertEquals('no_prefix', $meta->getConnection()->getName());
+        });
+    }
 }
