@@ -50,7 +50,6 @@ class Model extends Eloquent
         return new BelongsTo($query, $this, $foreignKey, $otherKey, $relation);
     }
 
-
     public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
     {
         if (is_null($relation)) {
