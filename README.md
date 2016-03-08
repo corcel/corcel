@@ -352,7 +352,30 @@ And then, define the user provider in `config/auth.php` :
 ],
 ```
 
-** Note: Corcel isn't compatible with Laravel's password resetting as of Laravel 5.2, but it should be fixed in Laravel 5.3 **
+To make Laravel's Password Reset work with Corcel, we have to override how passwords are stored in the database. To do this, you must change `Auth/PasswordController.php` from :
+
+```php
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\ResetsPasswords;
+
+class PasswordController extends Controller
+{
+    use ResetsPasswords;
+```
+
+to
+
+```php
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\ResetsPasswords;
+use Corcel\Auth\ResetsPasswords as CorcelResetsPasswords;
+
+class PasswordController extends Controller
+{
+    use ResetsPasswords, CorcelResetsPasswords {
+        CorcelResetsPasswords::resetPassword insteadof ResetsPasswords;
+    }
+```
 
 #### Using something else
 
