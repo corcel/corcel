@@ -1,11 +1,11 @@
-WordPress Corcel
+Wordpress Corcel
 ================
 
-> This package allows you to use WordPress as backend (admin panel) and retrieve its data using Eloquent, with any PHP project or even framework.
+> This package allows you to use Wordpress as backend (admin panel) and retrieve its data using Eloquent, with any PHP project or even framework.
 
-Corcel is a class collection created to retrieve WordPress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project, with any framework, including Laravel.
+Corcel is a class collection created to retrieve Wordpress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project, with any framework, including Laravel.
 
-This way, you can use WordPress as the backend (admin panel), to insert posts, custom types, etc, and you can use whatever you want in the frontend, like Silex, Slim Framework, Laravel, Zend, or even pure PHP (why not?). So, just use Corcel to retrieve data from WordPress.
+This way, you can use Wordpress as the backend (admin panel), to insert posts, custom types, etc, and you can use whatever you want in the frontend, like Silex, Slim Framework, Laravel, Zend, or even pure PHP (why not?). So, just use Corcel to retrieve data from Wordpress.
 
 ## Installation
 
@@ -47,7 +47,7 @@ If you are using Laravel you **do not need** to configure database again. It's a
         'engine'    => null,
     ],
 
-    'wordpress' => [ // this is your Corcel database connection, where WordPress tables are
+    'wordpress' => [ // this is your Corcel database connection, where Wordpress tables are
         'driver'    => 'mysql',
         'host'      => 'localhost',
         'database'  => 'corcel',
@@ -93,7 +93,7 @@ Here you have to configure the database to fit the Corcel requirements. First, y
 require __DIR__ . '/vendor/autoload.php';
 ```
 
-Now you must set your WordPress database params:
+Now you must set your Wordpress database params:
 
 ```php
 $params = array(
