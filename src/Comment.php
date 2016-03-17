@@ -107,4 +107,26 @@ class Comment extends Model
 
         return $builder;
     }
+
+    public function setCreatedAt($value)
+    {
+        $field = static::CREATED_AT;
+        $this->{$field} = $value;
+
+        $field .= '_gmt';
+        $this->{$field} = $value;
+
+        return parent::setCreatedAt($value);
+    }
+
+    public function setUpdatedAt($value)
+    {
+        $field = static::UPDATED_AT;
+        $this->{$field} = $value;
+
+        $field .= '_gmt';
+        $this->{$field} = $value;
+
+        return parent::setUpdatedAt($value);
+    }
 }
