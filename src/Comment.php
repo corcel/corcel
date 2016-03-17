@@ -10,8 +10,12 @@ namespace Corcel;
 
 class Comment extends Model
 {
+    const CREATED_AT = 'comment_date';
+    const UPDATED_AT = null;
+
     protected $table = 'comments';
     protected $primaryKey = 'comment_ID';
+    protected $dates = ['comment_date'];
 
     /**
      * Post relationship
@@ -102,5 +106,27 @@ class Comment extends Model
         }
 
         return $builder;
+    }
+
+    public function setCreatedAt($value)
+    {
+        $field = static::CREATED_AT;
+        $this->{$field} = $value;
+
+        $field .= '_gmt';
+        $this->{$field} = $value;
+
+        return parent::setCreatedAt($value);
+    }
+
+    public function setUpdatedAt($value)
+    {
+        $field = static::UPDATED_AT;
+        $this->{$field} = $value;
+
+        $field .= '_gmt';
+        $this->{$field} = $value;
+
+        return parent::setUpdatedAt($value);
     }
 }

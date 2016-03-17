@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 /**
  * Corcel\UserMetaCollection
- * 
+ *
  * @author Mickael Burguet <www.rundef.com>
  */
 
@@ -16,7 +16,7 @@ class UserMetaCollection extends Collection
 
     /**
      * Search for the desired key and return only the row that represent it
-     * 
+     *
      * @param string $key
      * @return string
      */
@@ -57,5 +57,4 @@ class UserMetaCollection extends Collection
             }
         });
     }
-
 }

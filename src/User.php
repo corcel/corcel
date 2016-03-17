@@ -10,7 +10,6 @@ namespace Corcel;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\CanResetPassword;
-use Corcel\Password\PasswordService;
 
 class User extends Model implements Authenticatable, CanResetPassword
 {
@@ -27,7 +26,7 @@ class User extends Model implements Authenticatable, CanResetPassword
     public function setUpdatedAtAttribute($value) {
     }
 
- 
+
     /**
      * The accessors to append to the model's array form.
      *
@@ -278,13 +277,5 @@ class User extends Model implements Authenticatable, CanResetPassword
      */
     public function getEmailForPasswordReset() {
         return $this->user_email;
-    }
-
-
-    public function resetPassword($password)
-    {
-        $passwordService = new PasswordService;
-
-        $this->user_pass = $passwordService->wp_hash_password($password);
     }
 }

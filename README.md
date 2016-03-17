@@ -1,11 +1,11 @@
-Wordpress Corcel
+WordPress Corcel
 ================
 
-> This package allows you to use Wordpress as backend (admin panel) and retrieve its data using Eloquent, with any PHP project or even framework.
+> This package allows you to use WordPress as backend (admin panel) and retrieve its data using Eloquent, with any PHP project or even framework.
 
-Corcel is a class collection created to retrieve Wordpress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project, with any framework, including Laravel.
+Corcel is a class collection created to retrieve WordPress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project, with any framework, including Laravel.
 
-This way, you can use Wordpress as the backend (admin panel), to insert posts, custom types, etc, and you can use whatever you want in the frontend, like Silex, Slim Framework, Laravel, Zend, or even pure PHP (why not?). So, just use Corcel to retrieve data from Wordpress.
+This way, you can use WordPress as the backend (admin panel), to insert posts, custom types, etc, and you can use whatever you want in the frontend, like Silex, Slim Framework, Laravel, Zend, or even pure PHP (why not?). So, just use Corcel to retrieve data from WordPress.
 
 ## Installation
 
@@ -47,7 +47,7 @@ If you are using Laravel you **do not need** to configure database again. It's a
         'engine'    => null,
     ],
 
-    'wordpress' => [ // this is your Corcel database connection, where Wordpress tables are
+    'wordpress' => [ // this is your Corcel database connection, where WordPress tables are
         'driver'    => 'mysql',
         'host'      => 'localhost',
         'database'  => 'corcel',
@@ -93,7 +93,7 @@ Here you have to configure the database to fit the Corcel requirements. First, y
 require __DIR__ . '/vendor/autoload.php';
 ```
 
-Now you must set your Wordpress database params:
+Now you must set your WordPress database params:
 
 ```php
 $params = array(
@@ -112,7 +112,7 @@ You can specify all Eloquent params, but some are default (but you can override 
 'host'      => 'localhost',
 'charset'   => 'utf8',
 'collation' => 'utf8_unicode_ci',
-'prefix'    => 'wp_', // Specify the prefix for wordpress tables, default prefix is 'wp_'
+'prefix'    => 'wp_', // Specify the prefix for WordPress tables, default prefix is 'wp_'
 ```
 
 ### Posts
@@ -354,7 +354,30 @@ And then, define the user provider in `config/auth.php` :
 ],
 ```
 
-** Note: Corcel isn't compatible with Laravel's password resetting as of Laravel 5.2, but it should be fixed in Laravel 5.3 **
+To make Laravel's Password Reset work with Corcel, we have to override how passwords are stored in the database. To do this, you must change `Auth/PasswordController.php` from :
+
+```php
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\ResetsPasswords;
+
+class PasswordController extends Controller
+{
+    use ResetsPasswords;
+```
+
+to
+
+```php
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\ResetsPasswords;
+use Corcel\Auth\ResetsPasswords as CorcelResetsPasswords;
+
+class PasswordController extends Controller
+{
+    use ResetsPasswords, CorcelResetsPasswords {
+        CorcelResetsPasswords::resetPassword insteadof ResetsPasswords;
+    }
+```
 
 #### Using something else
 

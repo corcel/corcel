@@ -159,7 +159,7 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf("\\Corcel\\Page", $page);
     }
 
-    public function testclearRegisteredPostTypes()
+    public function testClearRegisteredPostTypes()
     {
         Post::registerPostType('page', "\\Corcel\\Page");
         Post::clearRegisteredPostTypes();
@@ -167,5 +167,13 @@ class PostTest extends PHPUnit_Framework_TestCase
         $page = Post::type('page')->first();
 
         $this->assertInstanceOf("\\Corcel\\Post", $page);
+    }
+
+    public function testPostRelationConnections()
+    {
+        $post = Post::find(1);
+        $post->setConnection('no_prefix');
+
+        $this->assertEquals('no_prefix', $post->author->getConnectionName());
     }
 }
