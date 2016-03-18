@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 
 class Post extends Model
 {
+    use CreatedAtTrait, UpdatedAtTrait;
+    
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
 
@@ -469,28 +471,6 @@ class Post extends Model
     public function getKeywordsStrAttribute()
     {
         return implode(',', $this->keywords);
-    }
-
-    public function setCreatedAt($value)
-    {
-        $field = static::CREATED_AT;
-        $this->{$field} = $value;
-
-        $field .= '_gmt';
-        $this->{$field} = $value;
-
-        return parent::setCreatedAt($value);
-    }
-
-    public function setUpdatedAt($value)
-    {
-        $field = static::UPDATED_AT;
-        $this->{$field} = $value;
-
-        $field .= '_gmt';
-        $this->{$field} = $value;
-
-        return parent::setUpdatedAt($value);
     }
 
     /**
