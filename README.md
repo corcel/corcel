@@ -19,7 +19,7 @@ Or you can include Corcel inside `composer.json`, run `composer install` and wai
 
 ```
     "require": {
-        "jgrossi/corcel": "v1.0.0"
+        "jgrossi/corcel": "~1.0.0"
     },
 ```
 
