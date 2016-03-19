@@ -8,7 +8,7 @@
         {
             "name": "Junior Grossi",
             "email": "juniorgro@gmail.com",
-            "homepage": "http://grossi.io"
+            "homepage": "http://jgrossi.com"
         }
     ],
     "require": {
@@ -16,7 +16,7 @@
         "illuminate/database": ">=5.0.0",
         "illuminate/contracts": ">=5.0.0",
         "illuminate/support": ">=5.0.0",
-        "hautelook/phpass": "^1.0"
+        "illuminate/hashing": ">=5.0.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.2.2"
