@@ -8,6 +8,9 @@
 
 namespace Corcel;
 
+use Corcel\Traits\CreatedAtTrait;
+use Corcel\Traits\UpdatedAtTrait;
+
 class Comment extends Model
 {
     use CreatedAtTrait, UpdatedAtTrait;

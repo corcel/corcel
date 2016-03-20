@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Traits;
 
 /**
  * CreatedAt trait
