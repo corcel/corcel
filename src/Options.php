@@ -52,7 +52,11 @@ class Options extends Eloquent
     public function getValueAttribute()
     {
         try {
-            return unserialize($this->option_value);
+            $value = unserialize($this->option_value);
+            // if we get false, but the original value is not false then something has gone wrong.
+            // return the option_value as is instead of unserializing
+            // added this to handle cases where unserialize doesn't throw an error that is catchable
+            return $value === false && $this->option_value !== false ? $this->option_value : $value;
         } catch (Exception $ex) {
             return $this->option_value;
         }
