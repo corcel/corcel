@@ -63,7 +63,7 @@ class PostTest extends PHPUnit_Framework_TestCase
 
     public function testPostOrderBy()
     {
-        $posts = Post::orderBy('post_date', 'asc')->get();
+        $posts = Post::orderBy('post_date', 'asc')->take(5)->get();
 
         $lastDate = null;
         foreach ($posts as $post) {
@@ -73,7 +73,7 @@ class PostTest extends PHPUnit_Framework_TestCase
             $lastDate = $post->post_date;
         }
 
-        $posts = Post::orderBy('post_date', 'desc')->get();
+        $posts = Post::orderBy('post_date', 'desc')->take(5)->get();
 
         $lastDate = null;
         foreach ($posts as $post) {
