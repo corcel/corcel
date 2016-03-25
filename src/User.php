@@ -104,8 +104,8 @@ class User extends Model implements Authenticatable, CanResetPassword
     public function __get($key)
     {
         if (!isset($this->$key)) {
-            if (isset($this->meta()->get()->$key)) {
-                return $this->meta()->get()->$key;
+            if (isset($this->meta->$key)) {
+                return $this->meta->$key;
             }
         }
 
