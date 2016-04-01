@@ -176,4 +176,11 @@ class PostTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('no_prefix', $post->author->getConnectionName());
     }
+
+    public function testPostTypeIsFillable()
+    {
+        $postType = 'video';
+        $post = new Post(['post_type' => $postType]);
+        $this->assertEquals($postType, $post->post_type);
+    }
 }
