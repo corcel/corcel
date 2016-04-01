@@ -1309,7 +1309,15 @@ VALUES
 /*!40000 ALTER TABLE `wp_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
+DROP TABLE IF EXISTS `eloquent`;
 
+CREATE TABLE `eloquent` (
+	`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+	`corcel_id` bigint(20) unsigned NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+INSERT INTO `eloquent` (`id`, `corcel_id`)
+VALUES (1, 1)
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
