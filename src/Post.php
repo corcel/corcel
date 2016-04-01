@@ -30,6 +30,7 @@ class Post extends Model
         'post_content',
         'post_title',
         'post_excerpt',
+        'post_type',
         'to_ping',
         'pinged',
         'post_content_filtered'
