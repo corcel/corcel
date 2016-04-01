@@ -7,6 +7,8 @@
  */
 namespace Corcel;
 
+use Corcel\Traits\CreatedAtTrait;
+use Corcel\Traits\UpdatedAtTrait;
 use Illuminate\Support\Facades\DB;
 
 class Post extends Model
