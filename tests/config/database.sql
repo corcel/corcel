@@ -1311,10 +1311,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `eloquent`;
 
-CREATE TABLE `eloquent` (
-	`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-	`corcel_id` bigint(20) unsigned NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE eloquent
+(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	corcel_id BIGINT NOT NULL
+);
 
 INSERT INTO `eloquent` (`id`, `corcel_id`)
 VALUES (1, 1)
