@@ -183,4 +183,19 @@ class PostTest extends PHPUnit_Framework_TestCase
         $post = new Post(['post_type' => $postType]);
         $this->assertEquals($postType, $post->post_type);
     }
+
+    public function testRelationToNonCorcelClasses()
+    {
+        $eloquent = NonCorcelTestModel::find(1);
+        /** @var CorcelTestModel $corcel */
+        $corcel = CorcelTestModel::find(1);
+
+        //can get non corcel models from relation on corcel
+        $this->assertInstanceOf("NonCorcelTestModel", $corcel->eloquent->first());
+        $this->assertEquals($eloquent->id, $corcel->eloquent->first()->id);
+
+        //throws an exception if the connection is set on the related model
+        $this->setExpectedException("Illuminate\\Database\\QueryException");
+        $corcel->eloquentWithConnection->first();
+    }
 }

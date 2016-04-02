@@ -28,5 +28,10 @@
         "classmap": [
             "models"
         ]
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/models"
+        ]
     }
 }
