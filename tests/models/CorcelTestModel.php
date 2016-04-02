@@ -5,7 +5,7 @@ class CorcelTestModel extends \Corcel\Post
 
     public function eloquent()
     {
-        return $this->hasMany('NonCorcelTestModel', 'id', 'ID', false);
+        return $this->hasMany('NonCorcelTestModel', 'corcel_id', 'ID', false);
     }
 
     public function eloquentWithConnection()
