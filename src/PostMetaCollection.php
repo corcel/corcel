@@ -29,6 +29,11 @@ class PostMetaCollection extends Collection
         }
     }
 
+    public function __isset($key)
+    {
+        return $this->where('meta_key', $key)->count() > 0;
+    }
+
     public function __set($key, $value)
     {
         $this->changedKeys[] = $key;

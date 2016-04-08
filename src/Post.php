@@ -184,41 +184,45 @@ class Post extends Model
      */
     public function __get($key)
     {
-        if (!isset($this->$key)) {
-            if (isset($this->meta->$key)) {
-                return $this->meta->$key;
+        if (('nav_menu_item' == $this->getAttribute('post_type'))) {
+            if ('post_title' == $key) {
+                // get related post_title only when it is empty in menu
+                return $this->getAttribute($key)
+                    ?: $this->getMenuItemRelated()
+                        ->getAttribute($key);
             }
-        } elseif (isset($this->$key) and empty($this->$key)) {
-            // fix for menu items when chosing category to show
-            if (in_array($key, ['post_title', 'post_name'])) {
-                $type = $this->meta->_menu_item_object;
-                $taxonomy = null;
 
-                // Support certain types of meta objects
-                if ($type == 'category') {
-                    $taxonomy = $this->meta()->where('meta_key', '_menu_item_object_id')
-                        ->first()->taxonomy('meta_value')->first();
-                } elseif ($type == 'post_tag') {
-                    $taxonomy = $this->meta()->where('meta_key', '_menu_item_object_id')
-                        ->first()->taxonomy('meta_value')->first();
-                } elseif ($type == 'post') {
-                    $post = $this->meta()->where('meta_key', '_menu_item_object_id')
-                        ->first()->post(true)->first();
-
-                    return $post->$key;
-                }
-
-                if (isset($taxonomy) && $taxonomy->exists) {
-                    if ($key == 'post_title') {
-                        return $taxonomy->name;
-                    } elseif ($key == 'post_name') {
-                        return $taxonomy->slug;
-                    }
-                }
+            if ('post_name' == $key) {
+                // and always return related slug if asked
+                return $this->getMenuItemRelated()
+                    ->getAttribute($key);
             }
         }
 
-        return parent::__get($key);
+        if (!isset($this->$key) && isset($this->meta->$key)) {
+            // proxy meta properties
+            return $this->meta->$key;
+        }
+
+        return $this->getAttribute($key);
+    }
+
+    /**
+     * Return object related to this nav_menu_item
+     *
+     * @return $this|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     */
+    public function getMenuItemRelated()
+    {
+        assert('nav_menu_item' == $this->post_type);
+        switch ($this->_menu_item_type) {
+            case 'post_type':
+                return Post::query()->findOrFail($this->_menu_item_object_id);
+            case 'taxonomy':
+                return Term::query()->findOrFail($this->_menu_item_object_id);
+            default:
+                return $this;
+        }
     }
 
     public function save(array $options = array())

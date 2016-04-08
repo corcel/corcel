@@ -176,4 +176,19 @@ class PostTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('no_prefix', $post->author->getConnectionName());
     }
+
+    public function testMenuItemActsAsObjectFacadeForTitleAndSlug()
+    {
+        $post = Post::find(16);
+        $this->assertEquals('Sample Page', $post->title);
+        $this->assertEquals('sample-page', $post->slug);
+
+        $post = Post::find(17);
+        $this->assertEquals('Hello world!', $post->title);
+        $this->assertEquals('hello-world', $post->slug);
+
+        $post = Post::find(18);
+        $this->assertEquals('Google', $post->title);
+        $this->assertEquals('google', $post->slug);
+    }
 }
