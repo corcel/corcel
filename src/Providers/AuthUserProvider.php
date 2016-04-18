@@ -89,6 +89,6 @@ class AuthUserProvider implements UserProvider
 
         $passwordService = new PasswordService;
         
-        return $passwordService->wp_check_password($credentials['password'], $user->user_pass);
+        return $passwordService->check($credentials['password'], $user->user_pass);
     }
 }
