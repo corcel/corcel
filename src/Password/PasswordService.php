@@ -26,7 +26,7 @@ class PasswordService
      * @param string $password Plain text user password to hash
      * @return string The hash string of the password
      */
-    function wp_hash_password($password) {
+    function makeHash($password) {
         return $this->wp_hasher->make(trim($password));
     }
 
@@ -49,7 +49,7 @@ class PasswordService
      * @param string|int $user_id  Optional. User ID.
      * @return bool False, if the $password does not match the hashed password
      */
-    function wp_check_password($password, $hash, $user_id = '') {
+    function check($password, $hash, $user_id = '') {
         // If the hash is still md5...
         if (strlen($hash) <= 32) {
             return hash_equals($hash, md5($password));

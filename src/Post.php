@@ -76,7 +76,6 @@ class Post extends Model
         parent::__construct($attributes);
     }
 
-
     /**
      * Meta data relationship.
      *
@@ -111,7 +110,7 @@ class Post extends Model
     {
         return $this->hasMany('Corcel\Comment', 'comment_post_ID');
     }
-
+    
     /**
      *   Author relationship.
      *
@@ -232,7 +231,6 @@ class Post extends Model
 
         return parent::save($options);
     }
-
 
     /**
      * Meta filter scope.
