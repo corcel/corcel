@@ -10,7 +10,7 @@ class PasswordService
 {
     function __construct()
     {
-        $this->hasher = new PasswordHash(8, false);
+        $this->hasher = new PasswordHash(8, true);
     }
   
 
