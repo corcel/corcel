@@ -3,7 +3,6 @@
 namespace Corcel\Password;
 
 use Hautelook\Phpass\PasswordHash;
-use Illuminate\Hashing\BcryptHasher;
 
 require_once(__DIR__ . "/../../vendor/autoload.php");
 
@@ -11,7 +10,7 @@ class PasswordService
 {
     function __construct()
     {
-        $this->wp_hasher = new BcryptHasher();
+        $this->hasher = new PasswordHash(8, true);
     }
   
 
@@ -26,8 +25,8 @@ class PasswordService
      * @param string $password Plain text user password to hash
      * @return string The hash string of the password
      */
-    function wp_hash_password($password) {
-        return $this->wp_hasher->make(trim($password));
+    function makeHash($password) {
+        return $this->hasher->HashPassword(trim($password));
     }
 
 
@@ -49,13 +48,13 @@ class PasswordService
      * @param string|int $user_id  Optional. User ID.
      * @return bool False, if the $password does not match the hashed password
      */
-    function wp_check_password($password, $hash, $user_id = '') {
+    function check($password, $hash, $user_id = '') {
         // If the hash is still md5...
         if (strlen($hash) <= 32) {
-            return hash_equals($hash, md5($password));
+            return ($hash === md5($password));
         }
         // If the stored hash is longer than an MD5, presume the
         // new style phpass portable hash.
-        return $this->wp_hasher->check($password, $hash);
+        return $this->hasher->CheckPassword($password, $hash);
     }
 }

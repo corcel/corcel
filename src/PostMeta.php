@@ -48,7 +48,11 @@ class PostMeta extends Model
     public function getValueAttribute()
     {
         try {
-            return unserialize($this->meta_value);
+            $value = unserialize($this->meta_value);
+            // if we get false, but the original value is not false then something has gone wrong.
+            // return the meta_value as is instead of unserializing
+            // added this to handle cases where unserialize doesn't throw an error that is catchable
+            return $value === false && $this->meta_value !== false ? $this->meta_value : $value;
         } catch (Exception $ex) {
             return $this->meta_value;
         }

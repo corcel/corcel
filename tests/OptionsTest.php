@@ -30,4 +30,19 @@ class OptionsTest extends PHPUnit_Framework_TestCase
         $this->assertNotNull($themeRoots);
         $this->assertEquals('/themes', $themeRoots['twentyfourteen']);
     }
+
+    public function testOptionValue()
+    {
+        //test value when option_value is string
+        $optionWithString = Options::find(1);
+        $stringValue = '2016-04-03';
+        $optionWithString->option_value = $stringValue;
+        $this->assertEquals($stringValue, $optionWithString->value);
+
+        //test value when option_value is serialized array
+        $optionWithArray = Options::find(1);
+        $arrayValue = ['key' => 'value'];
+        $optionWithArray->option_value = serialize($arrayValue);
+        $this->assertEquals($arrayValue, $optionWithArray->value);
+    }
 }

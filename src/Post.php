@@ -7,6 +7,8 @@
  */
 namespace Corcel;
 
+use Corcel\Traits\CreatedAtTrait;
+use Corcel\Traits\UpdatedAtTrait;
 use Illuminate\Support\Facades\DB;
 
 class Post extends Model
@@ -28,6 +30,7 @@ class Post extends Model
         'post_content',
         'post_title',
         'post_excerpt',
+        'post_type',
         'to_ping',
         'pinged',
         'post_content_filtered'
@@ -73,7 +76,6 @@ class Post extends Model
         parent::__construct($attributes);
     }
 
-
     /**
      * Meta data relationship.
      *
@@ -108,7 +110,7 @@ class Post extends Model
     {
         return $this->hasMany('Corcel\Comment', 'comment_post_ID');
     }
-
+    
     /**
      *   Author relationship.
      *
@@ -229,7 +231,6 @@ class Post extends Model
 
         return parent::save($options);
     }
-
 
     /**
      * Meta filter scope.
