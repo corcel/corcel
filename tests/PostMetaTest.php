@@ -43,4 +43,10 @@ class PostMetaTest extends PHPUnit_Framework_TestCase
         $metaWithArray->meta_value = serialize($arrayValue);
         $this->assertEquals($arrayValue, $metaWithArray->value);
     }
+
+    public function testSerializedData()
+    {
+        $post = Post::find(45);
+        $this->assertTrue(is_array($post->meta->username));
+    }
 }
