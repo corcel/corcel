@@ -51,7 +51,7 @@ class PasswordService
     function check($password, $hash, $user_id = '') {
         // If the hash is still md5...
         if (strlen($hash) <= 32) {
-            return hash_equals($hash, md5($password));
+            return ($hash === md5($password));
         }
         // If the stored hash is longer than an MD5, presume the
         // new style phpass portable hash.
