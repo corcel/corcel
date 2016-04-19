@@ -8,13 +8,18 @@ class AuthenticationTest extends PHPUnit_Framework_TestCase
 {
     public function testPasswordService()
     {
-        $passwordService = new PasswordService;
+        $checker = new PasswordService;
 
-        $this->assertTrue($passwordService->check('admin', $passwordService->makeHash('admin')));
-        $this->assertFalse($passwordService->check('admin', $passwordService->makeHash('admin`')));
+        $this->assertTrue($checker->check('admin', $checker->makeHash('admin')));
+        $this->assertTrue($checker->check('admin', '$P$BrYiES.08ardK6pQme0LdlmQ0idrIe/'));
+        $this->assertTrue($checker->check('rEn2b2N3TX', $checker->makeHash('rEn2b2N3TX')));
 
-        $this->assertTrue($passwordService->check('rEn2b2N3TX', $passwordService->makeHash('rEn2b2N3TX')));
-        $this->assertTrue($passwordService->check('+0q?\'t&SBT\'*2VBk7UE(,uj6UG23Us', $passwordService->makeHash('+0q?\'t&SBT\'*2VBk7UE(,uj6UG23Us')));
+        $this->assertTrue(
+            $checker->check(
+                '+0q?\'t&SBT\'*2VBk7UE(,uj6UG23Us', 
+                $checker->makeHash('+0q?\'t&SBT\'*2VBk7UE(,uj6UG23Us')
+            )   
+        );
     }
 
 
