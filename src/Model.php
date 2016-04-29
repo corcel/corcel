@@ -4,6 +4,7 @@
  * Base model.
  *
  * @author Mickael Burguet <www.rundef.com>
+ * @author Junior Grossi <juniorgro@gmail.com>
  */
 namespace Corcel;
 
