@@ -10,6 +10,7 @@ namespace Corcel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
@@ -26,6 +27,18 @@ class Model extends Eloquent
         $localKey = $localKey ?: $this->getKeyName();
 
         return new HasMany($instance->newQuery(), $this, $foreignKey, $localKey);
+    }
+
+    public function hasOne($related, $foreignKey = null, $localKey = null)
+    {
+        $foreignKey = $foreignKey ?: $this->getForeignKey();
+
+        $instance = new $related;
+        $instance->setConnection($this->getConnection()->getName());
+
+        $localKey = $localKey ?: $this->getKeyName();
+
+        return new HasOne($instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey);
     }
 
     public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
