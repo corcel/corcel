@@ -400,7 +400,9 @@ class Post extends Model
     public function getImageAttribute()
     {
         if (!is_null($this->meta->_thumbnail_id)) {
-            $image = Attachment::find($this->meta->_thumbnail_id);
+            $attachment = new Attachment();
+            $attachment->setConnection($this->getConnection()->getName());
+            $image = $attachment->find($this->meta->_thumbnail_id);
 
             if (!is_null($image)) {
                 return $image->guid;
