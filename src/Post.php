@@ -92,6 +92,15 @@ class Post extends Model
     }
 
     /**
+     * Return the post thumbnail
+     */
+    public function thumbnail()
+    {
+        return $this->hasOne('Corcel\ThumbnailMeta', 'post_id')
+            ->where('meta_key', '_thumbnail_id');
+    }
+
+    /**
      * Taxonomy relationship.
      *
      * @return Illuminate\Database\Eloquent\Collection
@@ -399,14 +408,12 @@ class Post extends Model
      */
     public function getImageAttribute()
     {
-        if (!is_null($this->meta->_thumbnail_id)) {
-            $attachment = new Attachment();
-            $attachment->setConnection($this->getConnection()->getName());
-            $image = $attachment->find($this->meta->_thumbnail_id);
+        if (!isset($this->thumbnail)) {
+            return false;
+        }
 
-            if (!is_null($image)) {
-                return $image->guid;
-            }
+        if (isset($this->thumbnail->attachment)) {
+            return $this->thumbnail->attachment->guid;    
         }
     }
 
