@@ -408,11 +408,7 @@ class Post extends Model
      */
     public function getImageAttribute()
     {
-        if (!isset($this->thumbnail)) {
-            return false;
-        }
-
-        if (isset($this->thumbnail->attachment)) {
+        if ($this->thumbnail and $this->thumbnail->attachment) {
             return $this->thumbnail->attachment->guid;    
         }
     }
