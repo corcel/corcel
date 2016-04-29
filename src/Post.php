@@ -422,9 +422,9 @@ class Post extends Model
     {
         $taxonomies = $this->taxonomies;
         $terms = [];
+
         foreach ($taxonomies as $taxonomy) {
             $taxonomyName = $taxonomy['taxonomy'] == 'post_tag' ? 'tag' : $taxonomy['taxonomy'];
-
             $terms[$taxonomyName][$taxonomy->term['slug']] = $taxonomy->term['name'];
         }
 
@@ -460,6 +460,7 @@ class Post extends Model
     public function getKeywordsAttribute()
     {
         $keywords = [];
+
         foreach ($this->terms as $taxonomy) {
             foreach ($taxonomy as $term) {
                 $keywords[] = $term;
@@ -504,7 +505,6 @@ class Post extends Model
         $model->exists = true;
 
         $model->setRawAttributes((array) $attributes, true);
-
         $model->setConnection($connection ?: $this->connection);
 
         return $model;
