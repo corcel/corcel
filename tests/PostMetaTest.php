@@ -49,4 +49,12 @@ class PostMetaTest extends PHPUnit_Framework_TestCase
         $post = Post::find(45);
         $this->assertTrue(is_array($post->meta->username));
     }
+
+    public function testPostThumbnail()
+    {
+        $post = Post::find(59);
+        $this->assertTrue($post->thumbnail->attachment instanceof Corcel\Attachment);
+        $this->assertContains('hoodie_6_front.jpg', $post->image);
+        $this->assertContains('/uploads/', $post->image);
+    }
 }
