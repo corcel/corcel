@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 /**
  * Corcel\PostBuilder
- * 
+ *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 
@@ -14,7 +14,7 @@ class PostBuilder extends Builder
 {
     /**
      * Get only posts with a custom status
-     * 
+     *
      * @param string $postStatus
      * @return \Corcel\PostBuilder
      */
@@ -25,7 +25,7 @@ class PostBuilder extends Builder
 
     /**
      * Get only published posts
-     * 
+     *
      * @return \Corcel\PostBuilder
      */
     public function published()
@@ -35,7 +35,7 @@ class PostBuilder extends Builder
 
     /**
      * Get only posts from a custom post type
-     * 
+     *
      * @param string $type
      * @return \Corcel\PostBuilder
      */
@@ -46,7 +46,7 @@ class PostBuilder extends Builder
 
     /**
      * Get only posts from an array of custom post types
-     * 
+     *
      * @param array $type
      * @return \Corcel\PostBuilder
      */
@@ -57,8 +57,8 @@ class PostBuilder extends Builder
 
     public function taxonomy($taxonomy, $term)
     {
-        return $this->whereHas('taxonomies', function($query) use ($taxonomy, $term) {
-            $query->where('taxonomy', $taxonomy)->whereHas('term', function($query) use ($term) {
+        return $this->whereHas('taxonomies', function ($query) use ($taxonomy, $term) {
+            $query->where('taxonomy', $taxonomy)->whereHas('term', function ($query) use ($term) {
                 $query->where('slug', $term);
             });
         });
@@ -66,7 +66,7 @@ class PostBuilder extends Builder
 
     /**
      * Get only posts with a specific slug
-     * 
+     *
      * @param string slug
      * @return \Corcel\PostBuilder
      */
@@ -77,7 +77,7 @@ class PostBuilder extends Builder
 
     /**
      * Paginate the results
-     * 
+     *
      * @param int $perPage
      * @param int $currentPage
      * @return \Illuminate\Database\Eloquent\Collection

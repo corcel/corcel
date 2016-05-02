@@ -8,7 +8,7 @@ class TaxonomyTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('php', $cat->name);
 
         $cat = Taxonomy::where('taxonomy', 'category')->slug('php')->with('posts')->get();
-        $cat->each(function($category) {
+        $cat->each(function ($category) {
             $this->assertEquals('php', $category->name);
         });
 

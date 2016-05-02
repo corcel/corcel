@@ -7,7 +7,7 @@ namespace Corcel\Traits;
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-trait CreatedAtTrait 
+trait CreatedAtTrait
 {
     public function setCreatedAt($value)
     {
