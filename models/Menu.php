@@ -5,4 +5,6 @@
  *
  * @author Yoram de Langen <yoramdelangen@gmail.com>
  */
-class Menu extends Corcel\Menu {}
+class Menu extends Corcel\Menu
+{
+}
