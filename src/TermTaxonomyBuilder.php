@@ -56,7 +56,7 @@ class TermTaxonomyBuilder extends Builder
             $this->slug = $slug;
 
             // exception to filter on specific slug
-            $exception = function($query) {
+            $exception = function ($query) {
                 $query->where('slug', '=', $this->slug);
             };
 

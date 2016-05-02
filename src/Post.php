@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class Post extends Model
 {
     use CreatedAtTrait, UpdatedAtTrait;
-    
+
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
 
@@ -119,11 +119,11 @@ class Post extends Model
     {
         return $this->hasMany('Corcel\Comment', 'comment_post_ID');
     }
-    
+
     /**
      *   Author relationship.
      *
-     *   @return Illuminate\Database\Eloquent\Collection
+     * @return Illuminate\Database\Eloquent\Collection
      */
     public function author()
     {
@@ -232,7 +232,7 @@ class Post extends Model
         return parent::__get($key);
     }
 
-    public function save(array $options = array())
+    public function save(array $options = [])
     {
         if (isset($this->attributes[$this->primaryKey])) {
             $this->meta->save($this->attributes[$this->primaryKey]);
@@ -302,6 +302,7 @@ class Post extends Model
     {
         return $this->post_name;
     }
+
     /**
      * Gets the content attribute.
      *
@@ -371,6 +372,7 @@ class Post extends Model
     {
         return $this->post_date;
     }
+
     /**
      * Gets the updated at attribute.
      *
@@ -390,6 +392,7 @@ class Post extends Model
     {
         return $this->post_excerpt;
     }
+
     /**
      * Gets the status attribute.
      *
@@ -409,7 +412,7 @@ class Post extends Model
     public function getImageAttribute()
     {
         if ($this->thumbnail and $this->thumbnail->attachment) {
-            return $this->thumbnail->attachment->guid;    
+            return $this->thumbnail->attachment->guid;
         }
     }
 
@@ -503,7 +506,7 @@ class Post extends Model
         $model = new $class([]);
         $model->exists = true;
 
-        $model->setRawAttributes((array) $attributes, true);
+        $model->setRawAttributes((array)$attributes, true);
 
         $model->setConnection($connection ?: $this->connection);
 
@@ -521,7 +524,7 @@ class Post extends Model
      * If you register a Page class for the post_type 'page', then whenever a Post is fetched from the database that has
      * its post_type has 'page', it will be returned as a Page instance, instead of the default and generic Post instance.
      *
-     * @param string $name  The name of the post type (e.g. 'post', 'page', 'custom_post_type')
+     * @param string $name The name of the post type (e.g. 'post', 'page', 'custom_post_type')
      * @param string $class The class that represents the post type model (e.g. 'Post', 'Page', 'CustomPostType')
      */
     public static function registerPostType($name, $class)
@@ -536,6 +539,4 @@ class Post extends Model
     {
         static::$postTypes = [];
     }
-
-
 }

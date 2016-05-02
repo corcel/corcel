@@ -8,15 +8,15 @@ namespace Corcel;
  */
 class Menu extends TermTaxonomy
 {
-	/**
-	 * Set taxonomy type
-	 * @var string
-	 */
-	protected $taxonomy = 'nav_menu';
+    /**
+     * Set taxonomy type
+     * @var string
+     */
+    protected $taxonomy = 'nav_menu';
 
-	/**
-	 * Add related relationships we need to use for a menu
-	 * @var array
-	 */
-	protected $with = ['term', 'nav_items'];
+    /**
+     * Add related relationships we need to use for a menu
+     * @var array
+     */
+    protected $with = ['term', 'nav_items'];
 }

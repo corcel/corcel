@@ -16,9 +16,9 @@ class AuthenticationTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(
             $checker->check(
-                '+0q?\'t&SBT\'*2VBk7UE(,uj6UG23Us', 
+                '+0q?\'t&SBT\'*2VBk7UE(,uj6UG23Us',
                 $checker->makeHash('+0q?\'t&SBT\'*2VBk7UE(,uj6UG23Us')
-            )   
+            )
         );
     }
 
@@ -41,7 +41,7 @@ class AuthenticationTest extends PHPUnit_Framework_TestCase
         $user->user_pass = $passwordService->makeHash(')_)E~O79}?w+5"4&6{!;ct>656Lx~5');
         $this->assertTrue($userProvider->validateCredentials($user, ['password' => ')_)E~O79}?w+5"4&6{!;ct>656Lx~5']));
         $this->assertFalse($userProvider->validateCredentials($user, ['password' => ') )E~O79}?w+5"4&6{!;ct>656Lx~5`']));
-        
+
     }
 }
 

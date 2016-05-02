@@ -86,7 +86,7 @@ class PostMeta extends Model
      * @param array $models
      * @return \Corcel\PostMetaCollection
      */
-    public function newCollection(array $models = array())
+    public function newCollection(array $models = [])
     {
         return new PostMetaCollection($models);
     }
