@@ -6,7 +6,7 @@ class TermTaxonomy extends Model
 {
     protected $table = 'term_taxonomy';
     protected $primaryKey = 'term_taxonomy_id';
-    protected $with = array('term');
+    protected $with = ['term'];
     public $timestamps = false;
 
     /**

@@ -15,13 +15,13 @@ class Database
     /**
      * Base params. Wordpress use by default MySQL databases and more.
      */
-    static protected $baseParams = array(
-        'driver'    => 'mysql',
-        'host'      => 'localhost',
-        'charset'   => 'utf8',
+    static protected $baseParams = [
+        'driver' => 'mysql',
+        'host' => 'localhost',
+        'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-        'prefix'    => 'wp_',
-    );
+        'prefix' => 'wp_',
+    ];
 
     /**
      * Connect to the Wordpress database
@@ -35,7 +35,7 @@ class Database
         $params = array_merge(static::$baseParams, $params);
         $capsule->addConnection($params);
         $capsule->bootEloquent();
-        
+
         return $capsule;
     }
 }

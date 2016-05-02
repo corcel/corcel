@@ -55,7 +55,7 @@ class Model extends Eloquent
 
         $localKey = $localKey ?: $this->getKeyName();
 
-        return new HasOne($instance->newQuery(), $this, $instance->getTable().'.'.$foreignKey, $localKey);
+        return new HasOne($instance->newQuery(), $this, $instance->getTable() . '.' . $foreignKey, $localKey);
     }
 
     /**
@@ -76,7 +76,7 @@ class Model extends Eloquent
         }
 
         if (is_null($foreignKey)) {
-            $foreignKey = Str::snake($relation).'_id';
+            $foreignKey = Str::snake($relation) . '_id';
         }
 
         $instance = new $related();
@@ -135,6 +135,7 @@ class Model extends Eloquent
             $relation->each(function ($model) {
                 $this->setRelationConnection($model);
             });
+
             return $relation;
         }
 

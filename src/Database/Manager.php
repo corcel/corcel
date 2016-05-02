@@ -9,20 +9,19 @@ class Manager extends Capsule
     /**
      * Base params. Wordpress use by default MySQL databases and more.
      */
-    protected $baseParams = array(
-        'driver'    => 'mysql',
-        'host'      => 'localhost',
-        'charset'   => 'utf8',
+    protected $baseParams = [
+        'driver' => 'mysql',
+        'host' => 'localhost',
+        'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-        'prefix'    => 'wp_',
-    );
+        'prefix' => 'wp_',
+    ];
 
     public function __construct($container)
     {
         parent::__construct($container);
         $this->bootEloquent();
     }
-
 
     public function addConnection(array $params, $name = 'default')
     {
@@ -35,6 +34,4 @@ class Manager extends Capsule
 
         return parent::addConnection($params, $name);
     }
-
-
 }

@@ -33,7 +33,6 @@ class TermTaxonomyBuilder extends Builder
         return $this->where('taxonomy', 'category');
     }
 
-
     /**
      * Set taxonomy type to nav_menu
      * @return Corcel\TermTaxonomyBuilder
@@ -56,7 +55,7 @@ class TermTaxonomyBuilder extends Builder
             $this->slug = $slug;
 
             // exception to filter on specific slug
-            $exception = function($query) {
+            $exception = function ($query) {
                 $query->where('slug', '=', $this->slug);
             };
 
