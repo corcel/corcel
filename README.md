@@ -117,6 +117,8 @@ You can specify all Eloquent params, but some are default (but you can override 
 
 ### Posts
 
+> Every time you see `Post::method()`, if you're using your own Post class (where you set the connection name), like `App\Post` you should use `App\Post::method()` and not `Post::method()`. All the examples are assuming you already know this difference.
+
 ```php
 // All published posts
 $posts = Post::published()->get();
