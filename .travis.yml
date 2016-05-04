@@ -1,0 +1,28 @@
+language: php
+
+php:
+  - '5.4'
+  - '5.5'
+  - '5.6'
+  - '7.0'
+
+dist: trusty
+sudo: required
+addons:
+  apt:
+    packages:
+    - mysql-server-5.6
+    - mysql-client-core-5.6
+    - mysql-client-5.6
+
+before_install:
+  - mysql -u root -e "create database IF NOT EXISTS corcel-dev;"
+  - mysql -u root corcel-dev < tests/config/database.sql
+
+before_script:
+  - composer self-update
+  - composer install
+
+script:
+  - mkdir -p build/logs
+  - phpunit --coverage-clover build/logs/clover.xml
