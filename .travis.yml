@@ -17,7 +17,7 @@ addons:
 
 before_install:
   - mysql -u root -e "create database corcel;"
-  - mysql -u root corcel-dev < tests/config/database.sql
+  - mysql -u root corcel < tests/config/database.sql
 
 before_script:
   - composer self-update
