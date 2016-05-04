@@ -8,7 +8,7 @@ require_once(__DIR__ . "/../../vendor/autoload.php");
 
 class PasswordService
 {
-    function __construct()
+    public function __construct()
     {
         $this->hasher = new PasswordHash(8, true);
     }
@@ -47,7 +47,7 @@ class PasswordService
      * @param string|int $user_id Optional. User ID.
      * @return bool False, if the $password does not match the hashed password
      */
-    function check($password, $hash, $user_id = '')
+    public function check($password, $hash, $user_id = '')
     {
         // If the hash is still md5...
         if (strlen($hash) <= 32) {

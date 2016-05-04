@@ -58,10 +58,11 @@ class AuthUserProvider implements UserProvider
     {
         $user = null;
 
-        if (isset($credentials['username']))
+        if (isset($credentials['username'])) {
             $user = User::whereUserLogin($credentials['username'])->first();
-        else if (isset($credentials['email']))
+        } else if (isset($credentials['email'])) {
             $user = User::whereUserEmail($credentials['email'])->first();
+        }
 
         return $user;
     }

@@ -15,7 +15,7 @@ class Database
     /**
      * Base params. Wordpress use by default MySQL databases and more.
      */
-    static protected $baseParams = [
+    protected static $baseParams = [
         'driver' => 'mysql',
         'host' => 'localhost',
         'charset' => 'utf8',

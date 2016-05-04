@@ -13,3 +13,4 @@ class Tag extends TermTaxonomy
      */
     protected $taxonomy = 'post_tag';
 }
+

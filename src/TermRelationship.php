@@ -18,3 +18,4 @@ class TermRelationship extends Model
         return $this->belongsTo('Corcel\TermTaxonomy', 'term_taxonomy_id');
     }
 }
+
