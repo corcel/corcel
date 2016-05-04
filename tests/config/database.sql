@@ -6,7 +6,7 @@
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 5.7.10)
-# Database: corcel-dev
+# Database: corcel
 # Generation Time: 2016-04-19 19:12:54 +0000
 # ************************************************************
 

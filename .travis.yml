@@ -16,7 +16,7 @@ addons:
     - mysql-client-5.6
 
 before_install:
-  - mysql -u root -e "create database IF NOT EXISTS corcel-dev;"
+  - mysql -u root -e "create database corcel;"
   - mysql -u root corcel-dev < tests/config/database.sql
 
 before_script:
