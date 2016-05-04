@@ -3,9 +3,8 @@ Corcel
 
 > This package allows you to use WordPress as backend (admin panel) and retrieve its data using Eloquent, with any PHP project or even framework.
 
-<a href="https://packagist.org/packages/jgrossi/corcel">
-    <img src="https://img.shields.io/packagist/dt/jgrossi/corcel.svg?style=flat-square" alt="Total Downloads">
-</a>
+[![Packagist](https://img.shields.io/packagist/v/jgrossi/corcel.svg?maxAge=2592000)](https://github.com/jgrossi/corcel/releases)
+[![Packagist](https://img.shields.io/packagist/dt/jgrossi/corcel.svg?maxAge=2592000)](https://packagist.org/packages/jgrossi/corcel)
 
 Corcel is a class collection created to retrieve WordPress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project, with any framework, including Laravel.
 
