@@ -58,5 +58,4 @@ class PostMetaCollection extends Collection
             }
         });
     }
-
 }
