@@ -2,8 +2,8 @@
 
 $capsule = \Corcel\Database::connect($params = [
     'database' => 'corcel',
-    'username' => 'homestead',
-    'password' => 'secret',
+    'username' => 'travis',
+    'password' => '',
     'host' => '127.0.0.1',
 ]);
 
@@ -18,7 +18,7 @@ $capsule->addConnection(array_merge($params, [
 // $corcel = new \Corcel\Database\Manager();
 
 // $corcel->addConnection([
-//     'database' => 'corcel-dev',
+//     'database' => 'corcel',
 //     'username' => 'homestead',
 //     'password' => 'secret',
 //     'host' => '127.0.0.1',
