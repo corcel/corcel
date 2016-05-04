@@ -24,7 +24,7 @@ class PasswordService
      * @param string $password Plain text user password to hash
      * @return string The hash string of the password
      */
-    function makeHash($password)
+    public function makeHash($password)
     {
         return $this->hasher->HashPassword(trim($password));
     }
