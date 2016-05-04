@@ -20,4 +20,3 @@ trait UpdatedAtTrait
         return parent::setUpdatedAt($value);
     }
 }
-

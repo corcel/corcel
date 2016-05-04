@@ -12,4 +12,3 @@ class Category extends Corcel\TermTaxonomy
      */
     protected $taxonomy = 'category';
 }
-
