@@ -2,7 +2,7 @@
 
 $capsule = \Corcel\Database::connect($params = [
     'database' => 'corcel',
-    'username' => 'travis',
+    'username' => 'root',
     'password' => '',
     'host' => '127.0.0.1',
 ]);
