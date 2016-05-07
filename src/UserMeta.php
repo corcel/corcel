@@ -13,7 +13,7 @@ class UserMeta extends Model
     protected $table = 'usermeta';
     protected $primaryKey = 'umeta_id';
     public $timestamps = false;
-    protected $fillable = array('meta_key', 'meta_value', 'user_id');
+    protected $fillable = ['meta_key', 'meta_value', 'user_id'];
 
     /**
      * User relationship
@@ -31,7 +31,7 @@ class UserMeta extends Model
      * @param array $models
      * @return \Corcel\UserMetaCollection
      */
-    public function newCollection(array $models = array())
+    public function newCollection(array $models = [])
     {
         return new UserMetaCollection($models);
     }

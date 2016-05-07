@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 /**
  * Corcel\UserBuilder
- * 
+ *
  * @author Mickael Burguet <www.rundef.com>
  */
 
@@ -14,7 +14,7 @@ class UserBuilder extends Builder
 {
     /**
      * Paginate the results
-     * 
+     *
      * @param int $perPage
      * @param int $currentPage
      * @return \Illuminate\Database\Eloquent\Collection

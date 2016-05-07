@@ -5,4 +5,6 @@
  *
  * @author Yoram de Langen <yoramdelangen@gmail.com>
  */
-class Taxonomy extends Corcel\TermTaxonomy {}
+class Taxonomy extends Corcel\TermTaxonomy
+{
+}

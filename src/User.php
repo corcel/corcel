@@ -20,10 +20,11 @@ class User extends Model implements Authenticatable, CanResetPassword
     protected $primaryKey = 'ID';
     protected $hidden = ['user_pass'];
     protected $dates = ['user_registered'];
-    protected $with = array('meta');
+    protected $with = ['meta'];
 
     // Disable updated_at
-    public function setUpdatedAtAttribute($value) {
+    public function setUpdatedAtAttribute($value)
+    {
     }
 
 
@@ -112,7 +113,7 @@ class User extends Model implements Authenticatable, CanResetPassword
         return parent::__get($key);
     }
 
-    public function save(array $options = array())
+    public function save(array $options = [])
     {
         if (isset($this->attributes[$this->primaryKey])) {
             $this->meta->save($this->attributes[$this->primaryKey]);
@@ -134,6 +135,7 @@ class User extends Model implements Authenticatable, CanResetPassword
     {
         return $this->user_login;
     }
+
     /**
      * Get email attribute.
      *
@@ -143,6 +145,7 @@ class User extends Model implements Authenticatable, CanResetPassword
     {
         return $this->user_email;
     }
+
     /**
      * Get slug attribute.
      *
@@ -152,6 +155,7 @@ class User extends Model implements Authenticatable, CanResetPassword
     {
         return $this->user_nicename;
     }
+
     /**
      * Get url attribute.
      *
@@ -161,6 +165,7 @@ class User extends Model implements Authenticatable, CanResetPassword
     {
         return $this->user_url;
     }
+
     /**
      * Get nickname attribute.
      *
@@ -170,6 +175,7 @@ class User extends Model implements Authenticatable, CanResetPassword
     {
         return $this->meta->nickname;
     }
+
     /**
      * Get first name attribute.
      *
@@ -179,6 +185,7 @@ class User extends Model implements Authenticatable, CanResetPassword
     {
         return $this->meta->first_name;
     }
+
     /**
      * Get last name attribute.
      *
@@ -200,19 +207,15 @@ class User extends Model implements Authenticatable, CanResetPassword
     }
 
 
-
-
-
-
     /**
      * Get the name of the unique identifier for the user.
      *
      * @return string
      */
-    public function getAuthIdentifierName() {
+    public function getAuthIdentifierName()
+    {
         return $this->primaryKey;
     }
-
 
 
     /**
@@ -220,10 +223,10 @@ class User extends Model implements Authenticatable, CanResetPassword
      *
      * @return mixed
      */
-    public function getAuthIdentifier() {
+    public function getAuthIdentifier()
+    {
         return $this->attributes[$this->primaryKey];
     }
-
 
 
     /**
@@ -231,10 +234,10 @@ class User extends Model implements Authenticatable, CanResetPassword
      *
      * @return string
      */
-    public function getAuthPassword() {
+    public function getAuthPassword()
+    {
         return $this->user_pass;
     }
-
 
 
     /**
@@ -242,22 +245,22 @@ class User extends Model implements Authenticatable, CanResetPassword
      *
      * @return string
      */
-    public function getRememberToken() {
+    public function getRememberToken()
+    {
         return $this->meta->{$this->getRememberTokenName()};
     }
-
 
 
     /**
      * Set the token value for the "remember me" session.
      *
-     * @param  string  $value
+     * @param  string $value
      * @return void
      */
-    public function setRememberToken($value) {
+    public function setRememberToken($value)
+    {
         $this->meta->{$this->getRememberTokenName()} = $value;
     }
-
 
 
     /**
@@ -265,7 +268,8 @@ class User extends Model implements Authenticatable, CanResetPassword
      *
      * @return string
      */
-    public function getRememberTokenName() {
+    public function getRememberTokenName()
+    {
         return 'remember_token';
     }
 
@@ -275,7 +279,8 @@ class User extends Model implements Authenticatable, CanResetPassword
      *
      * @return string
      */
-    public function getEmailForPasswordReset() {
+    public function getEmailForPasswordReset()
+    {
         return $this->user_email;
     }
 }
