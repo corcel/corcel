@@ -4,8 +4,6 @@ namespace Corcel\Password;
 
 use Hautelook\Phpass\PasswordHash;
 
-require_once(__DIR__ . "/../../vendor/autoload.php");
-
 class PasswordService
 {
     public function __construct()
