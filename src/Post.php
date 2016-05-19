@@ -466,9 +466,11 @@ class Post extends Model
     {
         $keywords = [];
 
-        foreach ($this->terms as $taxonomy) {
-            foreach ($taxonomy as $term) {
-                $keywords[] = $term;
+        if ($this->terms) {
+            foreach ($this->terms as $taxonomy) {
+                foreach ($taxonomy as $term) {
+                    $keywords[] = $term;
+                }
             }
         }
 
