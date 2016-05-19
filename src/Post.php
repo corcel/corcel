@@ -195,6 +195,10 @@ class Post extends Model
      */
     public function __get($key)
     {
+        if ($value = parent::__get($key)) {
+            return $value;
+        }
+
         if (!isset($this->$key)) {
             if (isset($this->meta->$key)) {
                 return $this->meta->$key;
@@ -228,8 +232,6 @@ class Post extends Model
                 }
             }
         }
-
-        return parent::__get($key);
     }
 
     public function save(array $options = [])
@@ -464,9 +466,11 @@ class Post extends Model
     {
         $keywords = [];
 
-        foreach ($this->terms as $taxonomy) {
-            foreach ($taxonomy as $term) {
-                $keywords[] = $term;
+        if ($this->terms) {
+            foreach ($this->terms as $taxonomy) {
+                foreach ($taxonomy as $term) {
+                    $keywords[] = $term;
+                }
             }
         }
 
