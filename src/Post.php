@@ -195,8 +195,12 @@ class Post extends Model
      */
     public function __get($key)
     {
+        if ($value = parent::__get($key)) {
+            return $value;
+        }
+
         if (!isset($this->$key)) {
-            if (isset($this->meta()->get()->$key)) {
+            if (isset($this->meta->$key)) {
                 return $this->meta->$key;
             }
         } elseif (isset($this->$key) and empty($this->$key)) {
@@ -228,8 +232,6 @@ class Post extends Model
                 }
             }
         }
-
-        return parent::__get($key);
     }
 
     public function save(array $options = [])
