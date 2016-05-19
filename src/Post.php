@@ -196,7 +196,7 @@ class Post extends Model
     public function __get($key)
     {
         if (!isset($this->$key)) {
-            if (isset($this->meta->$key)) {
+            if (isset($this->meta()->get()->$key)) {
                 return $this->meta->$key;
             }
         } elseif (isset($this->$key) and empty($this->$key)) {
