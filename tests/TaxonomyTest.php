@@ -16,4 +16,13 @@ class TaxonomyTest extends PHPUnit_Framework_TestCase
         $post = $cat->posts()->first();
         $this->assertEquals('hello-world', $post->post_name);
     }
+
+    public function testPostKeywords()
+    {
+        $post = Post::find(16);
+        $this->assertTrue(count($post->keywords) > 0);
+
+        $post = Post::find(2);
+        $this->assertTrue(count($post->keywords) == 0);
+    }
 }
