@@ -199,7 +199,7 @@ class Post extends Model
             return $value;
         }
 
-        if (!isset($this->$key)) {
+        if (!property_exists($this, $key)) {
             if (isset($this->meta->$key)) {
                 return $this->meta->$key;
             }
@@ -484,7 +484,7 @@ class Post extends Model
      */
     public function getKeywordsStrAttribute()
     {
-        return implode(',', $this->keywords);
+        return implode(',', (array) $this->keywords);
     }
 
     /**

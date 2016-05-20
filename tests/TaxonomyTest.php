@@ -25,4 +25,10 @@ class TaxonomyTest extends PHPUnit_Framework_TestCase
         $post = Post::find(2);
         $this->assertTrue(count($post->keywords) == 0);
     }
+
+    public function testPageToArray()
+    {
+        $page = Page::find(2)->toArray();
+        $this->assertTrue(is_array($page));
+    }
 }
