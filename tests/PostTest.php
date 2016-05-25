@@ -52,6 +52,35 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($post->post_status, $post->status);
     }
 
+    public function testNewPostAccessors()
+    {
+        $values = [
+            'post_title' => 'test',
+            'post_content' => 'test utf8 é à',
+            'post_excerpt' => 'test chinese characters お問い合わせ',
+        ];
+
+        $post = new Post();
+        foreach($values as $k => $v) {
+            $post->{$k} = $v;
+        }
+        $post->save();
+        $postID = $post->ID;
+
+
+        $post = Post::find($postID);
+        foreach($values as $k => $v) {
+            $this->assertEquals($post->{$k}, $v);
+
+            $accessorName = substr($k, strlen('post_'));
+            $this->assertEquals($post->{$accessorName}, $v);
+        }
+        $post->delete();
+
+        $post = Post::find($postID);
+        $this->assertEquals($post, null);
+    }
+
     public function testPostCustomFields()
     {
         $post = Post::find(2);
