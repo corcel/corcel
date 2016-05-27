@@ -200,7 +200,7 @@ class Post extends Model
         }
 
         if (!property_exists($this, $key)) {
-            if (isset($this->meta->$key)) {
+            if (property_exists($this, $this->primaryKey) && isset($this->meta->$key)) {
                 return $this->meta->$key;
             }
         } elseif (isset($this->$key) and empty($this->$key)) {
