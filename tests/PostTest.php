@@ -61,7 +61,7 @@ class PostTest extends PHPUnit_Framework_TestCase
         ];
 
         $post = new Post();
-        foreach($values as $k => $v) {
+        foreach ($values as $k => $v) {
             $post->{$k} = $v;
         }
         $post->save();
@@ -69,7 +69,7 @@ class PostTest extends PHPUnit_Framework_TestCase
 
 
         $post = Post::find($postID);
-        foreach($values as $k => $v) {
+        foreach ($values as $k => $v) {
             $this->assertEquals($post->{$k}, $v);
 
             $accessorName = substr($k, strlen('post_'));
@@ -211,5 +211,17 @@ class PostTest extends PHPUnit_Framework_TestCase
         $postType = 'video';
         $post = new Post(['post_type' => $postType]);
         $this->assertEquals($postType, $post->post_type);
+    }
+
+    /**
+     * This tests to ensure that when the post_parent is 0, it returns 0 and not null
+     * Ocde in the Post::_get() method only checked if the value was false, and so
+     * wouldn't return values from the model that were false (like 0)
+     */
+    public function testPostParentDoesNotReturnNullWhenItIsZero()
+    {
+        $post = Post::find(1);
+
+        $this->assertNotNull($post->post_parent);
     }
 }

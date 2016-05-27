@@ -195,7 +195,7 @@ class Post extends Model
      */
     public function __get($key)
     {
-        if ($value = parent::__get($key)) {
+        if (($value = parent::__get($key)) !== null) {
             return $value;
         }
 
