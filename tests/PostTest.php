@@ -61,7 +61,7 @@ class PostTest extends PHPUnit_Framework_TestCase
         ];
 
         $post = new Post();
-        foreach($values as $k => $v) {
+        foreach ($values as $k => $v) {
             $post->{$k} = $v;
         }
         $post->save();
@@ -69,7 +69,7 @@ class PostTest extends PHPUnit_Framework_TestCase
 
 
         $post = Post::find($postID);
-        foreach($values as $k => $v) {
+        foreach ($values as $k => $v) {
             $this->assertEquals($post->{$k}, $v);
 
             $accessorName = substr($k, strlen('post_'));
