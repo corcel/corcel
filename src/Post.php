@@ -195,12 +195,12 @@ class Post extends Model
      */
     public function __get($key)
     {
-        if ($value = parent::__get($key)) {
+        if (($value = parent::__get($key)) !== null) {
             return $value;
         }
 
         if (!property_exists($this, $key)) {
-            if (isset($this->meta->$key)) {
+            if (property_exists($this, $this->primaryKey) && isset($this->meta->$key)) {
                 return $this->meta->$key;
             }
         } elseif (isset($this->$key) and empty($this->$key)) {
