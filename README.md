@@ -19,14 +19,6 @@ To install Corcel, just run the following command:
 composer require jgrossi/corcel
 ```
 
-Or you can include Corcel inside `composer.json`, run `composer install` and wait the installation process.
-
-```
-    "require": {
-        "jgrossi/corcel": "~1.0.0"
-    },
-```
-
 ## Usage
 
 ### I'm using Laravel
@@ -216,6 +208,22 @@ $videos = Post::type('video')->status('publish')->get();
 You can also do this for inbuilt classes, such as Page or Post. Simply register the Page or Post class with the associated post type string, and that object will be returned instead of the default one.
 
 This is particular useful when you are intending to get a Collection of Posts of different types (e.g. when fetching the posts defined in a menu). 
+
+### Shortcodes
+
+You can add [shortcodes](https://codex.wordpress.org/Shortcode_API) by calling the `addShortcode` method on the `Post` model :
+
+```php
+Post::addShortcode('gallery', function ($shortcode) {
+    return $shortcode->getName() . '.' . $s->getParameter('id');
+});
+$postWithShortcodes = Post::find(1);
+echo $postWithShortcodes->content;
+```
+
+The library used to parse the shortcodes is [thunderer/shortcode](https://github.com/thunderer/Shortcode).
+
+If you are using Laravel, we suggest adding your shortcodes handlers in `App\\Providers\\AppServiceProvider`, in the `boot` method.
 
 ### Taxonomies
 

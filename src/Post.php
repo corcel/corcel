@@ -10,6 +10,7 @@ namespace Corcel;
 use Corcel\Traits\CreatedAtTrait;
 use Corcel\Traits\UpdatedAtTrait;
 use Illuminate\Support\Facades\DB;
+use Thunder\Shortcode\ShortcodeFacade;
 
 class Post extends Model
 {
@@ -20,6 +21,7 @@ class Post extends Model
 
     /** @var array */
     protected static $postTypes = [];
+    protected static $shortcodes = [];
 
     protected $table = 'posts';
     protected $primaryKey = 'ID';
@@ -312,7 +314,16 @@ class Post extends Model
      */
     public function getContentAttribute()
     {
-        return $this->post_content;
+        if (empty(self::$shortcodes)) {
+            return $this->post_content;
+        }
+
+        $facade = new ShortcodeFacade();
+        foreach (self::$shortcodes as $tag => $func) {
+            $facade->addHandler($tag, $func);
+        }
+
+        return $facade->process($this->post_content);
     }
 
     /**
@@ -544,5 +555,17 @@ class Post extends Model
     public static function clearRegisteredPostTypes()
     {
         static::$postTypes = [];
+    }
+
+    public static function addShortcode($tag, $function)
+    {
+        self::$shortcodes[$tag] = $function;
+    }
+
+    public static function removeShortcode($tag)
+    {
+        if (isset(self::$shortcodes[$tag])) {
+            unset(self::$shortcodes[$tag]);
+        }
     }
 }

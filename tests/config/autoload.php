@@ -2,14 +2,14 @@
 
 $capsule = \Corcel\Database::connect($params = [
     'database' => 'corcel',
-    'username' => 'root',
-    'password' => '',
-    'host' => '127.0.0.1',
+    'username' => 'ssense',
+    'password' => 'ssensesql',
+    'host' => '4.4.4.17',
 ]);
 
 $capsule->addConnection(array_merge($params, [
     'driver' => 'mysql',
-    'host' => 'localhost',
+    'host' => '4.4.4.17',
     'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci',
     'prefix' => '',

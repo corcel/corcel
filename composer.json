@@ -16,7 +16,8 @@
         "illuminate/database": ">=5.0.0",
         "illuminate/contracts": ">=5.0.0",
         "illuminate/support": ">=5.0.0",
-        "hautelook/phpass": "0.3.4"
+        "hautelook/phpass": "0.3.4",
+        "thunderer/shortcode": "^0.6.2"
     },
     "require-dev": {
         "phpunit/phpunit": "4.2.2"
