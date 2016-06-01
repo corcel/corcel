@@ -2,6 +2,7 @@
 
 use Corcel\Post;
 use Corcel\Page;
+use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 class PostTest extends PHPUnit_Framework_TestCase
 {
@@ -223,5 +224,34 @@ class PostTest extends PHPUnit_Framework_TestCase
         $post = Post::find(1);
 
         $this->assertNotNull($post->post_parent);
+    }
+
+    public function testAddShortcode()
+    {
+        Post::addShortcode('gallery', function (ShortcodeInterface $s) {
+            return $s->getName() . '.' . $s->getParameter('id') . '.' . $s->getParameter('size');
+        });
+
+        $post = Post::find(123);
+
+        $this->assertEquals($post->content, 'test gallery.123.medium shortcodes');
+    }
+
+
+    public function testMultipleShortcodes()
+    {
+        $post = Post::find(125);
+
+        $this->assertEquals($post->content, '1~gallery.1.small2~gallery.2.medium');
+    }
+
+
+    public function testRemoveShortcode()
+    {
+        Post::removeShortcode('gallery');
+
+        $post = Post::find(123);
+
+        $this->assertEquals($post->content, 'test [gallery id="123" size="medium"] shortcodes');
     }
 }
