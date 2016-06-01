@@ -224,11 +224,7 @@ echo $post->content;
 
 If you are using Laravel, we suggest adding your shortcodes handlers in `App\Providers\AppServiceProvider`, in the `boot` method.
 
-We use the *thunderer/shortcode* library to parse the shortcodes.
-
-For more information, [click here](https://github.com/thunderer/Shortcode).
-
-
+The [*thunderer/shortcode*](https://github.com/thunderer/Shortcode) library is used parse the shortcodes.  For more information, [click here](https://github.com/thunderer/Shortcode).
 
 ### Taxonomies
 
