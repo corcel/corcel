@@ -581,11 +581,12 @@ class Post extends Model
 
     /**
      * Process the shortcodes
-     * 
+     *
      * @param string $content the content
      * @return string
      */
-    public function stripShortcodes($content) {
+    public function stripShortcodes($content)
+    {
         $facade = new ShortcodeFacade();
         foreach (self::$shortcodes as $tag => $func) {
             $facade->addHandler($tag, $func);
