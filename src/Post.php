@@ -318,12 +318,7 @@ class Post extends Model
             return $this->post_content;
         }
 
-        $facade = new ShortcodeFacade();
-        foreach (self::$shortcodes as $tag => $func) {
-            $facade->addHandler($tag, $func);
-        }
-
-        return $facade->process($this->post_content);
+        return $this->stripShortcodes($this->post_content);
     }
 
     /**
@@ -403,7 +398,11 @@ class Post extends Model
      */
     public function getExcerptAttribute()
     {
-        return $this->post_excerpt;
+        if (empty(self::$shortcodes)) {
+            return $this->post_excerpt;
+        }
+
+        return $this->stripShortcodes($this->post_excerpt);
     }
 
     /**
@@ -557,15 +556,41 @@ class Post extends Model
         static::$postTypes = [];
     }
 
+    /**
+     * Add a shortcode handler
+     *
+     * @param string $tag the shortcode tag
+     * @param function $function the shortcode handling function
+     */
     public static function addShortcode($tag, $function)
     {
         self::$shortcodes[$tag] = $function;
     }
 
+    /**
+     * Removes a shortcode handler
+     *
+     * @param string $tag the shortcode tag
+     */
     public static function removeShortcode($tag)
     {
         if (isset(self::$shortcodes[$tag])) {
             unset(self::$shortcodes[$tag]);
         }
+    }
+
+    /**
+     * Process the shortcodes
+     * 
+     * @param string $content the content
+     * @return string
+     */
+    public function stripShortcodes($content) {
+        $facade = new ShortcodeFacade();
+        foreach (self::$shortcodes as $tag => $func) {
+            $facade->addHandler($tag, $func);
+        }
+
+        return $facade->process($content);
     }
 }

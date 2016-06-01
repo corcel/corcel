@@ -214,16 +214,21 @@ This is particular useful when you are intending to get a Collection of Posts of
 You can add [shortcodes](https://codex.wordpress.org/Shortcode_API) by calling the `addShortcode` method on the `Post` model :
 
 ```php
+// [gallery id="1"]
 Post::addShortcode('gallery', function ($shortcode) {
-    return $shortcode->getName() . '.' . $s->getParameter('id');
+    return $shortcode->getName() . '.' . $shortcode->getParameter('id');
 });
-$postWithShortcodes = Post::find(1);
-echo $postWithShortcodes->content;
+$post = Post::find(1);
+echo $post->content;
 ```
 
-The library used to parse the shortcodes is [thunderer/shortcode](https://github.com/thunderer/Shortcode).
+If you are using Laravel, we suggest adding your shortcodes handlers in `App\Providers\AppServiceProvider`, in the `boot` method.
 
-If you are using Laravel, we suggest adding your shortcodes handlers in `App\\Providers\\AppServiceProvider`, in the `boot` method.
+We use the *thunderer/shortcode* library to parse the shortcodes.
+
+For more information, [click here](https://github.com/thunderer/Shortcode).
+
+
 
 ### Taxonomies
 
