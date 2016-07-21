@@ -19,7 +19,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         \Auth::provider('corcel', function ($app, array $config) {
-            return new AuthUserProvider();
+            return new AuthUserProvider($config);
         });
     }
 

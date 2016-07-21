@@ -18,7 +18,7 @@ trait ResetsPasswords
     {
         $passwordService = new PasswordService;
 
-        $user->user_pass = $passwordService->wp_hash_password($password);
+        $user->user_pass = $passwordService->makeHash($password);
 
         $user->save();
 
