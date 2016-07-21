@@ -12,6 +12,12 @@ use Corcel\User;
  */
 class AuthUserProvider implements UserProvider
 {
+    protected $config = null;
+
+    public function __construct($config) {
+        $this->config = $config;
+    }
+
     /**
      * Retrieve a user by their unique identifier.
      *
@@ -20,7 +26,7 @@ class AuthUserProvider implements UserProvider
      */
     public function retrieveById($identifier)
     {
-        return User::where('ID', $identifier)->first();
+        return $this->createModel()->newQuery()->where('ID', $identifier)->first();
     }
 
     /**
@@ -32,7 +38,7 @@ class AuthUserProvider implements UserProvider
      */
     public function retrieveByToken($identifier, $token)
     {
-        return User::whereId($identifier)->hasMeta('remember_token', $token)->first();
+        return $this->createModel()->newQuery()->whereId($identifier)->hasMeta('remember_token', $token)->first();
     }
 
     /**
@@ -59,9 +65,9 @@ class AuthUserProvider implements UserProvider
         $user = null;
 
         if (isset($credentials['username'])) {
-            $user = User::whereUserLogin($credentials['username'])->first();
+            $user = $this->createModel()->newQuery()->whereUserLogin($credentials['username'])->first();
         } elseif (isset($credentials['email'])) {
-            $user = User::whereUserEmail($credentials['email'])->first();
+            $user = $this->createModel()->newQuery()->whereUserEmail($credentials['email'])->first();
         }
 
         return $user;
@@ -83,5 +89,20 @@ class AuthUserProvider implements UserProvider
         $passwordService = new PasswordService;
 
         return $passwordService->check($credentials['password'], $user->user_pass);
+    }
+
+    /**
+     * Create a new instance of the model.
+     *
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    protected function createModel()
+    {
+        if ($this->config && isset($this->config['model'])) {
+            $class = '\\'.ltrim($this->config['model'], '\\');
+            return new $class;
+        }
+
+        return new User;
     }
 }

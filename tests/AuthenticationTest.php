@@ -25,7 +25,7 @@ class AuthenticationTest extends PHPUnit_Framework_TestCase
 
     public function testUserProvider()
     {
-        $userProvider = new AuthUserProvider();
+        $userProvider = new AuthUserProvider(null);
         $passwordService = new PasswordService;
 
         $user = new User;

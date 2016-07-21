@@ -12,6 +12,9 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
  */
 class Options extends Eloquent
 {
+    const CREATED_AT = null;
+    const UPDATED_AT = null;
+    
     /**
      * The database table used by the model.
      *
