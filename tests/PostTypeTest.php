@@ -6,7 +6,6 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 class Video extends Post
 {
-
 }
 
 class PostTypeTest extends PHPUnit_Framework_TestCase
