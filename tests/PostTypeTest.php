@@ -4,7 +4,8 @@ use Corcel\Post;
 use Corcel\Page;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
-class Video extends Post {
+class Video extends Post
+{
 
 }
 

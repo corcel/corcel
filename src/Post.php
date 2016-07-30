@@ -515,7 +515,7 @@ class Post extends Model
     {
         if (is_object($attributes) && array_key_exists($attributes->post_type, static::$postTypes)) {
             $class = static::$postTypes[$attributes->post_type];
-        } else if (is_array($attributes) && array_key_exists($attributes['post_type'], static::$postTypes)) {
+        } elseif (is_array($attributes) && array_key_exists($attributes['post_type'], static::$postTypes)) {
             $class = static::$postTypes[$attributes['post_type']];
         } else {
             $class = get_called_class();
