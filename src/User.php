@@ -11,18 +11,46 @@ namespace Corcel;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 
+/**
+ * Class User
+ * @package Corcel
+ */
 class User extends Model implements Authenticatable, CanResetPassword
 {
+    /**
+     *
+     */
     const CREATED_AT = 'user_registered';
+    /**
+     *
+     */
     const UPDATED_AT = null;
 
+    /**
+     * @var string
+     */
     protected $table = 'users';
+    /**
+     * @var string
+     */
     protected $primaryKey = 'ID';
+    /**
+     * @var array
+     */
     protected $hidden = ['user_pass'];
+    /**
+     * @var array
+     */
     protected $dates = ['user_registered'];
-    protected $with = ['meta'];
+    /**
+     * @var array
+     */
+    protected $with = array('meta');
 
     // Disable updated_at
+    /**
+     * @param $value
+     */
     public function setUpdatedAtAttribute($value)
     {
     }
@@ -54,6 +82,9 @@ class User extends Model implements Authenticatable, CanResetPassword
         return $this->hasMany('Corcel\UserMeta', 'user_id');
     }
 
+    /**
+     * @return Corcel\UserMetaCollection
+     */
     public function fields()
     {
         return $this->meta();
@@ -104,18 +135,20 @@ class User extends Model implements Authenticatable, CanResetPassword
      */
     public function __get($key)
     {
-        if ($value = parent::__get($key)) {
-            return $value;
-        }
-
         if (!isset($this->$key)) {
-            if (isset($this->meta->$key)) {
-                return $this->meta->$key;
+            if (isset($this->meta()->get()->$key)) {
+                return $this->meta()->get()->$key;
             }
         }
+
+        return parent::__get($key);
     }
 
-    public function save(array $options = [])
+    /**
+     * @param array $options
+     * @return bool
+     */
+    public function save(array $options = array())
     {
         if (isset($this->attributes[$this->primaryKey])) {
             $this->meta->save($this->attributes[$this->primaryKey]);
@@ -284,5 +317,15 @@ class User extends Model implements Authenticatable, CanResetPassword
     public function getEmailForPasswordReset()
     {
         return $this->user_email;
+    }
+
+    /**
+     * @param string $token
+     * @return string
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        //TODO: Improve the Token System
+        return $token;
     }
 }
