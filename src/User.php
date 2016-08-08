@@ -285,4 +285,14 @@ class User extends Model implements Authenticatable, CanResetPassword
     {
         return $this->user_email;
     }
+    
+    /**
+     * @param string $token
+     * @return string
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        //TODO: Improve the Token System
+        return $token;
+    }
 }
