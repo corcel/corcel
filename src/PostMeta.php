@@ -55,7 +55,7 @@ class PostMeta extends Model
 
             if ($value !== false) {
                 return (($value === false && $this->meta_value !== false) ? $this->meta_value : $value);
-            }else{
+            } else {
                 return $this->meta_value;
             }
         } catch (Exception $ex) {
