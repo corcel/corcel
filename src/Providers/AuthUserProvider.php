@@ -14,7 +14,8 @@ class AuthUserProvider implements UserProvider
 {
     protected $config = null;
 
-    public function __construct($config) {
+    public function __construct($config)
+    {
         $this->config = $config;
     }
 
