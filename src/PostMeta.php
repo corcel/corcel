@@ -5,7 +5,9 @@
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 namespace Corcel;
+
 use Exception;
+
 class PostMeta extends Model
 {
     protected $table = 'postmeta';
