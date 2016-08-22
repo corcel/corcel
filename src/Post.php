@@ -10,6 +10,7 @@ namespace Corcel;
 use Corcel\Traits\CreatedAtTrait;
 use Corcel\Traits\UpdatedAtTrait;
 use Illuminate\Support\Facades\DB;
+use Taxonomy;
 use Thunder\Shortcode\ShortcodeFacade;
 
 class Post extends Model
@@ -595,5 +596,19 @@ class Post extends Model
         }
 
         return $facade->process($content);
+    }
+
+    /**
+     * Get the post format, like the WP get_post_format() function
+     *
+     * @return bool|string
+     */
+    public function getFormat()
+    {
+        $taxonomy = $this->taxonomies()->where('taxonomy', 'post_format')->first();
+        if ($taxonomy and $taxonomy->term) {
+            return str_replace('post-format-', '', $taxonomy->term->slug);
+        }
+        return false;
     }
 }
