@@ -254,4 +254,12 @@ class PostTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($post->content, 'test [gallery id="123" size="medium"] shortcodes');
     }
+
+    public function testPostFormat()
+    {
+        $post = Post::find(3);
+        $this->assertEquals('video', $post->getFormat());
+        $post = Post::find(1);
+        $this->assertFalse($post->getFormat());
+    }
 }
