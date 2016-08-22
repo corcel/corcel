@@ -495,7 +495,7 @@ class Post extends Model
      */
     public function getKeywordsStrAttribute()
     {
-        return implode(',', (array) $this->keywords);
+        return implode(',', (array)$this->keywords);
     }
 
     /**
