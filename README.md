@@ -242,6 +242,14 @@ Or you can search for posts using its taxonomies:
 $post = Post::taxonomy('category', 'php')->first();
 ```
 
+### Post Format
+
+You can also get the post format, like the WordPress function `get_post_format()`:
+
+```php
+echo $post->getFormat(); // should return something like 'video', etc
+```
+
 ### Pages
 
 Pages are like custom post types. You can use `Post::type('page')` or the `Page` class.
