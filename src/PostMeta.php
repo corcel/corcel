@@ -47,15 +47,19 @@ class PostMeta extends Model
      */
     public function getValueAttribute()
     {
-        try {
-            $value = unserialize($this->meta_value);
-            // if we get false, but the original value is not false then something has gone wrong.
-            // return the meta_value as is instead of unserializing
-            // added this to handle cases where unserialize doesn't throw an error that is catchable
-            return $value === false && $this->meta_value !== false ? $this->meta_value : $value;
-        } catch (Exception $ex) {
-            return $this->meta_value;
+        if ($this->is_serialized($this->meta_value) === TRUE) {
+            try {
+                $value = unserialize($this->meta_value);
+                // if we get false, but the original value is not false then something has gone wrong.
+                // return the meta_value as is instead of unserializing
+                // added this to handle cases where unserialize doesn't throw an error that is catchable
+                return $value === false && $this->meta_value !== false ? $this->meta_value : $value;
+            } catch (Exception $ex) {
+                return $this->meta_value;
+            }
         }
+
+        return $this->meta_value;
     }
 
     /**
@@ -89,5 +93,52 @@ class PostMeta extends Model
     public function newCollection(array $models = [])
     {
         return new PostMetaCollection($models);
+    }
+    
+    /**
+     * Check whether string is serialized data
+     *
+     * @since 2.0.5
+     *
+     * @param string $data Serialized data
+     * @return bool False if not a serialized string, true if it is.
+     */
+    private function is_serialized($data)
+    {
+        // if it isn't a string, it isn't serialized
+        if (!is_string($data)) {
+            return false;
+        }
+
+        $data = trim($data);
+
+        if ($data == 'N;') {
+            return true;
+        }
+
+        if (!preg_match( '/^([adObis]):/', $data, $badions)) {
+            return false;
+        }
+
+        switch ($badions[1]) {
+            case 'a' :
+            case 'O' :
+            case 's' :
+                if (preg_match( "/^{$badions[1]}:[0-9]+:.*[;}]\$/s", $data))
+                {
+                    return true;
+                }
+                break;
+            case 'b' :
+            case 'i' :
+            case 'd' :
+                if (preg_match( "/^{$badions[1]}:[0-9.E-]+;\$/", $data))
+                {
+                    return true;
+                }
+                break;
+        }
+
+        return false;
     }
 }
