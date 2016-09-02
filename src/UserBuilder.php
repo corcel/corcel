@@ -35,7 +35,7 @@ class UserBuilder extends Builder
      */
     public function hasMeta($metaKey, $metaValue)
     {
-        return $this->whereHas('meta', function($query) use($metaKey, $metaValue) {
+        return $this->whereHas('meta', function ($query) use ($metaKey, $metaValue) {
             $query->where('meta_key', $metaKey)
                 ->where('meta_value', $metaValue)
             ;
