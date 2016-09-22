@@ -74,4 +74,23 @@ class UserTest extends PHPUnit_Framework_TestCase
             $this->assertEquals('no_prefix', $meta->getConnection()->getName());
         });
     }
+
+    public function testUserHasMeta()
+    {
+        $adm = (new User())->newQuery()
+            ->where('id', 1)
+            ->hasMeta('nickname', 'adm')
+            ->first()
+        ;
+
+        $this->assertEmpty($adm);
+
+        $admin = (new User())->newQuery()
+            ->where('id', 1)
+            ->hasMeta('nickname', 'admin')
+            ->first()
+        ;
+        
+        $this->assertNotEmpty($admin);
+    }
 }
