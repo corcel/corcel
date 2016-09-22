@@ -25,4 +25,20 @@ class UserBuilder extends Builder
 
         return $this->skip($skip)->take($perPage)->get();
     }
+
+    /**
+     * Add nested meta exists conditions to the query.
+     *
+     * @param string $metaKey
+     * @param string $metaValue
+     * @return UserBuilder|static
+     */
+    public function hasMeta($metaKey, $metaValue)
+    {
+        return $this->whereHas('meta', function ($query) use ($metaKey, $metaValue) {
+            $query->where('meta_key', $metaKey)
+                ->where('meta_value', $metaValue)
+            ;
+        });
+    }
 }
