@@ -263,10 +263,15 @@ class Post extends Model
         if ($value) {
             $metas = $metas->where('meta_value', $value);
         }
+        
+        $metas = $metas->get();
+        if ($metas instanceof \Illuminate\Support\Collection) {
+            return $query->whereIn('ID', $metas->pluck('post_id')->all());
+        }
 
         $posts = array_map(function ($meta) {
             return $meta->post_id;
-        }, $metas->get());
+        }, $metas);
 
         return $query->whereIn('ID', $posts);
     }
