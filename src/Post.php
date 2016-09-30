@@ -265,7 +265,7 @@ class Post extends Model
         }
         
         $metas = $metas->get();
-        if($metas instanceof \Illuminate\Support\Collection) {
+        if ($metas instanceof \Illuminate\Support\Collection) {
             return $query->whereIn('ID', $metas->pluck('post_id')->all());
         }
 
