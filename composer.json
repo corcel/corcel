@@ -12,10 +12,10 @@
         }
     ],
     "require": {
-        "php":  ">=5.5.9",
-        "illuminate/database": "~5.2.0",
-        "illuminate/contracts": "~5.2.0",
-        "illuminate/support": "~5.2.0",
+        "php":  ">=5.6.4",
+        "illuminate/database": "~5.3.0",
+        "illuminate/contracts": "~5.3.0",
+        "illuminate/support": "~5.3.0",
         "hautelook/phpass": "0.3.4",
         "thunderer/shortcode": "^0.6.2"
     },
