@@ -9,8 +9,6 @@ namespace Corcel;
 
 use Corcel\Traits\CreatedAtTrait;
 use Corcel\Traits\UpdatedAtTrait;
-use Illuminate\Support\Facades\DB;
-use Taxonomy;
 use Thunder\Shortcode\ShortcodeFacade;
 
 class Post extends Model
@@ -257,23 +255,9 @@ class Post extends Model
      */
     public function scopeHasMeta($query, $meta, $value = null)
     {
-        $metas = DB::connection($this->getConnection()->getName())
-            ->table('postmeta')->where('meta_key', $meta);
-
-        if ($value) {
-            $metas = $metas->where('meta_value', $value);
-        }
-        
-        $metas = $metas->get();
-        if ($metas instanceof \Illuminate\Support\Collection) {
-            return $query->whereIn('ID', $metas->pluck('post_id')->all());
-        }
-
-        $posts = array_map(function ($meta) {
-            return $meta->post_id;
-        }, $metas);
-
-        return $query->whereIn('ID', $posts);
+        return $query->whereHas('meta', function($query) use($meta, $value) {
+            $query->where('meta_key', $meta)->where('meta_value', $value);
+        });
     }
 
     /**
