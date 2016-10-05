@@ -7,6 +7,8 @@ Corcel
 [![Packagist](https://img.shields.io/packagist/v/jgrossi/corcel.svg)](https://github.com/jgrossi/corcel/releases)
 [![Packagist](https://img.shields.io/packagist/dt/jgrossi/corcel.svg)](https://packagist.org/packages/jgrossi/corcel)
 
+[Follow @corcelphp on Twitter](https://twitter.com/corcelphp)
+
 Corcel is a class collection created to retrieve WordPress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project, with any framework, including Laravel.
 
 This way, you can use WordPress as the backend (admin panel), to insert posts, custom types, etc, and you can use whatever you want in the frontend, like Silex, Slim Framework, Laravel, Zend, or even pure PHP (why not?). So, just use Corcel to retrieve data from WordPress.
