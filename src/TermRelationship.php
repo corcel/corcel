@@ -2,6 +2,12 @@
 
 namespace Corcel;
 
+/**
+ * Class TermRelationship
+ *
+ * @package Corcel
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class TermRelationship extends Model
 {
     protected $table = 'term_relationships';
