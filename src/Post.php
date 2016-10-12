@@ -256,7 +256,10 @@ class Post extends Model
     public function scopeHasMeta($query, $meta, $value = null)
     {
         return $query->whereHas('meta', function ($query) use ($meta, $value) {
-            $query->where('meta_key', $meta)->where('meta_value', $value);
+            $query->where('meta_key', $meta);
+            if (!is_null($value)) {
+                $query->where('meta_value', $value);
+            }
         });
     }
 
