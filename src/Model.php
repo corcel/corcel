@@ -31,7 +31,11 @@ class Model extends Eloquent
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
         $instance = new $related();
-        $instance->setConnection($this->getConnection()->getName());
+        if ($instance instanceof Model) {
+            $instance->setConnection($this->getConnection()->getName());
+        } else {
+            $instance->setConnection($instance->getConnection()->getName());
+        }
 
         $localKey = $localKey ?: $this->getKeyName();
 
@@ -50,8 +54,12 @@ class Model extends Eloquent
     {
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
-        $instance = new $related;
-        $instance->setConnection($this->getConnection()->getName());
+        $instance = new $related();
+        if ($instance instanceof Model) {
+            $instance->setConnection($this->getConnection()->getName());
+        } else {
+            $instance->setConnection($instance->getConnection()->getName());
+        }
 
         $localKey = $localKey ?: $this->getKeyName();
 
@@ -80,7 +88,11 @@ class Model extends Eloquent
         }
 
         $instance = new $related();
-        $instance->setConnection($this->getConnection()->getName());
+        if ($instance instanceof Model) {
+            $instance->setConnection($this->getConnection()->getName());
+        } else {
+            $instance->setConnection($instance->getConnection()->getName());
+        }
 
         $query = $instance->newQuery();
 
@@ -108,7 +120,11 @@ class Model extends Eloquent
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
         $instance = new $related();
-        $instance->setConnection($this->getConnection()->getName());
+        if ($instance instanceof Model) {
+            $instance->setConnection($this->getConnection()->getName());
+        } else {
+            $instance->setConnection($instance->getConnection()->getName());
+        }
 
         $otherKey = $otherKey ?: $instance->getForeignKey();
 
