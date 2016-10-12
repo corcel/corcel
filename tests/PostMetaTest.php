@@ -57,4 +57,10 @@ class PostMetaTest extends PHPUnit_Framework_TestCase
         $this->assertContains('hoodie_6_front.jpg', $post->image);
         $this->assertContains('/uploads/', $post->image);
     }
+
+    public function testQueryPostByMeta()
+    {
+        $post = Post::hasMeta('username', 'juniorgrossi')->first();
+        $this->assertEquals(1, $post->ID);
+    }
 }
