@@ -161,6 +161,16 @@ $post->meta->url = 'http://grossi.io';
 $post->save();
 ```
 
+#### Advanced Custom Fields (ACF)
+
+If you want to retrieve a custom field created by the [Advanced Custom Fields (ACF)](http://advancedcustomfields.com) plugin, you have to install the [`corcel/acf`](http://github.com/corcel/acf) plugin and call the custom field like this:
+
+```php
+$post = Post::find(123);
+echo $post->acf->some_radio_field;
+$repeaterFields = $post->acf->my_repeater_name;
+```
+
 ### Custom Post Type
 
 You can work with custom post types too. You can use the `type(string)` method or create your own class.
