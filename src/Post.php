@@ -7,8 +7,10 @@
  */
 namespace Corcel;
 
+use Corcel\Acf\AdvancedCustomFields;
 use Corcel\Traits\CreatedAtTrait;
 use Corcel\Traits\UpdatedAtTrait;
+use Illuminate\Support\Facades\Broadcast;
 use Thunder\Shortcode\ShortcodeFacade;
 
 class Post extends Model
@@ -488,6 +490,14 @@ class Post extends Model
     public function getKeywordsStrAttribute()
     {
         return implode(',', (array)$this->keywords);
+    }
+
+    /**
+     * @return AdvancedCustomFields
+     */
+    public function getAcfAttribute()
+    {
+        return new AdvancedCustomFields($this);
     }
 
     /**
