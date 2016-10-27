@@ -3,9 +3,9 @@ Corcel
 
 > This package allows you to use WordPress as backend (admin panel) and retrieve its data using Eloquent, with any PHP project or even framework.
 
-[![Travis](https://travis-ci.org/jgrossi/corcel.svg?branch=dev)](https://travis-ci.org/jgrossi/corcel?branch=dev)
-[![Packagist](https://img.shields.io/packagist/v/jgrossi/corcel.svg)](https://github.com/jgrossi/corcel/releases)
-[![Packagist](https://img.shields.io/packagist/dt/jgrossi/corcel.svg)](https://packagist.org/packages/jgrossi/corcel)
+[![Travis](https://travis-ci.org/corcel/corcel.svg?branch=dev)](https://travis-ci.org/corcel/corcel?branch=dev)
+[![Packagist](https://img.shields.io/packagist/v/corcel/corcel.svg)](https://github.com/corcel/corcel/releases)
+[![Packagist](https://img.shields.io/packagist/dt/corcel/corcel.svg)](https://packagist.org/packages/corcel/corcel)
 
 [Follow @corcelphp on Twitter](https://twitter.com/corcelphp)
 
@@ -18,7 +18,7 @@ This way, you can use WordPress as the backend (admin panel), to insert posts, c
 To install Corcel, just run the following command:
 
 ```
-composer require jgrossi/corcel
+composer require corcel/corcel
 ```
 
 ## Usage
