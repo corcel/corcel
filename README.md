@@ -18,7 +18,7 @@ This way, you can use WordPress as the backend (admin panel), to insert posts, c
 To install Corcel, just run the following command:
 
 ```
-composer require jgrossi/corcel
+composer require corcel/corcel
 ```
 
 ## Usage
