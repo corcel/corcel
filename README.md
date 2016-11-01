@@ -4,8 +4,8 @@ Corcel
 > This package allows you to use WordPress as backend (admin panel) and retrieve its data using Eloquent, with any PHP project or even framework.
 
 [![Travis](https://travis-ci.org/corcel/corcel.svg?branch=dev)](https://travis-ci.org/corcel/corcel?branch=dev)
-[![Packagist](https://img.shields.io/packagist/v/jgrossi/corcel.svg)](https://github.com/jgrossi/corcel/releases)
-[![Packagist](https://img.shields.io/packagist/dt/jgrossi/corcel.svg)](https://packagist.org/packages/jgrossi/corcel)
+[![Packagist](https://img.shields.io/packagist/v/jgrossi/corcel.svg)](https://packagist.org/packages/jgrossi/corcel)
+[![Packagist](https://img.shields.io/packagist/dt/jgrossi/corcel.svg)](https://github.com/jgrossi/corcel/releases)
 
 [Follow @corcelphp on Twitter](https://twitter.com/corcelphp)
 
