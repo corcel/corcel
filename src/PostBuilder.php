@@ -55,6 +55,11 @@ class PostBuilder extends Builder
         return $this->whereIn('post_type', $type);
     }
 
+	/**
+	 * @param string $taxonomy
+	 * @param mixed $term
+	 * @return Builder|static
+	 */
     public function taxonomy($taxonomy, $term)
     {
         return $this->whereHas('taxonomies', function ($query) use ($taxonomy, $term) {
