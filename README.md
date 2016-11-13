@@ -171,6 +171,14 @@ echo $post->acf->some_radio_field;
 $repeaterFields = $post->acf->my_repeater_name;
 ```
 
+To avoid unnecessary SQL queries just set the field type you're requesting. Usually two SQL queries are necessary to get the field type, so if you want to specify it you're skipping those extra queries:
+
+```php
+$post = Post::find(123);
+echo $post->acf->text('text_field_name');
+echo $post->acf->boolean('boolean_field_name');
+```
+
 ### Custom Post Type
 
 You can work with custom post types too. You can use the `type(string)` method or create your own class.
