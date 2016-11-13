@@ -5,12 +5,12 @@
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
+
 namespace Corcel;
 
 use Corcel\Acf\AdvancedCustomFields;
 use Corcel\Traits\CreatedAtTrait;
 use Corcel\Traits\UpdatedAtTrait;
-use Illuminate\Support\Facades\Broadcast;
 use Thunder\Shortcode\ShortcodeFacade;
 
 class Post extends Model
@@ -36,7 +36,7 @@ class Post extends Model
         'post_type',
         'to_ping',
         'pinged',
-        'post_content_filtered'
+        'post_content_filtered',
     ];
 
     /**
@@ -95,7 +95,7 @@ class Post extends Model
     }
 
     /**
-     * Return the post thumbnail
+     * Return the post thumbnail.
      */
     public function thumbnail()
     {
@@ -489,7 +489,7 @@ class Post extends Model
      */
     public function getKeywordsStrAttribute()
     {
-        return implode(',', (array)$this->keywords);
+        return implode(',', (array) $this->keywords);
     }
 
     /**
@@ -501,7 +501,7 @@ class Post extends Model
     }
 
     /**
-     * Overrides default behaviour by instantiating class based on the $attributes->post_type value
+     * Overrides default behaviour by instantiating class based on the $attributes->post_type value.
      *
      * By default, this method will always return an instance of the calling class. However if post types have
      * been registered with the Post class using the registerPostType() static method, this will now return an
@@ -511,7 +511,8 @@ class Post extends Model
      * then the class instantiated will be the called class (the default behaviour of this method).
      *
      * @param array $attributes
-     * @param null $connection
+     * @param null  $connection
+     *
      * @return mixed
      */
     public function newFromBuilder($attributes = [], $connection = null)
@@ -527,15 +528,14 @@ class Post extends Model
         $model = new $class([]);
         $model->exists = true;
 
-        $model->setRawAttributes((array)$attributes, true);
+        $model->setRawAttributes((array) $attributes, true);
         $model->setConnection($connection ?: $this->connection);
 
         return $model;
     }
 
-
     /**
-     * Register your Post Type classes here to have them be instantiated instead of the standard Post model
+     * Register your Post Type classes here to have them be instantiated instead of the standard Post model.
      *
      * This method allows you to register classes that will be used for specific post types as defined in the post_type
      * column of the wp_posts table. If a post type is registered here, when a Post object is returned from the posts
@@ -545,7 +545,7 @@ class Post extends Model
      * its post_type has 'page', it will be returned as a Page instance, instead of the default and generic
      * Post instance.
      *
-     * @param string $name The name of the post type (e.g. 'post', 'page', 'custom_post_type')
+     * @param string $name  The name of the post type (e.g. 'post', 'page', 'custom_post_type')
      * @param string $class The class that represents the post type model (e.g. 'Post', 'Page', 'CustomPostType')
      */
     public static function registerPostType($name, $class)
@@ -554,7 +554,7 @@ class Post extends Model
     }
 
     /**
-     * Clears any registered post types
+     * Clears any registered post types.
      */
     public static function clearRegisteredPostTypes()
     {
@@ -562,9 +562,9 @@ class Post extends Model
     }
 
     /**
-     * Add a shortcode handler
+     * Add a shortcode handler.
      *
-     * @param string $tag the shortcode tag
+     * @param string   $tag      the shortcode tag
      * @param function $function the shortcode handling function
      */
     public static function addShortcode($tag, $function)
@@ -573,7 +573,7 @@ class Post extends Model
     }
 
     /**
-     * Removes a shortcode handler
+     * Removes a shortcode handler.
      *
      * @param string $tag the shortcode tag
      */
@@ -585,9 +585,10 @@ class Post extends Model
     }
 
     /**
-     * Process the shortcodes
+     * Process the shortcodes.
      *
      * @param string $content the content
+     *
      * @return string
      */
     public function stripShortcodes($content)
@@ -601,7 +602,7 @@ class Post extends Model
     }
 
     /**
-     * Get the post format, like the WP get_post_format() function
+     * Get the post format, like the WP get_post_format() function.
      *
      * @return bool|string
      */
@@ -611,6 +612,7 @@ class Post extends Model
         if ($taxonomy and $taxonomy->term) {
             return str_replace('post-format-', '', $taxonomy->term->slug);
         }
+
         return false;
     }
 }

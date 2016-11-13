@@ -3,9 +3,8 @@
 namespace Corcel;
 
 /**
- * Class Term
+ * Class Term.
  *
- * @package Corcel
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 class Term extends Model

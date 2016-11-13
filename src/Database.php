@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Corcel\Database
+ * Corcel\Database.
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
@@ -24,14 +24,15 @@ class Database
     ];
 
     /**
-     * Connect to the Wordpress database
+     * Connect to the Wordpress database.
      *
      * @param array $params
+     *
      * @return Illuminate\Database\Capsule\Manager
      */
     public static function connect(array $params)
     {
-        $capsule = new Capsule;
+        $capsule = new Capsule();
         $params = array_merge(static::$baseParams, $params);
         $capsule->addConnection($params);
         $capsule->bootEloquent();

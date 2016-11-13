@@ -1,7 +1,6 @@
 <?php
 
 use Corcel\Post;
-use Corcel\Page;
 use Corcel\PostMeta;
 
 class PostMetaTest extends PHPUnit_Framework_TestCase

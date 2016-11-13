@@ -6,7 +6,7 @@ class CommentTest extends PHPUnit_Framework_TestCase
 {
     public function testCommentConstructor()
     {
-        $comment = new Comment;
+        $comment = new Comment();
         $this->assertTrue($comment instanceof \Corcel\Comment);
     }
 
@@ -75,14 +75,14 @@ class CommentTest extends PHPUnit_Framework_TestCase
 
     public function testCommentEnforceConnection()
     {
-        $comment = new Comment;
+        $comment = new Comment();
         $comment->setConnection('no_prefix');
         $comment->comment_content = 'Test content';
         $comment->comment_author = 1;
         $comment->comment_post_ID = 2;
         $comment->save();
 
-        $post = new Post;
+        $post = new Post();
         $post->post_content = 'Test';
         $post->save();
 
