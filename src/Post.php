@@ -143,6 +143,16 @@ class Post extends Model
         return $this->belongsTo('Corcel\Post', 'post_parent');
     }
 
+    /*
+     * Post Children
+     *
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function children()
+    {
+        return $this->hasMany(__CLASS__, 'post_parent', 'ID');
+    }
+
     /**
      * Get attachment.
      *
