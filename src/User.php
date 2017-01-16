@@ -115,6 +115,23 @@ class User extends Model implements Authenticatable, CanResetPassword
         }
     }
 
+    public function __isset($key)
+    {
+        if (parent::__isset($key)) {
+            return true;
+        }
+
+        if (property_exists($this, $key)) {
+            return true;
+        }
+
+        if (property_exists($this, 'meta') && property_exists($this->meta, $key)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function save(array $options = [])
     {
         if (isset($this->attributes[$this->primaryKey])) {

@@ -237,6 +237,43 @@ class Post extends Model
         }
     }
 
+    public function __isset($key)
+    {
+        if (parent::__isset($key)) {
+            return true;
+        }
+
+        if (!property_exists($this, $key)) {
+            if (property_exists($this, $this->primaryKey) && isset($this->meta->$key)) {
+                return true;
+            }
+        } elseif (isset($this->$key) and empty($this->$key)) {
+            // fix for menu items when chosing category to show
+            if (in_array($key, ['post_title', 'post_name'])) {
+                $type = $this->meta->_menu_item_object;
+                $taxonomy = null;
+
+                // Support certain types of meta objects
+                if ($type == 'category' || $type == 'post_tag') {
+                    $taxonomy = $this->meta()->where('meta_key', '_menu_item_object_id')
+                        ->first()->taxonomy('meta_value')->first();
+                    if (!is_null($taxonomy) && $taxonomy->exists) {
+                        if ($key == 'post_title' || $key == 'post_name') {
+                            return true;
+                        }
+                    }
+                } elseif ($type == 'post') {
+                    $post = $this->meta()->where('meta_key', '_menu_item_object_id')
+                        ->first()->post(true)->first();
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public function save(array $options = [])
     {
         if (isset($this->attributes[$this->primaryKey])) {

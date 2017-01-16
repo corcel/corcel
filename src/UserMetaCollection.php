@@ -29,6 +29,21 @@ class UserMetaCollection extends Collection
         }
     }
 
+    public function __isset($key)
+    {
+        if (parent::__isset($key)) {
+            return true;
+        }
+
+        foreach ($this->items as $item) {
+            if ($item->meta_key == $key) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function __set($key, $value)
     {
         $this->changedKeys[] = $key;
