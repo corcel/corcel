@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Base model.
- *
- * @author Mickael Burguet <www.rundef.com>
- * @author Junior Grossi <juniorgro@gmail.com>
- */
-
 namespace Corcel;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -17,8 +10,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 
+/**
+ * Class Model
+ *
+ * @package Corcel
+ * @author Mickael Burguet <www.rundef.com>
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class Model extends Eloquent
 {
+    /**
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = array())
+    {
+        $this->configureDatabaseConnection();
+        parent::__construct($attributes);
+    }
+
     /**
      * Replace the original hasMany function to forward the connection name.
      *
@@ -26,7 +35,7 @@ class Model extends Eloquent
      * @param null   $foreignKey
      * @param null   $localKey
      *
-     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function hasMany($related, $foreignKey = null, $localKey = null)
     {
@@ -51,7 +60,7 @@ class Model extends Eloquent
      * @param null   $foreignKey
      * @param null   $localKey
      *
-     * @return Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function hasOne($related, $foreignKey = null, $localKey = null)
     {
@@ -77,7 +86,7 @@ class Model extends Eloquent
      * @param null   $otherKey
      * @param null   $relation
      *
-     * @return Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
     {
@@ -114,7 +123,7 @@ class Model extends Eloquent
      * @param null   $otherKey
      * @param null   $relation
      *
-     * @return Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
     {
@@ -175,6 +184,23 @@ class Model extends Eloquent
     {
         if ($model instanceof Eloquent) {
             $model->setConnection($this->getConnectionName());
+        }
+    }
+
+    /**
+     * @return void
+     */
+    protected function configureDatabaseConnection()
+    {
+        if (isset(LARAVEL_START)) {
+            if ($connection = config('corcel.connection')) {
+                $this->connection = $connection;
+            } elseif (
+                $connection = config('database.connections.corcel') or
+                $connection = config('database.connections.wordpress')
+            ) {
+                $this->connection = $connection;
+            }
         }
     }
 }
