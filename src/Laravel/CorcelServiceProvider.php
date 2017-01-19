@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel\Providers\Laravel;
+namespace Corcel\Laravel;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -18,7 +18,7 @@ class CorcelServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/corcel.php' => config_path('corcel.php'),
+            __DIR__ . '/config.php' => config_path('corcel.php'),
         ]);
     }
     
