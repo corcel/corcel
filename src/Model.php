@@ -195,12 +195,13 @@ class Model extends Eloquent
         if (defined('LARAVEL_START') and function_exists('config')) {
             if ($connection = config('corcel.connection')) {
                 $this->connection = $connection;
-            } elseif (
-                $connection = config('database.connections.corcel') or
-                $connection = config('database.connections.wordpress')
-            ) {
-                $this->connection = $connection;
+            } elseif (config('database.connections.corcel')) {
+                $connection = 'corcel';
+            } elseif (config('database.connections.wordpress')) {
+                $connection = 'wordpress';
             }
+
+            $this->connection = $connection;
         }
     }
 }
