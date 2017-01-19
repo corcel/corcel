@@ -192,7 +192,7 @@ class Model extends Eloquent
      */
     protected function configureDatabaseConnection()
     {
-        if (isset(LARAVEL_START) and function_exists('config')) {
+        if (defined('LARAVEL_START') and function_exists('config')) {
             if ($connection = config('corcel.connection')) {
                 $this->connection = $connection;
             } elseif (
