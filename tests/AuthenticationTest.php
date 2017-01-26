@@ -8,7 +8,7 @@ class AuthenticationTest extends PHPUnit_Framework_TestCase
 {
     public function testPasswordService()
     {
-        $checker = new PasswordService;
+        $checker = new PasswordService();
 
         $this->assertTrue($checker->check('admin', $checker->makeHash('admin')));
         $this->assertTrue($checker->check('admin', '$P$BrYiES.08ardK6pQme0LdlmQ0idrIe/'));
@@ -22,13 +22,12 @@ class AuthenticationTest extends PHPUnit_Framework_TestCase
         );
     }
 
-
     public function testUserProvider()
     {
         $userProvider = new AuthUserProvider(null);
-        $passwordService = new PasswordService;
+        $passwordService = new PasswordService();
 
-        $user = new User;
+        $user = new User();
 
         $user->user_pass = $passwordService->makeHash('admin');
         $this->assertTrue($userProvider->validateCredentials($user, ['password' => 'admin']));

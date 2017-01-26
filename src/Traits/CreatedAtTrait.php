@@ -3,7 +3,7 @@
 namespace Corcel\Traits;
 
 /**
- * CreatedAt trait
+ * CreatedAt trait.
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */

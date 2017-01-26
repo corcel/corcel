@@ -14,7 +14,7 @@ class Options extends Eloquent
 {
     const CREATED_AT = null;
     const UPDATED_AT = null;
-    
+
     /**
      * The database table used by the model.
      *

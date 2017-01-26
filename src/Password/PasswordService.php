@@ -20,6 +20,7 @@ class PasswordService
      * @since 2.5.0
      *
      * @param string $password Plain text user password to hash
+     *
      * @return string The hash string of the password
      */
     public function makeHash($password)
@@ -40,16 +41,17 @@ class PasswordService
      *
      * @since 2.5.0
      *
-     * @param string $password Plaintext user's password
-     * @param string $hash Hash of the user's password to check against.
-     * @param string|int $user_id Optional. User ID.
+     * @param string     $password Plaintext user's password
+     * @param string     $hash     Hash of the user's password to check against
+     * @param string|int $user_id  Optional. User ID
+     *
      * @return bool False, if the $password does not match the hashed password
      */
     public function check($password, $hash, $user_id = '')
     {
         // If the hash is still md5...
         if (strlen($hash) <= 32) {
-            return ($hash === md5($password));
+            return $hash === md5($password);
         }
         // If the stored hash is longer than an MD5, presume the
         // new style phpass portable hash.

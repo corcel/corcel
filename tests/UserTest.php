@@ -6,7 +6,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 {
     public function testUserConstructor()
     {
-        $user = new User;
+        $user = new User();
         $this->assertTrue($user instanceof \Corcel\User);
     }
 
@@ -46,7 +46,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 
     public function testInsertCustomFields()
     {
-        $user = new User;
+        $user = new User();
         $user->user_login = 'test';
         $user->save();
 
@@ -61,7 +61,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 
     public function testUserConnection()
     {
-        $user = new User;
+        $user = new User();
         $user->setConnection('no_prefix');
         $user->user_login = 'test';
         $user->save();
@@ -90,7 +90,7 @@ class UserTest extends PHPUnit_Framework_TestCase
             ->hasMeta('nickname', 'admin')
             ->first()
         ;
-        
+
         $this->assertNotEmpty($admin);
     }
 }

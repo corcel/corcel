@@ -48,7 +48,7 @@ class OptionsTest extends PHPUnit_Framework_TestCase
 
     public function testInsert()
     {
-        $option = new Options;
+        $option = new Options();
         $option->option_name = 'test_insert_'.uniqid();
         $option->option_value = serialize(array('test' => '1234'));
         $option->save();

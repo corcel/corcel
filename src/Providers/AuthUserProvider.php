@@ -22,7 +22,8 @@ class AuthUserProvider implements UserProvider
     /**
      * Retrieve a user by their unique identifier.
      *
-     * @param  mixed $identifier
+     * @param mixed $identifier
+     *
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveById($identifier)
@@ -33,8 +34,9 @@ class AuthUserProvider implements UserProvider
     /**
      * Retrieve a user by their unique identifier and "remember me" token.
      *
-     * @param  mixed $identifier
-     * @param  string $token
+     * @param mixed  $identifier
+     * @param string $token
+     *
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByToken($identifier, $token)
@@ -45,9 +47,8 @@ class AuthUserProvider implements UserProvider
     /**
      * Update the "remember me" token for the given user in storage.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param  string $token
-     * @return void
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user
+     * @param string                                     $token
      */
     public function updateRememberToken(Authenticatable $user, $token)
     {
@@ -58,7 +59,8 @@ class AuthUserProvider implements UserProvider
     /**
      * Retrieve a user by the given credentials.
      *
-     * @param  array $credentials
+     * @param array $credentials
+     *
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByCredentials(array $credentials)
@@ -77,8 +79,9 @@ class AuthUserProvider implements UserProvider
     /**
      * Validate a user against the given credentials.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param  array $credentials
+     * @param \Illuminate\Contracts\Auth\Authenticatable $user
+     * @param array                                      $credentials
+     *
      * @return bool
      */
     public function validateCredentials(Authenticatable $user, array $credentials)
@@ -87,7 +90,7 @@ class AuthUserProvider implements UserProvider
             return false;
         }
 
-        $passwordService = new PasswordService;
+        $passwordService = new PasswordService();
 
         return $passwordService->check($credentials['password'], $user->user_pass);
     }
@@ -101,9 +104,10 @@ class AuthUserProvider implements UserProvider
     {
         if ($this->config && isset($this->config['model'])) {
             $class = '\\'.ltrim($this->config['model'], '\\');
-            return new $class;
+
+            return new $class();
         }
 
-        return new User;
+        return new User();
     }
 }

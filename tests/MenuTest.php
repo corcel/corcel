@@ -6,10 +6,9 @@ class MenuTest extends PHPUnit_Framework_TestCase
 {
     public function testMenuConstructor()
     {
-        $menu = new Menu;
+        $menu = new Menu();
         $this->assertTrue($menu instanceof \Corcel\Menu);
     }
-
 
     public function testMenuId()
     {
@@ -24,18 +23,15 @@ class MenuTest extends PHPUnit_Framework_TestCase
         }
     }
 
-
     public function testMenuBySlug()
     {
         $menu = Menu::slug('menu1')->first();
         $this->assertEquals($menu->term_taxonomy_id, 3);
         $this->assertEquals(count($menu->nav_items), 3);
 
-
         $menu = Menu::slug('non_existing_menu')->first();
         $this->assertNull($menu);
     }
-
 
     public function testMultiLevelMenu()
     {

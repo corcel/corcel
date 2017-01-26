@@ -4,8 +4,8 @@ Corcel
 > This package allows you to use WordPress as backend (admin panel) and retrieve its data using Eloquent, with any PHP project or even framework.
 
 [![Travis](https://travis-ci.org/corcel/corcel.svg?branch=dev)](https://travis-ci.org/corcel/corcel?branch=dev)
-[![Packagist](https://img.shields.io/packagist/v/jgrossi/corcel.svg)](https://github.com/jgrossi/corcel/releases)
-[![Packagist](https://img.shields.io/packagist/dt/jgrossi/corcel.svg)](https://packagist.org/packages/jgrossi/corcel)
+[![Packagist](https://img.shields.io/packagist/v/jgrossi/corcel.svg)](https://packagist.org/packages/jgrossi/corcel)
+[![Packagist](https://img.shields.io/packagist/dt/jgrossi/corcel.svg)](https://github.com/jgrossi/corcel/releases)
 
 [Follow @corcelphp on Twitter](https://twitter.com/corcelphp)
 
@@ -169,6 +169,14 @@ If you want to retrieve a custom field created by the [Advanced Custom Fields (A
 $post = Post::find(123);
 echo $post->acf->some_radio_field;
 $repeaterFields = $post->acf->my_repeater_name;
+```
+
+To avoid unnecessary SQL queries just set the field type you're requesting. Usually two SQL queries are necessary to get the field type, so if you want to specify it you're skipping those extra queries:
+
+```php
+$post = Post::find(123);
+echo $post->acf->text('text_field_name');
+echo $post->acf->boolean('boolean_field_name');
 ```
 
 ### Custom Post Type

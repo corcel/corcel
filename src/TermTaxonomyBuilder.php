@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Corcel\TermTaxonomyBuilder
+ * Corcel\TermTaxonomyBuilder.
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  * @author  Yoram de Langen <yoramdelangen@gmail.com>
@@ -16,7 +16,8 @@ class TermTaxonomyBuilder extends Builder
     private $slug;
 
     /**
-     * Add posts to the relationship builder
+     * Add posts to the relationship builder.
+     *
      * @return Corcel\TermTaxonomyBuilder
      */
     public function posts()
@@ -25,7 +26,8 @@ class TermTaxonomyBuilder extends Builder
     }
 
     /**
-     * Set taxonomy type to category
+     * Set taxonomy type to category.
+     *
      * @return Corcel\TermTaxonomyBuilder
      */
     public function category()
@@ -34,7 +36,8 @@ class TermTaxonomyBuilder extends Builder
     }
 
     /**
-     * Set taxonomy type to nav_menu
+     * Set taxonomy type to nav_menu.
+     *
      * @return Corcel\TermTaxonomyBuilder
      */
     public function menu()
@@ -43,9 +46,10 @@ class TermTaxonomyBuilder extends Builder
     }
 
     /**
-     * Get a term taxonomy by specific slug
+     * Get a term taxonomy by specific slug.
      *
      * @param string slug
+     *
      * @return \Corcel\TermTaxonomyBuilder
      */
     public function slug($slug = null)
