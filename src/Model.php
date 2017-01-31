@@ -132,7 +132,7 @@ class Model extends Eloquent
         }
 
         if (is_null($relation)) {
-            $relation = $this->getBelongsToManyCaller();
+            $relation = $this->getRelations();
         }
 
         $foreignKey = $foreignKey ?: $this->getForeignKey();
