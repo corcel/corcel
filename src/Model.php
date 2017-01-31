@@ -128,7 +128,7 @@ class Model extends Eloquent
     public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
     {
         if (is_null($relation)) {
-            $relation = $this->getBelongsToManyCaller();
+            $relation = $this->getRelations();
         }
 
         $foreignKey = $foreignKey ?: $this->getForeignKey();
