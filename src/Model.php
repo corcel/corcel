@@ -127,6 +127,10 @@ class Model extends Eloquent
      */
     public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
     {
+        if (!method_exists($this, 'getBelongsToManyCaller')) {
+            return parent::belongsToMany($related, $table, $foreignKey, $otherKey, $relation);
+        }
+
         if (is_null($relation)) {
             $relation = $this->getBelongsToManyCaller();
         }
@@ -196,12 +200,10 @@ class Model extends Eloquent
             if ($connection = config('corcel.connection')) {
                 $this->connection = $connection;
             } elseif (config('database.connections.corcel')) {
-                $connection = 'corcel';
+                $this->connection = 'corcel';
             } elseif (config('database.connections.wordpress')) {
-                $connection = 'wordpress';
+                $this->connection = 'wordpress';
             }
-
-            $this->connection = $connection;
         }
     }
 }
