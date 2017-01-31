@@ -127,10 +127,6 @@ class Model extends Eloquent
      */
     public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
     {
-        if (!method_exists($this, 'getBelongsToManyCaller')) {
-            return parent::belongsToMany($related, $table, $foreignKey, $otherKey, $relation);
-        }
-
         if (is_null($relation)) {
             $relation = $this->getRelations();
         }
