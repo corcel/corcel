@@ -119,7 +119,8 @@ class PostTest extends PHPUnit_Framework_TestCase
         $taxonomy = $post->taxonomies()->first();
         $this->assertEquals($taxonomy->taxonomy, 'category');
 
-        $post = Post::taxonomy('category', 'php')->first();
+		//	Test taxonomies with an array of terms 
+        $post = Post::taxonomy('category', ['php'])->first();
         $this->assertEquals($post->ID, 1);
 
         $post = Post::taxonomy('category', 'php')->first();
