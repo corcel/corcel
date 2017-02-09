@@ -21,13 +21,25 @@ class PostMetaCollection extends Collection
      *
      * @return string
      */
-    public function __get($key)
+    public function getAttribute($key)
     {
         foreach ($this->items as $item) {
             if ($item->meta_key == $key) {
                 return $item->value;
             }
         }
+    }
+
+    /**
+     * Shortcut for the getAttribute method, by passing an object attribute
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    public function __get($key)
+    {
+        return $this->getAttribute($key);
     }
 
     public function __set($key, $value)
