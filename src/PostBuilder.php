@@ -60,15 +60,15 @@ class PostBuilder extends Builder
 
     /**
      * @param string $taxonomy
-     * @param mixed  $term
+     * @param mixed  $terms
      *
      * @return Builder|static
      */
-    public function taxonomy($taxonomy, $term)
+    public function taxonomy($taxonomy, $terms)
     {
-        return $this->whereHas('taxonomies', function ($query) use ($taxonomy, $term) {
-            $query->where('taxonomy', $taxonomy)->whereHas('term', function ($query) use ($term) {
-                $query->where('slug', $term);
+        return $this->whereHas('taxonomies', function ($query) use ($taxonomy, $terms) {
+            $query->where('taxonomy', $taxonomy)->whereHas('term', function ($query) use ($terms) {
+                $query->whereIn('slug', is_array($terms) ? $terms : [$terms]);
             });
         });
     }
