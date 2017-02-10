@@ -68,7 +68,6 @@ class PostTest extends PHPUnit_Framework_TestCase
         $post->save();
         $postID = $post->ID;
 
-
         $post = Post::find($postID);
         foreach ($values as $k => $v) {
             $this->assertEquals($post->{$k}, $v);
@@ -120,7 +119,7 @@ class PostTest extends PHPUnit_Framework_TestCase
         $taxonomy = $post->taxonomies()->first();
         $this->assertEquals($taxonomy->taxonomy, 'category');
 
-        $post = Post::taxonomy('category', 'php')->first();
+        $post = Post::taxonomy('category', ['php'])->first();
         $this->assertEquals($post->ID, 1);
 
         $post = Post::taxonomy('category', 'php')->first();
@@ -182,21 +181,21 @@ class PostTest extends PHPUnit_Framework_TestCase
 
     public function testSingleTableInheritance()
     {
-        Post::registerPostType('page', "\\Corcel\\Page");
+        Post::registerPostType('page', '\\Corcel\\Page');
 
         $page = Post::type('page')->first();
 
-        $this->assertInstanceOf("\\Corcel\\Page", $page);
+        $this->assertInstanceOf('\\Corcel\\Page', $page);
     }
 
     public function testClearRegisteredPostTypes()
     {
-        Post::registerPostType('page', "\\Corcel\\Page");
+        Post::registerPostType('page', '\\Corcel\\Page');
         Post::clearRegisteredPostTypes();
 
         $page = Post::type('page')->first();
 
-        $this->assertInstanceOf("\\Corcel\\Post", $page);
+        $this->assertInstanceOf('\\Corcel\\Post', $page);
     }
 
     public function testPostRelationConnections()
@@ -217,7 +216,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * This tests to ensure that when the post_parent is 0, it returns 0 and not null
      * Ocde in the Post::_get() method only checked if the value was false, and so
-     * wouldn't return values from the model that were false (like 0)
+     * wouldn't return values from the model that were false (like 0).
      */
     public function testPostParentDoesNotReturnNullWhenItIsZero()
     {
@@ -229,7 +228,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     public function testAddShortcode()
     {
         Post::addShortcode('gallery', function (ShortcodeInterface $s) {
-            return $s->getName() . '.' . $s->getParameter('id') . '.' . $s->getParameter('size');
+            return $s->getName().'.'.$s->getParameter('id').'.'.$s->getParameter('size');
         });
 
         $post = Post::find(123);
@@ -237,14 +236,12 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($post->content, 'test gallery.123.medium shortcodes');
     }
 
-
     public function testMultipleShortcodes()
     {
         $post = Post::find(125);
 
         $this->assertEquals($post->content, '1~gallery.1.small2~gallery.2.medium');
     }
-
 
     public function testRemoveShortcode()
     {

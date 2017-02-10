@@ -10,13 +10,12 @@ trait ResetsPasswords
     /**
      * Reset the given user's password.
      *
-     * @param  \Illuminate\Contracts\Auth\CanResetPassword $user
-     * @param  string $password
-     * @return void
+     * @param \Illuminate\Contracts\Auth\CanResetPassword $user
+     * @param string                                      $password
      */
     protected function resetPassword($user, $password)
     {
-        $passwordService = new PasswordService;
+        $passwordService = new PasswordService();
 
         $user->user_pass = $passwordService->makeHash($password);
 

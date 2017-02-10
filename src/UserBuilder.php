@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Corcel\UserBuilder
+ * Corcel\UserBuilder.
  *
  * @author Mickael Burguet <www.rundef.com>
  */
@@ -13,10 +13,11 @@ use Illuminate\Database\Eloquent\Builder;
 class UserBuilder extends Builder
 {
     /**
-     * Paginate the results
+     * Paginate the results.
      *
      * @param int $perPage
      * @param int $currentPage
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function paged($perPage = 10, $currentPage = 1)
@@ -31,6 +32,7 @@ class UserBuilder extends Builder
      *
      * @param string $metaKey
      * @param string $metaValue
+     *
      * @return UserBuilder|static
      */
     public function hasMeta($metaKey, $metaValue)

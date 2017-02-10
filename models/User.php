@@ -1,7 +1,7 @@
 <?php
 
 /**
- * User class
+ * User class.
  *
  * @author Mickael Burguet <www.rundef.com>
  */

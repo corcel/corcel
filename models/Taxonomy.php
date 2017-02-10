@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Taxonomy class
+ * Taxonomy class.
  *
  * @author Yoram de Langen <yoramdelangen@gmail.com>
  */

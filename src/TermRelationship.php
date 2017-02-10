@@ -3,9 +3,8 @@
 namespace Corcel;
 
 /**
- * Class TermRelationship
+ * Class TermRelationship.
  *
- * @package Corcel
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 class TermRelationship extends Model

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Post class
+ * Post class.
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */

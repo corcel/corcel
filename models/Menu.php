@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Menu class
+ * Menu class.
  *
  * @author Yoram de Langen <yoramdelangen@gmail.com>
  */

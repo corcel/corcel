@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Comment
+ * Comment.
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */

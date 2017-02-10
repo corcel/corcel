@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Corcel\UserMetaCollection
+ * Corcel\UserMetaCollection.
  *
  * @author Mickael Burguet <www.rundef.com>
  */
@@ -15,9 +15,10 @@ class UserMetaCollection extends Collection
     protected $changedKeys = [];
 
     /**
-     * Search for the desired key and return only the row that represent it
+     * Search for the desired key and return only the row that represent it.
      *
      * @param string $key
+     *
      * @return string
      */
     public function __get($key)

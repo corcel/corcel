@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Corcel\PostBuilder
+ * Corcel\PostBuilder.
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
@@ -13,9 +13,10 @@ use Illuminate\Database\Eloquent\Builder;
 class PostBuilder extends Builder
 {
     /**
-     * Get only posts with a custom status
+     * Get only posts with a custom status.
      *
      * @param string $postStatus
+     *
      * @return \Corcel\PostBuilder
      */
     public function status($postStatus)
@@ -24,7 +25,7 @@ class PostBuilder extends Builder
     }
 
     /**
-     * Get only published posts
+     * Get only published posts.
      *
      * @return \Corcel\PostBuilder
      */
@@ -34,9 +35,10 @@ class PostBuilder extends Builder
     }
 
     /**
-     * Get only posts from a custom post type
+     * Get only posts from a custom post type.
      *
      * @param string $type
+     *
      * @return \Corcel\PostBuilder
      */
     public function type($type)
@@ -45,9 +47,10 @@ class PostBuilder extends Builder
     }
 
     /**
-     * Get only posts from an array of custom post types
+     * Get only posts from an array of custom post types.
      *
      * @param array $type
+     *
      * @return \Corcel\PostBuilder
      */
     public function typeIn(array $type)
@@ -55,19 +58,26 @@ class PostBuilder extends Builder
         return $this->whereIn('post_type', $type);
     }
 
-    public function taxonomy($taxonomy, $term)
+    /**
+     * @param string $taxonomy
+     * @param mixed  $terms
+     *
+     * @return Builder|static
+     */
+    public function taxonomy($taxonomy, $terms)
     {
-        return $this->whereHas('taxonomies', function ($query) use ($taxonomy, $term) {
-            $query->where('taxonomy', $taxonomy)->whereHas('term', function ($query) use ($term) {
-                $query->where('slug', $term);
+        return $this->whereHas('taxonomies', function ($query) use ($taxonomy, $terms) {
+            $query->where('taxonomy', $taxonomy)->whereHas('term', function ($query) use ($terms) {
+                $query->whereIn('slug', is_array($terms) ? $terms : [$terms]);
             });
         });
     }
 
     /**
-     * Get only posts with a specific slug
+     * Get only posts with a specific slug.
      *
      * @param string slug
+     *
      * @return \Corcel\PostBuilder
      */
     public function slug($slug)
@@ -76,10 +86,11 @@ class PostBuilder extends Builder
     }
 
     /**
-     * Paginate the results
+     * Paginate the results.
      *
      * @param int $perPage
      * @param int $currentPage
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function paged($perPage = 10, $currentPage = 1)

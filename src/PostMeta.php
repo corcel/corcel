@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Corcel\PostMeta
+ * Corcel\PostMeta.
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
@@ -18,7 +18,8 @@ class PostMeta extends Model
     protected $fillable = ['meta_key', 'meta_value', 'post_id'];
 
     /**
-     * Post relationship
+     * Post relationship.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function post($ref = false)
@@ -60,7 +61,9 @@ class PostMeta extends Model
 
     /**
      * Taxonomy relationship from the meta_value.
-     * @param  string $key
+     *
+     * @param string $key
+     *
      * @return \Illuminate\Database\Eloquent\Relations\Relation
      */
     public function taxonomy($primary = null, $where = null)
@@ -82,8 +85,10 @@ class PostMeta extends Model
     }
 
     /**
-     * Override newCollection() to return a custom collection
+     * Override newCollection() to return a custom collection.
+     *
      * @param array $models
+     *
      * @return \Corcel\PostMetaCollection
      */
     public function newCollection(array $models = [])

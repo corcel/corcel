@@ -6,6 +6,7 @@
  * @author Ashwin Sureshkumar<ashwin.sureshkumar@gmail.com>
  * @author Mickael Burguet <www.rundef.com>
  */
+
 namespace Corcel;
 
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -26,7 +27,6 @@ class User extends Model implements Authenticatable, CanResetPassword
     public function setUpdatedAtAttribute($value)
     {
     }
-
 
     /**
      * The accessors to append to the model's array form.
@@ -225,7 +225,6 @@ class User extends Model implements Authenticatable, CanResetPassword
         return $this->user_registered;
     }
 
-
     /**
      * Get the name of the unique identifier for the user.
      *
@@ -235,7 +234,6 @@ class User extends Model implements Authenticatable, CanResetPassword
     {
         return $this->primaryKey;
     }
-
 
     /**
      * Get the unique identifier for the user.
@@ -247,7 +245,6 @@ class User extends Model implements Authenticatable, CanResetPassword
         return $this->attributes[$this->primaryKey];
     }
 
-
     /**
      * Get the password for the user.
      *
@@ -257,7 +254,6 @@ class User extends Model implements Authenticatable, CanResetPassword
     {
         return $this->user_pass;
     }
-
 
     /**
      * Get the token value for the "remember me" session.
@@ -269,18 +265,15 @@ class User extends Model implements Authenticatable, CanResetPassword
         return $this->meta->{$this->getRememberTokenName()};
     }
 
-
     /**
      * Set the token value for the "remember me" session.
      *
-     * @param  string $value
-     * @return void
+     * @param string $value
      */
     public function setRememberToken($value)
     {
         $this->meta->{$this->getRememberTokenName()} = $value;
     }
-
 
     /**
      * Get the column name for the "remember me" token.
@@ -291,7 +284,6 @@ class User extends Model implements Authenticatable, CanResetPassword
     {
         return 'remember_token';
     }
-
 
     /**
      * Get the e-mail address where password reset links are sent.

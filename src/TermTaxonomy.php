@@ -10,7 +10,8 @@ class TermTaxonomy extends Model
     public $timestamps = false;
 
     /**
-     * Relationship with Term model
+     * Relationship with Term model.
+     *
      * @return Illuminate\Database\Eloquent\Relations
      */
     public function term()
@@ -19,7 +20,8 @@ class TermTaxonomy extends Model
     }
 
     /**
-     * Relationship with parent Term model
+     * Relationship with parent Term model.
+     *
      * @return Illuminate\Database\Eloquent\Relations
      */
     public function parentTerm()
@@ -28,7 +30,8 @@ class TermTaxonomy extends Model
     }
 
     /**
-     * Relationship with Posts model
+     * Relationship with Posts model.
+     *
      * @return Illuminate\Database\Eloquent\Relations
      */
     public function posts()
@@ -36,10 +39,9 @@ class TermTaxonomy extends Model
         return $this->belongsToMany('Corcel\Post', 'term_relationships', 'term_taxonomy_id', 'object_id');
     }
 
-
     /**
      * Alias from posts, but made quering nav_items cleaner.
-     * Also only possible to use when Menu model is called or taxonomy is 'nav_menu'
+     * Also only possible to use when Menu model is called or taxonomy is 'nav_menu'.
      *
      * @return Illuminate\Database\Eloquent\Relations
      */
@@ -53,8 +55,10 @@ class TermTaxonomy extends Model
     }
 
     /**
-     * Overriding newQuery() to the custom TermTaxonomyBuilder with some interesting methods
+     * Overriding newQuery() to the custom TermTaxonomyBuilder with some interesting methods.
+     *
      * @param bool $excludeDeleted
+     *
      * @return Corcel\TermTaxonomyBuilder
      */
     public function newQuery($excludeDeleted = true)
@@ -70,8 +74,10 @@ class TermTaxonomy extends Model
     }
 
     /**
-     * Magic method to return the meta data like the post original fields
+     * Magic method to return the meta data like the post original fields.
+     *
      * @param string $key
+     *
      * @return string
      */
     public function __get($key)
