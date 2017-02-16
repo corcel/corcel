@@ -3,14 +3,13 @@
 namespace Corcel;
 
 use Exception;
-use Illuminate\Database\Eloquent\Model as Eloquent;
 
 /**
  * Options class.
  *
  * @author José CI <josec89@gmail.com>
  */
-class Options extends Eloquent
+class Options extends Model
 {
     const CREATED_AT = null;
     const UPDATED_AT = null;
