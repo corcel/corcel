@@ -26,8 +26,11 @@ class WordPressPostFormatter
     public function wpautop($pee, $br = true)
     {
         $pre_tags = array();
-        if (trim($pee) === '')
+
+        if (trim($pee) === '') {
             return '';
+        }
+            
 
         // Just to make things a little easier, pad the end.
         $pee = $pee . "\n";
@@ -97,7 +100,7 @@ class WordPressPostFormatter
          * Collapse line breaks inside <audio> and <video> elements,
          * before and after <source> and <track> elements.
          */
-        if (strpos( $pee, '<source') !== false || strpos($pee, '<track') !== false) {
+        if (strpos($pee, '<source') !== false || strpos($pee, '<track') !== false) {
             $pee = preg_replace('%([<\[](?:audio|video)[^>\]]*[>\]])\s*%', '$1', $pee);
             $pee = preg_replace('%\s*([<\[]/(?:audio|video)[>\]])%', '$1', $pee);
             $pee = preg_replace('%\s*(<(?:source|track)[^>]*>)\s*%', '$1', $pee);
@@ -164,8 +167,10 @@ class WordPressPostFormatter
         $pee = preg_replace("|\n</p>$|", '</p>', $pee);
 
         // Replace placeholder <pre> tags with their original content.
-        if (!empty($pre_tags))
+        if (!empty($pre_tags)) {
             $pee = str_replace(array_keys($pre_tags), array_values($pre_tags), $pee);
+        }
+            
 
         // Restore newlines in all elements.
         if (false !== strpos($pee, '<!-- wpnl -->')) {
@@ -182,7 +187,8 @@ class WordPressPostFormatter
      * @param array $replace_pairs In the form array('from' => 'to', ...).
      * @return string The formatted text.
      */
-    private function wp_replace_in_html_tags($haystack, $replace_pairs) {
+    private function wp_replace_in_html_tags($haystack, $replace_pairs)
+    {
         // Find all elements.
         $textarr = $this->wp_html_split($haystack);
         $changed = false;
