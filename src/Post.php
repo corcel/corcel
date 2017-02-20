@@ -28,6 +28,7 @@ class Post extends Model
     protected $primaryKey = 'ID';
     protected $dates = ['post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt'];
     protected $with = ['meta'];
+    protected $wordPressPostFormatter;
 
     protected $fillable = [
         'post_content',
@@ -75,6 +76,8 @@ class Post extends Model
                 $attributes[$field] = '';
             }
         }
+
+        $this->wordPressPostFormatter = new WordPressPostFormatter;
 
         parent::__construct($attributes);
     }
@@ -303,17 +306,37 @@ class Post extends Model
     }
 
     /**
-     * Gets the content attribute.
+     * Get the content.
      *
      * @return string
      */
-    public function getContentAttribute()
+    protected function getContent()
     {
         if (empty(self::$shortcodes)) {
             return $this->post_content;
         }
 
         return $this->stripShortcodes($this->post_content);
+    }
+
+    /**
+     * Gets the content attribute.
+     *
+     * @return string
+     */
+    public function getContentAttribute()
+    {
+        return $this->getContent();
+    }
+
+    /**
+     * Gets the formatted content attribute.
+     *
+     * @return string
+     */
+    public function getFormattedContentAttribute()
+    {
+        return $this->wordPressPostFormatter->wpautop($this->getContent());
     }
 
     /**
