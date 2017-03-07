@@ -2,7 +2,7 @@
 
 namespace Corcel;
 
-use Corcel\Acf\AdvancedCustomFields;
+use Corcel\Traits\HasAcfFields;
 
 /**
  * Class Term.
@@ -11,6 +11,8 @@ use Corcel\Acf\AdvancedCustomFields;
  */
 class Term extends Model
 {
+    use HasAcfFields;
+    
     protected $table = 'terms';
     protected $primaryKey = 'term_id';
     public $timestamps = false;
@@ -21,13 +23,5 @@ class Term extends Model
     public function taxonomy()
     {
         return $this->hasOne(TermTaxonomy::class, 'term_id');
-    }
-
-    /**
-     * @return AdvancedCustomFields
-     */
-    public function getAcfAttribute()
-    {
-        return new AdvancedCustomFields($this);
     }
 }
