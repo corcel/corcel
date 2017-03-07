@@ -2,6 +2,8 @@
 
 namespace Corcel;
 
+use Corcel\Traits\HasAcfFields;
+
 /**
  * Class Term.
  *
@@ -9,6 +11,8 @@ namespace Corcel;
  */
 class Term extends Model
 {
+    use HasAcfFields;
+    
     protected $table = 'terms';
     protected $primaryKey = 'term_id';
     public $timestamps = false;
