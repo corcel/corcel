@@ -9,6 +9,17 @@ class TermTaxonomy extends Model
     protected $with = ['term'];
     public $timestamps = false;
 
+
+    /**
+     * Meta data relationship.
+     *
+     * @return Corcel\PostMetaCollection
+     */
+    public function meta()
+    {
+        return $this->hasMany('Corcel\TermMeta', 'term_id');
+    }
+    
     /**
      * Relationship with Term model.
      *
