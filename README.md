@@ -7,7 +7,9 @@ Corcel
 [![Packagist](https://img.shields.io/packagist/v/jgrossi/corcel.svg)](https://packagist.org/packages/jgrossi/corcel)
 [![Packagist](https://img.shields.io/packagist/dt/jgrossi/corcel.svg)](https://github.com/jgrossi/corcel/releases)
 
-[Follow @corcelphp on Twitter](https://twitter.com/corcelphp)
+<a href='https://ko-fi.com/A36513JF' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi4.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+
+[![Twitter Follow](https://img.shields.io/twitter/follow/corcelphp.svg?style=social&label=Follow)](http://twitter.com/CorcelPHP)
 
 Corcel is a class collection created to retrieve WordPress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project, with any framework, including Laravel.
 
@@ -57,7 +59,7 @@ If you are using Laravel you **do not need** to configure database again. It's a
         'strict'    => false,
         'engine'    => null,
     ],
-    
+
 ],
 ```
 
@@ -227,7 +229,7 @@ $videos = Post::type('video')->status('publish')->get();
 
 You can also do this for inbuilt classes, such as Page or Post. Simply register the Page or Post class with the associated post type string, and that object will be returned instead of the default one.
 
-This is particular useful when you are intending to get a Collection of Posts of different types (e.g. when fetching the posts defined in a menu). 
+This is particular useful when you are intending to get a Collection of Posts of different types (e.g. when fetching the posts defined in a menu).
 
 ### Shortcodes
 
