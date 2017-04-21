@@ -1,7 +1,7 @@
 <?php require __DIR__ . '/../../vendor/autoload.php';
 
 $capsule = \Corcel\Database::connect($params = [
-    'database' => 'corcel',
+    'database' => 'corcel-dev',
     'username' => 'root',
     'password' => '',
     'host' => '127.0.0.1',
