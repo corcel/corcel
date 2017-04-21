@@ -48,13 +48,13 @@ Now you're almost ready to use Corcel classes, like `Corcel\Post`.
 
 ## WordPress Installation
 
-You can install WordPress inside Laravel's `/public` directory, like `/public/wordpress`, for example, or even in a different domain or server. You only has to enable access to its database, because that's what Corcel will use. This is made by creating a database connection.
+You can install WordPress inside Laravel's `/public` directory, like `/public/wordpress`, for example, or even in a different domain or server. You only have to enable access to its database, because that's what Corcel will use. This is made by creating a database connection.
 
 # <a id="database-setup"></a> Database Setup
 
 ## Laravel Setup
 
-Corcel by default will look for a `wordpress` or `corcel` database connection in your Laravel `config/database.php` file. If it does not find any of these connections it'll use the `default` connection.
+Corcel by default will look for a `wordpress` or `corcel` database connection in your Laravel `config/database.php` file. If it does not find any of these connections it'll use the default `mysql` connection.
 
 For example, you can have a `default` connection for your Laravel app tables and models, and another one called `wordpress` or `corcel` for your WordPress tables. Easy like that.
 
