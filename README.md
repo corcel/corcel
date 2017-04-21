@@ -17,11 +17,11 @@ This way, you can use WordPress as the backend (admin panel), to insert posts, c
 
 # Contents
 
-- [Installing Corcell and Wordpress into Laravel](#install)
+- [Installing Corcel](#install)
 - [Database Setup](#database-setup)
-- [Usage](#usage)    
+- [Usage](#usage)
     - [Posts](#posts)
-    - [Advanced Custom Fields Integration](#acf)
+    - [Advanced Custom Fields (ACF) Integration](#acf)
     - [Custom Post Type](#custom-post)
     - [Single Table Inheritance](#single-tab)
     - [Taxonomies](#taxonomies)
@@ -36,50 +36,34 @@ This way, you can use WordPress as the backend (admin panel), to insert posts, c
 - [Contributing](#contrib)
 - [License](#license)
 
+# <a id="install"></a> Installing Corcel
 
+You need to use Composer to install Corcel into your project:
 
-# <a id="install"></a> Installing Corcel and Wordpress into Laravel
-
-## Add corcel to your laravel project 
 ```
 composer require jgrossi/corcel
 ```
-## Add Wordpress to your laravel project
-So we have now our Laravel folder structure with everything installed. Now let's bring in a fresh installation of Wordpress. 
 
-### **Access Option 1 - Sub Directory**
-- Install WordPress as a subdirectory of Laravels public folder (ex. `/public/wordpress`). To access your backend you would go to `http://example.dev/wordpress/wp-admin`.
+Now you're almost ready to use Corcel classes, like `Corcel\Post`.
 
-### **Access Option 2 - Sub Domain**
-- Install Wordpress as a sub-dir of the Laravel's root, like `/wordpress`. So you will have `/app` and `/wordpress` in the same position. For this you have to create another VirtualHost to point to Wordpress installation. You can setup a subdomain like `wp.example.dev` and point it to `/wordpress`. This way you can access the Admin going to `http://wp.example.dev/wp-admin`. 
+## WordPress Installation
 
-### **Once you've decided**
+You can install WordPress inside Laravel's `/public` directory, like `/public/wordpress`, for example, or even in a different domain or server. You only has to enable access to its database, because that's what Corcel will use. This is made by creating a database connection.
 
-Clone wordpress into the **option 1** or the **option 2** directory.
-```
-git clone https://github.com/WordPres wordpress
-```
-### **Quick Tip!** If you use github you won't be able to check in your project until you remove the .git folder inside your newly created wordpress directory.
-```
-cd wordpress && sudo rm -r .git
-```
 # <a id="database-setup"></a> Database Setup
-You have two options you can let Wordpress and Laravel share the same database, or you can have a seperate database for each. This is totally up to you.
 
+## Laravel Setup
 
+Corcel by default will look for a `wordpress` or `corcel` database connection in your Laravel `config/database.php` file. If it does not find any of these connections it'll use the `default` connection.
 
-## Laravel and Wordpress sharing a database
-
-Since laravel manages its own migrations you can share a database with WordPress, Laravel will only update/rollback/refresh the ones it knows about.
-
-Add this new wordpress connection type to your connections array in `/config/database.php`. 
+For example, you can have a `default` connection for your Laravel app tables and models, and another one called `wordpress` or `corcel` for your WordPress tables. Easy like that.
 
 ```php
 <?php // File: /config/database.php
 
 'connections' => [
 
-    'mysql' => [ // this is how Laravel connects to the DB
+    'mysql' => [ // for Laravel database
         'driver'    => 'mysql',
         'host'      => 'localhost',
         'database'  => 'mydatabase',
@@ -92,51 +76,10 @@ Add this new wordpress connection type to your connections array in `/config/dat
         'engine'    => null,
     ],
 
-    'wordpress' => [ // this is how Corcel connects to the DB
+    'wordpress' => [ // for WordPress database
         'driver'    => 'mysql',
         'host'      => 'localhost',
         'database'  => 'mydatabase',
-        'username'  => 'admin',
-        'password'  => 'secret',
-        'charset'   => 'utf8',
-        'collation' => 'utf8_unicode_ci',
-        'prefix'    => 'wp_', 
-        'strict'    => false,
-        'engine'    => null,
-    ],
-
-
-],
-```
-
-Now Laravel and Wordpress are sharing the same database.
-
-## Laravel database and a seperate WordPress database
-
-Add this new `wordpress` connection type to connections array in `/config/database.php`. Asjust the `wordpress` connections details so they are accurate. Corcel will use the `wordpress` connection to get its data and Laravel will use the `mysql` by default for its data.
-
-```php
-<?php // File: /config/database.php
-
-'connections' => [
-
-    'mysql' => [ // this is your Laravel database connection
-        'driver'    => 'mysql',
-        'host'      => 'localhost',
-        'database'  => 'app',
-        'username'  => 'admin'
-        'password'  => 'secret',
-        'charset'   => 'utf8',
-        'collation' => 'utf8_unicode_ci',
-        'prefix'    => '',
-        'strict'    => false,
-        'engine'    => null,
-    ],
-
-    'wordpress' => [ // this is your Corcel database connection, where WordPress tables are
-        'driver'    => 'mysql',
-        'host'      => 'localhost',
-        'database'  => 'wordpress',
         'username'  => 'admin',
         'password'  => 'secret',
         'charset'   => 'utf8',
@@ -145,12 +88,10 @@ Add this new `wordpress` connection type to connections array in `/config/databa
         'strict'    => false,
         'engine'    => null,
     ],
-
 ],
 ```
 
-
-## I'm using another PHP Framework
+## Other PHP Framework (not Laravel) Setup
 
 Here you have to configure the database to fit the Corcel requirements. First, you should include the Composer `autoload` file if not already loaded:
 
@@ -182,7 +123,7 @@ You can specify all Eloquent params, but some are default (but you can override 
 
 # <a id="usage"></a>  Usage
 
-Optionally you can create your own `Post` model which extends `Corcel\Post`. Then set the connection name you're using, in this case `wordpress`:
+Optionally you can create your own `Post` model which extends `Corcel\Post`. Then set the connection name you're using, in this case `foo-bar`:
 
 ```php
 <?php // File: app/Post.php
@@ -193,15 +134,17 @@ use Corcel\Post as Corcel;
 
 class Post extends Corcel
 {
-    protected $connection = 'wordpress';
+    protected $connection = 'foo-bar';
 }
 ```
 
-So, now you can fetch database data:
+So, now you can fetch WP database data using your own class:
 
 ```php
-$posts = App\Post::all(); // using the 'wordpress' connection
+$posts = App\Post::all(); // using the 'foo-bar' connection
 ```
+
+> Remembering that if you have a `wordpress` or `corcel` database connection you don't need to extend `Corcel\Post` class, just use `Corcel\Post` instead.
 
 ## <a id="posts"></a> Posts
 
@@ -527,7 +470,7 @@ if(!is_null($user) && $userProvider->validateCredentials($user, ['password' => '
 }
 ```
 
-# <a id="tests"></a> Running tests
+# <a id="tests"></a> Running Tests
 
 To run the phpunit tests, execute the following command :
 
@@ -555,8 +498,8 @@ Before you submit your pull request consider the following guidelines:
 
 - Run the unit tests, and ensure that all tests pass.
 
-- In GitHub, send a pull request to `corcel:dev`.
+- In GitHub, send a pull request to `corcel:dev`, not `corcel:master`, please.
 
-## <a id="license"></a>Licence
+## <a id="license"></a> Licence
 
 [MIT License](http://jgrossi.mit-license.org/) © Junior Grossi
