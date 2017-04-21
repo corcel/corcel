@@ -51,7 +51,7 @@ So we have now our Laravel folder structure with everything installed. Now let's
 - Install WordPress as a subdirectory of Laravels public folder (ex. `/public/wordpress`). To access your backend you would go to `http://example.dev/wordpress/wp-admin`.
 
 ### **Access Option 2 - Sub Domain**
-- Install Wordpress as a sub-dir of the Laravel's root, like `/wordpress`. So you will have `/app` and `/wordpress` in the same position. For this you have to create another VirtualHost to point to Wordpress installation. You can setup a subdomain like `wp.example.dev` and poit it to `/wordpress`. This way you can access the Admin going to `http://wp.example.dev/wp-admin`. 
+- Install Wordpress as a sub-dir of the Laravel's root, like `/wordpress`. So you will have `/app` and `/wordpress` in the same position. For this you have to create another VirtualHost to point to Wordpress installation. You can setup a subdomain like `wp.example.dev` and point it to `/wordpress`. This way you can access the Admin going to `http://wp.example.dev/wp-admin`. 
 
 ### **Once you've decided**
 
