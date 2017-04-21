@@ -362,9 +362,12 @@ echo $post->getFormat(); // should return something like 'video', etc
 
 ## <a id="pages"></a>Pages
 
-Pages are like custom post types. You can use `Post::type('page')` or the `Page` class.
+Pages are like custom post types. You can use `Post::type('page')` or the `Corcel\Page` class.
 
 ```php
+
+use Corcel\Page;
+
 // Find a page by slug
 $page = Page::slug('about')->first(); // OR
 $page = Post::type('page')->slug('about')->first();
