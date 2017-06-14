@@ -2,6 +2,7 @@
 
 use Corcel\Post;
 use Corcel\Page;
+use Corcel\PostMetaCollection;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 /**
@@ -31,22 +32,26 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(1000, $post->ID);
     }
 
-    public function testPostType()
+    /**
+     * @test
+     */
+    public function post_has_the_correct_type()
     {
-        $post = Post::type('page')->first();
-        $this->assertEquals($post->post_type, 'page');
+        $page = factory(Post::class)->create(['post_type' => 'page']);
 
-        $page = Page::first();
         $this->assertEquals($page->post_type, 'page');
     }
 
     /**
      * Tests the post accessors
      * Accessors should be equal to the original value.
+     *
+     * @test
      */
-    public function testPostAccessors()
+    public function post_has_correct_accessors()
     {
-        $post = Post::find(2);
+        $post = factory(Post::class)->create();
+
         $this->assertEquals($post->post_title, $post->title);
         $this->assertEquals($post->post_name, $post->slug);
         $this->assertEquals($post->post_content, $post->content);
@@ -57,68 +62,69 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($post->post_parent, $post->parent_id);
         $this->assertEquals($post->post_date, $post->created_at);
         $this->assertEquals($post->post_modified, $post->updated_at);
-        $this->assertEquals($post->post_excerpt, $post->exceprt);
+        $this->assertEquals($post->post_excerpt, $post->excerpt);
         $this->assertEquals($post->post_status, $post->status);
     }
 
-    public function testNewPostAccessors()
+    /**
+     * @test
+     */
+    public function post_can_accept_unicode_chars()
     {
-        $values = [
-            'post_title' => 'test',
+        $post = factory(Post::class)->create([
             'post_content' => 'test utf8 é à',
             'post_excerpt' => 'test chinese characters お問い合わせ',
-        ];
+        ]);
 
-        $post = new Post();
-        foreach ($values as $k => $v) {
-            $post->{$k} = $v;
-        }
-        $post->save();
-        $postID = $post->ID;
-
-        $post = Post::find($postID);
-        foreach ($values as $k => $v) {
-            $this->assertEquals($post->{$k}, $v);
-
-            $accessorName = substr($k, strlen('post_'));
-            $this->assertEquals($post->{$accessorName}, $v);
-        }
-        $post->delete();
-
-        $post = Post::find($postID);
-        $this->assertEquals($post, null);
+        $this->assertEquals('test utf8 é à', $post->post_content);
+        $this->assertEquals('test chinese characters お問い合わせ', $post->post_excerpt);
     }
 
-    public function testPostCustomFields()
+    /**
+     * @test
+     */
+    public function post_has_custom_fields()
     {
-        $post = Post::find(2);
+        $post = factory(Post::class)->create();
+
+        $post->meta()->create([
+            'meta_key' => 'foo',
+            'meta_value' => 'bar',
+        ]);
+
         $this->assertNotEmpty($post->meta);
         $this->assertNotEmpty($post->fields);
-
-        $this->assertTrue($post->meta instanceof \Corcel\PostMetaCollection);
+        $this->assertInstanceOf(PostMetaCollection::class, $post->meta);
     }
 
-    public function testPostOrderBy()
+    /**
+     * @test
+     */
+    public function posts_can_be_ordered_ascending()
     {
-        $posts = Post::orderBy('post_date', 'asc')->take(5)->get();
+        factory(Post::class, 2)->create();
 
-        $lastDate = null;
-        foreach ($posts as $post) {
-            if (!is_null($lastDate)) {
-                $this->assertGreaterThanOrEqual(0, strcmp($post->post_date, $lastDate));
-            }
-            $lastDate = $post->post_date;
-        }
+        $posts = Post::orderBy('post_date', 'asc')->get();
+        $first = $posts->first();
+        $last = $posts->last();
 
-        $posts = Post::orderBy('post_date', 'desc')->take(5)->get();
+        $this->assertTrue($first->post_date->lessThanOrEqualTo($last->post_date));
+        $this->assertTrue($last->post_date->greaterThanOrEqualTo($first->post_date));
+    }
 
-        $lastDate = null;
-        foreach ($posts as $post) {
-            if (!is_null($lastDate)) {
-                $this->assertLessThanOrEqual(0, strcmp($post->post_date, $lastDate));
-            }
-            $lastDate = $post->post_date;
-        }
+    /**
+     * @test
+     */
+    public function posts_can_be_ordered_descending()
+    {
+        factory(Post::class, 2)->create();
+
+        $posts = Post::orderBy('post_date', 'desc')->get();
+        $last = $posts->first();
+        $first = $posts->last();
+
+        $this->assertTrue($first->post_date->lessThanOrEqualTo($last->post_date));
+        $this->assertTrue($last->post_date->greaterThanOrEqualTo($first->post_date));
     }
 
     public function testTaxonomies()
