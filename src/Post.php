@@ -280,6 +280,27 @@ class Post extends Model
         return isset($this->terms[$taxonomy]) && isset($this->terms[$taxonomy][$term]);
     }
 
+    /**
+     * @param string $key
+     * @param mixed $value
+     */
+    public function addMeta($key, $value)
+    {
+        $this->meta()->create([
+            'meta_key' => $key,
+            'meta_value' => $value,
+        ]);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     */
+    public function addCustomField($key, $value)
+    {
+        return $this->addMeta($key, $value);
+    }
+
     /*
      * Accessors.
      */

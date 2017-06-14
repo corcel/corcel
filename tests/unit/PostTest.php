@@ -102,6 +102,34 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function post_can_add_custom_fields()
+    {
+        $post = factory(Post::class)->create();
+
+        $post->addMeta('foo', 'bar');
+        $meta = $post->meta->first();
+
+        $this->assertEquals('foo', $meta->meta_key);
+        $this->assertEquals('bar', $meta->meta_value);
+    }
+
+    /**
+     * @test
+     */
+    public function post_can_add_custom_fields_using_an_alias()
+    {
+        $post = factory(Post::class)->create();
+
+        $post->addCustomField('foo', 'bar');
+        $meta = $post->meta->first();
+
+        $this->assertEquals('foo', $meta->meta_key);
+        $this->assertEquals('bar', $meta->meta_value);
+    }
+
+    /**
+     * @test
+     */
     public function posts_can_be_ordered_ascending()
     {
         factory(Post::class, 2)->create();
