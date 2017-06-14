@@ -15,6 +15,7 @@ class TermTest extends PHPUnit_Framework_TestCase
     public function term_can_create_term_meta()
     {
         $term = Term::find(2);
+
         $meta = $term->meta()->create([
             'meta_key' => 'foo',
             'meta_value' => 'bar',
@@ -30,7 +31,10 @@ class TermTest extends PHPUnit_Framework_TestCase
     public function term_has_meta_associated()
     {
         $term = Term::find(2);
-        $this->assertGreaterThan(0, $term->meta->count());
+
+        $count = $term->meta->count();
+
+        $this->assertGreaterThan(0, $count);
     }
 
     /**
@@ -39,6 +43,7 @@ class TermTest extends PHPUnit_Framework_TestCase
     public function term_meta_can_be_queried_by_its_relation()
     {
         $term = Term::find(2);
+
         $meta = $term->meta()->where('meta_key', 'foo')->first();
 
         $this->assertEquals('bar', $meta->meta_value);
