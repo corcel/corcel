@@ -4,23 +4,31 @@ use Corcel\Post;
 use Corcel\Page;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
+/**
+ * Class PostTest
+ *
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class PostTest extends PHPUnit_Framework_TestCase
 {
-    public function testPostConstructor()
+    /**
+     * @test
+     */
+    public function post_has_the_correct_class_name()
     {
-        $post = new Post();
-        $this->assertTrue($post instanceof \Corcel\Post);
+        $post = factory(Post::class)->create();
+
+        $this->assertInstanceOf(Post::class, $post);
     }
 
-    public function testPostId()
+    /**
+     * @test
+     */
+    public function post_has_the_correct_id()
     {
-        $post = Post::find(1);
+        $post = factory(Post::class)->create(['ID' => 1000]);
 
-        if ($post) {
-            $this->assertEquals($post->ID, 1);
-        } else {
-            $this->assertEquals($post, null);
-        }
+        $this->assertEquals(1000, $post->ID);
     }
 
     public function testPostType()
