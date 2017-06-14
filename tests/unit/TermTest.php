@@ -1,6 +1,7 @@
 <?php
 
 use Corcel\Term;
+use Corcel\TermMeta;
 
 /**
  * Class TermTest
@@ -14,7 +15,7 @@ class TermTest extends PHPUnit_Framework_TestCase
      */
     public function term_can_create_term_meta()
     {
-        $term = Term::find(2);
+        $term = factory(Term::class)->create();
 
         $meta = $term->meta()->create([
             'meta_key' => 'foo',
