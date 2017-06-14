@@ -133,12 +133,12 @@ class PostTest extends PHPUnit_Framework_TestCase
     public function post_can_update_meta()
     {
         $post = factory(Post::class)->create();
-
         $post->saveMeta('foo', 'bar');
-        $post->saveMeta('foo', 'bar-bar');
+        $post->saveMeta('foo', 'baz');
+
         $meta = $post->meta()->where('meta_key', 'foo')->first();
 
-        $this->assertEquals('bar-bar', $meta->meta_value);
+        $this->assertEquals('baz', $meta->meta_value);
     }
 
     /**
