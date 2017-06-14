@@ -2,52 +2,66 @@
 
 namespace Corcel;
 
+/**
+ * Class TermTaxonomy
+ *
+ * @package Corcel
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class TermTaxonomy extends Model
 {
+    /**
+     * @var string
+     */
     protected $table = 'term_taxonomy';
-    protected $primaryKey = 'term_taxonomy_id';
-    protected $with = ['term'];
-    public $timestamps = false;
-
 
     /**
-     * Meta data relationship.
-     *
-     * @return Corcel\PostMetaCollection
+     * @var string
+     */
+    protected $primaryKey = 'term_taxonomy_id';
+
+    /**
+     * @var array
+     */
+    protected $with = ['term'];
+
+    /**
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function meta()
     {
-        return $this->hasMany('Corcel\TermMeta', 'term_id');
+        return $this->hasMany(TermMeta::class, 'term_id');
     }
     
     /**
-     * Relationship with Term model.
-     *
-     * @return Illuminate\Database\Eloquent\Relations
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function term()
     {
-        return $this->belongsTo('Corcel\Term', 'term_id');
+        return $this->belongsTo(Term::class, 'term_id');
     }
 
     /**
-     * Relationship with parent Term model.
-     *
-     * @return Illuminate\Database\Eloquent\Relations
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parentTerm()
     {
-        return $this->belongsTo('Corcel\TermTaxonomy', 'parent');
+        return $this->belongsTo(TermTaxonomy::class, 'parent');
     }
 
     /**
-     * Relationship with Posts model.
-     *
-     * @return Illuminate\Database\Eloquent\Relations
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function posts()
     {
-        return $this->belongsToMany('Corcel\Post', 'term_relationships', 'term_taxonomy_id', 'object_id');
+        return $this->belongsToMany(
+            Post::class, 'term_relationships', 'term_taxonomy_id', 'object_id'
+        );
     }
 
     /**
@@ -55,6 +69,7 @@ class TermTaxonomy extends Model
      * Also only possible to use when Menu model is called or taxonomy is 'nav_menu'.
      *
      * @return Illuminate\Database\Eloquent\Relations
+     * @todo Fix this
      */
     public function nav_items()
     {
@@ -69,8 +84,7 @@ class TermTaxonomy extends Model
      * Overriding newQuery() to the custom TermTaxonomyBuilder with some interesting methods.
      *
      * @param bool $excludeDeleted
-     *
-     * @return Corcel\TermTaxonomyBuilder
+     * @return TermTaxonomyBuilder
      */
     public function newQuery($excludeDeleted = true)
     {
@@ -88,7 +102,6 @@ class TermTaxonomy extends Model
      * Magic method to return the meta data like the post original fields.
      *
      * @param string $key
-     *
      * @return string
      */
     public function __get($key)
