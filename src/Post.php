@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Post model.
- *
- * @author Junior Grossi <juniorgro@gmail.com>
- */
-
 namespace Corcel;
 
 use Corcel\Traits\CreatedAtTrait;
@@ -13,6 +7,12 @@ use Corcel\Traits\HasAcfFields;
 use Corcel\Traits\UpdatedAtTrait;
 use Thunder\Shortcode\ShortcodeFacade;
 
+/**
+ * Class Post
+ *
+ * @package Corcel
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class Post extends Model
 {
     use CreatedAtTrait, HasAcfFields, UpdatedAtTrait;
@@ -96,17 +96,15 @@ class Post extends Model
     }
 
     /**
-     * Return the post thumbnail.
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function thumbnail()
     {
-        return $this->hasOne('Corcel\ThumbnailMeta', 'post_id')
+        return $this->hasOne(ThumbnailMeta::class, 'post_id')
             ->where('meta_key', '_thumbnail_id');
     }
 
     /**
-     * Taxonomy relationship.
-     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function taxonomies()
@@ -117,61 +115,50 @@ class Post extends Model
     }
 
     /**
-     * Comments relationship.
-     *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function comments()
     {
-        return $this->hasMany('Corcel\Comment', 'comment_post_ID');
+        return $this->hasMany(Comment::class, 'comment_post_ID');
     }
 
     /**
-     *   Author relationship.
-     *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function author()
     {
-        return $this->belongsTo('Corcel\User', 'post_author');
+        return $this->belongsTo(User::class, 'post_author');
     }
 
     /**
-     * Parent post.
-     *
-     * @return Corcel\Post
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent()
     {
-        return $this->belongsTo('Corcel\Post', 'post_parent');
+        return $this->belongsTo(Post::class, 'post_parent');
     }
 
     /**
-     * Get attachment.
-     *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function attachment()
     {
-        return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'attachment');
+        return $this->hasMany(Post::class, 'post_parent')
+            ->where('post_type', 'attachment');
     }
 
     /**
-     * Get revisions from post.
-     *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function revision()
     {
-        return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'revision');
+        return $this->hasMany(Post::class, 'post_parent')
+            ->where('post_type', 'revision');
     }
 
     /**
-     * Overriding newQuery() to the custom PostBuilder with some interesting methods.
-     *
      * @param bool $excludeDeleted
-     *
-     * @return Corcel\PostBuilder
+     * @return PostBuilder
      */
     public function newQuery($excludeDeleted = true)
     {
@@ -240,6 +227,10 @@ class Post extends Model
         }
     }
 
+    /**
+     * @param array $options
+     * @return bool
+     */
     public function save(array $options = [])
     {
         if (isset($this->attributes[$this->primaryKey])) {
@@ -273,12 +264,12 @@ class Post extends Model
      *
      * @param string $taxonomy
      * @param string $term
-     *
      * @return bool
      */
     public function hasTerm($taxonomy, $term)
     {
-        return isset($this->terms[$taxonomy]) && isset($this->terms[$taxonomy][$term]);
+        return isset($this->terms[$taxonomy]) &&
+            isset($this->terms[$taxonomy][$term]);
     }
 
     /**
@@ -303,10 +294,6 @@ class Post extends Model
     {
         return $this->saveMeta($key, $value);
     }
-
-    /*
-     * Accessors.
-     */
 
     /**
      * Gets the title attribute.
@@ -405,7 +392,7 @@ class Post extends Model
     /**
      * Gets the updated at attribute.
      *
-     * @return date
+     * @return \Carbon\Carbon
      */
     public function getUpdatedAtAttribute()
     {
