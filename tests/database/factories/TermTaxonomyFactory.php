@@ -5,5 +5,6 @@ $factory->define(Corcel\TermTaxonomy::class, function (Faker\Generator $faker) {
         'taxonomy' => $faker->word,
         'description' => $faker->sentence(),
         'parent' => 0,
+        'count' => 1,
     ];
 });
