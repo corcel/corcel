@@ -23,4 +23,24 @@ class TermTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $meta->meta_key);
         $this->assertEquals('bar', $meta->meta_value);
     }
+
+    /**
+     * @test
+     */
+    public function term_has_meta_associated()
+    {
+        $term = Term::find(2);
+        $this->assertGreaterThan(0, $term->meta->count());
+    }
+
+    /**
+     * @test
+     */
+    public function term_meta_can_be_queried_by_its_relation()
+    {
+        $term = Term::find(2);
+        $meta = $term->meta()->where('meta_key', 'foo')->first();
+
+        $this->assertEquals('bar', $meta->meta_value);
+    }
 }
