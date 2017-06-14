@@ -106,11 +106,13 @@ class Post extends Model
     /**
      * Taxonomy relationship.
      *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function taxonomies()
     {
-        return $this->belongsToMany('Corcel\TermTaxonomy', 'term_relationships', 'object_id', 'term_taxonomy_id');
+        return $this->belongsToMany(
+            TermTaxonomy::class, 'term_relationships', 'object_id', 'term_taxonomy_id'
+        );
     }
 
     /**
