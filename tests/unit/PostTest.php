@@ -178,6 +178,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     {
         $post = factory(Post::class)->create();
         $taxonomy = factory(TermTaxonomy::class)->create([
+            'taxonomy' => 'foo',
             'term_id' => 1,
             'count' => 1,
         ]);
@@ -187,8 +188,11 @@ class PostTest extends PHPUnit_Framework_TestCase
         ]);
 
         $this->assertEquals(1, $post->taxonomies->count());
+        $this->assertEquals('foo', $post->taxonomies->first()->taxonomy);
     }
-    
+
+
+
     public function testTaxonomies()
     {
         $post = Post::find(1);
