@@ -1,7 +1,31 @@
 <?php
 
-class TaxonomyTest extends PHPUnit_Framework_TestCase
+use Corcel\Term;
+use Corcel\TermTaxonomy;
+
+/**
+ * Class TermTaxonomyTest
+ *
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
+class TermTaxonomyTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * @test
+     */
+    public function taxonomy_belongs_to_term()
+    {
+        $taxonomy = factory(TermTaxonomy::class)->create([
+            'term_id' => 0,
+            'count' => 1,
+        ]);
+
+        $term = factory(Term::class)->create();
+        $taxonomy->term()->associate($term);
+
+        $this->assertEquals($term->term_id, $taxonomy->term_id);
+    }
+    
     public function testGeneralTaxonomy()
     {
         $cat = Taxonomy::category()->slug('php')->posts()->first();
