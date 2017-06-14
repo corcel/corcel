@@ -18,11 +18,19 @@ class Term extends Model
     public $timestamps = false;
 
     /**
-     * @return Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function taxonomy()
     {
         return $this->hasOne(TermTaxonomy::class, 'term_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function meta()
+    {
+        return $this->hasMany(TermMeta::class, 'term_id');
     }
 
     /**
