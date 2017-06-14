@@ -1,24 +1,22 @@
 <?php
 
-/**
- * Corcel\TermTaxonomyBuilder.
- *
- * @author Junior Grossi <juniorgro@gmail.com>
- * @author  Yoram de Langen <yoramdelangen@gmail.com>
- */
-
 namespace Corcel;
 
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Class TermTaxonomyBuilder
+ *
+ * @package Corcel
+ * @author Junior Grossi <juniorgro@gmail.com>
+ * @author Yoram de Langen <yoramdelangen@gmail.com>
+ */
 class TermTaxonomyBuilder extends Builder
 {
-    private $slug;
-
     /**
      * Add posts to the relationship builder.
      *
-     * @return Corcel\TermTaxonomyBuilder
+     * @return TermTaxonomyBuilder
      */
     public function posts()
     {
@@ -28,7 +26,7 @@ class TermTaxonomyBuilder extends Builder
     /**
      * Set taxonomy type to category.
      *
-     * @return Corcel\TermTaxonomyBuilder
+     * @return TermTaxonomyBuilder
      */
     public function category()
     {
@@ -38,7 +36,7 @@ class TermTaxonomyBuilder extends Builder
     /**
      * Set taxonomy type to nav_menu.
      *
-     * @return Corcel\TermTaxonomyBuilder
+     * @return TermTaxonomyBuilder
      */
     public function menu()
     {
@@ -48,23 +46,15 @@ class TermTaxonomyBuilder extends Builder
     /**
      * Get a term taxonomy by specific slug.
      *
-     * @param string slug
-     *
-     * @return \Corcel\TermTaxonomyBuilder
+     * @param string $slug
+     * @return TermTaxonomyBuilder
      */
     public function slug($slug = null)
     {
         if (!is_null($slug) and !empty($slug)) {
-            // set this slug to be used in with callback
-            $this->slug = $slug;
-
-            // exception to filter on specific slug
-            $exception = function ($query) {
-                $query->where('slug', '=', $this->slug);
-            };
-
-            // load term to filter
-            return $this->whereHas('term', $exception);
+            return $this->whereHas('term', function ($query) use ($slug) {
+                $query->where('slug', $slug);
+            });
         }
 
         return $this;
