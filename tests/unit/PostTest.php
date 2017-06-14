@@ -3,6 +3,8 @@
 use Corcel\Post;
 use Corcel\Page;
 use Corcel\PostMetaCollection;
+use Corcel\Term;
+use Corcel\TermTaxonomy;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 /**
@@ -127,6 +129,24 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($last->post_date->greaterThanOrEqualTo($first->post_date));
     }
 
+    /**
+     * @test
+     */
+    public function post_can_have_taxonomy()
+    {
+        $post = factory(Post::class)->create();
+        $taxonomy = factory(TermTaxonomy::class)->create([
+            'term_id' => 1,
+            'count' => 1,
+        ]);
+
+        $post->taxonomies()->attach($taxonomy->term_taxonomy_id, [
+            'term_order' => 0,
+        ]);
+
+        $this->assertEquals(1, $post->taxonomies->count());
+    }
+    
     public function testTaxonomies()
     {
         $post = Post::find(1);
