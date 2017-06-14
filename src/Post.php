@@ -80,15 +80,16 @@ class Post extends Model
     }
 
     /**
-     * Meta data relationship.
-     *
-     * @return Corcel\PostMetaCollection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function meta()
     {
-        return $this->hasMany('Corcel\PostMeta', 'post_id');
+        return $this->hasMany(PostMeta::class, 'post_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function fields()
     {
         return $this->meta();
@@ -283,22 +284,24 @@ class Post extends Model
     /**
      * @param string $key
      * @param mixed $value
+     * @return bool
      */
-    public function addMeta($key, $value)
+    public function saveMeta($key, $value)
     {
-        $this->meta()->create([
-            'meta_key' => $key,
-            'meta_value' => $value,
-        ]);
+        $meta = $this->meta()->where('meta_key', $key)
+            ->firstOrNew(['meta_key' => $key]);
+
+        return $meta->fill(['meta_value' => $value])->save();
     }
 
     /**
      * @param string $key
      * @param mixed $value
+     * @return bool
      */
-    public function addCustomField($key, $value)
+    public function saveField($key, $value)
     {
-        return $this->addMeta($key, $value);
+        return $this->saveMeta($key, $value);
     }
 
     /*

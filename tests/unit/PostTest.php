@@ -106,7 +106,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     {
         $post = factory(Post::class)->create();
 
-        $post->addMeta('foo', 'bar');
+        $post->saveMeta('foo', 'bar');
         $meta = $post->meta->first();
 
         $this->assertEquals('foo', $meta->meta_key);
@@ -120,11 +120,25 @@ class PostTest extends PHPUnit_Framework_TestCase
     {
         $post = factory(Post::class)->create();
 
-        $post->addCustomField('foo', 'bar');
+        $post->saveField('foo', 'bar');
         $meta = $post->meta->first();
 
         $this->assertEquals('foo', $meta->meta_key);
         $this->assertEquals('bar', $meta->meta_value);
+    }
+
+    /**
+     * @test
+     */
+    public function post_can_update_meta()
+    {
+        $post = factory(Post::class)->create();
+
+        $post->saveMeta('foo', 'bar');
+        $post->saveMeta('foo', 'bar-bar');
+        $meta = $post->meta()->where('meta_key', 'foo')->first();
+
+        $this->assertEquals('bar-bar', $meta->meta_value);
     }
 
     /**
