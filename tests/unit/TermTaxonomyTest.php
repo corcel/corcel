@@ -2,6 +2,7 @@
 
 use Corcel\Term;
 use Corcel\TermTaxonomy;
+use Illuminate\Support\Str;
 
 /**
  * Class TermTaxonomyTest
@@ -24,6 +25,23 @@ class TermTaxonomyTest extends PHPUnit_Framework_TestCase
         $taxonomy->term()->associate($term);
 
         $this->assertEquals($term->term_id, $taxonomy->term_id);
+    }
+
+    /**
+     * @test
+     */
+    public function can_filter_taxonomy_by_term()
+    {
+        $taxonomies = $this->buildTaxonomies();
+        $term = $taxonomies->first()->term;
+
+        $taxonomies = Taxonomy::slug($term->slug)->get();
+
+        foreach ($taxonomies as $taxonomy) {
+            $this->assertEquals('foo', $taxonomy->taxonomy);
+            $this->assertNotNull($taxonomy->term_id);
+            $this->assertEquals($taxonomy->term_id, $taxonomy->term->term_id);
+        }
     }
     
     public function testGeneralTaxonomy()
@@ -54,5 +72,23 @@ class TermTaxonomyTest extends PHPUnit_Framework_TestCase
     {
         $page = Page::find(2)->toArray();
         $this->assertTrue(is_array($page));
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    private function buildTaxonomies()
+    {
+        $terms = factory(Term::class, 2)->create();
+        $taxonomies = collect();
+
+        foreach ($terms as $term) {
+            $taxonomies->push(factory(TermTaxonomy::class)->create([
+                'term_id' => $term->term_id,
+                'taxonomy' => 'foo',
+            ]));
+        }
+
+        return $taxonomies;
     }
 }
