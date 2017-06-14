@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/helpers.php';
 
 use Illuminate\Database\Capsule\Manager as Capsule;
@@ -19,6 +19,6 @@ $capsule->bootEloquent();
 app()->instance('Capsule', $capsule);
 
 // Include migrations
-require __DIR__ . '/../database/migrations.php';
-require __DIR__ . '/../database/factories.php';
+require __DIR__ . '/database/migrations.php';
+require __DIR__ . '/database/factories.php';
 
