@@ -1,8 +1,11 @@
 <?php
 
+use Illuminate\Container\Container;
 use Illuminate\Database\Schema\Blueprint;
 
-Capsule::schema()->create('posts', function (Blueprint $table) {
+$capsule = Container::getInstance()->make('Capsule');
+
+$capsule->schema()->create('posts', function (Blueprint $table) {
     $table->increments('ID');
     $table->bigInteger('post_author')->unsigned();
     $table->dateTime('post_date');
