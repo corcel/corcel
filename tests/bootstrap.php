@@ -13,6 +13,13 @@ $capsule->addConnection([
     'prefix' => 'wp_',
 ]);
 
+// Fake database connection just for testing
+$capsule->addConnection([
+    'driver' => 'sqlite',
+    'database' => ':memory',
+    'prefix' => 'foo_',
+], 'foo');
+
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 
