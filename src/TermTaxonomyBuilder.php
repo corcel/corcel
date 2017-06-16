@@ -44,6 +44,15 @@ class TermTaxonomyBuilder extends Builder
     }
 
     /**
+     * @param string $name
+     * @return static
+     */
+    public function name($name)
+    {
+        return $this->where('taxonomy', $name);
+    }
+
+    /**
      * Get a term taxonomy by specific slug.
      *
      * @param string $slug
