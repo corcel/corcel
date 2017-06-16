@@ -4,22 +4,33 @@ use Corcel\User;
 
 class UserTest extends PHPUnit_Framework_TestCase
 {
-    public function testUserConstructor()
+    /**
+     * @test
+     */
+    public function user_is_instance_of_corcel_user()
     {
-        $user = new User();
-        $this->assertTrue($user instanceof \Corcel\User);
+        $user = factory(User::class)->create();
+
+        $this->assertInstanceOf(User::class, $user);
     }
 
-    public function testUserId()
+    /**
+     * @test
+     */
+    public function user_has_the_correct_id()
     {
-        $user = User::find(1);
+        $user = factory(User::class)->create(['ID' => 20]);
 
-        if ($user) {
-            $this->assertEquals($user->ID, 1);
-            $this->assertEquals($user->getAuthIdentifier(), 1);
-        } else {
-            $this->assertEquals($user, null);
-        }
+        $this->assertNotNull($user);
+        $this->assertEquals(20, $user->ID);
+    }
+
+    /**
+     * @test
+     */
+    public function user_has_the_correct_auth_identifier()
+    {
+//        $this->assertEquals(21, $user->getAuthIdentifier());
     }
 
     public function testUserCustomFields()
