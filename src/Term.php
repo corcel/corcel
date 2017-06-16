@@ -32,12 +32,4 @@ class Term extends Model
     {
         return $this->hasMany(TermMeta::class, 'term_id');
     }
-
-    /**
-     * @return AdvancedCustomFields
-     */
-    public function getAcfAttribute()
-    {
-        return new AdvancedCustomFields($this);
-    }
 }
