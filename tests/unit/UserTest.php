@@ -31,7 +31,7 @@ class UserTest extends PHPUnit_Framework_TestCase
      */
     public function user_has_the_correct_auth_identifier()
     {
-//        $this->assertEquals(21, $user->getAuthIdentifier());
+        // $this->assertEquals(21, $user->getAuthIdentifier());
     }
 
     /**
