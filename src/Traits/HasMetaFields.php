@@ -20,10 +20,12 @@ trait HasMetaFields
     public function meta()
     {
         $className = static::class === Post::class ?
-            PostMeta::class :
-            TermMeta::class;
+            PostMeta::class : TermMeta::class;
 
-        return $this->hasMany($className, 'post_id');
+        $fieldName = static::class === Post::class ?
+            'post_id' : 'term_id';
+
+        return $this->hasMany($className, $fieldName);
     }
 
     /**
