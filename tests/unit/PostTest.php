@@ -5,6 +5,7 @@ use Corcel\Page;
 use Corcel\PostMetaCollection;
 use Corcel\Term;
 use Corcel\TermTaxonomy;
+use Corcel\User;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 /**
@@ -177,6 +178,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     public function post_can_have_taxonomy()
     {
         $post = factory(Post::class)->create();
+
         $taxonomy = factory(TermTaxonomy::class)->create([
             'taxonomy' => 'foo',
             'term_id' => 1,
@@ -191,81 +193,106 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $post->taxonomies->first()->taxonomy);
     }
 
-
-
-    public function testTaxonomies()
+    /**
+     * @test
+     */
+    public function post_with_taxonomies_relation()
     {
-        $post = Post::find(1);
-        $taxonomy = $post->taxonomies()->first();
-        $this->assertEquals($taxonomy->taxonomy, 'category');
+        $this->createPostWithTaxonomiesAndTerms();
 
-        $post = Post::taxonomy('category', ['php'])->first();
-        $this->assertEquals($post->ID, 1);
+        $taxonomy = Post::first()->taxonomies()->first();
 
-        $post = Post::taxonomy('category', 'php')->first();
-        $this->assertEquals($post->post_type, 'post');
-
-        $this->assertEquals(true, $post->hasTerm('category', 'php'));
-        $this->assertEquals(false, $post->hasTerm('category', 'not-term'));
-        $this->assertEquals(false, $post->hasTerm('no-category', 'php'));
-        $this->assertEquals(false, $post->hasTerm('no-category', 'no-term'));
-
-        $this->assertEquals('php', $post->main_category);
-        $this->assertEquals(['php'], $post->keywords);
-        $this->assertEquals('php', $post->keywords_str);
+        $this->assertEquals('foo', $taxonomy->taxonomy);
     }
 
-    public function testUpdateCustomFields()
+    /**
+     * @test
+     */
+    public function post_with_taxonomy_and_terms()
     {
-        $post = Post::find(1);
-        $post->meta->username = 'juniorgrossi';
-        $post->meta->url = 'http://grossi.io';
+        $this->createPostWithTaxonomiesAndTerms();
+
+        $post = Post::taxonomy('foo', ['bar'])->first();
+
+        $this->assertNotNull($post);
+        $this->assertEquals(1, $post->ID);
+
+        $post = Post::taxonomy('foo', 'bar')->first();
+
+        $this->assertNotNull($post);
+        $this->assertEquals(1, $post->ID);
+    }
+
+    /**
+     * @test
+     */
+    public function post_has_term()
+    {
+        $this->createPostWithTaxonomiesAndTerms();
+
+        $post = Post::query()->first();
+
+        $this->assertEquals(true, $post->hasTerm('foo', 'bar'));
+        $this->assertEquals(false, $post->hasTerm('foo', 'baz'));
+        $this->assertEquals(false, $post->hasTerm('fee', 'bar'));
+        $this->assertEquals(false, $post->hasTerm('fee', 'baz'));
+        $this->assertEquals('Bar', $post->main_category);
+        $this->assertEquals(['Bar'], $post->keywords);
+        $this->assertEquals('Bar', $post->keywords_str);
+    }
+
+    /**
+     * @test
+     */
+    public function post_can_update_custom_fields_using_meta_attribute()
+    {
+        $post = factory(Post::class)->create();
+        $post->meta->username = 'jgrossi';
+        $post->meta->url = 'http://jgrossi.com';
         $post->save();
 
-        $post = Post::find(1);
-        $this->assertEquals($post->meta->username, 'juniorgrossi');
-        $this->assertEquals($post->meta->url, 'http://grossi.io');
+        $post = Post::query()->first();
+
+        $this->assertEquals($post->meta->username, 'jgrossi');
+        $this->assertEquals($post->meta->url, 'http://jgrossi.com');
     }
 
-    public function testInsertCustomFields()
+    /**
+     * @test
+     */
+    public function post_can_update_custom_fields_using_meta_attribute_and_accessors()
     {
-        $post = new Post();
-        $post->save();
-
-        $post->meta->username = 'juniorgrossi';
-        $post->meta->url = 'http://grossi.io';
-        $post->save();
-
-        $post = Post::find($post->ID);
-        $this->assertEquals($post->meta->username, 'juniorgrossi');
-        $this->assertEquals($post->meta->url, 'http://grossi.io');
-    }
-
-    public function testAuthorFields()
-    {
-        $post = Post::find(1);
-        $this->assertEquals($post->author->display_name, 'admin');
-        $this->assertEquals($post->author->user_email, 'juniorgro@gmail.com');
-    }
-
-    public function testCustomFieldWithAccessors()
-    {
-        $post = Post::find(1);
-        $post->meta->title = 'New title';
+        $post = factory(Post::class)->create(['post_title' => 'Post title']);
+        $post->meta->title = 'Meta title';
         $post->save();
 
         $this->assertEquals($post->post_title, $post->title);
-        $this->assertEquals($post->title, 'Hello world!');
-        $this->assertEquals($post->meta->title, 'New title');
+        $this->assertEquals($post->title, 'Post title');
+        $this->assertEquals($post->meta->title, 'Meta title');
     }
 
-    public function testSingleTableInheritance()
+    /**
+     * @test
+     */
+    public function post_has_author_relation()
     {
-        Post::registerPostType('page', '\\Corcel\\Page');
+        $post = $this->createPostWithAuthor();
+
+        $this->assertEquals('Administrator', $post->author->display_name);
+        $this->assertEquals('admin@example.com', $post->author->user_email);
+    }
+
+    /**
+     * @test
+     */
+    public function single_table_inheritance()
+    {
+        factory(Post::class)->create(['post_type' => 'page']);
+        Post::registerPostType('page', Page::class);
 
         $page = Post::type('page')->first();
 
-        $this->assertInstanceOf('\\Corcel\\Page', $page);
+        $this->assertInstanceOf(Page::class, $page);
     }
 
     public function testClearRegisteredPostTypes()
@@ -338,5 +365,31 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('video', $post->getFormat());
         $post = Post::find(1);
         $this->assertFalse($post->getFormat());
+    }
+
+    /**
+     * @return Post
+     */
+    private function createPostWithTaxonomiesAndTerms()
+    {
+        return factory(Post::class)->create()
+            ->taxonomies()->attach(
+                factory(TermTaxonomy::class)->create([
+                    'taxonomy' => 'foo',
+                ])->term_taxonomy_id, [
+                    'term_order' => 0,
+                ]
+            );
+    }
+
+    /**
+     * @return Post
+     */
+    private function createPostWithAuthor()
+    {
+        return factory(Post::class)->create()
+            ->author()->associate(
+                factory(User::class)->create()
+            );
     }
 }
