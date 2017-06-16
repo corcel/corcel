@@ -56,7 +56,7 @@ class UserTest extends PHPUnit_Framework_TestCase
         $user = factory(User::class)->create();
 
         $user->saveMeta('foo', 'bar');
-        $user->saveMeta('foo', 'baz');
+        $user->saveField('foo', 'baz');
 
         $this->assertEquals($user->meta->foo, 'baz');
     }
