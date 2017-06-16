@@ -613,9 +613,14 @@ class Post extends Model
      */
     public function getFormat()
     {
-        $taxonomy = $this->taxonomies()->where('taxonomy', 'post_format')->first();
-        if ($taxonomy and $taxonomy->term) {
-            return str_replace('post-format-', '', $taxonomy->term->slug);
+        $taxonomy = $this->taxonomies()
+            ->where('taxonomy', 'post_format')
+            ->first();
+
+        if ($taxonomy && $taxonomy->term) {
+            return str_replace(
+                'post-format-', '', $taxonomy->term->slug
+            );
         }
 
         return false;
