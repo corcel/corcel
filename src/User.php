@@ -9,6 +9,7 @@
 
 namespace Corcel;
 
+use Corcel\Traits\HasMetaFields;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 
@@ -17,13 +18,36 @@ class User extends Model implements Authenticatable, CanResetPassword
     const CREATED_AT = 'user_registered';
     const UPDATED_AT = null;
 
+    use HasMetaFields;
+
+    /**
+     * @var string
+     */
     protected $table = 'users';
+
+    /**
+     * @var string
+     */
     protected $primaryKey = 'ID';
+
+    /**
+     * @var array
+     */
     protected $hidden = ['user_pass'];
+
+    /**
+     * @var array
+     */
     protected $dates = ['user_registered'];
+
+    /**
+     * @var array
+     */
     protected $with = ['meta'];
 
-    // Disable updated_at
+    /**
+     * @param mixed $value
+     */
     public function setUpdatedAtAttribute($value)
     {
     }
@@ -45,46 +69,23 @@ class User extends Model implements Authenticatable, CanResetPassword
     ];
 
     /**
-     * Meta data relationship.
-     *
-     * @return Corcel\UserMetaCollection
-     */
-    public function meta()
-    {
-        return $this->hasMany('Corcel\UserMeta', 'user_id');
-    }
-
-    public function fields()
-    {
-        return $this->meta();
-    }
-
-    /**
-     * Posts relationship.
-     *
-     * @return Corcel\PostMetaCollection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function posts()
     {
-        return $this->hasMany('Corcel\Post', 'post_author');
+        return $this->hasMany(Post::class, 'post_author');
     }
 
     /**
-     * Comments relationship.
-     *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function comments()
     {
-        return $this->hasMany('Corcel\Comment', 'user_id');
+        return $this->hasMany(Comment::class, 'user_id');
     }
 
     /**
-     * Overriding newQuery() to the custom UserBuilder with some interesting methods.
-     *
-     * @param bool $excludeDeleted
-     *
-     * @return Corcel\UserBuilder
+     * @return UserBuilder
      */
     public function newQuery()
     {
@@ -99,7 +100,6 @@ class User extends Model implements Authenticatable, CanResetPassword
      * Magic method to return the meta data like the user original fields.
      *
      * @param string $key
-     *
      * @return string
      */
     public function __get($key)
@@ -115,6 +115,11 @@ class User extends Model implements Authenticatable, CanResetPassword
         }
     }
 
+    /**
+     * @param array $options
+     * @return bool
+     * @todo Refactor this to HasMetaFields trait of something like this
+     */
     public function save(array $options = [])
     {
         if (isset($this->attributes[$this->primaryKey])) {
@@ -125,13 +130,10 @@ class User extends Model implements Authenticatable, CanResetPassword
     }
 
     /**
-     * Accessors.
-     */
-
-    /**
      * Get login attribute.
      *
      * @return string
+     * @todo Think in how to avoid this extra methods. Maybe an instance variable as array
      */
     public function getLoginAttribute()
     {
