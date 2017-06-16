@@ -28,4 +28,3 @@ app()->instance('Capsule', $capsule);
 // Include migrations
 require __DIR__ . '/database/migrations.php';
 require __DIR__ . '/database/factories.php';
-
