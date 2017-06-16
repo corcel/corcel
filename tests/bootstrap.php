@@ -16,7 +16,7 @@ $capsule->addConnection([
 // Fake database connection just for testing
 $capsule->addConnection([
     'driver' => 'sqlite',
-    'database' => ':memory',
+    'database' => ':memory:',
     'prefix' => 'foo_',
 ], 'foo');
 
