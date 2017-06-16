@@ -69,22 +69,23 @@ class TermTaxonomyTest extends PHPUnit_Framework_TestCase
      */
     public function can_query_taxonomy_by_term_and_get_all_posts_related()
     {
-        // missing
+        $this->createTaxonomyWithTermsAndPosts();
+
+        $post = Taxonomy::name('foo')->slug('bar')->first()->posts->first();
+
+        $this->assertEquals('Foo bar', $post->title);
     }
 
-    public function testPostKeywords()
+    /**
+     * @test
+     */
+    public function post_should_have_keywords_if_it_has_taxonomy_and_term()
     {
-        $post = Post::find(16);
+        $taxonomy = $this->createTaxonomyWithTermsAndPosts();
+
+        $post = $taxonomy->posts->first();
+
         $this->assertTrue(count($post->keywords) > 0);
-
-        $post = Post::find(2);
-        $this->assertTrue(count($post->keywords) == 0);
-    }
-
-    public function testPageToArray()
-    {
-        $page = Page::find(2)->toArray();
-        $this->assertTrue(is_array($page));
     }
 
     /**
@@ -102,10 +103,14 @@ class TermTaxonomyTest extends PHPUnit_Framework_TestCase
             }
         ]);
 
-        $post = factory(Post::class)->create();
+        $post = factory(Post::class)->create([
+            'post_title' => 'Foo bar',
+        ]);
 
         $post->taxonomies()->attach($taxonomy->term_taxonomy_id, [
             'term_order' => 0,
         ]);
+
+        return $taxonomy;
     }
 }
