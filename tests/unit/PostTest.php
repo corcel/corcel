@@ -28,11 +28,12 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_has_the_correct_id()
+    public function post_has_the_is_as_an_integer()
     {
-        $post = factory(Post::class)->create(['ID' => 1000]);
+        $post = factory(Post::class)->create();
 
-        $this->assertEquals(1000, $post->ID);
+        $this->assertTrue(is_int($post->ID));
+        $this->assertGreaterThan(0, $post->ID);
     }
 
     /**
@@ -177,17 +178,7 @@ class PostTest extends PHPUnit_Framework_TestCase
      */
     public function post_can_have_taxonomy()
     {
-        $post = factory(Post::class)->create();
-
-        $taxonomy = factory(TermTaxonomy::class)->create([
-            'taxonomy' => 'foo',
-            'term_id' => 1,
-            'count' => 1,
-        ]);
-
-        $post->taxonomies()->attach($taxonomy->term_taxonomy_id, [
-            'term_order' => 0,
-        ]);
+        $post = $this->createPostWithTaxonomiesAndTerms();
 
         $this->assertEquals(1, $post->taxonomies->count());
         $this->assertEquals('foo', $post->taxonomies->first()->taxonomy);
@@ -196,31 +187,21 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_with_taxonomies_relation()
-    {
-        $this->createPostWithTaxonomiesAndTerms();
-
-        $taxonomy = Post::first()->taxonomies()->first();
-
-        $this->assertEquals('foo', $taxonomy->taxonomy);
-    }
-
-    /**
-     * @test
-     */
     public function post_with_taxonomy_and_terms()
     {
-        $this->createPostWithTaxonomiesAndTerms();
+        $createdPost = $this->createPostWithTaxonomiesAndTerms();
 
-        $post = Post::taxonomy('foo', ['bar'])->first();
-
-        $this->assertNotNull($post);
-        $this->assertEquals(1, $post->ID);
-
-        $post = Post::taxonomy('foo', 'bar')->first();
+        $post = Post::orderBy('ID', 'desc')
+            ->taxonomy('foo', ['bar'])->first();
 
         $this->assertNotNull($post);
-        $this->assertEquals(1, $post->ID);
+        $this->assertEquals($createdPost->ID, $post->ID);
+
+        $post = Post::orderBy('ID', 'desc')
+            ->taxonomy('foo', 'bar')->first();
+
+        $this->assertNotNull($post);
+        $this->assertEquals($createdPost->ID, $post->ID);
     }
 
     /**
@@ -228,9 +209,7 @@ class PostTest extends PHPUnit_Framework_TestCase
      */
     public function post_has_term()
     {
-        $this->createPostWithTaxonomiesAndTerms();
-
-        $post = Post::query()->first();
+        $post = $this->createPostWithTaxonomiesAndTerms();
 
         $this->assertEquals(true, $post->hasTerm('foo', 'bar'));
         $this->assertEquals(false, $post->hasTerm('foo', 'baz'));
@@ -246,12 +225,12 @@ class PostTest extends PHPUnit_Framework_TestCase
      */
     public function post_can_update_custom_fields_using_meta_attribute()
     {
-        $post = factory(Post::class)->create();
+        $post = factory(Post::class)->create(['post_name' => 'foo']);
         $post->meta->username = 'jgrossi';
         $post->meta->url = 'http://jgrossi.com';
         $post->save();
 
-        $post = Post::query()->first();
+        $post = Post::query()->where('post_name', 'foo')->first();
 
         $this->assertEquals($post->meta->username, 'jgrossi');
         $this->assertEquals($post->meta->url, 'http://jgrossi.com');
@@ -290,7 +269,7 @@ class PostTest extends PHPUnit_Framework_TestCase
         factory(Post::class)->create(['post_type' => 'page']);
         Post::registerPostType('page', Page::class);
 
-        $page = Post::type('page')->first();
+        $page = Post::orderBy('ID', 'desc')->first();
 
         $this->assertInstanceOf(Page::class, $page);
     }
@@ -300,11 +279,14 @@ class PostTest extends PHPUnit_Framework_TestCase
      */
     public function clear_registered_post_types()
     {
-        factory(Post::class)->create(['post_type' => 'page']);
+        factory(Post::class)->create([
+            'post_type' => 'page',
+            'post_name' => 'foo2',
+        ]);
         Post::registerPostType('page', Page::class);
         Post::clearRegisteredPostTypes();
 
-        $page = Post::type('page')->first();
+        $page = Post::where('post_name', 'foo2')->first();
 
         $this->assertInstanceOf(Post::class, $page);
     }
@@ -346,14 +328,7 @@ class PostTest extends PHPUnit_Framework_TestCase
      */
     public function post_can_have_shortcode()
     {
-        Post::addShortcode('foo', function (ShortcodeInterface $shortcode) {
-            return sprintf(
-                '%s.%s.%s',
-                $shortcode->getName(),
-                $shortcode->getParameter('a'),
-                $shortcode->getParameter('b')
-            );
-        });
+        $this->registerFooShortcode();
 
         $post = factory(Post::class)->create([
             'post_content' => 'test [foo a="bar" b="baz"]',
@@ -362,43 +337,72 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($post->content, 'test foo.bar.baz');
     }
 
-    public function testMultipleShortcodes()
+    /**
+     * @test
+     */
+    public function post_content_can_have_multiple_shortcodes()
     {
-        $post = Post::find(125);
+        $this->registerFooShortcode();
 
-        $this->assertEquals($post->content, '1~gallery.1.small2~gallery.2.medium');
+        $post = factory(Post::class)->create([
+            'post_content' => '1~[foo a="bar" b="baz"] 2~[foo a="baz" b="bar"]',
+        ]);
+
+        $this->assertEquals($post->content, '1~foo.bar.baz 2~foo.baz.bar');
     }
 
-    public function testRemoveShortcode()
+    /**
+     * @test
+     */
+    public function post_shortcode_can_be_removed()
     {
-        Post::removeShortcode('gallery');
+        $this->registerFooShortcode();
+        Post::removeShortcode('foo');
 
-        $post = Post::find(123);
+        $post = factory(Post::class)->create([
+            'post_content' => 'test [foo a="bar" b="baz"]',
+        ]);
 
-        $this->assertEquals($post->content, 'test [gallery id="123" size="medium"] shortcodes');
+        $this->assertEquals($post->content, 'test [foo a="bar" b="baz"]');
     }
 
-    public function testPostFormat()
+    /**
+     * @test
+     */
+    public function post_can_have_post_format()
     {
-        $post = Post::find(3);
-        $this->assertEquals('video', $post->getFormat());
-        $post = Post::find(1);
+        $post = $this->createPostWithPostFormatTaxonomy();
+
+        $this->assertEquals('foo', $post->getFormat());
+    }
+
+    /**
+     * @test
+     */
+    public function post_can_have_false_post_format()
+    {
+        $post = factory(Post::class)->create();
+
         $this->assertFalse($post->getFormat());
     }
 
     /**
+     *
      * @return Post
      */
     private function createPostWithTaxonomiesAndTerms()
     {
-        return factory(Post::class)->create()
-            ->taxonomies()->attach(
-                factory(TermTaxonomy::class)->create([
-                    'taxonomy' => 'foo',
-                ])->term_taxonomy_id, [
-                    'term_order' => 0,
-                ]
-            );
+        $post = factory(Post::class)->create();
+
+        $post->taxonomies()->attach(
+            factory(TermTaxonomy::class)->create([
+                'taxonomy' => 'foo',
+            ])->term_taxonomy_id, [
+                'term_order' => 0,
+            ]
+        );
+
+        return $post;
     }
 
     /**
@@ -406,9 +410,51 @@ class PostTest extends PHPUnit_Framework_TestCase
      */
     private function createPostWithAuthor()
     {
-        return factory(Post::class)->create()
-            ->author()->associate(
-                factory(User::class)->create()
+        $post = factory(Post::class)->create();
+
+        $post->author()->associate(
+            factory(User::class)->create()
+        );
+
+        return $post;
+    }
+
+    /**
+     * @return void
+     */
+    private function registerFooShortcode()
+    {
+        Post::addShortcode('foo', function (ShortcodeInterface $shortcode) {
+            return sprintf(
+                '%s.%s.%s',
+                $shortcode->getName(),
+                $shortcode->getParameter('a'),
+                $shortcode->getParameter('b')
             );
+        });
+    }
+
+    /**
+     * @return Post
+     */
+    private function createPostWithPostFormatTaxonomy()
+    {
+        $post = factory(Post::class)->create();
+
+        $post->taxonomies()->attach(
+            factory(TermTaxonomy::class)->create([
+                'taxonomy' => 'post_format',
+                'term_id' => function () {
+                    return factory(Term::class)->create([
+                        'name' => $name = 'post-format-foo',
+                        'slug' => $name,
+                    ])->term_id;
+                },
+            ])->term_taxonomy_id, [
+                'term_order' => 0,
+            ]
+        );
+
+        return $post;
     }
 }
