@@ -1,5 +1,6 @@
 <?php
 
+use Corcel\Post;
 use Corcel\Term;
 use Corcel\TermTaxonomy;
 use Illuminate\Support\Str;
@@ -32,8 +33,8 @@ class TermTaxonomyTest extends PHPUnit_Framework_TestCase
      */
     public function can_filter_taxonomy_by_term()
     {
-        $taxonomies = $this->buildTaxonomies();
-        $term = $taxonomies->first()->term;
+        $taxonomy = $this->createTaxonomyWithTermsAndPosts();
+        $term = $taxonomy->term;
 
         $taxonomies = Taxonomy::slug($term->slug)->get();
 
@@ -43,20 +44,32 @@ class TermTaxonomyTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($taxonomy->term_id, $taxonomy->term->term_id);
         }
     }
-    
-    public function testGeneralTaxonomy()
+
+    /**
+     * @test
+     */
+    public function taxonomy_can_be_queried_by_name_and_term_slug()
     {
-        $cat = Taxonomy::category()->slug('php')->posts()->first();
-        $this->assertEquals('php', $cat->name);
+        $taxonomy = $this->createTaxonomyWithTermsAndPosts();
 
-        $cat = Taxonomy::where('taxonomy', 'category')->slug('php')->with('posts')->get();
-        $cat->each(function ($category) {
-            $this->assertEquals('php', $category->name);
+        // TODO This TermTaxonomyBuilder::posts() method is wrong. posts() should be a relation not a with()
+        // TODO Maybe change slug() to term()
+        $foo = Taxonomy::name('foo')->slug('bar')->first();
+        $this->assertEquals('Bar', $foo->name);
+
+        $foo = Taxonomy::name('foo')->slug('bar')->get();
+        $foo->each(function ($foo) {
+            $this->assertEquals('Bar', $foo->name);
+            $this->assertEquals('bar', $foo->slug);
         });
+    }
 
-        $cat = Category::slug('php')->posts()->first();
-        $post = $cat->posts()->first();
-        $this->assertEquals('hello-world', $post->post_name);
+    /**
+     * @test
+     */
+    public function can_query_taxonomy_by_term_and_get_all_posts_related()
+    {
+        // missing
     }
 
     public function testPostKeywords()
@@ -77,18 +90,22 @@ class TermTaxonomyTest extends PHPUnit_Framework_TestCase
     /**
      * @return \Illuminate\Support\Collection
      */
-    private function buildTaxonomies()
+    private function createTaxonomyWithTermsAndPosts()
     {
-        $terms = factory(Term::class, 2)->create();
-        $taxonomies = collect();
+        $taxonomy = factory(TermTaxonomy::class)->create([
+            'taxonomy' => 'foo',
+            'term_id' => function () {
+                return factory(Term::class)->create([
+                    'name' => 'Bar',
+                    'slug' => 'bar',
+                ])->term_id;
+            }
+        ]);
 
-        foreach ($terms as $term) {
-            $taxonomies->push(factory(TermTaxonomy::class)->create([
-                'term_id' => $term->term_id,
-                'taxonomy' => 'foo',
-            ]));
-        }
+        $post = factory(Post::class)->create();
 
-        return $taxonomies;
+        $post->taxonomies()->attach($taxonomy->term_taxonomy_id, [
+            'term_order' => 0,
+        ]);
     }
 }
