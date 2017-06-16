@@ -295,22 +295,29 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Page::class, $page);
     }
 
-    public function testClearRegisteredPostTypes()
+    /**
+     * @test
+     */
+    public function clear_registered_post_types()
     {
-        Post::registerPostType('page', '\\Corcel\\Page');
+        factory(Post::class)->create(['post_type' => 'page']);
+        Post::registerPostType('page', Page::class);
         Post::clearRegisteredPostTypes();
 
         $page = Post::type('page')->first();
 
-        $this->assertInstanceOf('\\Corcel\\Post', $page);
+        $this->assertInstanceOf(Post::class, $page);
     }
 
-    public function testPostRelationConnections()
+    /**
+     * @test
+     */
+    public function post_relation_can_have_different_database_connection()
     {
-        $post = Post::find(1);
-        $post->setConnection('no_prefix');
+        $post = $this->createPostWithAuthor();
+        $post->setConnection('foo');
 
-        $this->assertEquals('no_prefix', $post->author->getConnectionName());
+        $this->assertEquals('foo', $post->author->getConnectionName());
     }
 
     public function testPostTypeIsFillable()
