@@ -4,6 +4,7 @@ namespace Corcel;
 
 use Corcel\Traits\CreatedAtTrait;
 use Corcel\Traits\HasAcfFields;
+use Corcel\Traits\HasMetaFields;
 use Corcel\Traits\UpdatedAtTrait;
 use Thunder\Shortcode\ShortcodeFacade;
 
@@ -15,7 +16,10 @@ use Thunder\Shortcode\ShortcodeFacade;
  */
 class Post extends Model
 {
-    use CreatedAtTrait, HasAcfFields, UpdatedAtTrait;
+    use CreatedAtTrait;
+    use HasMetaFields;
+    use HasAcfFields;
+    use UpdatedAtTrait;
 
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
@@ -77,22 +81,6 @@ class Post extends Model
         }
 
         parent::__construct($attributes);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function meta()
-    {
-        return $this->hasMany(PostMeta::class, 'post_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function fields()
-    {
-        return $this->meta();
     }
 
     /**
@@ -241,25 +229,6 @@ class Post extends Model
     }
 
     /**
-     * Meta filter scope.
-     *
-     * @param $query
-     * @param $meta
-     * @param null $value
-     *
-     * @return Illuminate\Database\Eloquent\Collection
-     */
-    public function scopeHasMeta($query, $meta, $value = null)
-    {
-        return $query->whereHas('meta', function ($query) use ($meta, $value) {
-            $query->where('meta_key', $meta);
-            if (!is_null($value)) {
-                $query->where('meta_value', $value);
-            }
-        });
-    }
-
-    /**
      * Whether the post contains the term or not.
      *
      * @param string $taxonomy
@@ -270,29 +239,6 @@ class Post extends Model
     {
         return isset($this->terms[$taxonomy]) &&
             isset($this->terms[$taxonomy][$term]);
-    }
-
-    /**
-     * @param string $key
-     * @param mixed $value
-     * @return bool
-     */
-    public function saveMeta($key, $value)
-    {
-        $meta = $this->meta()->where('meta_key', $key)
-            ->firstOrNew(['meta_key' => $key]);
-
-        return $meta->fill(['meta_value' => $value])->save();
-    }
-
-    /**
-     * @param string $key
-     * @param mixed $value
-     * @return bool
-     */
-    public function saveField($key, $value)
-    {
-        return $this->saveMeta($key, $value);
     }
 
     /**
