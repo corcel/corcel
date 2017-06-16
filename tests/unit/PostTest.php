@@ -320,34 +320,46 @@ class PostTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $post->author->getConnectionName());
     }
 
-    public function testPostTypeIsFillable()
+    /**
+     * @test
+     */
+    public function post_type_is_fillable()
     {
-        $postType = 'video';
-        $post = new Post(['post_type' => $postType]);
-        $this->assertEquals($postType, $post->post_type);
+        $post = factory(Post::class)->create(['post_type' => 'video']);
+
+        $this->assertEquals('video', $post->post_type);
     }
 
     /**
-     * This tests to ensure that when the post_parent is 0, it returns 0 and not null
-     * Ocde in the Post::_get() method only checked if the value was false, and so
-     * wouldn't return values from the model that were false (like 0).
+     * @test
      */
-    public function testPostParentDoesNotReturnNullWhenItIsZero()
+    public function post_parent_does_not_return_null_when_it_is_zero()
     {
-        $post = Post::find(1);
+        $post = factory(Post::class)->create(['post_parent' => 0]);
 
         $this->assertNotNull($post->post_parent);
+        $this->assertEquals(0, $post->post_parent);
     }
 
-    public function testAddShortcode()
+    /**
+     * @test
+     */
+    public function post_can_have_shortcode()
     {
-        Post::addShortcode('gallery', function (ShortcodeInterface $s) {
-            return $s->getName().'.'.$s->getParameter('id').'.'.$s->getParameter('size');
+        Post::addShortcode('foo', function (ShortcodeInterface $shortcode) {
+            return sprintf(
+                '%s.%s.%s',
+                $shortcode->getName(),
+                $shortcode->getParameter('a'),
+                $shortcode->getParameter('b')
+            );
         });
 
-        $post = Post::find(123);
+        $post = factory(Post::class)->create([
+            'post_content' => 'test [foo a="bar" b="baz"]',
+        ]);
 
-        $this->assertEquals($post->content, 'test gallery.123.medium shortcodes');
+        $this->assertEquals($post->content, 'test foo.bar.baz');
     }
 
     public function testMultipleShortcodes()
