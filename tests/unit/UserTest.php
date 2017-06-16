@@ -1,6 +1,7 @@
 <?php
 
 use Corcel\User;
+use Corcel\UserMetaCollection;
 
 class UserTest extends PHPUnit_Framework_TestCase
 {
@@ -33,41 +34,31 @@ class UserTest extends PHPUnit_Framework_TestCase
 //        $this->assertEquals(21, $user->getAuthIdentifier());
     }
 
-    public function testUserCustomFields()
+    /**
+     * @test
+     */
+    public function user_can_add_meta()
     {
-        $user = User::find(2);
+        $user = factory(User::class)->create();
+
+        $user->saveMeta('foo', 'bar');
+
         $this->assertNotEmpty($user->meta);
         $this->assertNotEmpty($user->fields);
-        $this->assertEquals($user->getAuthIdentifier(), 2);
-
-        $this->assertTrue($user->meta instanceof \Corcel\UserMetaCollection);
+        $this->assertInstanceOf(UserMetaCollection::class, $user->meta);
     }
 
-    public function testUpdateCustomFields()
+    /**
+     * @test
+     */
+    public function user_can_update_meta()
     {
-        $user = User::find(2);
-        $user->meta->custom_meta1 = 'Hello';
-        $user->meta->custom_meta2 = 'world';
-        $user->save();
+        $user = factory(User::class)->create();
 
-        $user = User::find(2);
-        $this->assertEquals($user->meta->custom_meta1, 'Hello');
-        $this->assertEquals($user->meta->custom_meta2, 'world');
-    }
+        $user->saveMeta('foo', 'bar');
+        $user->saveMeta('foo', 'baz');
 
-    public function testInsertCustomFields()
-    {
-        $user = new User();
-        $user->user_login = 'test';
-        $user->save();
-
-        $user->meta->custom_meta1 = 'Hallo';
-        $user->meta->custom_meta2 = 'Wereld';
-        $user->save();
-
-        $user = User::find($user->ID);
-        $this->assertEquals($user->meta->custom_meta1, 'Hallo');
-        $this->assertEquals($user->meta->custom_meta2, 'Wereld');
+        $this->assertEquals($user->meta->foo, 'baz');
     }
 
     public function testUserConnection()
