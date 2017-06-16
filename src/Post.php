@@ -569,8 +569,8 @@ class Post extends Model
     /**
      * Add a shortcode handler.
      *
-     * @param string   $tag      the shortcode tag
-     * @param function $function the shortcode handling function
+     * @param string $tag the shortcode tag
+     * @param \Closure $function the shortcode handling function
      */
     public static function addShortcode($tag, $function)
     {
