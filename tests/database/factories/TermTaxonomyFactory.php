@@ -7,7 +7,10 @@ $factory->define(Corcel\TermTaxonomy::class, function (Faker\Generator $faker) {
         'parent' => 0,
         'count' => 1,
         'term_id' => function () {
-            return factory(\Corcel\Term::class)->create()->term_id;
+            return factory(\Corcel\Term::class)->create([
+                'name' => 'Bar',
+                'slug' => 'bar',
+            ])->term_id;
         },
     ];
 });
