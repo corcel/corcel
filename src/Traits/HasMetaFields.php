@@ -5,6 +5,7 @@ namespace Corcel\Traits;
 use Corcel\Post;
 use Corcel\PostMeta;
 use Corcel\TermMeta;
+use Illuminate\Support\Arr;
 
 /**
  * Trait HasMetaFields
@@ -19,13 +20,9 @@ trait HasMetaFields
      */
     public function meta()
     {
-        $className = static::class === Post::class ?
-            PostMeta::class : TermMeta::class;
-
-        $fieldName = static::class === Post::class ?
-            'post_id' : 'term_id';
-
-        return $this->hasMany($className, $fieldName);
+        return $this->hasMany(
+            $this->getClassName(), $this->getFieldName()
+        );
     }
 
     /**
@@ -76,5 +73,36 @@ trait HasMetaFields
     public function saveField($key, $value)
     {
         return $this->saveMeta($key, $value);
+    }
+
+    /**
+     * @return string
+     */
+    private function getClassName()
+    {
+        $className = sprintf(
+            'Corcel\\%sMeta', $this->getCallerClassName()
+        );
+
+        return class_exists($className) ? $className : PostMeta::class;
+    }
+
+    /**
+     * @return string
+     */
+    private function getFieldName()
+    {
+        $callerName = $this->getCallerClassName();
+        $className = $this->getClassName();
+
+        return sprintf('%s_id', strtolower($callerName));
+    }
+
+    /**
+     * @return string
+     */
+    private function getCallerClassName()
+    {
+        return Arr::last(explode('\\', static::class));
     }
 }
