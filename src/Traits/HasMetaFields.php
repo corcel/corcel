@@ -76,6 +76,29 @@ trait HasMetaFields
     }
 
     /**
+     * @param string $key
+     * @param mixed $value
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function createMeta($key, $value)
+    {
+        return $this->meta()->create([
+            'meta_key' => $key,
+            'meta_value' => $value,
+        ]);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function createField($key, $value)
+    {
+        return $this->createMeta($key, $value);
+    }
+
+    /**
      * @return string
      */
     private function getClassName()
