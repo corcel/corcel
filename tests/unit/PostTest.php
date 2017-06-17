@@ -296,8 +296,10 @@ class PostTest extends PHPUnit_Framework_TestCase
      */
     public function post_relation_can_have_different_database_connection()
     {
-        $post = $this->createPostWithAuthor();
+        $post = factory(Post::class)->make();
         $post->setConnection('foo');
+        $post->author()->associate(factory(User::class)->create());
+        $post->save();
 
         $this->assertEquals('foo', $post->author->getConnectionName());
     }
