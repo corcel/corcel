@@ -3,6 +3,11 @@
 use Corcel\User;
 use Corcel\UserMetaCollection;
 
+/**
+ * Class UserTest
+ *
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class UserTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -31,7 +36,7 @@ class UserTest extends PHPUnit_Framework_TestCase
      */
     public function user_has_the_correct_auth_identifier()
     {
-        // $this->assertEquals(21, $user->getAuthIdentifier());
+        // TODO $this->assertEquals(21, $user->getAuthIdentifier());
     }
 
     /**
@@ -61,38 +66,52 @@ class UserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($user->meta->foo, 'baz');
     }
 
-    public function testUserConnection()
+    /**
+     * @test
+     */
+    public function user_model_can_have_a_different_connection()
     {
-        $user = new User();
-        $user->setConnection('no_prefix');
-        $user->user_login = 'test';
+        $user = factory(User::class)->make();
+        $user->setConnection('foo');
         $user->save();
 
-        $user->meta->active = 1;
-        $user->save();
+        $user->createMeta('fee', 'baz');
 
-        $this->assertEquals('no_prefix', $user->getConnection()->getName());
+        $this->assertEquals('foo', $user->getConnectionName());
+
         $user->meta->each(function ($meta) {
-            $this->assertEquals('no_prefix', $meta->getConnection()->getName());
+            $this->assertEquals('foo', $meta->getConnectionName());
         });
     }
 
-    public function testUserHasMeta()
+    /**
+     * @test
+     */
+    public function user_has_meta_scope_with_empty_meta()
     {
-        $adm = (new User())->newQuery()
-            ->where('id', 1)
-            ->hasMeta('nickname', 'adm')
-            ->first()
-        ;
+        $id = factory(User::class)->create()->ID;
 
-        $this->assertEmpty($adm);
+        $user = (new User())->newQuery()
+            ->where('ID', $id)
+            ->hasMeta('foo', 'bar')
+            ->first();
 
-        $admin = (new User())->newQuery()
-            ->where('id', 1)
-            ->hasMeta('nickname', 'admin')
-            ->first()
-        ;
+        $this->assertEmpty($user);
+    }
 
-        $this->assertNotEmpty($admin);
+    /**
+     * @test
+     */
+    public function user_has_meta_scope_with_valid_meta()
+    {
+        $user = factory(User::class)->create();
+        $user->saveMeta('foo', 'bar');
+
+        $validUser = (new User())->newQuery()
+            ->where('ID', $user->ID)
+            ->hasMeta('foo', 'bar')
+            ->first();
+
+        $this->assertNotEmpty($validUser);
     }
 }
