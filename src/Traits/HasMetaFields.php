@@ -65,6 +65,8 @@ trait HasMetaFields
                 $this->saveOneMeta($k, $v);
             }
 
+            $this->load('meta');
+
             return true;
         }
 
@@ -102,6 +104,7 @@ trait HasMetaFields
     public function createMeta($key, $value = null)
     {
         if (is_array($key)) {
+            // TODO refactor this to saveMany()
             $metas = collect();
             foreach ($key as $k => $v) {
                 $metas[] = $this->createOneMeta($k, $v);
