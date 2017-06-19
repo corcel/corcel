@@ -3,7 +3,7 @@
 namespace Corcel;
 
 use Corcel\Traits\AliasesTrait;
-use Corcel\Traits\CreatedAtTrait;
+use Corcel\Traits\TimestampsTrait;
 use Corcel\Traits\HasAcfFields;
 use Corcel\Traits\HasMetaFields;
 use Corcel\Traits\ShortcodesTrait;
@@ -18,11 +18,10 @@ use Corcel\Traits\UpdatedAtTrait;
 class Post extends Model
 {
     use AliasesTrait;
-    use CreatedAtTrait;
     use HasAcfFields;
     use HasMetaFields;
     use ShortcodesTrait;
-    use UpdatedAtTrait;
+    use TimestampsTrait;
 
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
@@ -207,7 +206,7 @@ class Post extends Model
         if (!property_exists($this, $key)) {
             if (property_exists($this, $this->primaryKey) && isset($this->meta->$key)) {
                 return $this->meta->$key;
-            }
+            } // TODO this should be removed. Should use now $aliases variable
         } elseif (isset($this->$key) and empty($this->$key)) {
             // fix for menu items when chosing category to show
             if (in_array($key, ['post_title', 'post_name'])) {

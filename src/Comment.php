@@ -8,12 +8,12 @@
 
 namespace Corcel;
 
-use Corcel\Traits\CreatedAtTrait;
+use Corcel\Traits\TimestampsTrait;
 use Corcel\Traits\UpdatedAtTrait;
 
 class Comment extends Model
 {
-    use CreatedAtTrait, UpdatedAtTrait;
+    use TimestampsTrait;
 
     const CREATED_AT = 'comment_date';
     const UPDATED_AT = null;
