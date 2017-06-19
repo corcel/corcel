@@ -20,10 +20,7 @@ class Post extends Model
     use CreatedAtTrait, UpdatedAtTrait;
     use HasMetaFields, HasAcfFields;
     use ShortcodesTrait;
-
-    use AliasesTrait {
-        getAttribute as getAliasAttribute;
-    }
+    use AliasesTrait;
 
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
@@ -266,21 +263,19 @@ class Post extends Model
     }
 
     /**
-     * @param string $key
-     * @return mixed
+     * @return string
      */
-    public function getAttribute($key)
+    public function getContentAttribute()
     {
-        $value = $this->getAliasAttribute($key);
-        $fields = ['content', 'excerpt', 'post_content', 'post_excerpt'];
+        return $this->stripShortcodes($this->post_content);
+    }
 
-        if (in_array($key, $fields)) {
-            if (!empty(self::$shortcodes)) {
-                return $this->stripShortcodes($value);
-            }
-        }
-
-        return $value;
+    /**
+     * @return string
+     */
+    public function getExcerptAttribute()
+    {
+        return $this->stripShortcodes($this->post_excerpt);
     }
 
     /**
