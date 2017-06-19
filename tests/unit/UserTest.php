@@ -108,6 +108,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('bar', $user->meta->foo);
         $this->assertEquals('baz', $user->meta->fee);
+        $this->assertEquals(2, $user->meta->count());
     }
 
     /**
@@ -120,6 +121,7 @@ class UserTest extends PHPUnit_Framework_TestCase
 
         $metas = $user->createMeta(['foo' => 'bar']);
         $this->assertInstanceOf(Collection::class, $metas);
+        $this->assertEquals(1, $metas->count());
 
         $meta = $user->createMeta('foo', 'bar');
         $this->assertInstanceOf(Model::class, $meta);
@@ -136,6 +138,24 @@ class UserTest extends PHPUnit_Framework_TestCase
         $user->saveField('foo', 'baz');
 
         $this->assertEquals($user->meta->foo, 'baz');
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_update_multiples_metas()
+    {
+        $user = factory(User::class)->create();
+
+        $user->createMeta(['foo' => 'bar', 'fee' => 'baz']);
+
+        $this->assertEquals('bar', $user->meta->foo);
+        $this->assertEquals('baz', $user->meta->fee);
+
+        $user->saveMeta(['foo' => 'baz', 'fee' => 'bar']);
+
+        $this->assertEquals('baz', $user->meta->foo);
+        $this->assertEquals('bar', $user->meta->fee);
     }
 
     /**
