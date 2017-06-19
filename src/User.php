@@ -9,6 +9,7 @@
 
 namespace Corcel;
 
+use Corcel\Traits\AliasesTrait;
 use Corcel\Traits\HasMetaFields;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\CanResetPassword;
@@ -19,6 +20,7 @@ class User extends Model implements Authenticatable, CanResetPassword
     const UPDATED_AT = null;
 
     use HasMetaFields;
+    use AliasesTrait;
 
     /**
      * @var string
@@ -46,11 +48,18 @@ class User extends Model implements Authenticatable, CanResetPassword
     protected $with = ['meta'];
 
     /**
-     * @param mixed $value
+     * @var array
      */
-    public function setUpdatedAtAttribute($value)
-    {
-    }
+    protected $aliases = [
+        'login' => 'user_login',
+        'email' => 'user_email',
+        'slug' => 'user_nicename',
+        'url' => 'user_url',
+        'nickname' => ['meta' => 'nickname'],
+        'first_name' => ['meta' => 'first_name'],
+        'last_name' => ['meta' => 'last_name'],
+        'created_at' => 'user_registered',
+    ];
 
     /**
      * The accessors to append to the model's array form.
@@ -58,15 +67,16 @@ class User extends Model implements Authenticatable, CanResetPassword
      * @var array
      */
     protected $appends = [
-        'login',
-        'email',
-        'slug',
-        'url',
-        'nickname',
-        'first_name',
-        'last_name',
-        'created_at',
+        'login', 'email', 'slug', 'url', 'nickname',
+        'first_name', 'last_name', 'created_at',
     ];
+
+    /**
+     * @param mixed $value
+     */
+    public function setUpdatedAtAttribute($value)
+    {
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -127,87 +137,6 @@ class User extends Model implements Authenticatable, CanResetPassword
         }
 
         return parent::save($options);
-    }
-
-    /**
-     * Get login attribute.
-     *
-     * @return string
-     * @todo Think in how to avoid this extra methods. Maybe an instance variable as array
-     */
-    public function getLoginAttribute()
-    {
-        return $this->user_login;
-    }
-
-    /**
-     * Get email attribute.
-     *
-     * @return string
-     */
-    public function getEmailAttribute()
-    {
-        return $this->user_email;
-    }
-
-    /**
-     * Get slug attribute.
-     *
-     * @return string
-     */
-    public function getSlugAttribute()
-    {
-        return $this->user_nicename;
-    }
-
-    /**
-     * Get url attribute.
-     *
-     * @return string
-     */
-    public function getUrlAttribute()
-    {
-        return $this->user_url;
-    }
-
-    /**
-     * Get nickname attribute.
-     *
-     * @return string
-     */
-    public function getNicknameAttribute()
-    {
-        return $this->meta->nickname;
-    }
-
-    /**
-     * Get first name attribute.
-     *
-     * @return string
-     */
-    public function getFirstNameAttribute()
-    {
-        return $this->meta->first_name;
-    }
-
-    /**
-     * Get last name attribute.
-     *
-     * @return string
-     */
-    public function getLastNameAttribute()
-    {
-        return $this->meta->last_name;
-    }
-
-    /**
-     * Get created at attribute.
-     *
-     * @return date
-     */
-    public function getCreatedAtAttribute()
-    {
-        return $this->user_registered;
     }
 
     /**

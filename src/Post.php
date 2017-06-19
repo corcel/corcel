@@ -194,6 +194,7 @@ class Post extends Model
      * @param string $key
      *
      * @return string
+     * @todo This is a mess. Refactor this
      */
     public function __get($key)
     {
