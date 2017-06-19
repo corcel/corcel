@@ -7,7 +7,6 @@ use Corcel\Traits\TimestampsTrait;
 use Corcel\Traits\HasAcfFields;
 use Corcel\Traits\HasMetaFields;
 use Corcel\Traits\ShortcodesTrait;
-use Corcel\Traits\UpdatedAtTrait;
 
 /**
  * Class Post
