@@ -56,8 +56,27 @@ trait HasMetaFields
      * @param string $key
      * @param mixed $value
      * @return bool
+     * @todo Add support to array in $key
      */
-    public function saveMeta($key, $value)
+    public function saveMeta($key, $value = null)
+    {
+        if (is_array($key)) {
+            foreach ($key as $k => $v) {
+                $this->saveOneMeta($k, $v);
+            }
+
+            return true;
+        }
+
+        return $this->saveOneMeta($key, $value);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return bool
+     */
+    private function saveOneMeta($key, $value)
     {
         $meta = $this->meta()->where('meta_key', $key)
             ->firstOrNew(['meta_key' => $key]);
@@ -78,9 +97,28 @@ trait HasMetaFields
     /**
      * @param string $key
      * @param mixed $value
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection
+     */
+    public function createMeta($key, $value = null)
+    {
+        if (is_array($key)) {
+            $metas = collect();
+            foreach ($key as $k => $v) {
+                $metas[] = $this->createOneMeta($k, $v);
+            }
+
+            return $metas;
+        }
+
+        return $this->createOneMeta($key, $value);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function createMeta($key, $value)
+    private function createOneMeta($key, $value)
     {
         return $this->meta()->create([
             'meta_key' => $key,
