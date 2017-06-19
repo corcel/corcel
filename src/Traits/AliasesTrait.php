@@ -20,7 +20,15 @@ trait AliasesTrait
 
         if ($value === null) {
             if (isset($this->aliases) && isset($this->aliases[$key])) {
-                return parent::getAttribute($this->aliases[$key]);
+                $value = $this->aliases[$key];
+
+                if (is_array($value)) {
+                    foreach ($value as $key => $val) {
+                        return $this->$key->$val;
+                    }
+                }
+
+                return parent::getAttribute($value);
             }
         }
 
