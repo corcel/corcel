@@ -3,63 +3,101 @@
 use Corcel\Post;
 use Corcel\PostMeta;
 
+/**
+ * Class PostMetaTest
+ *
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class PostMetaTest extends PHPUnit_Framework_TestCase
 {
-    public function testPostMetaConstructor()
+    /**
+     * @test
+     */
+    public function meta_has_correct_instance_type()
     {
-        $postmeta = new PostMeta();
-        $this->assertTrue($postmeta instanceof \Corcel\PostMeta);
+        $meta = factory(PostMeta::class)->create();
+
+        $this->assertInstanceOf(PostMeta::class, $meta);
     }
 
-    public function testPostId()
+    /**
+     * @test
+     */
+    public function meta_id_is_an_integer()
     {
-        $postmeta = PostMeta::find(1);
+        $meta = factory(PostMeta::class)->create();
 
-        if ($postmeta) {
-            $this->assertEquals($postmeta->meta_id, 1);
-        } else {
-            $this->assertEquals($postmeta, null);
-        }
+        $this->assertNotNull($meta);
+        $this->assertTrue(is_int($meta->meta_id));
     }
 
-    public function testPostRelation()
+    /**
+     * @test
+     */
+    public function meta_post_relation()
     {
-        $postmeta = PostMeta::find(1);
-        $this->assertTrue($postmeta->post instanceof \Corcel\Post);
+        $meta = $this->createMetaWithPost();
+
+        $this->assertInstanceOf(Post::class, $meta->post);
     }
 
-    public function testPostMetaValue()
+    /**
+     * @test
+     */
+    public function meta_has_meta_key_and_value()
     {
-        //test value when meta_value is string
-        $metaWithString = PostMeta::find(1);
-        $stringValue = '2016-04-03';
-        $metaWithString->meta_value = $stringValue;
-        $this->assertEquals($stringValue, $metaWithString->value);
+        $meta = factory(PostMeta::class)->create();
 
-        //test value when meta_value is serialized array
-        $metaWithArray = PostMeta::find(1);
-        $arrayValue = ['key' => 'value'];
-        $metaWithArray->meta_value = serialize($arrayValue);
-        $this->assertEquals($arrayValue, $metaWithArray->value);
+        $this->assertNotNull($meta);
+        $this->assertNotNull($meta->meta_key);
+        $this->assertNotNull($meta->meta_value);
     }
 
-    public function testSerializedData()
+    /**
+     * @test
+     */
+    public function meta_value_has_the_same_value_than_post_meta_value()
     {
-        $post = Post::find(45);
-        $this->assertTrue(is_array($post->meta->username));
+        $meta = $this->createMetaWithPost();
+
+        $post = $meta->post;
+        $key = $meta->meta_key;
+
+        $this->assertEquals($meta->meta_value, $post->meta->$key);
     }
 
-    public function testPostThumbnail()
+    /**
+     * @test
+     */
+    public function meta_value_can_be_reached_by_value_property()
     {
-        $post = Post::find(59);
-        $this->assertTrue($post->thumbnail->attachment instanceof Corcel\Attachment);
-        $this->assertContains('hoodie_6_front.jpg', $post->image);
-        $this->assertContains('/uploads/', $post->image);
+        $meta = factory(PostMeta::class)->create();
+
+        $this->assertNotNull($meta->value);
+        $this->assertEquals($meta->meta_value, $meta->value);
     }
 
-    public function testQueryPostByMeta()
+    /**
+     * @test
+     */
+    public function meta_value_can_be_serialized()
     {
-        $post = Post::hasMeta('username', 'juniorgrossi')->first();
-        $this->assertEquals(1, $post->ID);
+        $meta = factory(PostMeta::class)->create();
+
+        $meta->meta_value = serialize($expected = ['foo' => 'bar']);
+
+        $this->assertEquals($expected, $meta->value);
+    }
+
+    /**
+     * @return PostMeta
+     */
+    private function createMetaWithPost()
+    {
+        return factory(PostMeta::class)->create([
+            'post_id' => function () {
+                return factory(Post::class)->create()->ID;
+            },
+        ]);
     }
 }
