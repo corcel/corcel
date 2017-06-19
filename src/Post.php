@@ -2,6 +2,7 @@
 
 namespace Corcel;
 
+use Corcel\Traits\AliasesTrait;
 use Corcel\Traits\CreatedAtTrait;
 use Corcel\Traits\HasAcfFields;
 use Corcel\Traits\HasMetaFields;
@@ -21,6 +22,7 @@ class Post extends Model
     use HasAcfFields;
     use UpdatedAtTrait;
     use ShortcodesTrait;
+    use AliasesTrait;
 
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
