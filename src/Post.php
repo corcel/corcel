@@ -17,12 +17,13 @@ use Corcel\Traits\UpdatedAtTrait;
  */
 class Post extends Model
 {
-    use CreatedAtTrait;
-    use HasMetaFields;
-    use HasAcfFields;
-    use UpdatedAtTrait;
+    use CreatedAtTrait, UpdatedAtTrait;
+    use HasMetaFields, HasAcfFields;
     use ShortcodesTrait;
-    use AliasesTrait;
+
+    use AliasesTrait {
+        getAttribute as getAliasAttribute;
+    }
 
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
@@ -79,6 +80,8 @@ class Post extends Model
      */
     protected $aliases = [
         'title' => 'post_title',
+        'content' => 'post_content',
+        'excerpt' => 'post_excerpt',
         'slug' => 'post_name',
         'type' => 'post_type',
         'mime_type' => 'post_mime_type',
@@ -263,31 +266,21 @@ class Post extends Model
     }
 
     /**
-     * Gets the content attribute.
-     *
-     * @return string
+     * @param string $key
+     * @return mixed
      */
-    public function getContentAttribute()
+    public function getAttribute($key)
     {
-        if (empty(self::$shortcodes)) {
-            return $this->post_content;
+        $value = $this->getAliasAttribute($key);
+        $fields = ['content', 'excerpt', 'post_content', 'post_excerpt'];
+
+        if (in_array($key, $fields)) {
+            if (!empty(self::$shortcodes)) {
+                return $this->stripShortcodes($value);
+            }
         }
 
-        return $this->stripShortcodes($this->post_content);
-    }
-
-    /**
-     * Gets the excerpt attribute.
-     *
-     * @return string
-     */
-    public function getExcerptAttribute()
-    {
-        if (empty(self::$shortcodes)) {
-            return $this->post_excerpt;
-        }
-
-        return $this->stripShortcodes($this->post_excerpt);
+        return $value;
     }
 
     /**
