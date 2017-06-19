@@ -16,12 +16,14 @@ trait AliasesTrait
      */
     public function getAttribute($key)
     {
-        if (isset($this->aliases) && isset($this->aliases[$key])) {
-            return parent::getAttribute(
-                $this->aliases[$key]
-            );
+        if ($value = parent::getAttribute($key)) {
+            return $value;
         }
 
-        return parent::getAttribute($key);
+        if (isset($this->aliases) && isset($this->aliases[$key])) {
+            return parent::getAttribute($this->aliases[$key]);
+        }
+
+        return null;
     }
 }
