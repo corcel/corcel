@@ -16,7 +16,9 @@ trait AliasesTrait
      */
     public function getAttribute($key)
     {
-        if ($value = parent::getAttribute($key)) {
+        $value = parent::getAttribute($key);
+
+        if ($value !== null) {
             return $value;
         }
 
@@ -24,6 +26,6 @@ trait AliasesTrait
             return parent::getAttribute($this->aliases[$key]);
         }
 
-        return null;
+        return $value;
     }
 }
