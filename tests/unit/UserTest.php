@@ -1,7 +1,9 @@
 <?php
 
+use Corcel\Model;
 use Corcel\User;
 use Corcel\UserMetaCollection;
+use Illuminate\Support\Collection;
 
 /**
  * Class UserTest
@@ -72,6 +74,55 @@ class UserTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($user->meta);
         $this->assertNotEmpty($user->fields);
         $this->assertInstanceOf(UserMetaCollection::class, $user->meta);
+    }
+
+    /**
+     * @test
+     * @todo extract this test to a different file
+     */
+    public function user_can_save_multiples_metas()
+    {
+        $user = factory(User::class)->create();
+
+        $user->saveMeta([
+            'foo' => 'bar',
+            'fee' => 'baz',
+        ]);
+
+        $this->assertEquals('bar', $user->meta->foo);
+        $this->assertEquals('baz', $user->meta->fee);
+    }
+
+    /**
+     * @test
+     * @todo extract this test to a different file
+     */
+    public function user_can_create_multiples_metas()
+    {
+        $user = factory(User::class)->create();
+
+        $user->createMeta([
+            'foo' => 'bar',
+            'fee' => 'baz',
+        ]);
+
+        $this->assertEquals('bar', $user->meta->foo);
+        $this->assertEquals('baz', $user->meta->fee);
+    }
+
+    /**
+     * @test
+     * @todo extract this test to a different file
+     */
+    public function create_meta_method_returns_model_or_collection()
+    {
+        $user = factory(User::class)->create();
+
+        $metas = $user->createMeta(['foo' => 'bar']);
+        $this->assertInstanceOf(Collection::class, $metas);
+
+        $meta = $user->createMeta('foo', 'bar');
+        $this->assertInstanceOf(Model::class, $meta);
     }
 
     /**
