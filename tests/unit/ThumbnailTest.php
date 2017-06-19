@@ -45,6 +45,28 @@ class ThumbnailTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @test
+     */
+    public function thumbnail_attachment_url_is_valid()
+    {
+        $post = $this->createPostWithThumbnail();
+
+        $this->assertEquals('http://google.com', $post->thumbnail->attachment->url);
+    }
+
+    /**
+     * @test
+     */
+    public function thumbnail_has_different_sizes()
+    {
+        $post = $this->createPostWithThumbnail();
+
+        $sizes = $post->thumbnail->attachment->size(ThumbnailMeta::SIZE_FULL);
+
+        //
+    }
+
+    /**
      * @return ThumbnailMeta
      */
     private function createThumbnailMetaWithAttachment()
@@ -57,5 +79,22 @@ class ThumbnailTest extends PHPUnit_Framework_TestCase
         $meta->attachment()->associate($attachment);
 
         return $meta;
+    }
+
+    /**
+     * @return Post
+     */
+    private function createPostWithThumbnail()
+    {
+        $thumbnail = factory(ThumbnailMeta::class)->create([
+            'meta_value' => function () {
+                // TODO add meta information for this Attachment
+                return factory(Attachment::class)->create([
+                    'guid' => 'http://google.com',
+                ])->ID;
+            },
+        ]);
+
+        return $thumbnail->post;
     }
 }

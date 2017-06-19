@@ -95,6 +95,7 @@ class Attachment extends Post
      * Returns the basic Attachment information.
      *
      * @return string
+     * @todo Refactor to collection
      */
     public function toArray()
     {
