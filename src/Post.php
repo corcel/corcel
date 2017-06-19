@@ -72,6 +72,25 @@ class Post extends Model
         'keywords_str',
     ];
 
+    /**
+     * @var array
+     */
+    protected $aliases = [
+        'title' => 'post_title',
+        'slug' => 'post_name',
+        'type' => 'post_type',
+        'mime_type' => 'post_mime_type',
+        'url' => 'guid',
+        'author_id' => 'post_author',
+        'parent_id' => 'post_parent',
+        'created_at' => 'post_date',
+        'updated_at' => 'post_modified',
+        'status' => 'post_status',
+    ];
+
+    /**
+     * @param array $attributes
+     */
     public function __construct(array $attributes = [])
     {
         foreach ($this->fillable as $field) {
@@ -242,26 +261,6 @@ class Post extends Model
     }
 
     /**
-     * Gets the title attribute.
-     *
-     * @return string
-     */
-    public function getTitleAttribute()
-    {
-        return $this->post_title;
-    }
-
-    /**
-     * Gets the slug attribute.
-     *
-     * @return string
-     */
-    public function getSlugAttribute()
-    {
-        return $this->post_name;
-    }
-
-    /**
      * Gets the content attribute.
      *
      * @return string
@@ -276,76 +275,6 @@ class Post extends Model
     }
 
     /**
-     * Gets the type attribute.
-     *
-     * @return string
-     */
-    public function getTypeAttribute()
-    {
-        return $this->post_type;
-    }
-
-    /**
-     * Gets the mime type attribute.
-     *
-     * @return string
-     */
-    public function getMimeTypeAttribute()
-    {
-        return $this->post_mime_type;
-    }
-
-    /**
-     * Gets the url attribute.
-     *
-     * @return string
-     */
-    public function getUrlAttribute()
-    {
-        return $this->guid;
-    }
-
-    /**
-     * Gets the author id attribute.
-     *
-     * @return int
-     */
-    public function getAuthorIdAttribute()
-    {
-        return $this->post_author;
-    }
-
-    /**
-     * Gets the parent id attribute.
-     *
-     * @return int
-     */
-    public function getParentIdAttribute()
-    {
-        return $this->post_parent;
-    }
-
-    /**
-     * Gets the created at attribute.
-     *
-     * @return date
-     */
-    public function getCreatedAtAttribute()
-    {
-        return $this->post_date;
-    }
-
-    /**
-     * Gets the updated at attribute.
-     *
-     * @return \Carbon\Carbon
-     */
-    public function getUpdatedAtAttribute()
-    {
-        return $this->post_modified;
-    }
-
-    /**
      * Gets the excerpt attribute.
      *
      * @return string
@@ -357,16 +286,6 @@ class Post extends Model
         }
 
         return $this->stripShortcodes($this->post_excerpt);
-    }
-
-    /**
-     * Gets the status attribute.
-     *
-     * @return string
-     */
-    public function getStatusAttribute()
-    {
-        return $this->post_status;
     }
 
     /**
