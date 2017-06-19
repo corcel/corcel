@@ -17,10 +17,12 @@ use Corcel\Traits\UpdatedAtTrait;
  */
 class Post extends Model
 {
-    use CreatedAtTrait, UpdatedAtTrait;
-    use HasMetaFields, HasAcfFields;
-    use ShortcodesTrait;
     use AliasesTrait;
+    use CreatedAtTrait;
+    use HasAcfFields;
+    use HasMetaFields;
+    use ShortcodesTrait;
+    use UpdatedAtTrait;
 
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
