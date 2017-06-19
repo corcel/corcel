@@ -18,12 +18,10 @@ trait AliasesTrait
     {
         $value = parent::getAttribute($key);
 
-        if ($value !== null) {
-            return $value;
-        }
-
-        if (isset($this->aliases) && isset($this->aliases[$key])) {
-            return parent::getAttribute($this->aliases[$key]);
+        if ($value === null) {
+            if (isset($this->aliases) && isset($this->aliases[$key])) {
+                return parent::getAttribute($this->aliases[$key]);
+            }
         }
 
         return $value;
