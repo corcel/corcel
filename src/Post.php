@@ -5,8 +5,8 @@ namespace Corcel;
 use Corcel\Traits\CreatedAtTrait;
 use Corcel\Traits\HasAcfFields;
 use Corcel\Traits\HasMetaFields;
+use Corcel\Traits\ShortcodesTrait;
 use Corcel\Traits\UpdatedAtTrait;
-use Thunder\Shortcode\ShortcodeFacade;
 
 /**
  * Class Post
@@ -20,13 +20,13 @@ class Post extends Model
     use HasMetaFields;
     use HasAcfFields;
     use UpdatedAtTrait;
+    use ShortcodesTrait;
 
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
 
     /** @var array */
     protected static $postTypes = [];
-    protected static $shortcodes = [];
 
     protected $table = 'posts';
     protected $primaryKey = 'ID';
@@ -510,46 +510,6 @@ class Post extends Model
     public static function clearRegisteredPostTypes()
     {
         static::$postTypes = [];
-    }
-
-    /**
-     * Add a shortcode handler.
-     *
-     * @param string $tag the shortcode tag
-     * @param \Closure $function the shortcode handling function
-     */
-    public static function addShortcode($tag, $function)
-    {
-        self::$shortcodes[$tag] = $function;
-    }
-
-    /**
-     * Removes a shortcode handler.
-     *
-     * @param string $tag the shortcode tag
-     */
-    public static function removeShortcode($tag)
-    {
-        if (isset(self::$shortcodes[$tag])) {
-            unset(self::$shortcodes[$tag]);
-        }
-    }
-
-    /**
-     * Process the shortcodes.
-     *
-     * @param string $content the content
-     *
-     * @return string
-     */
-    public function stripShortcodes($content)
-    {
-        $facade = new ShortcodeFacade();
-        foreach (self::$shortcodes as $tag => $func) {
-            $facade->addHandler($tag, $func);
-        }
-
-        return $facade->process($content);
     }
 
     /**
