@@ -28,11 +28,29 @@ class Post extends Model
     /** @var array */
     protected static $postTypes = [];
 
+    /**
+     * @var string
+     */
     protected $table = 'posts';
+
+    /**
+     * @var string
+     */
     protected $primaryKey = 'ID';
+
+    /**
+     * @var array
+     */
     protected $dates = ['post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt'];
+
+    /**
+     * @var array
+     */
     protected $with = ['meta'];
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'post_content',
         'post_title',
@@ -44,32 +62,15 @@ class Post extends Model
     ];
 
     /**
-     * The accessors to append to the model's array form.
-     *
      * @var array
      */
     protected $appends = [
-        'title',
-        'slug',
-        'content',
-        'type',
-        'mime_type',
-        'url',
-        'author_id',
-        'parent_id',
-        'created_at',
-        'updated_at',
-        'excerpt',
-        'status',
-        'image',
-
+        'title', 'slug', 'content', 'type', 'mime_type', 'url', 'author_id', 'parent_id',
+        'created_at', 'updated_at', 'excerpt', 'status', 'image',
         // Terms inside all taxonomies
         'terms',
-
         // Terms analysis
-        'main_category',
-        'keywords',
-        'keywords_str',
+        'main_category', 'keywords', 'keywords_str',
     ];
 
     /**
@@ -92,6 +93,7 @@ class Post extends Model
 
     /**
      * @param array $attributes
+     * @todo Check if this is really necessary
      */
     public function __construct(array $attributes = [])
     {
@@ -168,6 +170,7 @@ class Post extends Model
     /**
      * @param bool $excludeDeleted
      * @return PostBuilder
+     * @todo Fix orderBy issue
      */
     public function newQuery($excludeDeleted = true)
     {
@@ -195,6 +198,7 @@ class Post extends Model
      *
      * @return string
      * @todo This is a mess. Refactor this
+     * @todo Extract menu logic to a method or Trait
      */
     public function __get($key)
     {
@@ -226,6 +230,7 @@ class Post extends Model
                     return $post->$key;
                 }
 
+                // TODO Extract this
                 if (isset($taxonomy) && $taxonomy->exists) {
                     if ($key == 'post_title') {
                         return $taxonomy->name;
@@ -240,6 +245,7 @@ class Post extends Model
     /**
      * @param array $options
      * @return bool
+     * @todo Remove this method or mark as deprecated
      */
     public function save(array $options = [])
     {
@@ -390,7 +396,7 @@ class Post extends Model
         $model->exists = true;
 
         $model->setRawAttributes((array) $attributes, true);
-        $model->setConnection($connection ?: $this->connection);
+        $model->setConnection($connection ?: $this->connection); // TODO fix this to PHP 5.5+
 
         return $model;
     }
