@@ -37,9 +37,11 @@ class UserTest extends PHPUnit_Framework_TestCase
     public function user_has_multiple_property_aliases()
     {
         $user = factory(User::class)->create();
-        $user->saveMeta('last_name', 'bar');
+        $user->saveMeta('nickname', 'foo');
+        $user->saveMeta('first_name', 'bar');
+        $user->saveMeta('last_name', 'baz');
 
-        $this->assertEquals($user->last_name, 'bar');
+        $this->assertEquals($user->last_name, 'baz');
         $this->assertEquals($user->user_login, $user->login);
         $this->assertEquals($user->user_email, $user->email);
         $this->assertEquals($user->user_nicename, $user->slug);
