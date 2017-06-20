@@ -105,12 +105,9 @@ trait HasMetaFields
     {
         if (is_array($key)) {
             // TODO refactor this to saveMany()
-            $metas = collect();
-            foreach ($key as $k => $v) {
-                $metas[] = $this->createOneMeta($k, $v);
-            }
-
-            return $metas;
+            return collect($key)->map(function ($value, $key) {
+                return $this->createOneMeta($key, $value);
+            });
         }
 
         return $this->createOneMeta($key, $value);
