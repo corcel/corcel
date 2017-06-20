@@ -104,7 +104,6 @@ trait HasMetaFields
     public function createMeta($key, $value = null)
     {
         if (is_array($key)) {
-            // TODO refactor this to saveMany()
             return collect($key)->map(function ($value, $key) {
                 return $this->createOneMeta($key, $value);
             });
