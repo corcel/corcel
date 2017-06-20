@@ -260,7 +260,7 @@ class Post extends Model
         return $query->whereHas('meta', function ($query) use ($meta, $value) {
             $query->where('meta_key', $meta);
             if (!is_null($value)) {
-                $query->where('meta_value', $value);
+                $query->{is_array($value) ? 'whereIn' : 'where'}('meta_value', $value);
             }
         });
     }
