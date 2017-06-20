@@ -8,6 +8,7 @@ use Thunder\Shortcode\ShortcodeFacade;
  * Trait ShortcodesTrait
  *
  * @package Corcel\Traits
+ * @author Mickael Burguet <www.rundef.com>
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 trait ShortcodesTrait
