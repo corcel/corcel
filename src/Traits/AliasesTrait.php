@@ -34,4 +34,13 @@ trait AliasesTrait
 
         return $value;
     }
+
+    /**
+     * @param string $new
+     * @param string $old
+     */
+    public function addAlias($new, $old)
+    {
+        $this->aliases[$new] = $old;
+    }
 }

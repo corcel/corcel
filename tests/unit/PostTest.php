@@ -73,6 +73,20 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
+    public function post_can_add_alias_in_runtime()
+    {
+        $post = factory(Post::class)->create();
+        $post->saveMeta('foo', 'bar');
+
+        $post->addAlias('baz', ['meta' => 'foo']);
+
+        $this->assertEquals('bar', $post->baz);
+        $this->assertEquals($post->baz, $post->meta->foo);
+    }
+
+    /**
+     * @test
+     */
     public function post_can_accept_unicode_chars()
     {
         $post = factory(Post::class)->create([
