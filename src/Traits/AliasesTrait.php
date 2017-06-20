@@ -2,6 +2,8 @@
 
 namespace Corcel\Traits;
 
+use Illuminate\Support\Arr;
+
 /**
  * Trait AliasesTrait
  *
@@ -23,9 +25,9 @@ trait AliasesTrait
                 $value = $this->aliases[$key];
 
                 if (is_array($value)) {
-                    foreach ($value as $key => $val) {
-                        return $this->$key->$val;
-                    }
+                    $meta = Arr::get($value, 'meta');
+
+                    return $this->meta->$meta;
                 }
 
                 return parent::getAttribute($value);
