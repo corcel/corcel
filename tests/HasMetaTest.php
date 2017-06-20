@@ -19,7 +19,7 @@ class HasMetaTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals(0, $posts->count());
 
         foreach ($posts as $o_post) {
-          $this->assertTrue($post instanceof \Corcel\Post);
+            $this->assertTrue($post instanceof \Corcel\Post);
         }
     }
 }
