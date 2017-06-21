@@ -5,7 +5,7 @@ use Corcel\User;
 $factory->define(Corcel\Comment::class, function (Faker\Generator $faker) {
     return [
         'comment_post_ID' => function () {
-            return factory(User::class)->create()->ID;
+            return factory(Post::class)->create()->ID;
         },
         'comment_author' => $faker->name,
         'comment_author_email' => $faker->email,
