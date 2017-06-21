@@ -153,7 +153,6 @@ trait HasMetaFields
     private function getFieldName()
     {
         $callerName = $this->getCallerClassName();
-        $className = $this->getClassName();
 
         return sprintf('%s_id', strtolower($callerName));
     }
