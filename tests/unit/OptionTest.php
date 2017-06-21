@@ -13,14 +13,50 @@ class OptionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function get_all_method()
+    public function as_array_method_values()
+    {
+        factory(Option::class)->create([
+            'option_name' => 'foo',
+            'option_value' => 'bar',
+        ]);
+
+        $options = Option::asArray();
+        $expected = ['foo' => 'bar'];
+
+        $this->assertArraySubset($expected, $options);
+        $this->assertArrayHasKey('foo', $options);
+        $this->assertEquals('bar', $options['foo']);
+    }
+
+    /**
+     * @test
+     */
+    public function as_array_method_count()
     {
         factory(Option::class, 2)->create();
 
-        $options = Option::getAll();
+        $options = Option::asArray();
 
         $this->assertTrue(is_array($options));
         $this->assertTrue(count($options) > 0);
+    }
+
+    /**
+     * @test
+     */
+    public function option_can_have_serialized_data()
+    {
+        factory(Option::class)->create([
+            'option_name' => 'foo',
+            'option_value' => serialize($array = ['foo', 'bar']),
+        ]);
+
+        $options = Option::asArray();
+
+        $this->assertArrayHasKey('foo', $options);
+        $this->assertInternalType('array', $options['foo']);
+        $this->assertContains($array, $options);
+        $this->assertArraySubset($array, $options['foo']);
     }
 
 //    /**
@@ -28,14 +64,6 @@ class OptionTest extends PHPUnit_Framework_TestCase
 //     */
 //    public function testGetOptions()
 //    {
-//        // Get all the options and test some
-//        $options = Option::getAll();
-//        $this->assertNotNull($options);
-//
-//        // String value
-//        $this->assertArrayHasKey('blogname', $options);
-//        $this->assertEquals('Wordpress Corcel', $options['blogname']);
-//
 //        // Array value
 //        $this->assertArrayHasKey('wp_user_roles', $options);
 //        $this->assertCount(5, $options['wp_user_roles']);
