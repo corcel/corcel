@@ -8,6 +8,7 @@ use Exception;
  * Option class.
  *
  * @author José CI <josec89@gmail.com>
+ * @author Junior Grossi <juniorgro@gmail.com>
  */
 class Option extends Model
 {
@@ -15,21 +16,16 @@ class Option extends Model
     const UPDATED_AT = null;
 
     /**
-     * The database table used by the model.
-     *
      * @var string
      */
     protected $table = 'option';
+
     /**
-     * The primary key of the model.
-     *
      * @var string
      */
     protected $primaryKey = 'option_id';
 
     /**
-     * The attributes that are mass assignable.
-     *
      * @var array
      */
     protected $fillable = [
@@ -39,26 +35,20 @@ class Option extends Model
     ];
 
     /**
-     * The accessors to append to the model's array form.
-     *
      * @var array
      */
     protected $appends = ['value'];
 
     /**
-     * Gets the value.
-     * Tries to unserialize the object and returns the value if that doesn't work.
-     *
-     * @return value
+     * @return mixed
      */
     public function getValueAttribute()
     {
         try {
             $value = unserialize($this->option_value);
-            // if we get false, but the original value is not false then something has gone wrong.
-            // return the option_value as is instead of unserializing
-            // added this to handle cases where unserialize doesn't throw an error that is catchable
-            return $value === false && $this->option_value !== false ? $this->option_value : $value;
+
+            return $value === false &&
+                $this->option_value !== false ? $this->option_value : $value;
         } catch (Exception $ex) {
             return $this->option_value;
         }
@@ -78,11 +68,8 @@ class Option extends Model
     }
 
     /**
-     * Gets option field by its name.
-     *
      * @param string $name
-     *
-     * @return string|array
+     * @return mixed
      */
     public static function get($name)
     {
@@ -90,12 +77,10 @@ class Option extends Model
             return $option->value;
         }
 
-        return;
+        return null;
     }
 
     /**
-     * Gets all the options.
-     *
      * @return array
      * @deprecated
      */
@@ -120,9 +105,7 @@ class Option extends Model
     public function toArray()
     {
         if ($this instanceof Option) {
-            return [
-                $this->option_name => $this->value,
-            ];
+            return [$this->option_name => $this->value];
         }
 
         return parent::toArray();
