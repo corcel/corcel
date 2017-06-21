@@ -130,6 +130,22 @@ class CommentTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('bar', $comment->meta->foo);
     }
+
+    /**
+     * @test
+     */
+    public function comment_can_update_meta()
+    {
+        $comment = factory(Comment::class)->create();
+        $comment->saveMeta('foo', 'bar');
+
+        $this->assertEquals('bar', $comment->meta->foo);
+
+        $comment->saveField('foo', 'baz');
+        unset($comment->meta); // Force reloading meta relation
+
+        $this->assertEquals('baz', $comment->meta->foo);
+    }
     
     /**
      * @return Post
