@@ -84,15 +84,34 @@ class Option extends Model
      * Gets all the options.
      *
      * @return array
+     * @deprecated
      */
     public static function getAll()
     {
-        $options = self::all();
-        $result = [];
-        foreach ($options as $option) {
-            $result[$option->option_name] = $option->value;
+        return static::asArray();
+    }
+
+    /**
+     * @return array
+     */
+    public static function asArray()
+    {
+        return static::all()
+            ->pluck('value', 'option_name')
+            ->toArray();
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        if ($this instanceof Option) {
+            return [
+                $this->option_name => $this->value,
+            ];
         }
 
-        return $result;
+        return parent::toArray();
     }
 }
