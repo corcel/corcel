@@ -1,95 +1,185 @@
 <?php
 
 use Corcel\Comment;
+use Corcel\Post;
 
+/**
+ * Class CommentTest
+ *
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class CommentTest extends PHPUnit_Framework_TestCase
 {
-    public function testCommentConstructor()
+    /**
+     * @test
+     */
+    public function comment_has_the_correct_instance()
     {
-        $comment = new Comment();
-        $this->assertTrue($comment instanceof \Corcel\Comment);
+        $comment = factory(Comment::class)->create();
+
+        $this->assertNotNull($comment);
+        $this->assertInstanceOf(Comment::class, $comment);
     }
 
-    public function testCommentId()
+    /**
+     * @test
+     */
+    public function comment_has_integer_id()
     {
-        $comment = Comment::find(1);
+        $comment = factory(Comment::class)->create();
 
-        if ($comment) {
-            //$this->assertInternalType('integer', $comment->comment_ID);
-            $this->assertEquals($comment->comment_ID, 1);
-        } else {
-            $this->assertNull($comment);
-        }
+        $this->assertInternalType('integer', $comment->comment_ID);
     }
 
-    public function testCommentPost()
+    /**
+     * @test
+     */
+    public function comment_has_post_relation()
     {
-        $comment = Comment::find(1);
+        $comment = factory(Comment::class)->create();
 
-        $this->assertTrue($comment->post()->first() instanceof \Corcel\Post);
-        $this->assertEquals($comment->post()->first()->ID, 1);
+        $this->assertNotNull($post = $comment->post);
+        $this->assertInstanceOf(Post::class, $post);
+        $this->assertInternalType('integer', $post->ID);
     }
 
-    public function testCommentPostId()
+    /**
+     * @test
+     */
+    public function query_post_by_id()
     {
-        $comments = Comment::findByPostId(1);
-        $this->assertEquals(count($comments), 2);
+        $post = $this->createPostWithComments();
+        $comments = Comment::findByPostId($post->ID);
 
-        foreach ($comments as $comment) {
-            $this->assertTrue($comment instanceof \Corcel\Comment);
-            $this->assertEquals($comment->comment_post_ID, 1);
-        }
+        $this->assertEquals(2, $comments->count());
+        $this->assertInstanceOf(Comment::class, $comments->first());
+        $this->assertEquals($post->ID, $comments->first()->post->ID);
     }
 
-    public function testOriginal()
+    /**
+     * @test
+     */
+    public function comment_has_parent()
     {
-        $comment = Comment::find(2);
+        $comment = $this->createCommentWithParent();
 
-        $this->assertTrue($comment->original()->first() instanceof \Corcel\Comment);
-        $this->assertEquals($comment->original()->first()->comment_ID, 1);
+        $this->assertInstanceOf(Comment::class, $comment->original);
+        $this->assertEquals($comment->comment_parent, $comment->original->comment_ID);
     }
 
-    public function testCommentApproved()
+    /**
+     * @test
+     */
+    public function comment_is_approved()
     {
-        $comment = Comment::find(1);
+        $comment = factory(Comment::class)->create();
 
         $this->assertInternalType('boolean', $comment->isApproved());
         $this->assertTrue($comment->isApproved());
     }
 
-    public function testCommentIsReply()
+    /**
+     * @test
+     */
+    public function comment_can_be_a_reply()
     {
-        $comment = Comment::find(2);
+        $comment = $this->createCommentWithReplies();
 
-        $this->assertInternalType('boolean', $comment->isReply());
-        $this->assertTrue($comment->isReply());
+        $this->assertCount(3, $comment->replies);
+        $this->assertInstanceOf(Comment::class, $comment->replies->first());
+        $this->assertInternalType('boolean', $comment->replies->first()->isReply());
+        $this->assertTrue($comment->replies->first()->isReply());
     }
 
-    public function testCommentHasReplies()
+    /**
+     * @test
+     */
+    public function comment_has_replies()
     {
-        $comment = Comment::find(1);
+        $comment = $this->createCommentWithReplies();
 
-        $this->assertInternalType('boolean', $comment->hasReplies());
         $this->assertTrue($comment->hasReplies());
+        $this->assertInternalType('boolean', $comment->hasReplies());
     }
 
-    public function testCommentEnforceConnection()
+    /**
+     * @test
+     */
+    public function comment_can_have_a_different_database_connection_name()
     {
-        $comment = new Comment();
-        $comment->setConnection('no_prefix');
-        $comment->comment_content = 'Test content';
-        $comment->comment_author = 1;
-        $comment->comment_post_ID = 2;
+        $comment = factory(Comment::class)->make();
+        $comment->setConnection('foo');
         $comment->save();
 
-        $post = new Post();
-        $post->post_content = 'Test';
-        $post->save();
-
+        $post = factory(Post::class)->create();
         $comment->post()->associate($post);
         $comment->save();
 
-        $this->assertEquals('no_prefix', $comment->getConnectionName());
-        $this->assertEquals('no_prefix', $comment->post->getConnectionName());
+        $this->assertEquals('foo', $comment->getConnectionName());
+        $this->assertEquals('foo', $comment->post->getConnectionName());
     }
+    
+//
+//    public function testCommentEnforceConnection()
+//    {
+//        $comment = new Comment();
+//        $comment->setConnection('no_prefix');
+//        $comment->comment_content = 'Test content';
+//        $comment->comment_author = 1;
+//        $comment->comment_post_ID = 2;
+//        $comment->save();
+//
+//        $post = new Post();
+//        $post->post_content = 'Test';
+//        $post->save();
+//
+//        $comment->post()->associate($post);
+//        $comment->save();
+//
+//        $this->assertEquals('no_prefix', $comment->getConnectionName());
+//        $this->assertEquals('no_prefix', $comment->post->getConnectionName());
+//    }
+    /**
+     * @return Post
+     */
+    private function createPostWithComments()
+    {
+        $post = factory(Post::class)->create();
+
+        $post->comments()->saveMany([
+            factory(Comment::class)->make(),
+            factory(Comment::class)->make(),
+        ]);
+
+        return $post;
+    }
+
+    /**
+     * @return Comment
+     */
+    private function createCommentWithParent()
+    {
+        return factory(Comment::class)->create([
+            'comment_parent' => function () {
+                return factory(Comment::class)->create()->comment_ID;
+            }
+        ]);
+    }
+
+    /**
+     * @return Comment
+     */
+    private function createCommentWithReplies()
+    {
+        $comment = factory(Comment::class)->create();
+
+        $comment->replies()->saveMany([
+            factory(Comment::class)->make(),
+            factory(Comment::class)->make(),
+            factory(Comment::class)->make(),
+        ]);
+
+        return $comment;
+    }
+
 }
