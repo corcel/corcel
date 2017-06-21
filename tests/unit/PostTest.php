@@ -132,7 +132,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_can_add_custom_fields_using_an_alias()
+    public function post_can_add_custom_fields_using_save_field_method()
     {
         $post = factory(Post::class)->create();
 

@@ -119,26 +119,6 @@ class CommentTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $comment->post->getConnectionName());
     }
     
-//
-//    public function testCommentEnforceConnection()
-//    {
-//        $comment = new Comment();
-//        $comment->setConnection('no_prefix');
-//        $comment->comment_content = 'Test content';
-//        $comment->comment_author = 1;
-//        $comment->comment_post_ID = 2;
-//        $comment->save();
-//
-//        $post = new Post();
-//        $post->post_content = 'Test';
-//        $post->save();
-//
-//        $comment->post()->associate($post);
-//        $comment->save();
-//
-//        $this->assertEquals('no_prefix', $comment->getConnectionName());
-//        $this->assertEquals('no_prefix', $comment->post->getConnectionName());
-//    }
     /**
      * @return Post
      */
@@ -181,5 +161,4 @@ class CommentTest extends PHPUnit_Framework_TestCase
 
         return $comment;
     }
-
 }
