@@ -59,33 +59,48 @@ class OptionTest extends PHPUnit_Framework_TestCase
         $this->assertArraySubset($array, $options['foo']);
     }
 
+    /**
+     * @test
+     */
+    public function get_method_returns_null_if_not_found()
+    {
+        $value = Option::get('b03e3fd');
+
+        $this->assertNull($value);
+    }
+
+    /**
+     * @test
+     */
+    public function option_has_simple_value_attribute()
+    {
+        $option = factory(Option::class)->create([
+            'option_name' => 'foo',
+            'option_value' => 'bar',
+        ]);
+
+        $this->assertEquals('bar', $option->value);
+    }
+
+    /**
+     * @test
+     */
+    public function option_value_attribute_unserialize_if_necessary()
+    {
+        $option = factory(Option::class)->create([
+            'option_name' => 'foo',
+            'option_value' => serialize($array = [1, 2, 3]),
+        ]);
+
+        $this->assertEquals($array, $option->value);
+    }
+    
 //    /**
 //     * Test getting some options.
 //     */
-//    public function testGetOptions()
-//    {
-//        // Array value
-//        $this->assertArrayHasKey('wp_user_roles', $options);
-//        $this->assertCount(5, $options['wp_user_roles']);
-//        $this->assertEquals('Administrator', $options['wp_user_roles']['administrator']['name']);
-//
-//        // Get single values
-//        $this->assertEquals('juniorgro@gmail.com', Option::get('admin_email'));
-//        $this->assertEquals(false, Option::get('moderation_keys'));
-//
-//        $themeRoots = Option::get('_site_transient_theme_roots');
-//        $this->assertNotNull($themeRoots);
-//        $this->assertEquals('/themes', $themeRoots['twentyfourteen']);
-//    }
 //
 //    public function testOptionValue()
 //    {
-//        //test value when option_value is string
-//        $optionWithString = Option::find(1);
-//        $stringValue = '2016-04-03';
-//        $optionWithString->option_value = $stringValue;
-//        $this->assertEquals($stringValue, $optionWithString->value);
-//
 //        //test value when option_value is serialized array
 //        $optionWithArray = Option::find(1);
 //        $arrayValue = ['key' => 'value'];
