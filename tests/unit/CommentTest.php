@@ -146,7 +146,20 @@ class CommentTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals('baz', $comment->meta->foo);
     }
-    
+
+    /**
+     * @test
+     */
+    public function comment_has_meta()
+    {
+        factory(Comment::class)->create()
+            ->saveMeta('foo', 'bar');
+
+        $comment = Comment::hasMeta('foo', 'bar')->first();
+
+        $this->assertInstanceOf(Comment::class, $comment);
+    }
+
     /**
      * @return Post
      */
