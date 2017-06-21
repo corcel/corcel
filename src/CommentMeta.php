@@ -11,6 +11,11 @@ namespace Corcel;
 class CommentMeta extends PostMeta
 {
     /**
+     * @var string
+     */
+    protected $table = 'commentmeta';
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function comment()
