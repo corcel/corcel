@@ -1,6 +1,6 @@
 <?php
 
-use Corcel\User;
+use Corcel\Post;
 
 $factory->define(Corcel\Comment::class, function (Faker\Generator $faker) {
     return [
