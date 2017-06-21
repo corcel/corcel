@@ -118,6 +118,18 @@ class CommentTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $comment->getConnectionName());
         $this->assertEquals('foo', $comment->post->getConnectionName());
     }
+
+    /**
+     * @test
+     */
+    public function comment_can_have_meta_fields()
+    {
+        $comment = factory(Comment::class)->create();
+
+        $comment->saveField('foo', 'bar');
+
+        $this->assertEquals('bar', $comment->meta->foo);
+    }
     
     /**
      * @return Post

@@ -2,6 +2,7 @@
 
 namespace Corcel;
 
+use Corcel\Traits\HasMetaFields;
 use Corcel\Traits\TimestampsTrait;
 
 /**
@@ -12,6 +13,7 @@ use Corcel\Traits\TimestampsTrait;
  */
 class Comment extends Model
 {
+    use HasMetaFields;
     use TimestampsTrait;
 
     const CREATED_AT = 'comment_date';
