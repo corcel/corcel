@@ -65,6 +65,19 @@ class Option extends Model
     }
 
     /**
+     * @param string $key
+     * @param mixed $value
+     * @return Option
+     */
+    public static function add($key, $value)
+    {
+        return static::create([
+            'option_name' => $key,
+            'option_value' => is_array($value) ? serialize($value) : $value,
+        ]);
+    }
+
+    /**
      * Gets option field by its name.
      *
      * @param string $name

@@ -94,25 +94,28 @@ class OptionTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($array, $option->value);
     }
-    
-//    /**
-//     * Test getting some options.
-//     */
-//
-//    public function testOptionValue()
-//    {
-//        //test value when option_value is serialized array
-//        $optionWithArray = Option::find(1);
-//        $arrayValue = ['key' => 'value'];
-//        $optionWithArray->option_value = serialize($arrayValue);
-//        $this->assertEquals($arrayValue, $optionWithArray->value);
-//    }
-//
-//    public function testInsert()
-//    {
-//        $option = new Option();
-//        $option->option_name = 'test_insert_'.uniqid();
-//        $option->option_value = serialize(array('test' => '1234'));
-//        $option->save();
-//    }
+
+    /**
+     * @test
+     */
+    public function option_object_can_be_converted_to_simple_array()
+    {
+        $option = factory(Option::class)->create([
+            'option_name' => 'foo',
+            'option_value' => 'bar',
+        ]);
+
+        $this->assertArraySubset(['foo' => 'bar'], $option->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function can_add_new_option_using_add_static_method()
+    {
+        $option = Option::add('foo', 'bar');
+
+        $this->assertEquals('bar', $option->value);
+        $this->assertArraySubset(['foo' => 'bar'], $option->toArray());
+    }
 }
