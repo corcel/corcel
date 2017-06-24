@@ -200,6 +200,14 @@ class Post extends Model
     }
 
     /**
+     * @return string
+     */
+    public function getPostType()
+    {
+        return $this->postType;
+    }
+
+    /**
      * Magic method to return the meta data like the post original fields.
      *
      * @param string $key
