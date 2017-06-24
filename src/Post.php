@@ -192,6 +192,14 @@ class Post extends Model
     }
 
     /**
+     * @param string $postType
+     */
+    public function setPostType($postType)
+    {
+        $this->postType = $postType;
+    }
+
+    /**
      * Magic method to return the meta data like the post original fields.
      *
      * @param string $key
