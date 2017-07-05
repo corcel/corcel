@@ -14,7 +14,7 @@ class AttachmentTest extends PHPUnit_Framework_TestCase
      */
     public function it_has_aliases()
     {
-        $attachment = factory(Attachment::class)->create();
+        $attachment = $this->createAttachmentWithMeta();
 
         $this->assertEquals($attachment->post_title, $attachment->title);
         $this->assertEquals($attachment->guid, $attachment->url);
@@ -39,7 +39,7 @@ class AttachmentTest extends PHPUnit_Framework_TestCase
      */
     public function its_to_array_method_has_all_appends_property_values()
     {
-        $attachment = factory(Attachment::class)->create();
+        $attachment = $this->createAttachmentWithMeta();
 
         $array = $attachment->toArray();
 
@@ -49,5 +49,14 @@ class AttachmentTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('description', $array);
         $this->assertArrayHasKey('caption', $array);
         $this->assertArrayHasKey('alt', $array);
+    }
+
+    private function createAttachmentWithMeta()
+    {
+        $attachment = factory(Attachment::class)->create();
+
+        $attachment->saveMeta('_wp_attachment_image_alt', 'foobar');
+
+        return $attachment;
     }
 }
