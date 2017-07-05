@@ -19,7 +19,6 @@ class Attachment extends Post
     protected $postType = 'attachment';
 
     /**
-     *
      * @var array
      */
     protected $appends = [

@@ -8,27 +8,14 @@
 
 namespace Corcel;
 
+use Corcel\Traits\MetaCollection;
 use Illuminate\Database\Eloquent\Collection;
 
 class UserMetaCollection extends Collection
 {
-    protected $changedKeys = [];
+    use MetaCollection;
 
-    /**
-     * Search for the desired key and return only the row that represent it.
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    public function __get($key)
-    {
-        foreach ($this->items as $item) {
-            if ($item->meta_key == $key) {
-                return $item->meta_value;
-            }
-        }
-    }
+    protected $changedKeys = [];
 
     public function __set($key, $value)
     {
