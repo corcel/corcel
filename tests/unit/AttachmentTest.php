@@ -16,12 +16,22 @@ class AttachmentTest extends PHPUnit_Framework_TestCase
     {
         $attachment = factory(Attachment::class)->create();
 
-        $this->assertEquals($attachment->title, $attachment->post_title);
-        $this->assertEquals($attachment->url, $attachment->guid);
-        $this->assertEquals($attachment->type, $attachment->post_mime_type);
-        $this->assertEquals($attachment->description, $attachment->post_content);
-        $this->assertEquals($attachment->caption, $attachment->post_excerpt);
-        $this->assertEquals($attachment->alt, $attachment->meta->_wp_attachment_image_alt);
+        $this->assertEquals($attachment->post_title, $attachment->title);
+        $this->assertEquals($attachment->guid, $attachment->url);
+        $this->assertEquals($attachment->post_mime_type, $attachment->type);
+        $this->assertEquals($attachment->post_content, $attachment->description);
+        $this->assertEquals($attachment->post_excerpt, $attachment->caption);
+        $this->assertEquals($attachment->meta->_wp_attachment_image_alt, $attachment->alt);
+    }
+
+    /**
+     * @test
+     */
+    public function it_does_not_have_parent_aliases()
+    {
+        $attachment = factory(Attachment::class)->create();
+
+        $this->assertNull($attachment->status);
     }
 
     /**

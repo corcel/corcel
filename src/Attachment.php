@@ -2,6 +2,8 @@
 
 namespace Corcel;
 
+use Corcel\Traits\AliasesTrait;
+
 /**
  * Attachment model
  * Attachments are only a special type of posts.
@@ -10,6 +12,8 @@ namespace Corcel;
  */
 class Attachment extends Post
 {
+    use AliasesTrait;
+
     /**
      * Type of post.
      *
