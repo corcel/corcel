@@ -32,64 +32,16 @@ class Attachment extends Post
     ];
 
     /**
-     * Gets the title attribute.
-     *
-     * @return string
+     * @var array
      */
-    public function getTitleAttribute()
-    {
-        return $this->post_title;
-    }
-
-    /**
-     * Gets the url attribute.
-     *
-     * @return string
-     */
-    public function getUrlAttribute()
-    {
-        return $this->guid;
-    }
-
-    /**
-     * Gets the mime type attribute.
-     *
-     * @return string
-     */
-    public function getTypeAttribute()
-    {
-        return $this->post_mime_type;
-    }
-
-    /**
-     * Gets the description attribute.
-     *
-     * @return string
-     */
-    public function getDescriptionAttribute()
-    {
-        return $this->post_content;
-    }
-
-    /**
-     * Gets the caption attribute.
-     *
-     * @return string
-     */
-    public function getCaptionAttribute()
-    {
-        return $this->post_excerpt;
-    }
-
-    /**
-     * Gets the alt attribute.
-     *
-     * @return string
-     */
-    public function getAltAttribute()
-    {
-        return $this->meta->_wp_attachment_image_alt;
-    }
+    protected $aliases = [
+        'title' => 'post_title',
+        'url' => 'guid',
+        'type' => 'post_mime_type',
+        'description' => 'post_content',
+        'caption' => 'post_excerpt',
+        'alt' => ['meta' => '_wp_attachment_image_alt'],
+    ];
 
     /**
      * Returns the basic Attachment information.

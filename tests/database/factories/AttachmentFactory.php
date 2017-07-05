@@ -24,7 +24,7 @@ $factory->define(Corcel\Attachment::class, function (Faker\Generator $faker) {
         'guid' => 'http://example.com/?p=' . $faker->numberBetween(1, 100),
         'menu_order' => 0,
         'post_type' => 'attachment',
-        'post_mime_type' => '',
+        'post_mime_type' => 'image/jpeg',
         'comment_count' => 0,
     ];
 });
