@@ -1,5 +1,7 @@
 <?php
 
+namespace Corcel\Tests\Unit;
+
 use Corcel\Post;
 use Corcel\Page;
 use Corcel\PostMetaCollection;
@@ -13,7 +15,7 @@ use Thunder\Shortcode\Shortcode\ShortcodeInterface;
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class PostTest extends PHPUnit_Framework_TestCase
+class PostTest extends \Corcel\Tests\TestCase
 {
     /**
      * @test
@@ -47,9 +49,6 @@ class PostTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests the post accessors
-     * Accessors should be equal to the original value.
-     *
      * @test
      */
     public function it_has_aliases()
