@@ -18,7 +18,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_has_the_correct_class_name()
+    public function it_has_the_correct_class_name()
     {
         $post = factory(Post::class)->create();
 
@@ -28,7 +28,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_has_the_is_as_an_integer()
+    public function it_has_an_integer_id()
     {
         $post = factory(Post::class)->create();
 
@@ -39,7 +39,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_has_the_correct_type()
+    public function it_can_have_different_post_type()
     {
         $page = factory(Post::class)->create(['post_type' => 'page']);
 
@@ -52,7 +52,7 @@ class PostTest extends PHPUnit_Framework_TestCase
      *
      * @test
      */
-    public function post_has_correct_accessors()
+    public function it_has_aliases()
     {
         $post = factory(Post::class)->create();
 
@@ -73,7 +73,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_can_add_alias_in_runtime()
+    public function it_can_add_alias_in_runtime()
     {
         $post = factory(Post::class)->create();
         $post->saveMeta('foo', 'bar');
@@ -87,7 +87,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_can_accept_unicode_chars()
+    public function it_can_accept_unicode_chars()
     {
         $post = factory(Post::class)->create([
             'post_content' => 'test utf8 é à',
@@ -101,7 +101,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_has_custom_fields()
+    public function it_can_have_custom_fields()
     {
         $post = factory(Post::class)->create();
 
@@ -118,7 +118,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_can_add_custom_fields()
+    public function it_can_add_custom_fields()
     {
         $post = factory(Post::class)->create();
 
@@ -132,7 +132,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_can_add_custom_fields_using_save_field_method()
+    public function it_can_add_custom_fields_using_save_field_method()
     {
         $post = factory(Post::class)->create();
 
@@ -146,7 +146,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_can_update_meta()
+    public function it_can_update_meta()
     {
         $post = factory(Post::class)->create();
         $post->saveMeta('foo', 'bar');
@@ -160,7 +160,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function posts_can_be_ordered_ascending()
+    public function they_can_be_ordered_ascending()
     {
         factory(Post::class, 2)->create();
 
@@ -175,7 +175,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function posts_can_be_ordered_descending()
+    public function they_can_be_ordered_descending()
     {
         factory(Post::class, 2)->create();
 
@@ -190,7 +190,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_can_have_taxonomy()
+    public function it_can_have_taxonomy()
     {
         $post = $this->createPostWithTaxonomiesAndTerms();
 
@@ -201,7 +201,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_with_taxonomy_and_terms()
+    public function it_can_have_taxonomy_and_terms()
     {
         $createdPost = $this->createPostWithTaxonomiesAndTerms();
 
@@ -221,7 +221,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_has_term()
+    public function it_can_have_term()
     {
         $post = $this->createPostWithTaxonomiesAndTerms();
 
@@ -237,7 +237,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_can_update_custom_fields_using_meta_attribute()
+    public function it_can_update_custom_fields_using_meta_attribute()
     {
         $post = factory(Post::class)->create(['post_name' => 'foo']);
         $post->meta->username = 'jgrossi';
@@ -253,7 +253,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_can_update_custom_fields_using_meta_attribute_and_accessors()
+    public function it_can_update_custom_fields_using_meta_attribute_and_accessors()
     {
         $post = factory(Post::class)->create(['post_title' => 'Post title']);
         $post->meta->title = 'Meta title';
@@ -267,7 +267,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_has_author_relation()
+    public function it_can_have_author_relation()
     {
         $post = $this->createPostWithAuthor();
 
@@ -278,7 +278,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function single_table_inheritance()
+    public function it_has_the_correct_instance_name_if_it_is_a_custom_post_type()
     {
         factory(Post::class)->create(['post_type' => 'page']);
         Post::registerPostType('page', Page::class);
@@ -291,7 +291,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function clear_registered_post_types()
+    public function it_has_its_instance_name_back_to_post_after_clearing_post_types()
     {
         factory(Post::class)->create([
             'post_type' => 'page',
@@ -308,7 +308,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_relation_can_have_different_database_connection()
+    public function its_relation_can_have_different_database_connection()
     {
         $post = factory(Post::class)->make();
         $post->setConnection('foo');
@@ -321,7 +321,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_type_is_fillable()
+    public function its_type_is_fillable()
     {
         $post = factory(Post::class)->create(['post_type' => 'video']);
 
@@ -331,7 +331,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_parent_does_not_return_null_when_it_is_zero()
+    public function its_parent_does_not_return_null_when_it_is_zero()
     {
         $post = factory(Post::class)->create(['post_parent' => 0]);
 
@@ -342,7 +342,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_can_have_shortcode()
+    public function it_can_have_shortcode()
     {
         $this->registerFooShortcode();
 
@@ -356,7 +356,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_content_can_have_multiple_shortcodes()
+    public function its_content_can_have_multiple_shortcodes()
     {
         $this->registerFooShortcode();
 
@@ -370,7 +370,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_shortcode_can_be_removed()
+    public function its_shortcode_can_be_removed()
     {
         $this->registerFooShortcode();
         Post::removeShortcode('foo');
@@ -385,7 +385,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_can_have_post_format()
+    public function it_can_have_post_format()
     {
         $post = $this->createPostWithPostFormatTaxonomy();
 
@@ -395,7 +395,7 @@ class PostTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_can_have_false_post_format()
+    public function it_can_have_false_post_format()
     {
         $post = factory(Post::class)->create();
 

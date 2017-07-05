@@ -13,7 +13,7 @@ class PostMetaTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function meta_has_correct_instance_type()
+    public function it_has_correct_instance_type()
     {
         $meta = factory(PostMeta::class)->create();
 
@@ -23,7 +23,7 @@ class PostMetaTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function meta_id_is_an_integer()
+    public function its_id_is_an_integer()
     {
         $meta = factory(PostMeta::class)->create();
 
@@ -34,7 +34,7 @@ class PostMetaTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function meta_post_relation()
+    public function it_has_post_relation()
     {
         $meta = $this->createMetaWithPost();
 
@@ -44,7 +44,7 @@ class PostMetaTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function meta_has_meta_key_and_value()
+    public function it_has_meta_key_and_value()
     {
         $meta = factory(PostMeta::class)->create();
 
@@ -56,7 +56,7 @@ class PostMetaTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function meta_value_has_the_same_value_than_post_meta_value()
+    public function its_value_has_the_same_value_than_post_meta_value()
     {
         $meta = $this->createMetaWithPost();
 
@@ -69,7 +69,7 @@ class PostMetaTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function meta_value_can_be_reached_by_value_property()
+    public function its_value_can_be_reached_by_value_property()
     {
         $meta = factory(PostMeta::class)->create();
 
@@ -80,7 +80,7 @@ class PostMetaTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function meta_value_can_be_serialized()
+    public function its_value_can_be_serialized()
     {
         $meta = factory(PostMeta::class)->create();
 

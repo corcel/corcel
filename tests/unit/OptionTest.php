@@ -13,7 +13,7 @@ class OptionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function as_array_method_values()
+    public function it_can_return_all_configs_as_array()
     {
         factory(Option::class)->create([
             'option_name' => 'foo',
@@ -31,7 +31,7 @@ class OptionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function as_array_method_count()
+    public function it_has_a_countable_as_array_method()
     {
         factory(Option::class, 2)->create();
 
@@ -44,7 +44,7 @@ class OptionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function option_can_have_serialized_data()
+    public function it_can_have_serialized_data()
     {
         factory(Option::class)->create([
             'option_name' => 'foo',
@@ -62,7 +62,7 @@ class OptionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function get_method_returns_null_if_not_found()
+    public function it_returns_null_if_not_found()
     {
         $value = Option::get('b03e3fd');
 
@@ -72,7 +72,7 @@ class OptionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function option_has_simple_value_attribute()
+    public function it_has_simple_value_attribute()
     {
         $option = factory(Option::class)->create([
             'option_name' => 'foo',
@@ -85,7 +85,7 @@ class OptionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function option_value_attribute_unserialize_if_necessary()
+    public function it_can_unserialize_data_if_necessary()
     {
         $option = factory(Option::class)->create([
             'option_name' => 'foo',
@@ -98,7 +98,7 @@ class OptionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function option_object_can_be_converted_to_simple_array()
+    public function it_can_be_converted_to_simple_array()
     {
         $option = factory(Option::class)->create([
             'option_name' => 'foo',
@@ -111,7 +111,7 @@ class OptionTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function can_add_new_option_using_add_static_method()
+    public function it_can_add_new_option_using_add_static_method()
     {
         $option = Option::add('foo', 'bar');
 
