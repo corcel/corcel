@@ -123,7 +123,7 @@ class PostTest extends PHPUnit_Framework_TestCase
         $post = factory(Post::class)->create();
 
         $post->saveMeta('foo', 'bar');
-        $meta = $post->meta->first();
+        $meta = $post->meta()->orderBy('meta_id', 'desc')->first();
 
         $this->assertEquals('foo', $meta->meta_key);
         $this->assertEquals('bar', $meta->meta_value);

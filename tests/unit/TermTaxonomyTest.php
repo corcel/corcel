@@ -71,7 +71,9 @@ class TermTaxonomyTest extends PHPUnit_Framework_TestCase
     {
         $this->createTaxonomyWithTermsAndPosts();
 
-        $post = Taxonomy::name('foo')->slug('bar')->first()->posts->first();
+        $post = Taxonomy::name('foo')->slug('bar')
+            ->orderBy('term_taxonomy_id', 'desc')->first()
+            ->posts->first();
 
         $this->assertEquals('Foo bar', $post->title);
     }
