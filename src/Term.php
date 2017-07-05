@@ -3,6 +3,7 @@
 namespace Corcel;
 
 use Corcel\Traits\HasAcfFields;
+use Corcel\Traits\HasMetaFields;
 
 /**
  * Class Term.
@@ -11,6 +12,7 @@ use Corcel\Traits\HasAcfFields;
  */
 class Term extends Model
 {
+    use HasMetaFields;
     use HasAcfFields;
 
     protected $table = 'terms';
@@ -23,13 +25,5 @@ class Term extends Model
     public function taxonomy()
     {
         return $this->hasOne(TermTaxonomy::class, 'term_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function meta()
-    {
-        return $this->hasMany(TermMeta::class, 'term_id');
     }
 }

@@ -1,47 +1,32 @@
 <?php
 
-/**
- * Corcel\PostMetaCollection.
- *
- * @author Junior Grossi <juniorgro@gmail.com>
- */
-
 namespace Corcel;
 
+use Corcel\Traits\MetaCollection;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class PostMetaCollection
+ *
+ * @package Corcel
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class PostMetaCollection extends Collection
 {
+    use MetaCollection;
+
+    /**
+     * @var array
+     */
     protected $changedKeys = [];
 
     /**
-     * Search for the desired key and return only the row that represent it.
+     * @param $key
+     * @param $value
      *
-     * @param string $key
-     *
-     * @return string
+     * TODO remove this
+     * @see UserMetaCollection
      */
-    public function getAttribute($key)
-    {
-        foreach ($this->items as $item) {
-            if ($item->meta_key == $key) {
-                return $item->value;
-            }
-        }
-    }
-
-    /**
-     * Shortcut for the getAttribute method, by passing an object attribute
-     *
-     * @param string $key
-     *
-     * @return string
-     */
-    public function __get($key)
-    {
-        return $this->getAttribute($key);
-    }
-
     public function __set($key, $value)
     {
         $this->changedKeys[] = $key;
@@ -62,6 +47,11 @@ class PostMetaCollection extends Collection
         $this->push($item);
     }
 
+    /**
+     * @param $postId
+     * TODO remove this
+     * @see UserMetaCollection
+     */
     public function save($postId)
     {
         $this->each(function ($item) use ($postId) {

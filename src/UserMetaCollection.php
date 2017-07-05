@@ -1,35 +1,29 @@
 <?php
 
-/**
- * Corcel\UserMetaCollection.
- *
- * @author Mickael Burguet <www.rundef.com>
- */
-
 namespace Corcel;
 
+use Corcel\Traits\MetaCollection;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Class UserMetaCollection
+ *
+ * @package Corcel
+ * @author Mickael Burguet <www.rundef.com>
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class UserMetaCollection extends Collection
 {
+    use MetaCollection;
+
     protected $changedKeys = [];
 
     /**
-     * Search for the desired key and return only the row that represent it.
+     * @param $key
+     * @param $value
      *
-     * @param string $key
-     *
-     * @return string
+     * TODO remove this, is it necessary?
      */
-    public function __get($key)
-    {
-        foreach ($this->items as $item) {
-            if ($item->meta_key == $key) {
-                return $item->meta_value;
-            }
-        }
-    }
-
     public function __set($key, $value)
     {
         $this->changedKeys[] = $key;
@@ -50,6 +44,10 @@ class UserMetaCollection extends Collection
         $this->push($item);
     }
 
+    /**
+     * @param $userId
+     * TODO is this necessary? Remove this
+     */
     public function save($userId)
     {
         $this->each(function ($item) use ($userId) {

@@ -1,34 +1,56 @@
 <?php
 
-/**
- * Post model.
- *
- * @author Junior Grossi <juniorgro@gmail.com>
- */
-
 namespace Corcel;
 
-use Corcel\Traits\CreatedAtTrait;
+use Corcel\Traits\AliasesTrait;
+use Corcel\Traits\TimestampsTrait;
 use Corcel\Traits\HasAcfFields;
-use Corcel\Traits\UpdatedAtTrait;
-use Thunder\Shortcode\ShortcodeFacade;
+use Corcel\Traits\HasMetaFields;
+use Corcel\Traits\ShortcodesTrait;
 
+/**
+ * Class Post
+ *
+ * @package Corcel
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class Post extends Model
 {
-    use CreatedAtTrait, HasAcfFields, UpdatedAtTrait;
+    use AliasesTrait;
+    use HasAcfFields;
+    use HasMetaFields;
+    use ShortcodesTrait;
+    use TimestampsTrait;
 
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
 
     /** @var array */
     protected static $postTypes = [];
-    protected static $shortcodes = [];
 
+    /**
+     * @var string
+     */
     protected $table = 'posts';
+
+    /**
+     * @var string
+     */
     protected $primaryKey = 'ID';
+
+    /**
+     * @var array
+     */
     protected $dates = ['post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt'];
+
+    /**
+     * @var array
+     */
     protected $with = ['meta'];
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'post_content',
         'post_title',
@@ -40,34 +62,39 @@ class Post extends Model
     ];
 
     /**
-     * The accessors to append to the model's array form.
-     *
      * @var array
      */
     protected $appends = [
-        'title',
-        'slug',
-        'content',
-        'type',
-        'mime_type',
-        'url',
-        'author_id',
-        'parent_id',
-        'created_at',
-        'updated_at',
-        'excerpt',
-        'status',
-        'image',
-
+        'title', 'slug', 'content', 'type', 'mime_type', 'url', 'author_id', 'parent_id',
+        'created_at', 'updated_at', 'excerpt', 'status', 'image',
         // Terms inside all taxonomies
         'terms',
-
         // Terms analysis
-        'main_category',
-        'keywords',
-        'keywords_str',
+        'main_category', 'keywords', 'keywords_str',
     ];
 
+    /**
+     * @var array
+     */
+    protected $aliases = [
+        'title' => 'post_title',
+        'content' => 'post_content',
+        'excerpt' => 'post_excerpt',
+        'slug' => 'post_name',
+        'type' => 'post_type',
+        'mime_type' => 'post_mime_type',
+        'url' => 'guid',
+        'author_id' => 'post_author',
+        'parent_id' => 'post_parent',
+        'created_at' => 'post_date',
+        'updated_at' => 'post_modified',
+        'status' => 'post_status',
+    ];
+
+    /**
+     * @param array $attributes
+     * @todo Check if this is really necessary
+     */
     public function __construct(array $attributes = [])
     {
         foreach ($this->fillable as $field) {
@@ -80,95 +107,70 @@ class Post extends Model
     }
 
     /**
-     * Meta data relationship.
-     *
-     * @return Corcel\PostMetaCollection
-     */
-    public function meta()
-    {
-        return $this->hasMany('Corcel\PostMeta', 'post_id');
-    }
-
-    public function fields()
-    {
-        return $this->meta();
-    }
-
-    /**
-     * Return the post thumbnail.
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function thumbnail()
     {
-        return $this->hasOne('Corcel\ThumbnailMeta', 'post_id')
+        return $this->hasOne(ThumbnailMeta::class, 'post_id')
             ->where('meta_key', '_thumbnail_id');
     }
 
     /**
-     * Taxonomy relationship.
-     *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function taxonomies()
     {
-        return $this->belongsToMany('Corcel\TermTaxonomy', 'term_relationships', 'object_id', 'term_taxonomy_id');
+        return $this->belongsToMany(
+            TermTaxonomy::class, 'term_relationships', 'object_id', 'term_taxonomy_id'
+        );
     }
 
     /**
-     * Comments relationship.
-     *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function comments()
     {
-        return $this->hasMany('Corcel\Comment', 'comment_post_ID');
+        return $this->hasMany(Comment::class, 'comment_post_ID');
     }
 
     /**
-     *   Author relationship.
-     *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function author()
     {
-        return $this->belongsTo('Corcel\User', 'post_author');
+        return $this->belongsTo(User::class, 'post_author');
     }
 
     /**
-     * Parent post.
-     *
-     * @return Corcel\Post
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function parent()
     {
-        return $this->belongsTo('Corcel\Post', 'post_parent');
+        return $this->belongsTo(Post::class, 'post_parent');
     }
 
     /**
-     * Get attachment.
-     *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function attachment()
     {
-        return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'attachment');
+        return $this->hasMany(Post::class, 'post_parent')
+            ->where('post_type', 'attachment');
     }
 
     /**
-     * Get revisions from post.
-     *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function revision()
     {
-        return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'revision');
+        return $this->hasMany(Post::class, 'post_parent')
+            ->where('post_type', 'revision');
     }
 
     /**
-     * Overriding newQuery() to the custom PostBuilder with some interesting methods.
-     *
      * @param bool $excludeDeleted
-     *
-     * @return Corcel\PostBuilder
+     * @return PostBuilder
+     * @todo Fix orderBy issue
      */
     public function newQuery($excludeDeleted = true)
     {
@@ -190,11 +192,29 @@ class Post extends Model
     }
 
     /**
+     * @param string $postType
+     */
+    public function setPostType($postType)
+    {
+        $this->postType = $postType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostType()
+    {
+        return $this->postType;
+    }
+
+    /**
      * Magic method to return the meta data like the post original fields.
      *
      * @param string $key
      *
      * @return string
+     * @todo This is a mess. Refactor this
+     * @todo Extract menu logic to a method or Trait
      */
     public function __get($key)
     {
@@ -205,7 +225,7 @@ class Post extends Model
         if (!property_exists($this, $key)) {
             if (property_exists($this, $this->primaryKey) && isset($this->meta->$key)) {
                 return $this->meta->$key;
-            }
+            } // TODO this should be removed. Should use now $aliases variable
         } elseif (isset($this->$key) and empty($this->$key)) {
             // fix for menu items when chosing category to show
             if (in_array($key, ['post_title', 'post_name'])) {
@@ -226,6 +246,7 @@ class Post extends Model
                     return $post->$key;
                 }
 
+                // TODO Extract this
                 if (isset($taxonomy) && $taxonomy->exists) {
                     if ($key == 'post_title') {
                         return $taxonomy->name;
@@ -237,6 +258,11 @@ class Post extends Model
         }
     }
 
+    /**
+     * @param array $options
+     * @return bool
+     * @todo Remove this method or mark as deprecated
+     */
     public function save(array $options = [])
     {
         if (isset($this->attributes[$this->primaryKey])) {
@@ -247,167 +273,32 @@ class Post extends Model
     }
 
     /**
-     * Meta filter scope.
-     *
-     * @param $query
-     * @param $meta
-     * @param null $value
-     *
-     * @return Illuminate\Database\Eloquent\Collection
-     */
-    public function scopeHasMeta($query, $meta, $value = null)
-    {
-        return $query->whereHas('meta', function ($query) use ($meta, $value) {
-            $query->where('meta_key', $meta);
-            if (!is_null($value)) {
-                $query->{is_array($value) ? 'whereIn' : 'where'}('meta_value', $value);
-            }
-        });
-    }
-
-    /**
      * Whether the post contains the term or not.
      *
      * @param string $taxonomy
      * @param string $term
-     *
      * @return bool
      */
     public function hasTerm($taxonomy, $term)
     {
-        return isset($this->terms[$taxonomy]) && isset($this->terms[$taxonomy][$term]);
-    }
-
-    /*
-     * Accessors.
-     */
-
-    /**
-     * Gets the title attribute.
-     *
-     * @return string
-     */
-    public function getTitleAttribute()
-    {
-        return $this->post_title;
+        return isset($this->terms[$taxonomy]) &&
+            isset($this->terms[$taxonomy][$term]);
     }
 
     /**
-     * Gets the slug attribute.
-     *
-     * @return string
-     */
-    public function getSlugAttribute()
-    {
-        return $this->post_name;
-    }
-
-    /**
-     * Gets the content attribute.
-     *
      * @return string
      */
     public function getContentAttribute()
     {
-        if (empty(self::$shortcodes)) {
-            return $this->post_content;
-        }
-
         return $this->stripShortcodes($this->post_content);
     }
 
     /**
-     * Gets the type attribute.
-     *
-     * @return string
-     */
-    public function getTypeAttribute()
-    {
-        return $this->post_type;
-    }
-
-    /**
-     * Gets the mime type attribute.
-     *
-     * @return string
-     */
-    public function getMimeTypeAttribute()
-    {
-        return $this->post_mime_type;
-    }
-
-    /**
-     * Gets the url attribute.
-     *
-     * @return string
-     */
-    public function getUrlAttribute()
-    {
-        return $this->guid;
-    }
-
-    /**
-     * Gets the author id attribute.
-     *
-     * @return int
-     */
-    public function getAuthorIdAttribute()
-    {
-        return $this->post_author;
-    }
-
-    /**
-     * Gets the parent id attribute.
-     *
-     * @return int
-     */
-    public function getParentIdAttribute()
-    {
-        return $this->post_parent;
-    }
-
-    /**
-     * Gets the created at attribute.
-     *
-     * @return date
-     */
-    public function getCreatedAtAttribute()
-    {
-        return $this->post_date;
-    }
-
-    /**
-     * Gets the updated at attribute.
-     *
-     * @return date
-     */
-    public function getUpdatedAtAttribute()
-    {
-        return $this->post_modified;
-    }
-
-    /**
-     * Gets the excerpt attribute.
-     *
      * @return string
      */
     public function getExcerptAttribute()
     {
-        if (empty(self::$shortcodes)) {
-            return $this->post_excerpt;
-        }
-
         return $this->stripShortcodes($this->post_excerpt);
-    }
-
-    /**
-     * Gets the status attribute.
-     *
-     * @return string
-     */
-    public function getStatusAttribute()
-    {
-        return $this->post_status;
     }
 
     /**
@@ -521,7 +412,7 @@ class Post extends Model
         $model->exists = true;
 
         $model->setRawAttributes((array) $attributes, true);
-        $model->setConnection($connection ?: $this->connection);
+        $model->setConnection($connection ?: $this->connection); // TODO fix this to PHP 5.5+
 
         return $model;
     }
@@ -554,55 +445,20 @@ class Post extends Model
     }
 
     /**
-     * Add a shortcode handler.
-     *
-     * @param string   $tag      the shortcode tag
-     * @param function $function the shortcode handling function
-     */
-    public static function addShortcode($tag, $function)
-    {
-        self::$shortcodes[$tag] = $function;
-    }
-
-    /**
-     * Removes a shortcode handler.
-     *
-     * @param string $tag the shortcode tag
-     */
-    public static function removeShortcode($tag)
-    {
-        if (isset(self::$shortcodes[$tag])) {
-            unset(self::$shortcodes[$tag]);
-        }
-    }
-
-    /**
-     * Process the shortcodes.
-     *
-     * @param string $content the content
-     *
-     * @return string
-     */
-    public function stripShortcodes($content)
-    {
-        $facade = new ShortcodeFacade();
-        foreach (self::$shortcodes as $tag => $func) {
-            $facade->addHandler($tag, $func);
-        }
-
-        return $facade->process($content);
-    }
-
-    /**
      * Get the post format, like the WP get_post_format() function.
      *
      * @return bool|string
      */
     public function getFormat()
     {
-        $taxonomy = $this->taxonomies()->where('taxonomy', 'post_format')->first();
-        if ($taxonomy and $taxonomy->term) {
-            return str_replace('post-format-', '', $taxonomy->term->slug);
+        $taxonomy = $this->taxonomies()
+            ->where('taxonomy', 'post_format')
+            ->first();
+
+        if ($taxonomy && $taxonomy->term) {
+            return str_replace(
+                'post-format-', '', $taxonomy->term->slug
+            );
         }
 
         return false;

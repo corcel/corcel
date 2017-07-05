@@ -9,6 +9,8 @@
 
 namespace Corcel;
 
+use Corcel\Traits\AliasesTrait;
+use Corcel\Traits\HasMetaFields;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 
@@ -17,16 +19,47 @@ class User extends Model implements Authenticatable, CanResetPassword
     const CREATED_AT = 'user_registered';
     const UPDATED_AT = null;
 
+    use HasMetaFields;
+    use AliasesTrait;
+
+    /**
+     * @var string
+     */
     protected $table = 'users';
+
+    /**
+     * @var string
+     */
     protected $primaryKey = 'ID';
+
+    /**
+     * @var array
+     */
     protected $hidden = ['user_pass'];
+
+    /**
+     * @var array
+     */
     protected $dates = ['user_registered'];
+
+    /**
+     * @var array
+     */
     protected $with = ['meta'];
 
-    // Disable updated_at
-    public function setUpdatedAtAttribute($value)
-    {
-    }
+    /**
+     * @var array
+     */
+    protected $aliases = [
+        'login' => 'user_login',
+        'email' => 'user_email',
+        'slug' => 'user_nicename',
+        'url' => 'user_url',
+        'nickname' => ['meta' => 'nickname'],
+        'first_name' => ['meta' => 'first_name'],
+        'last_name' => ['meta' => 'last_name'],
+        'created_at' => 'user_registered',
+    ];
 
     /**
      * The accessors to append to the model's array form.
@@ -34,57 +67,35 @@ class User extends Model implements Authenticatable, CanResetPassword
      * @var array
      */
     protected $appends = [
-        'login',
-        'email',
-        'slug',
-        'url',
-        'nickname',
-        'first_name',
-        'last_name',
-        'created_at',
+        'login', 'email', 'slug', 'url', 'nickname',
+        'first_name', 'last_name', 'created_at',
     ];
 
     /**
-     * Meta data relationship.
-     *
-     * @return Corcel\UserMetaCollection
+     * @param mixed $value
      */
-    public function meta()
+    public function setUpdatedAtAttribute($value)
     {
-        return $this->hasMany('Corcel\UserMeta', 'user_id');
-    }
-
-    public function fields()
-    {
-        return $this->meta();
     }
 
     /**
-     * Posts relationship.
-     *
-     * @return Corcel\PostMetaCollection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function posts()
     {
-        return $this->hasMany('Corcel\Post', 'post_author');
+        return $this->hasMany(Post::class, 'post_author');
     }
 
     /**
-     * Comments relationship.
-     *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function comments()
     {
-        return $this->hasMany('Corcel\Comment', 'user_id');
+        return $this->hasMany(Comment::class, 'user_id');
     }
 
     /**
-     * Overriding newQuery() to the custom UserBuilder with some interesting methods.
-     *
-     * @param bool $excludeDeleted
-     *
-     * @return Corcel\UserBuilder
+     * @return UserBuilder
      */
     public function newQuery()
     {
@@ -99,7 +110,6 @@ class User extends Model implements Authenticatable, CanResetPassword
      * Magic method to return the meta data like the user original fields.
      *
      * @param string $key
-     *
      * @return string
      */
     public function __get($key)
@@ -115,6 +125,11 @@ class User extends Model implements Authenticatable, CanResetPassword
         }
     }
 
+    /**
+     * @param array $options
+     * @return bool
+     * @todo Refactor this to HasMetaFields trait of something like this
+     */
     public function save(array $options = [])
     {
         if (isset($this->attributes[$this->primaryKey])) {
@@ -122,90 +137,6 @@ class User extends Model implements Authenticatable, CanResetPassword
         }
 
         return parent::save($options);
-    }
-
-    /**
-     * Accessors.
-     */
-
-    /**
-     * Get login attribute.
-     *
-     * @return string
-     */
-    public function getLoginAttribute()
-    {
-        return $this->user_login;
-    }
-
-    /**
-     * Get email attribute.
-     *
-     * @return string
-     */
-    public function getEmailAttribute()
-    {
-        return $this->user_email;
-    }
-
-    /**
-     * Get slug attribute.
-     *
-     * @return string
-     */
-    public function getSlugAttribute()
-    {
-        return $this->user_nicename;
-    }
-
-    /**
-     * Get url attribute.
-     *
-     * @return string
-     */
-    public function getUrlAttribute()
-    {
-        return $this->user_url;
-    }
-
-    /**
-     * Get nickname attribute.
-     *
-     * @return string
-     */
-    public function getNicknameAttribute()
-    {
-        return $this->meta->nickname;
-    }
-
-    /**
-     * Get first name attribute.
-     *
-     * @return string
-     */
-    public function getFirstNameAttribute()
-    {
-        return $this->meta->first_name;
-    }
-
-    /**
-     * Get last name attribute.
-     *
-     * @return string
-     */
-    public function getLastNameAttribute()
-    {
-        return $this->meta->last_name;
-    }
-
-    /**
-     * Get created at attribute.
-     *
-     * @return date
-     */
-    public function getCreatedAtAttribute()
-    {
-        return $this->user_registered;
     }
 
     /**

@@ -1,23 +1,23 @@
 <?php
 
-/**
- * Corcel\PostBuilder.
- *
- * @author Junior Grossi <juniorgro@gmail.com>
- */
-
 namespace Corcel;
 
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Class PostBuilder
+ *
+ * @package Corcel
+ * @author Junior Grossi <juniorgro@gmail.com>
+ * TODO extract this to a trait creating scopes for Post class
+ */
 class PostBuilder extends Builder
 {
     /**
      * Get only posts with a custom status.
      *
      * @param string $postStatus
-     *
-     * @return \Corcel\PostBuilder
+     * @return $this
      */
     public function status($postStatus)
     {
@@ -27,7 +27,7 @@ class PostBuilder extends Builder
     /**
      * Get only published posts.
      *
-     * @return \Corcel\PostBuilder
+     * @return $this
      */
     public function published()
     {
@@ -38,8 +38,7 @@ class PostBuilder extends Builder
      * Get only posts from a custom post type.
      *
      * @param string $type
-     *
-     * @return \Corcel\PostBuilder
+     * @return $this
      */
     public function type($type)
     {
@@ -49,36 +48,35 @@ class PostBuilder extends Builder
     /**
      * Get only posts from an array of custom post types.
      *
-     * @param array $type
-     *
-     * @return \Corcel\PostBuilder
+     * @param array $types
+     * @return $this
      */
-    public function typeIn(array $type)
+    public function typeIn(array $types)
     {
-        return $this->whereIn('post_type', $type);
+        return $this->whereIn('post_type', $types);
     }
 
     /**
      * @param string $taxonomy
-     * @param mixed  $terms
+     * @param mixed $terms
      *
      * @return Builder|static
      */
     public function taxonomy($taxonomy, $terms)
     {
         return $this->whereHas('taxonomies', function ($query) use ($taxonomy, $terms) {
-            $query->where('taxonomy', $taxonomy)->whereHas('term', function ($query) use ($terms) {
-                $query->whereIn('slug', is_array($terms) ? $terms : [$terms]);
-            });
+            $query->where('taxonomy', $taxonomy)
+                ->whereHas('term', function ($query) use ($terms) {
+                    $query->whereIn('slug', is_array($terms) ? $terms : [$terms]);
+                });
         });
     }
 
     /**
      * Get only posts with a specific slug.
      *
-     * @param string slug
-     *
-     * @return \Corcel\PostBuilder
+     * @param string $slug
+     * @return $this
      */
     public function slug($slug)
     {
@@ -90,8 +88,8 @@ class PostBuilder extends Builder
      *
      * @param int $perPage
      * @param int $currentPage
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Support\Collection
+     * TODO why not using Laravel default one?
      */
     public function paged($perPage = 10, $currentPage = 1)
     {

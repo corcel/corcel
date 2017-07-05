@@ -1,60 +1,72 @@
 <?php
 
-/**
- * Corcel\Comment.
- *
- * @author Junior Grossi <juniorgro@gmail.com>
- */
-
 namespace Corcel;
 
-use Corcel\Traits\CreatedAtTrait;
-use Corcel\Traits\UpdatedAtTrait;
+use Corcel\Traits\HasMetaFields;
+use Corcel\Traits\TimestampsTrait;
 
+/**
+ * Class Comment
+ *
+ * @package Corcel
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class Comment extends Model
 {
-    use CreatedAtTrait, UpdatedAtTrait;
+    use HasMetaFields;
+    use TimestampsTrait;
 
     const CREATED_AT = 'comment_date';
     const UPDATED_AT = null;
 
+    /**
+     * @var string
+     */
     protected $table = 'comments';
+
+    /**
+     * @var string
+     */
     protected $primaryKey = 'comment_ID';
+
+    /**
+     * @var array
+     */
     protected $dates = ['comment_date'];
 
     /**
-     * Post relationship.
-     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function post()
     {
-        return $this->belongsTo('Corcel\Post', 'comment_post_ID');
+        return $this->belongsTo(Post::class, 'comment_post_ID');
     }
 
     /**
-     * Original relationship.
-     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function original()
     {
-        return $this->belongsTo('Corcel\Comment', 'comment_parent');
+        return $this->belongsTo(Comment::class, 'comment_parent');
     }
 
     /**
-     * Replies relationship.
-     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function parent()
+    {
+        return $this->original();
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function replies()
     {
-        return $this->hasMany('Corcel\Comment', 'comment_parent');
+        return $this->hasMany(Comment::class, 'comment_parent');
     }
 
     /**
-     * Verify if the current comment is approved.
-     *
      * @return bool
      */
     public function isApproved()
@@ -63,8 +75,6 @@ class Comment extends Model
     }
 
     /**
-     * Verify if the current comment is a reply from another comment.
-     *
      * @return bool
      */
     public function isReply()
@@ -73,20 +83,17 @@ class Comment extends Model
     }
 
     /**
-     * Verify if the current comment has replies.
-     *
      * @return bool
      */
     public function hasReplies()
     {
-        return count($this->replies) > 0;
+        return $this->replies->count() > 0;
     }
 
     /**
      * Find a comment by post ID.
      *
      * @param int $postId
-     *
      * @return \Corcel\Comment
      */
     public static function findByPostId($postId)
@@ -100,7 +107,6 @@ class Comment extends Model
      * Override the parent newQuery() to the custom CommentBuilder class.
      *
      * @param bool $excludeDeleted
-     *
      * @return \Corcel\CommentBuilder
      */
     public function newQuery($excludeDeleted = true)
