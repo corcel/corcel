@@ -2,9 +2,8 @@
 
 namespace Corcel\Traits;
 
-use Corcel\Post;
 use Corcel\PostMeta;
-use Corcel\TermMeta;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 
 /**
@@ -34,18 +33,16 @@ trait HasMetaFields
     }
 
     /**
-     * Meta filter scope.
-     *
-     * @param $query
-     * @param $meta
-     * @param null $value
-     *
-     * @return Illuminate\Database\Eloquent\Collection
+     * @param Builder $query
+     * @param string $meta
+     * @param mixed $value
+     * @return Builder
      */
-    public function scopeHasMeta($query, $meta, $value = null)
+    public function scopeHasMeta(Builder $query, $meta, $value = null)
     {
         return $query->whereHas('meta', function ($query) use ($meta, $value) {
             $query->where('meta_key', $meta);
+
             if (!is_null($value)) {
                 $query->where('meta_value', $value);
             }
