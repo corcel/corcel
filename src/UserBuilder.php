@@ -1,15 +1,16 @@
 <?php
 
-/**
- * Corcel\UserBuilder.
- *
- * @author Mickael Burguet <www.rundef.com>
- */
-
 namespace Corcel;
 
 use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Class UserBuilder
+ *
+ * @package Corcel
+ * @author Mickael Burguet <www.rundef.com>
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class UserBuilder extends Builder
 {
     /**
@@ -19,28 +20,12 @@ class UserBuilder extends Builder
      * @param int $currentPage
      *
      * @return \Illuminate\Database\Eloquent\Collection
+     * TODO why not using default Laravel page?
      */
     public function paged($perPage = 10, $currentPage = 1)
     {
         $skip = $currentPage * $perPage - $perPage;
 
         return $this->skip($skip)->take($perPage)->get();
-    }
-
-    /**
-     * Add nested meta exists conditions to the query.
-     *
-     * @param string $metaKey
-     * @param string $metaValue
-     *
-     * @return UserBuilder|static
-     */
-    public function hasMeta($metaKey, $metaValue)
-    {
-        return $this->whereHas('meta', function ($query) use ($metaKey, $metaValue) {
-            $query->where('meta_key', $metaKey)
-                ->where('meta_value', $metaValue)
-            ;
-        });
     }
 }

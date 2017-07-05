@@ -88,6 +88,7 @@ class PostBuilder extends Builder
      * @param int $perPage
      * @param int $currentPage
      * @return \Illuminate\Support\Collection
+     * TODO why not using Laravel default one?
      */
     public function paged($perPage = 10, $currentPage = 1)
     {
