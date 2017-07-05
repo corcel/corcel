@@ -16,7 +16,9 @@ class MenuTest extends PHPUnit_Framework_TestCase
      */
     public function it_has_the_correct_class_name()
     {
-        $this->assertInstanceOf(Menu::class, new Menu());
+        $menu = factory(Menu::class)->create();
+
+        $this->assertInstanceOf(Menu::class, $menu);
     }
 
     /**
