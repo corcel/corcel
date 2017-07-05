@@ -87,13 +87,8 @@ class MenuTest extends PHPUnit_Framework_TestCase
         $child = factory(Post::class)->create(['post_type' => 'nav_menu_item']);
         $child->saveMeta('_menu_item_menu_item_parent', $parent->ID);
 
-        $params = ['term_order' => 0];
-
-        return tap(factory(Menu::class)->create(), function ($menu) use ($parent, $child, $params) {
-            $menu->posts()->attach([
-                $parent->ID => $params,
-                $child->ID => $params,
-            ]);
+        return tap(factory(Menu::class)->create(), function ($menu) use ($parent, $child) {
+            $menu->posts()->attach([$parent->ID, $child->ID]);
         });
     }
 }

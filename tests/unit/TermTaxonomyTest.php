@@ -109,9 +109,7 @@ class TermTaxonomyTest extends PHPUnit_Framework_TestCase
             'post_title' => 'Foo bar',
         ]);
 
-        $post->taxonomies()->attach($taxonomy->term_taxonomy_id, [
-            'term_order' => 0,
-        ]);
+        $post->taxonomies()->attach($taxonomy->term_taxonomy_id);
 
         return $taxonomy;
     }
