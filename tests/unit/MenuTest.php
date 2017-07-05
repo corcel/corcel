@@ -1,50 +1,97 @@
 <?php
 
 use Corcel\Menu;
+use Corcel\Post;
 
+/**
+ * Class MenuTest
+ *
+ * @author Yoram de Langen <yoramdelangen@gmail.com>
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class MenuTest extends PHPUnit_Framework_TestCase
 {
-    public function testMenuConstructor()
+    /**
+     * @test
+     */
+    public function it_has_the_correct_class_name()
     {
-        $menu = new Menu();
-        $this->assertTrue($menu instanceof \Corcel\Menu);
+        $this->assertInstanceOf(Menu::class, new Menu());
     }
 
-    public function testMenuId()
+    /**
+     * @test
+     */
+    public function it_has_integer_id()
     {
-        foreach ([1, 2, 3] as $id) {
-            $menu = Menu::find($id);
+        $menus = factory(Menu::class, 2)->create();
 
-            if ($id == 3) {
-                $this->assertEquals($menu->term_taxonomy_id, $id);
-            } else {
-                $this->assertNull($menu);
-            }
-        }
+        collect($menus)->each(function ($menu) {
+            $this->assertNotNull($menu);
+            $this->assertInternalType('integer', $menu->term_taxonomy_id);
+        });
     }
 
-    public function testMenuBySlug()
+    /**
+     * @test
+     */
+    public function it_can_be_queried_by_slug()
     {
-        $menu = Menu::slug('menu1')->first();
-        $this->assertEquals($menu->term_taxonomy_id, 3);
-        $this->assertEquals(count($menu->nav_items), 3);
+        factory(Menu::class)->create();
+        $menu = Menu::slug('foo')->first();
 
-        $menu = Menu::slug('non_existing_menu')->first();
-        $this->assertNull($menu);
+        $this->assertGreaterThanOrEqual(0, count($menu->nav_items));
     }
 
-    public function testMultiLevelMenu()
+    /**
+     * @test
+     */
+    public function it_has_items_as_posts()
     {
-        $menu = Menu::slug('menu1')->first();
+        $menu = $this->createMenu();
 
-        $menuArray = [];
-        foreach ($menu->nav_items as $item) {
-            $parent_id = $item->meta->_menu_item_menu_item_parent;
-            $menuArray[$parent_id][] = $item;
-        }
+        $this->assertCount(2, $menu->items);
 
-        $this->assertEquals(count($menuArray[0]), 2);
-        $this->assertEquals(count($menuArray[16]), 1);
-        $this->assertEquals($menuArray[16][0]->ID, 17);
+        collect($menu->items)->each(function ($post) {
+            $this->assertNotNull($post);
+            $this->assertInstanceOf(Post::class, $post);
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_have_multilevel_children()
+    {
+        $menu = $this->createMenu();
+
+        $parent = $menu->posts->first();
+        $child = $menu->posts->last();
+
+        $this->assertNotNull($parent);
+        $this->assertNotNull($child);
+        $this->assertEquals($parent->ID, $child->meta->_menu_item_menu_item_parent);
+        $this->assertEquals(0, $parent->_menu_item_menu_item_parent);
+    }
+
+    /**
+     * @return Menu
+     */
+    private function createMenu()
+    {
+        $parent = factory(Post::class)->create(['post_type' => 'nav_menu_item']);
+        $parent->saveMeta('_menu_item_menu_item_parent', 0);
+
+        $child = factory(Post::class)->create(['post_type' => 'nav_menu_item']);
+        $child->saveMeta('_menu_item_menu_item_parent', $parent->ID);
+
+        $params = ['term_order' => 0];
+
+        return tap(factory(Menu::class)->create(), function ($menu) use ($parent, $child, $params) {
+            $menu->posts()->attach([
+                $parent->ID => $params,
+                $child->ID => $params,
+            ]);
+        });
     }
 }
