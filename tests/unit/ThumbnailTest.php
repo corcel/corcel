@@ -14,7 +14,7 @@ class ThumbnailTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function thumbnail_meta_belongs_to_post()
+    public function its_meta_belongs_to_post()
     {
         $meta = factory(ThumbnailMeta::class)->create();
 
@@ -24,7 +24,7 @@ class ThumbnailTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_thumbnail_attachment()
+    public function its_post_has_thumbnail_relation()
     {
         $meta = factory(ThumbnailMeta::class)->create();
 
@@ -36,7 +36,7 @@ class ThumbnailTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function thumbnail_has_an_attachment()
+    public function it_has_an_attachment()
     {
         $meta = $this->createThumbnailMetaWithAttachment();
 
@@ -47,7 +47,7 @@ class ThumbnailTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function thumbnail_attachment_url_is_valid()
+    public function its_post_thumbnail_attachment_url_is_valid()
     {
         $post = $this->createPostWithThumbnail();
 
@@ -57,13 +57,13 @@ class ThumbnailTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function thumbnail_has_different_sizes()
+    public function it_has_different_sizes()
     {
         $post = $this->createPostWithThumbnail();
 
         $sizes = $post->thumbnail->attachment->size(ThumbnailMeta::SIZE_FULL);
 
-        //
+        // TODO
     }
 
     /**

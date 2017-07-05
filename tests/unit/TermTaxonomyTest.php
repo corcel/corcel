@@ -15,7 +15,7 @@ class TermTaxonomyTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function taxonomy_belongs_to_term()
+    public function it_belongs_to_a_term()
     {
         $taxonomy = factory(TermTaxonomy::class)->create([
             'term_id' => 0,
@@ -31,7 +31,7 @@ class TermTaxonomyTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function can_filter_taxonomy_by_term()
+    public function it_can_filter_taxonomy_by_term()
     {
         $taxonomy = $this->createTaxonomyWithTermsAndPosts();
         $term = $taxonomy->term;
@@ -48,7 +48,7 @@ class TermTaxonomyTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function taxonomy_can_be_queried_by_name_and_term_slug()
+    public function it_can_be_queried_by_name_and_term_slug()
     {
         $taxonomy = $this->createTaxonomyWithTermsAndPosts();
 
@@ -67,7 +67,7 @@ class TermTaxonomyTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function can_query_taxonomy_by_term_and_get_all_posts_related()
+    public function it_can_query_taxonomy_by_term_and_get_all_posts_related()
     {
         $this->createTaxonomyWithTermsAndPosts();
 
@@ -79,7 +79,7 @@ class TermTaxonomyTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function post_should_have_keywords_if_it_has_taxonomy_and_term()
+    public function its_first_post_should_have_keywords_if_it_has_taxonomy_and_term()
     {
         $taxonomy = $this->createTaxonomyWithTermsAndPosts();
 

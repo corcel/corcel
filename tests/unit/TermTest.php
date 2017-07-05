@@ -13,7 +13,7 @@ class TermTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function term_can_create_term_meta()
+    public function it_can_create_term_meta()
     {
         $term = factory(Term::class)->create();
 
@@ -29,7 +29,7 @@ class TermTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function term_can_create_meta_using_helper_method()
+    public function it_can_create_meta_using_helper_method()
     {
         $term = factory(Term::class)->create();
 
@@ -44,7 +44,7 @@ class TermTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function term_has_meta_associated()
+    public function it_has_meta_relation()
     {
         $term = $this->createTermWithTwoMetaFields();
 
@@ -56,7 +56,7 @@ class TermTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function term_meta_can_be_queried_by_its_relation()
+    public function its_meta_can_be_queried_by_its_relation()
     {
         $term = $this->createTermWithTwoMetaFields();
 
