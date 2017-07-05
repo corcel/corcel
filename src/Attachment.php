@@ -2,18 +2,15 @@
 
 namespace Corcel;
 
-use Corcel\Traits\AliasesTrait;
-
 /**
- * Attachment model
- * Attachments are only a special type of posts.
+ * Class Attachment
  *
+ * @package Corcel
  * @author José CI <josec89@gmail.com>
+ * @author Junior Grossi <juniorgro@gmail.com>
  */
 class Attachment extends Post
 {
-    use AliasesTrait;
-
     /**
      * Type of post.
      *
@@ -22,7 +19,6 @@ class Attachment extends Post
     protected $postType = 'attachment';
 
     /**
-     * The accessors to append to the model's array form.
      *
      * @var array
      */
@@ -48,17 +44,12 @@ class Attachment extends Post
     ];
 
     /**
-     * Returns the basic Attachment information.
-     *
-     * @return string
-     * @todo Refactor to collection
+     * @return array
      */
     public function toArray()
     {
-        foreach ($this->appends as $field) {
-            $result[$field] = $this[$field];
-        }
-
-        return $result;
+        return collect($this->appends)->map(function ($field) {
+            return [$field => $this->getAttribute($field)];
+        })->collapse()->toArray();
     }
 }
