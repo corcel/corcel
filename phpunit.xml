@@ -9,8 +9,8 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="unit">
-            <directory>./tests/unit/</directory>
+        <testsuite name="Unit">
+            <directory>./tests/Unit/</directory>
         </testsuite>
     </testsuites>
     <filter>
