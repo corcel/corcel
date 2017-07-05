@@ -59,11 +59,15 @@ class ThumbnailTest extends PHPUnit_Framework_TestCase
      */
     public function it_has_different_sizes()
     {
-        $post = $this->createPostWithThumbnail();
+        $meta = $this->createThumbnailMetaWithAttachment();
 
-        $sizes = $post->thumbnail->attachment->size(ThumbnailMeta::SIZE_FULL);
+        $thumbnail = $meta->size(ThumbnailMeta::SIZE_THUMBNAIL);
 
-        // TODO
+        $this->assertEquals('foobar.jpg', $thumbnail['file']);
+        $this->assertEquals('http://example.com/foobar.jpg', $thumbnail['url']);
+        $this->assertEquals(150, $thumbnail['width']);
+        $this->assertEquals(150, $thumbnail['height']);
+        $this->assertEquals('image/jpeg', $thumbnail['mime-type']);
     }
 
     /**
@@ -72,6 +76,8 @@ class ThumbnailTest extends PHPUnit_Framework_TestCase
     private function createThumbnailMetaWithAttachment()
     {
         $attachment = factory(Attachment::class)->create();
+        $this->saveThumbnailSizes($attachment);
+
         $meta = factory(ThumbnailMeta::class)->create([
             'meta_value' => $attachment->ID,
         ]);
@@ -88,7 +94,6 @@ class ThumbnailTest extends PHPUnit_Framework_TestCase
     {
         $thumbnail = factory(ThumbnailMeta::class)->create([
             'meta_value' => function () {
-                // TODO add meta information for this Attachment
                 return factory(Attachment::class)->create([
                     'guid' => 'http://google.com',
                 ])->ID;
@@ -96,5 +101,25 @@ class ThumbnailTest extends PHPUnit_Framework_TestCase
         ]);
 
         return $thumbnail->post;
+    }
+
+    /**
+     * @param Attachment $attachment
+     * @return Attachment
+     */
+    private function saveThumbnailSizes(Attachment $attachment)
+    {
+        $attachment->saveMeta('_wp_attachment_metadata', serialize([
+            'sizes' => [
+                'thumbnail' => [
+                    'file' => 'foobar.jpg',
+                    'width' => 150,
+                    'height' => 150,
+                    'mime-type' => 'image/jpeg',
+                ],
+            ],
+        ]));
+
+        return $attachment;
     }
 }

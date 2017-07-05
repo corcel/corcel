@@ -2,6 +2,7 @@
 
 namespace Corcel\Traits;
 
+use Corcel\Attachment;
 use Corcel\PostMeta;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -159,6 +160,10 @@ trait HasMetaFields
      */
     private function getCallerClassName()
     {
+        if ($this instanceof Attachment) {
+            return 'Post';
+        }
+
         return Arr::last(explode('\\', static::class));
     }
 }

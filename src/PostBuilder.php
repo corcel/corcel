@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
  *
  * @package Corcel
  * @author Junior Grossi <juniorgro@gmail.com>
+ * TODO extract this to a trait creating scopes for Post class
  */
 class PostBuilder extends Builder
 {

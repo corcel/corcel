@@ -2,6 +2,8 @@
 
 namespace Corcel;
 
+use Illuminate\Support\Arr;
+
 /**
  * Class ThumbnailMeta
  *
@@ -30,7 +32,7 @@ class ThumbnailMeta extends PostMeta
 
     /**
      * @param $size
-     * @return string
+     * @return array
      * @throws \Exception
      *
      * @todo Fix this method
@@ -43,15 +45,18 @@ class ThumbnailMeta extends PostMeta
             return $this->attachment->url;
         }
 
-        $sizes = $this->attachment->meta->_wp_attachment_metadata['sizes'];
+        $meta = unserialize($this->attachment->meta->_wp_attachment_metadata);
+        $sizes = Arr::get($meta, 'sizes');
 
-        if (! isset($sizes[$size])) {
+        if (!isset($sizes[$size])) {
             throw new \Exception('Invalid size: ' . $size);
         }
 
-        return dirname($this->attachment->url)
-            . '/'
-            . $sizes[$size]['file'];
+        $data = Arr::get($sizes, $size);
+
+        return array_merge($data, [
+            'url' => dirname($this->attachment->url).'/'.$data['file'],
+        ]);
     }
 
     /**
