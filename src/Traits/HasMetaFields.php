@@ -3,6 +3,7 @@
 namespace Corcel\Traits;
 
 use Corcel\Attachment;
+use Corcel\Post;
 use Corcel\PostMeta;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -15,6 +16,13 @@ use Illuminate\Support\Arr;
  */
 trait HasMetaFields
 {
+    /**
+     * @var array
+     */
+    private $relatedMetaClasses = [
+        Attachment::class => Post::class,
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -160,10 +168,12 @@ trait HasMetaFields
      */
     private function getCallerClassName()
     {
-        if ($this instanceof Attachment) {
-            return 'Post';
+        $class = static::class;
+
+        if ($relation = Arr::get($this->relatedMetaClasses, $class)) {
+            $class = $relation;
         }
 
-        return Arr::last(explode('\\', static::class));
+        return Arr::last(explode('\\', $class));
     }
 }
