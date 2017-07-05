@@ -54,7 +54,7 @@ You can install WordPress inside Laravel's `/public` directory, like `/public/wo
 
 ## Laravel Setup
 
-Corcel by default will look for a `wordpress` or `corcel` database connection in your Laravel `config/database.php` file. If it does not find any of these connections it'll use the default `mysql` connection.
+Corcel by default will look for a `wordpress` or `corcel` database connection in your Laravel `config/database.php` file. If it does not find any of these connections it'll use the `default` connection.
 
 For example, you can have a `default` connection for your Laravel app tables and models, and another one called `wordpress` or `corcel` for your WordPress tables. Easy like that.
 
