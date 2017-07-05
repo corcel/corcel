@@ -4,9 +4,18 @@ use Corcel\User;
 use Corcel\Providers\AuthUserProvider;
 use Corcel\Password\PasswordService;
 
+/**
+ * Class AuthenticationTest
+ *
+ * @author Mickael Burguet <www.rundef.com>
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class AuthenticationTest extends PHPUnit_Framework_TestCase
 {
-    public function testPasswordService()
+    /**
+     * @test
+     */
+    public function check_password()
     {
         $checker = new PasswordService();
 
@@ -22,27 +31,34 @@ class AuthenticationTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testUserProvider()
+    /**
+     * @test
+     */
+    public function user_provider_with_simple_password()
     {
-        $userProvider = new AuthUserProvider(null);
-        $passwordService = new PasswordService();
+        $provider = new AuthUserProvider(null);
+        $service = new PasswordService();
 
         $user = new User();
+        $user->user_pass = $service->makeHash('foobar');
 
-        $user->user_pass = $passwordService->makeHash('admin');
-        $this->assertTrue($userProvider->validateCredentials($user, ['password' => 'admin']));
-        $this->assertFalse($userProvider->validateCredentials($user, ['password' => 'admin`']));
+        $this->assertTrue($provider->validateCredentials($user, ['password' => 'foobar']));
+        $this->assertFalse($provider->validateCredentials($user, ['password' => 'foobaz']));
+    }
 
-        $user->user_pass = $passwordService->makeHash('(V-._p@q8sK=TK1QYHIi');
-        $this->assertTrue($userProvider->validateCredentials($user, ['password' => '(V-._p@q8sK=TK1QYHIi']));
-        $this->assertFalse($userProvider->validateCredentials($user, ['password' => '(V-._p@q8sK=TK1QYHIi)`']));
+    /**
+     * @test
+     */
+    public function user_provider_with_complex_password()
+    {
+        $provider = new AuthUserProvider(null);
+        $service = new PasswordService();
+        $password = ')_)E~O79}?w+5"4&6{!;ct>656Lx~5';
 
-        $user->user_pass = $passwordService->makeHash(')_)E~O79}?w+5"4&6{!;ct>656Lx~5');
-        $this->assertTrue(
-            $userProvider->validateCredentials($user, ['password' => ')_)E~O79}?w+5"4&6{!;ct>656Lx~5'])
-        );
-        $this->assertFalse(
-            $userProvider->validateCredentials($user, ['password' => ') )E~O79}?w+5"4&6{!;ct>656Lx~5`'])
-        );
+        $user = new User();
+        $user->user_pass = $service->makeHash($password);
+
+        $this->assertTrue($provider->validateCredentials($user, compact('password')));
+        $this->assertFalse($provider->validateCredentials($user, ['password' => $password.'a']));
     }
 }
