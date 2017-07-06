@@ -3,6 +3,7 @@
 namespace Corcel\Tests\Unit;
 
 use Corcel\Menu;
+use Corcel\MenuItem;
 use Corcel\Post;
 
 /**
@@ -44,7 +45,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         factory(Menu::class)->create();
         $menu = Menu::slug('foo')->first();
 
-        $this->assertGreaterThanOrEqual(0, count($menu->nav_items));
+        $this->assertGreaterThanOrEqual(0, count($menu->items));
     }
 
     /**
@@ -58,6 +59,7 @@ class MenuTest extends \Corcel\Tests\TestCase
 
         collect($menu->items)->each(function ($post) {
             $this->assertNotNull($post);
+            $this->assertInstanceOf(MenuItem::class, $post);
             $this->assertInstanceOf(Post::class, $post);
         });
     }
@@ -79,6 +81,74 @@ class MenuTest extends \Corcel\Tests\TestCase
     }
 
     /**
+     * @test
+     */
+    public function it_can_have_pages()
+    {
+        $menu = $this->createComplexMenu();
+
+        $pages = $menu->items->filter(function ($item) {
+            return $item->meta->_menu_item_object === 'page';
+        });
+
+        $pages->each(function ($item, $i) {
+            $this->assertEquals("page-title#$i", $item->object()->title);
+            $this->assertEquals("page-content#$i", $item->object()->content);
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_have_posts()
+    {
+        $menu = $this->createComplexMenu();
+
+        $pages = $menu->items->filter(function ($item) {
+            return $item->meta->_menu_item_object === 'post';
+        });
+
+        $pages->each(function ($item, $i) {
+            $this->assertEquals("post-title#$i", $item->object()->title);
+            $this->assertEquals("post-content#$i", $item->object()->content);
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_have_custom_links()
+    {
+        $menu = $this->createComplexMenu();
+
+        $pages = $menu->items->filter(function ($item) {
+            return $item->meta->_menu_item_object === 'custom';
+        });
+
+        $pages->each(function ($item, $i) {
+            $this->assertEquals("http://example.com#$i", $item->object()->url);
+            $this->assertEquals("custom-link-text#$i", $item->object()->link_text);
+        });
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_have_categories()
+    {
+        $menu = $this->createComplexMenu();
+
+        $pages = $menu->items->filter(function ($item) {
+            return $item->meta->_menu_item_object === 'category';
+        });
+
+        $pages->each(function ($item, $i) {
+            $this->assertEquals("category-name#$i", $item->object()->name);
+            $this->assertEquals("category-slug#$i", $item->object()->slug);
+        });
+    }
+
+    /**
      * @return Menu
      */
     private function createMenu()
@@ -92,5 +162,13 @@ class MenuTest extends \Corcel\Tests\TestCase
         return tap(factory(Menu::class)->create(), function ($menu) use ($parent, $child) {
             $menu->posts()->attach([$parent->ID, $child->ID]);
         });
+    }
+
+    private function createComplexMenu()
+    {
+        $posts = factory(Post::class, 2)->create();
+        $pages = factory(Post::class, 2)->create(['post_type' => 'page']);
+        $custom = factory()
+
     }
 }
