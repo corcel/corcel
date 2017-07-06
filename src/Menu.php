@@ -25,10 +25,12 @@ class Menu extends TermTaxonomy
     protected $with = ['term', 'nav_items'];
 
     /**
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function items()
     {
-        return $this->posts()->orderBy('menu_order');
+        return $this->belongsToMany(
+            MenuItem::class, 'term_relationships', 'term_taxonomy_id', 'object_id'
+        )->orderBy('menu_order');
     }
 }
