@@ -18,12 +18,12 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
         $this->loadMigrationsFrom([
             '--database' => 'wp',
-            '--realpath' => realpath(__DIR__.'/database/migrations'),
+            '--realpath' => __DIR__.'/database/migrations',
         ]);
 
         $this->loadMigrationsFrom([
             '--database' => 'foo',
-            '--realpath' => realpath(__DIR__.'/database/migrations'),
+            '--realpath' => __DIR__.'/database/migrations',
         ]);
 
         $this->withFactories(__DIR__.'/database/factories');
