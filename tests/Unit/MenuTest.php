@@ -2,9 +2,12 @@
 
 namespace Corcel\Tests\Unit;
 
+use Corcel\CustomLink;
 use Corcel\Menu;
 use Corcel\MenuItem;
 use Corcel\Post;
+use Corcel\Term;
+use Corcel\TermTaxonomy;
 
 /**
  * Class MenuTest
@@ -87,13 +90,13 @@ class MenuTest extends \Corcel\Tests\TestCase
     {
         $menu = $this->createComplexMenu();
 
-        $pages = $menu->items->filter(function ($item) {
+        $posts = $menu->items->filter(function ($item) {
             return $item->meta->_menu_item_object === 'page';
         });
 
-        $pages->each(function ($item, $i) {
-            $this->assertEquals("page-title#$i", $item->object()->title);
-            $this->assertEquals("page-content#$i", $item->object()->content);
+        $posts->each(function (MenuItem $item, $i) {
+            $this->assertEquals("page-title#$i", $item->instance()->title);
+            $this->assertEquals("page-content#$i", $item->instance()->content);
         });
     }
 
@@ -104,13 +107,13 @@ class MenuTest extends \Corcel\Tests\TestCase
     {
         $menu = $this->createComplexMenu();
 
-        $pages = $menu->items->filter(function ($item) {
+        $posts = $menu->items->filter(function ($item) {
             return $item->meta->_menu_item_object === 'post';
         });
 
-        $pages->each(function ($item, $i) {
-            $this->assertEquals("post-title#$i", $item->object()->title);
-            $this->assertEquals("post-content#$i", $item->object()->content);
+        $posts->each(function (MenuItem $item, $i) {
+            $this->assertEquals("post-title#$i", $item->instance()->title);
+            $this->assertEquals("post-content#$i", $item->instance()->content);
         });
     }
 
@@ -121,13 +124,13 @@ class MenuTest extends \Corcel\Tests\TestCase
     {
         $menu = $this->createComplexMenu();
 
-        $pages = $menu->items->filter(function ($item) {
+        $posts = $menu->items->filter(function ($item) {
             return $item->meta->_menu_item_object === 'custom';
         });
 
-        $pages->each(function ($item, $i) {
-            $this->assertEquals("http://example.com#$i", $item->object()->url);
-            $this->assertEquals("custom-link-text#$i", $item->object()->link_text);
+        $posts->each(function (MenuItem $item, $i) {
+            $this->assertEquals("http://example.com#$i", $item->instance()->url);
+            $this->assertEquals("custom-link-text#$i", $item->instance()->link_text);
         });
     }
 
@@ -138,13 +141,13 @@ class MenuTest extends \Corcel\Tests\TestCase
     {
         $menu = $this->createComplexMenu();
 
-        $pages = $menu->items->filter(function ($item) {
+        $posts = $menu->items->filter(function ($item) {
             return $item->meta->_menu_item_object === 'category';
         });
 
-        $pages->each(function ($item, $i) {
-            $this->assertEquals("category-name#$i", $item->object()->name);
-            $this->assertEquals("category-slug#$i", $item->object()->slug);
+        $posts->each(function (MenuItem $item, $i) {
+            $this->assertEquals("category-name#$i", $item->instance()->name);
+            $this->assertEquals("category-slug#$i", $item->instance()->slug);
         });
     }
 
@@ -166,9 +169,86 @@ class MenuTest extends \Corcel\Tests\TestCase
 
     private function createComplexMenu()
     {
-        $posts = factory(Post::class, 2)->create();
-        $pages = factory(Post::class, 2)->create(['post_type' => 'page']);
-        $custom = factory()
+        $pages = $this->buildPages(2);
+        $posts = $this->buildPosts(2);
+        $custom = $this->buildCustomLinks(2);
+        $categories = $this->buildCategories(2);
 
+        // TODO
+
+    }
+
+    /**
+     * @param int $times
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    private function buildPages($times = 2)
+    {
+        $pages = factory(Post::class, $times)->make(['post_type' => 'page']);
+
+        $pages->each(function ($page, $i) {
+            $page->post_title = "page-title#$i";
+            $page->post_content = "page-content#$i";
+            $page->save();
+        });
+
+        return $pages;
+    }
+
+    /**
+     * @param int $times
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    private function buildPosts($times = 2)
+    {
+        $posts = factory(Post::class, $times)->make();
+
+        $posts->each(function ($post, $i) {
+            $post->post_title = "post-title#$i";
+            $post->post_content = "post-content#$i";
+            $post->save();
+        });
+
+        return $posts;
+    }
+
+    /**
+     * @param int $times
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    private function buildCustomLinks($times = 2)
+    {
+        $links = factory(CustomLink::class, $times)->make();
+
+        $links->each(function ($link, $i) {
+            $link->post_title = "custom-link-text#$i";
+            $link->save();
+
+            $link->saveMeta('_menu_item_url', "http://example.com#$i");
+        });
+
+        return $links;
+    }
+
+    /**
+     * @param int $times
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    private function buildCategories($times)
+    {
+        $terms = factory(Term::class, $times)->create();
+
+        $terms->each(function ($term, $i) {
+            $term->name = "category-name#$i";
+            $term->slug = "category-slug#$i";
+            $term->save();
+        });
+
+        return $terms->map(function ($term, $i) {
+            return factory(TermTaxonomy::class)->create([
+                'taxonomy' => 'category',
+                'term_id' => $term->term_id,
+            ]);
+        });
     }
 }
