@@ -8,15 +8,22 @@ namespace Corcel;
  * @package Corcel
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class CustomLink
+class CustomLink extends Post
 {
     /**
-     * @var string
+     * @param string $key
+     * @return mixed
      */
-    public $url;
+    public function __get($key)
+    {
+        if ($key === 'url') {
+            return $this->meta->_menu_item_url;
+        }
 
-    /**
-     * @var string
-     */
-    public $link_text;
+        if ($key === 'link_text') {
+            return $this->post_title;
+        }
+
+        return parent::__get($key);
+    }
 }
