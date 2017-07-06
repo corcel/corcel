@@ -18,7 +18,7 @@ class Option extends Model
     /**
      * @var string
      */
-    protected $table = 'option';
+    protected $table = 'options';
 
     /**
      * @var string

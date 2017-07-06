@@ -1,6 +1,6 @@
 <?php
 
-$factory->define(Corcel\User::class, function (Faker\Generator $faker) {
+$factory->define(\Corcel\User::class, function (Faker\Generator $faker) {
     return [
         'user_login' => 'admin',
         'user_pass' => 'secret',

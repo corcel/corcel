@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Str;
 
-$factory->define(Corcel\Attachment::class, function (Faker\Generator $faker) {
+$factory->define(\Corcel\Post::class, function (Faker\Generator $faker) {
     return [
         'post_author' => $faker->name,
         'post_date' => $faker->dateTimeThisYear,
@@ -23,8 +23,8 @@ $factory->define(Corcel\Attachment::class, function (Faker\Generator $faker) {
         'post_parent' => 0,
         'guid' => 'http://example.com/?p=' . $faker->numberBetween(1, 100),
         'menu_order' => 0,
-        'post_type' => 'attachment',
-        'post_mime_type' => 'image/jpeg',
+        'post_type' => 'post',
+        'post_mime_type' => '',
         'comment_count' => 0,
     ];
 });

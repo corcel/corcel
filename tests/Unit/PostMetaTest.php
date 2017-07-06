@@ -1,5 +1,7 @@
 <?php
 
+namespace Corcel\Tests\Unit;
+
 use Corcel\Post;
 use Corcel\PostMeta;
 
@@ -8,7 +10,7 @@ use Corcel\PostMeta;
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class PostMetaTest extends PHPUnit_Framework_TestCase
+class PostMetaTest extends \Corcel\Tests\TestCase
 {
     /**
      * @test

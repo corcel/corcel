@@ -21,15 +21,15 @@ trait AliasesTrait
         $value = parent::getAttribute($key);
 
         if ($value === null && isset($this->aliases)) {
-            $value = Arr::get($this->aliases, $key);
+            if ($value = Arr::get($this->aliases, $key)) {
+                if (is_array($value)) {
+                    $meta = Arr::get($value, 'meta');
 
-            if (is_array($value)) {
-                $meta = Arr::get($value, 'meta');
+                    return $meta ? $this->meta->$meta : null;
+                }
 
-                return $meta ? $this->meta->$meta : null;
+                return parent::getAttribute($value);
             }
-
-            return parent::getAttribute($value);
         }
 
         return $value;

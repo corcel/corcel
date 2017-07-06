@@ -1,5 +1,7 @@
 <?php
 
+namespace Corcel\Tests\Unit;
+
 use Corcel\Model;
 use Corcel\User;
 use Corcel\UserMetaCollection;
@@ -10,7 +12,7 @@ use Illuminate\Support\Collection;
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class UserTest extends PHPUnit_Framework_TestCase
+class UserTest extends \Corcel\Tests\TestCase
 {
     /**
      * @test

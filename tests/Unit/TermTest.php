@@ -1,5 +1,7 @@
 <?php
 
+namespace Corcel\Tests\Unit;
+
 use Corcel\Term;
 use Corcel\TermMeta;
 
@@ -8,7 +10,7 @@ use Corcel\TermMeta;
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class TermTest extends PHPUnit_Framework_TestCase
+class TermTest extends \Corcel\Tests\TestCase
 {
     /**
      * @test

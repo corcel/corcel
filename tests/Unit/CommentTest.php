@@ -1,5 +1,7 @@
 <?php
 
+namespace Corcel\Tests\Unit;
+
 use Corcel\Comment;
 use Corcel\Post;
 
@@ -8,7 +10,7 @@ use Corcel\Post;
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class CommentTest extends PHPUnit_Framework_TestCase
+class CommentTest extends \Corcel\Tests\TestCase
 {
     /**
      * @test

@@ -163,7 +163,7 @@ class PostTest extends \Corcel\Tests\TestCase
     {
         factory(Post::class, 2)->create();
 
-        $posts = Post::orderBy('post_date', 'asc')->get();
+        $posts = Post::query()->orderBy('post_date', 'asc')->get();
         $first = $posts->first();
         $last = $posts->last();
 

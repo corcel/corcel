@@ -1,5 +1,7 @@
 <?php
 
+namespace Corcel\Tests\Unit;
+
 use Corcel\Attachment;
 
 /**
@@ -7,7 +9,7 @@ use Corcel\Attachment;
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class AttachmentTest extends PHPUnit_Framework_TestCase
+class AttachmentTest extends \Corcel\Tests\TestCase
 {
     /**
      * @test

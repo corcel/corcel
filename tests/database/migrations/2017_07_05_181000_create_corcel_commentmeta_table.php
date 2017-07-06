@@ -1,12 +1,10 @@
 <?php
 
-namespace Corcel\Tests\Database\Migrations;
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTermmetaTable extends Migration
+class CreateCorcelCommentmetaTable extends Migration
 {
     /**
      * Run the Migrations.
@@ -15,9 +13,9 @@ class CreateTermmetaTable extends Migration
      */
     public function up()
     {
-        Schema::create('termmeta', function (Blueprint $table) {
+        Schema::create('commentmeta', function (Blueprint $table) {
             $table->increments('meta_id');
-            $table->bigInteger('term_id')->unsigned();
+            $table->bigInteger('comment_id')->unsigned();
             $table->string('meta_key');
             $table->longText('meta_value');
         });
@@ -30,6 +28,6 @@ class CreateTermmetaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('termmeta');
+        Schema::dropIfExists('commentmeta');
     }
 }

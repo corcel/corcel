@@ -1,6 +1,6 @@
 <?php
 
-$factory->define(Corcel\TermTaxonomy::class, function (Faker\Generator $faker) {
+$factory->define(\Corcel\TermTaxonomy::class, function (Faker\Generator $faker) {
     return [
         'taxonomy' => $faker->word,
         'description' => $faker->sentence(),

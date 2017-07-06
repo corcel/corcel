@@ -1,14 +1,15 @@
 <?php
 
+namespace Corcel\Tests\Unit;
+
 use Corcel\Option;
-use Illuminate\Support\Collection;
 
 /**
  * Class OptionTest
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class OptionTest extends PHPUnit_Framework_TestCase
+class OptionTest extends \Corcel\Tests\TestCase
 {
     /**
      * @test

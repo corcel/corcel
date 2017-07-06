@@ -1,12 +1,10 @@
 <?php
 
-namespace Corcel\Tests\Database\Migrations;
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTermsTable extends Migration
+class CreateCorcelOptionsTable extends Migration
 {
     /**
      * Run the Migrations.
@@ -15,11 +13,11 @@ class CreateTermsTable extends Migration
      */
     public function up()
     {
-        Schema::create('terms', function (Blueprint $table) {
-            $table->increments('term_id');
-            $table->string('name');
-            $table->string('slug');
-            $table->bigInteger('term_group');
+        Schema::create('options', function (Blueprint $table) {
+            $table->increments('option_id');
+            $table->string('option_name');
+            $table->longText('option_value');
+            $table->string('autoload')->default('yes');
         });
     }
 
@@ -30,6 +28,6 @@ class CreateTermsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('terms');
+        Schema::dropIfExists('options');
     }
 }

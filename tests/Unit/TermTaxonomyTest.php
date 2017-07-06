@@ -1,16 +1,19 @@
 <?php
 
+namespace Corcel\Tests\Unit;
+
 use Corcel\Post;
 use Corcel\Term;
 use Corcel\TermTaxonomy;
 use Illuminate\Support\Str;
+use Taxonomy;
 
 /**
  * Class TermTaxonomyTest
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class TermTaxonomyTest extends PHPUnit_Framework_TestCase
+class TermTaxonomyTest extends \Corcel\Tests\TestCase
 {
     /**
      * @test

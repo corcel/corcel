@@ -1,5 +1,7 @@
 <?php
 
+namespace Corcel\Tests\Unit;
+
 use Corcel\Menu;
 use Corcel\Post;
 
@@ -9,7 +11,7 @@ use Corcel\Post;
  * @author Yoram de Langen <yoramdelangen@gmail.com>
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class MenuTest extends PHPUnit_Framework_TestCase
+class MenuTest extends \Corcel\Tests\TestCase
 {
     /**
      * @test

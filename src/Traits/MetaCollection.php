@@ -17,9 +17,9 @@ trait MetaCollection
     public function __get($key)
     {
         if (isset($this->items) && count($this->items)) {
-            return $this->first(function ($meta) use ($key) {
+            return $this->filter(function ($meta) use ($key) {
                 return $meta->meta_key === $key;
-            })->meta_value;
+            })->first()->meta_value;
         }
 
         return parent::__get($key);

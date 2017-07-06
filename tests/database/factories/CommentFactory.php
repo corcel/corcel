@@ -2,7 +2,7 @@
 
 use Corcel\Post;
 
-$factory->define(Corcel\Comment::class, function (Faker\Generator $faker) {
+$factory->define(\Corcel\Comment::class, function (Faker\Generator $faker) {
     return [
         'comment_post_ID' => function () {
             return factory(Post::class)->create()->ID;

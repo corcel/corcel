@@ -1,12 +1,10 @@
 <?php
 
-namespace Corcel\Tests\Database\Migrations;
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCommentsTable extends Migration
+class CreateCorcelCommentsTable extends Migration
 {
     /**
      * Run the Migrations.

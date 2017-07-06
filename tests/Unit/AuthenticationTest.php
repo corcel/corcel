@@ -1,5 +1,7 @@
 <?php
 
+namespace Corcel\Tests\Unit;
+
 use Corcel\User;
 use Corcel\Providers\AuthUserProvider;
 use Corcel\Password\PasswordService;
@@ -10,7 +12,7 @@ use Corcel\Password\PasswordService;
  * @author Mickael Burguet <www.rundef.com>
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class AuthenticationTest extends PHPUnit_Framework_TestCase
+class AuthenticationTest extends \Corcel\Tests\TestCase
 {
     /**
      * @test

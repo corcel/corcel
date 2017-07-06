@@ -2,6 +2,9 @@
 
 namespace Corcel\Tests;
 
+use Illuminate\Contracts\Auth\Authenticatable;
+use Orchestra\Database\ConsoleServiceProvider;
+
 /**
  * Class TestCase
  *
@@ -12,11 +15,18 @@ class TestCase extends \Orchestra\Testbench\TestCase
     public function setUp()
     {
         parent::setUp();
+
         $this->loadMigrationsFrom([
             '--database' => 'wp',
-            '--realpath' => realpath(__DIR__ . '/Database/Migrations'),
+            '--realpath' => realpath(__DIR__.'/database/migrations'),
         ]);
-        $this->withFactories(__DIR__ . '/Database/Factories');
+
+        $this->loadMigrationsFrom([
+            '--database' => 'foo',
+            '--realpath' => realpath(__DIR__.'/database/migrations'),
+        ]);
+
+        $this->withFactories(__DIR__.'/database/factories');
     }
 
     /**
@@ -35,7 +45,28 @@ class TestCase extends \Orchestra\Testbench\TestCase
         $app['config']->set('database.connections.foo', [
             'driver'   => 'sqlite',
             'database' => ':memory:',
-            'prefix'   => 'wp_',
+            'prefix'   => 'foo_',
         ]);
+    }
+
+    /**
+     * @param \Illuminate\Foundation\Application $app
+     * @return array
+     */
+    protected function getPackageProviders($app)
+    {
+        return [
+            ConsoleServiceProvider::class,
+        ];
+    }
+
+    /**
+     * @param  \Illuminate\Contracts\Auth\Authenticatable $user
+     * @param  string $driver
+     * @return void
+     */
+    public function be(Authenticatable $user, $driver = null)
+    {
+        // TODO: Implement be() method.
     }
 }

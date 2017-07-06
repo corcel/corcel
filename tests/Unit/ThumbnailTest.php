@@ -1,5 +1,7 @@
 <?php
 
+namespace Corcel\Tests\Unit;
+
 use Corcel\Attachment;
 use Corcel\Post;
 use Corcel\ThumbnailMeta;
@@ -9,7 +11,7 @@ use Corcel\ThumbnailMeta;
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class ThumbnailTest extends PHPUnit_Framework_TestCase
+class ThumbnailTest extends \Corcel\Tests\TestCase
 {
     /**
      * @test
