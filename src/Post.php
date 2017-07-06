@@ -208,54 +208,18 @@ class Post extends Model
     }
 
     /**
-     * Magic method to return the meta data like the post original fields.
-     *
      * @param string $key
-     *
-     * @return string
-     * @todo This is a mess. Refactor this
-     * @todo Extract menu logic to a method or Trait
+     * @return mixed
      */
     public function __get($key)
     {
-        if (($value = parent::__get($key)) !== null) {
-            return $value;
+        $value = parent::__get($key);
+
+        if ($value === null && !property_exists($this, $key)) {
+            return $this->meta->$key;
         }
 
-        if (!property_exists($this, $key)) {
-            if (property_exists($this, $this->primaryKey) && isset($this->meta->$key)) {
-                return $this->meta->$key;
-            } // TODO this should be removed. Should use now $aliases variable
-        } elseif (isset($this->$key) and empty($this->$key)) {
-            // fix for menu items when chosing category to show
-            if (in_array($key, ['post_title', 'post_name'])) {
-                $type = $this->meta->_menu_item_object;
-                $taxonomy = null;
-
-                // Support certain types of meta objects
-                if ($type == 'category') {
-                    $taxonomy = $this->meta()->where('meta_key', '_menu_item_object_id')
-                        ->first()->taxonomy('meta_value')->first();
-                } elseif ($type == 'post_tag') {
-                    $taxonomy = $this->meta()->where('meta_key', '_menu_item_object_id')
-                        ->first()->taxonomy('meta_value')->first();
-                } elseif ($type == 'post') {
-                    $post = $this->meta()->where('meta_key', '_menu_item_object_id')
-                        ->first()->post(true)->first();
-
-                    return $post->$key;
-                }
-
-                // TODO Extract this
-                if (isset($taxonomy) && $taxonomy->exists) {
-                    if ($key == 'post_title') {
-                        return $taxonomy->name;
-                    } elseif ($key == 'post_name') {
-                        return $taxonomy->slug;
-                    }
-                }
-            }
-        }
+        return $value;
     }
 
     /**

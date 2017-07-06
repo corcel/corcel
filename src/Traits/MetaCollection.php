@@ -17,11 +17,13 @@ trait MetaCollection
     public function __get($key)
     {
         if (isset($this->items) && count($this->items)) {
-            return $this->filter(function ($meta) use ($key) {
+            $meta = $this->first(function ($meta) use ($key) {
                 return $meta->meta_key === $key;
-            })->first()->meta_value;
+            });
+
+            return $meta ? $meta->meta_value : null;
         }
 
-        return parent::__get($key);
+        return null;
     }
 }
