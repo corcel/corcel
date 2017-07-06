@@ -12,17 +12,17 @@
         }
     ],
     "require": {
-        "php":  ">=5.5.9",
-        "illuminate/database": "~5.1",
-        "illuminate/filesystem": "~5.1",
-        "illuminate/support": "~5.1",
+        "php": ">=5.6.4",
+        "illuminate/database": "~5.4.0",
+        "illuminate/filesystem": "~5.4.0",
+        "illuminate/support": "~5.4.0",
         "fzaninotto/faker": "^1.6",
         "hautelook/phpass": "0.3.4",
         "thunderer/shortcode": "^0.6.2"
     },
     "require-dev": {
-        "orchestra/testbench": "~3.0",
-        "orchestra/database": "~3.0",
+        "orchestra/testbench": "~3.4.0",
+        "orchestra/database": "~3.4.0",
         "phpunit/phpunit": "^4.8"
     },
     "autoload": {
