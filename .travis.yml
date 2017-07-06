@@ -1,9 +1,9 @@
 language: php
 
 php:
-  - '5.5'
-  - '5.6'
-  - '7.0'
+  - 5.5
+  - 5.6
+  - 7.0
 
 dist: trusty
 sudo: required
@@ -15,3 +15,5 @@ before_script:
 script:
   - mkdir -p build/logs
   - phpunit
+
+after_script: php vendor/bin/coveralls

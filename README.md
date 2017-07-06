@@ -6,6 +6,7 @@ Corcel
 [![Travis](https://travis-ci.org/corcel/corcel.svg?branch=dev)](https://travis-ci.org/corcel/corcel?branch=dev)
 [![Packagist](https://img.shields.io/packagist/v/jgrossi/corcel.svg)](https://packagist.org/packages/jgrossi/corcel)
 [![Packagist](https://img.shields.io/packagist/dt/jgrossi/corcel.svg)](https://github.com/jgrossi/corcel/releases)
+[![Coverage Status](https://coveralls.io/repos/corcel/corcel/badge.svg?branch=master)](https://coveralls.io/r/corcel/corcel?branch=master)
 
 <a href='https://ko-fi.com/A36513JF' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi4.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
