@@ -2,6 +2,8 @@
 
 namespace Corcel;
 
+use Illuminate\Support\Arr;
+
 /**
  * Class MenuItem
  *
@@ -10,13 +12,35 @@ namespace Corcel;
  */
 class MenuItem extends Post
 {
+    /**
+     * @var string
+     */
+    protected $postType = 'nav_menu_item';
+
+    /**
+     * @var array
+     */
+    private $instanceRelations = [
+        'post' => Post::class,
+        'page' => Page::class,
+        'custom' => CustomLink::class,
+        'category' => TermTaxonomy::class,
+    ];
+
+    /**
+     * @return Post|Page|CustomLink|TermTaxonomy
+     */
     public function instance()
     {
-        // if page
-        // if post
-        // if custom link
-        // if category
+        $className = Arr::get(
+            $this->instanceRelations, $this->meta->_menu_item_object
+        );
 
+        if ($className) {
+            return (new $className)->newQuery()
+                ->findOrFail($this->meta->_menu_item_object_id);
+        }
 
+        return null;
     }
 }
