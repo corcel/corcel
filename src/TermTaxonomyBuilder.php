@@ -60,7 +60,7 @@ class TermTaxonomyBuilder extends Builder
      */
     public function slug($slug = null)
     {
-        if (!is_null($slug) and !empty($slug)) {
+        if (!is_null($slug) && !empty($slug)) {
             return $this->whereHas('term', function ($query) use ($slug) {
                 $query->where('slug', $slug);
             });

@@ -22,7 +22,7 @@ class Menu extends TermTaxonomy
      *
      * @var array
      */
-    protected $with = ['term', 'nav_items'];
+    protected $with = ['term', 'items'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
