@@ -11,6 +11,16 @@ namespace Corcel;
 class CustomLink extends Post
 {
     /**
+     * @var string
+     */
+    protected $table = 'posts';
+
+    /**
+     * @var string
+     */
+    protected $primaryKey = 'ID';
+
+    /**
      * @param string $key
      * @return mixed
      */
