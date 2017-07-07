@@ -3,6 +3,8 @@
 namespace Corcel\Traits;
 
 use Corcel\Attachment;
+use Corcel\CustomLink;
+use Corcel\MenuItem;
 use Corcel\Post;
 use Corcel\PostMeta;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,6 +23,8 @@ trait HasMetaFields
      */
     private $relatedMetaClasses = [
         Attachment::class => Post::class,
+        CustomLink::class => Post::class,
+        MenuItem::class => Post::class,
     ];
 
     /**
