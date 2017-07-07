@@ -82,57 +82,6 @@ class UserTest extends \Corcel\Tests\TestCase
 
     /**
      * @test
-     * @todo extract this test to a different file (HasMetaFieldsTest)
-     */
-    public function it_can_save_multiples_metas()
-    {
-        $user = factory(User::class)->create();
-
-        $user->saveMeta([
-            'foo' => 'bar',
-            'fee' => 'baz',
-        ]);
-
-        $this->assertEquals('bar', $user->meta->foo);
-        $this->assertEquals('baz', $user->meta->fee);
-    }
-
-    /**
-     * @test
-     * @todo extract this test to a different file
-     */
-    public function it_can_create_multiples_metas()
-    {
-        $user = factory(User::class)->create();
-
-        $user->createMeta([
-            'foo' => 'bar',
-            'fee' => 'baz',
-        ]);
-
-        $this->assertEquals('bar', $user->meta->foo);
-        $this->assertEquals('baz', $user->meta->fee);
-        $this->assertEquals(2, $user->meta->count());
-    }
-
-    /**
-     * @test
-     * TODO extract this test to a different file
-     */
-    public function it_gets_meta_after_creating_meta()
-    {
-        $user = factory(User::class)->create();
-
-        $metas = $user->createMeta(['foo' => 'bar']);
-        $this->assertInstanceOf(Collection::class, $metas);
-        $this->assertEquals(1, $metas->count());
-
-        $meta = $user->createMeta('foo', 'bar');
-        $this->assertInstanceOf(Model::class, $meta);
-    }
-
-    /**
-     * @test
      */
     public function it_can_update_meta()
     {

@@ -148,20 +148,6 @@ class PostTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
-    public function it_can_update_meta()
-    {
-        $post = factory(Post::class)->create();
-        $post->saveMeta('foo', 'bar');
-        $post->saveMeta('foo', 'baz');
-
-        $meta = $post->meta()->where('meta_key', 'foo')->first();
-
-        $this->assertEquals('baz', $meta->meta_value);
-    }
-
-    /**
-     * @test
-     */
     public function it_can_save_multiple_meta_at_the_same_time()
     {
         $post = factory(Post::class)->create();
