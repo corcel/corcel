@@ -2,8 +2,8 @@
 
 namespace Corcel\Tests\Unit;
 
-use Corcel\Post;
 use Corcel\Page;
+use Corcel\Post;
 use Corcel\PostMetaCollection;
 use Corcel\Term;
 use Corcel\TermTaxonomy;

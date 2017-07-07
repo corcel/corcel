@@ -3,7 +3,6 @@
 namespace Corcel\Tests\Unit;
 
 use Corcel\Term;
-use Corcel\TermMeta;
 
 /**
  * Class TermTest

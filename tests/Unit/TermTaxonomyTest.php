@@ -5,7 +5,6 @@ namespace Corcel\Tests\Unit;
 use Corcel\Post;
 use Corcel\Term;
 use Corcel\TermTaxonomy;
-use Illuminate\Support\Str;
 use Taxonomy;
 
 /**

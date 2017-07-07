@@ -6,7 +6,6 @@ use Corcel\CustomLink;
 use Corcel\Menu;
 use Corcel\MenuItem;
 use Corcel\Post;
-use Corcel\Term;
 use Corcel\TermTaxonomy;
 
 /**
