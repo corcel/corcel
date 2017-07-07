@@ -2,6 +2,8 @@
 
 namespace Corcel\Tests;
 
+use Corcel\Laravel\CorcelServiceProvider;
+use Corcel\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Orchestra\Database\ConsoleServiceProvider;
 
@@ -34,6 +36,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function getEnvironmentSetUp($app)
     {
+        // TODO change this to make sure corcel.connection is working
         $app['config']->set('database.default', 'wp');
 
         $app['config']->set('database.connections.wp', [
@@ -47,6 +50,13 @@ class TestCase extends \Orchestra\Testbench\TestCase
             'database' => ':memory:',
             'prefix'   => 'foo_',
         ]);
+
+        $app['config']->set('auth.providers.users', [
+            'driver' => 'corcel',
+            'model' => User::class,
+        ]);
+
+//        $app['config']->set('corcel.connection', 'wp');
     }
 
     /**
@@ -57,6 +67,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         return [
             ConsoleServiceProvider::class,
+            CorcelServiceProvider::class,
         ];
     }
 
