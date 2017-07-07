@@ -2,19 +2,30 @@
 
 namespace Corcel\Laravel\Auth;
 
-use Illuminate\Contracts\Auth\UserProvider;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Corcel\Services\PasswordService;
 use Corcel\User;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Support\Arr;
 
 /**
+ * Class AuthUserProvider
+ *
+ * @package Corcel\Laravel\Auth
  * @author Mickael Burguet <www.rundef.com>
+ * @author Junior Grossi <juniorgro@gmail.com>
  */
 class AuthUserProvider implements UserProvider
 {
-    protected $config = null;
+    /**
+     * @var array
+     */
+    protected $config = [];
 
-    public function __construct($config)
+    /**
+     * @param array $config
+     */
+    public function __construct(array $config)
     {
         $this->config = $config;
     }
@@ -23,12 +34,14 @@ class AuthUserProvider implements UserProvider
      * Retrieve a user by their unique identifier.
      *
      * @param mixed $identifier
-     *
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveById($identifier)
     {
-        return $this->createModel()->newQuery()->where('ID', $identifier)->first();
+        return $this->createModel()
+            ->newQuery()
+            ->where('ID', $identifier)
+            ->first();
     }
 
     /**
@@ -36,19 +49,22 @@ class AuthUserProvider implements UserProvider
      *
      * @param mixed  $identifier
      * @param string $token
-     *
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByToken($identifier, $token)
     {
-        return $this->createModel()->newQuery()->whereId($identifier)->hasMeta('remember_token', $token)->first();
+        return $this->createModel()
+            ->newQuery()
+            ->where('ID', $identifier)
+            ->hasMeta('remember_token', $token)
+            ->first();
     }
 
     /**
      * Update the "remember me" token for the given user in storage.
      *
      * @param \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param string                                     $token
+     * @param string $token
      */
     public function updateRememberToken(Authenticatable $user, $token)
     {
@@ -60,28 +76,30 @@ class AuthUserProvider implements UserProvider
      * Retrieve a user by the given credentials.
      *
      * @param array $credentials
-     *
      * @return \Illuminate\Contracts\Auth\Authenticatable|null
      */
     public function retrieveByCredentials(array $credentials)
     {
-        $user = null;
+        $query = $this->createModel()->newQuery();
 
-        if (isset($credentials['username'])) {
-            $user = $this->createModel()->newQuery()->whereUserLogin($credentials['username'])->first();
-        } elseif (isset($credentials['email'])) {
-            $user = $this->createModel()->newQuery()->whereUserEmail($credentials['email'])->first();
+        if ($username = Arr::get($credentials, 'username')) {
+            return $query->where('user_login', $username)
+                ->first();
         }
 
-        return $user;
+        if ($email = Arr::get($credentials, 'email')) {
+            return $query->where('user_email', $email)
+                ->first();
+        }
+
+        return null;
     }
 
     /**
      * Validate a user against the given credentials.
      *
      * @param \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param array                                      $credentials
-     *
+     * @param array $credentials
      * @return bool
      */
     public function validateCredentials(Authenticatable $user, array $credentials)
@@ -90,9 +108,8 @@ class AuthUserProvider implements UserProvider
             return false;
         }
 
-        $passwordService = new PasswordService();
-
-        return $passwordService->check($credentials['password'], $user->user_pass);
+        return (new PasswordService())
+            ->check($credentials['password'], $user->user_pass);
     }
 
     /**
@@ -102,12 +119,8 @@ class AuthUserProvider implements UserProvider
      */
     protected function createModel()
     {
-        if ($this->config && isset($this->config['model'])) {
-            $class = '\\'.ltrim($this->config['model'], '\\');
+        $model = Arr::get($this->config, 'model');
 
-            return new $class();
-        }
-
-        return new User();
+        return $model ? new $model : new User;
     }
 }
