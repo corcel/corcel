@@ -50,7 +50,7 @@ class User extends Model implements Authenticatable, CanResetPassword
     /**
      * @var array
      */
-    protected $aliases = [
+    protected static $aliases = [
         'login' => 'user_login',
         'email' => 'user_email',
         'slug' => 'user_nicename',

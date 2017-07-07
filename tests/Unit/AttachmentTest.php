@@ -29,11 +29,15 @@ class AttachmentTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
-    public function it_does_not_have_parent_aliases()
+    public function it_merges_the_parent_aliases()
     {
-        $attachment = factory(Attachment::class)->create();
+        $attachment = factory(Attachment::class)->create([
+            'post_status' => 'foo',
+            'post_content' => 'bar',
+        ]);
 
-        $this->assertNull($attachment->status);
+        $this->assertNotNull($attachment->status);
+        $this->assertNotNull($attachment->content);
     }
 
     /**

@@ -20,8 +20,8 @@ trait AliasesTrait
     {
         $value = parent::getAttribute($key);
 
-        if ($value === null && isset($this->aliases)) {
-            if ($value = Arr::get($this->aliases, $key)) {
+        if ($value === null && count(static::getAliases())) {
+            if ($value = Arr::get(static::getAliases(), $key)) {
                 if (is_array($value)) {
                     $meta = Arr::get($value, 'meta');
 
@@ -36,11 +36,23 @@ trait AliasesTrait
     }
 
     /**
+     * @return array
+     */
+    public static function getAliases()
+    {
+        if (isset(parent::$aliases) && count(parent::$aliases)) {
+            return array_merge(parent::$aliases, static::$aliases);
+        }
+
+        return static::$aliases;
+    }
+
+    /**
      * @param string $new
      * @param string $old
      */
-    public function addAlias($new, $old)
+    public static function addAlias($new, $old)
     {
-        $this->aliases[$new] = $old;
+        static::$aliases[$new] = $old;
     }
 }

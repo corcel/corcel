@@ -61,7 +61,9 @@ class UserTest extends \Corcel\Tests\TestCase
      */
     public function it_has_the_correct_auth_identifier()
     {
-        // TODO $this->assertEquals(21, $user->getAuthIdentifier());
+        $user = factory(User::class)->create();
+
+        $this->assertEquals($user->ID, $user->getAuthIdentifier());
     }
 
     /**
@@ -80,7 +82,7 @@ class UserTest extends \Corcel\Tests\TestCase
 
     /**
      * @test
-     * @todo extract this test to a different file
+     * @todo extract this test to a different file (HasMetaFieldsTest)
      */
     public function it_can_save_multiples_metas()
     {

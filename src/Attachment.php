@@ -2,6 +2,8 @@
 
 namespace Corcel;
 
+use Corcel\Traits\AliasesTrait;
+
 /**
  * Class Attachment
  *
@@ -11,6 +13,8 @@ namespace Corcel;
  */
 class Attachment extends Post
 {
+    use AliasesTrait;
+
     /**
      * Type of post.
      *
@@ -33,7 +37,7 @@ class Attachment extends Post
     /**
      * @var array
      */
-    protected $aliases = [
+    protected static $aliases = [
         'title' => 'post_title',
         'url' => 'guid',
         'type' => 'post_mime_type',

@@ -78,9 +78,12 @@ class PostTest extends \Corcel\Tests\TestCase
         $post->saveMeta('foo', 'bar');
 
         $post->addAlias('baz', ['meta' => 'foo']);
-
         $this->assertEquals('bar', $post->baz);
         $this->assertEquals($post->baz, $post->meta->foo);
+
+        Post::addAlias('fee', ['meta' => 'foo']);
+        $this->assertEquals('bar', $post->fee);
+        $this->assertEquals($post->fee, $post->meta->foo);
     }
 
     /**
