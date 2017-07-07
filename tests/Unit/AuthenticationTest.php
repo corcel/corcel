@@ -5,6 +5,7 @@ namespace Corcel\Tests\Unit;
 use Corcel\Laravel\Auth\AuthUserProvider;
 use Corcel\Services\PasswordService;
 use Corcel\User;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class AuthenticationTest
@@ -15,20 +16,38 @@ use Corcel\User;
 class AuthenticationTest extends \Corcel\Tests\TestCase
 {
     /**
+     * @var PasswordService
+     */
+    protected $checker;
+
+    /**
+     * @var AuthUserProvider
+     */
+    protected $provider;
+
+    /**
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        $this->checker = new PasswordService();
+        $this->provider = new AuthUserProvider();
+    }
+
+    /**
      * @test
      */
-    public function check_password()
+    public function it_can_check_passwords()
     {
-        $checker = new PasswordService();
-
-        $this->assertTrue($checker->check('admin', $checker->makeHash('admin')));
-        $this->assertTrue($checker->check('admin', '$P$BrYiES.08ardK6pQme0LdlmQ0idrIe/'));
-        $this->assertTrue($checker->check('rEn2b2N3TX', $checker->makeHash('rEn2b2N3TX')));
+        $this->assertTrue($this->checker->check('admin', $this->checker->makeHash('admin')));
+        $this->assertTrue($this->checker->check('admin', '$P$BrYiES.08ardK6pQme0LdlmQ0idrIe/'));
+        $this->assertTrue($this->checker->check('rEn2b2N3TX', $this->checker->makeHash('rEn2b2N3TX')));
 
         $this->assertTrue(
-            $checker->check(
+            $this->checker->check(
                 '+0q?\'t&SBT\'*2VBk7UE(,uj6UG23Us',
-                $checker->makeHash('+0q?\'t&SBT\'*2VBk7UE(,uj6UG23Us')
+                $this->checker->makeHash('+0q?\'t&SBT\'*2VBk7UE(,uj6UG23Us')
             )
         );
     }
@@ -36,31 +55,68 @@ class AuthenticationTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
-    public function user_provider_with_simple_password()
+    public function it_can_validate_simple_passwords()
     {
-        $provider = new AuthUserProvider();
-        $service = new PasswordService();
+        $user = factory(User::class)->make([
+            'user_pass' => $this->checker->makeHash('foobar'),
+        ]);
 
-        $user = new User();
-        $user->user_pass = $service->makeHash('foobar');
-
-        $this->assertTrue($provider->validateCredentials($user, ['password' => 'foobar']));
-        $this->assertFalse($provider->validateCredentials($user, ['password' => 'foobaz']));
+        $this->assertTrue($this->provider->validateCredentials($user, ['password' => 'foobar']));
+        $this->assertFalse($this->provider->validateCredentials($user, ['password' => 'foobaz']));
     }
 
     /**
      * @test
      */
-    public function user_provider_with_complex_password()
+    public function it_can_validate_complex_passwords()
     {
-        $provider = new AuthUserProvider();
-        $service = new PasswordService();
         $password = ')_)E~O79}?w+5"4&6{!;ct>656Lx~5';
 
-        $user = new User();
-        $user->user_pass = $service->makeHash($password);
+        $user = factory(User::class)->make([
+            'user_pass' => $this->checker->makeHash($password),
+        ]);
 
-        $this->assertTrue($provider->validateCredentials($user, compact('password')));
-        $this->assertFalse($provider->validateCredentials($user, ['password' => $password.'a']));
+        $this->assertTrue($this->provider->validateCredentials($user, compact('password')));
+        $this->assertFalse($this->provider->validateCredentials($user, ['password' => $password.'a']));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_authenticate_users_using_auth_facade_with_email()
+    {
+        factory(User::class)->create([
+            'user_pass' => $this->checker->makeHash('correct-password'),
+        ]);
+
+        $this->assertTrue(Auth::validate([
+            'email' => 'admin@example.com',
+            'password' => 'correct-password',
+        ]));
+
+        $this->assertFalse(Auth::validate([
+            'email' => 'admin@example.com',
+            'password' => 'wrong-password',
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_authenticate_users_using_auth_facade_with_username()
+    {
+        factory(User::class)->create([
+            'user_pass' => $this->checker->makeHash('correct-password'),
+        ]);
+
+        $this->assertTrue(Auth::validate([
+            'username' => 'admin',
+            'password' => 'correct-password',
+        ]));
+
+        $this->assertFalse(Auth::validate([
+            'username' => 'admin',
+            'password' => 'wrong-password',
+        ]));
     }
 }
