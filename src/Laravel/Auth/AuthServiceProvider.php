@@ -1,9 +1,8 @@
 <?php
 
-namespace Corcel\Providers\Laravel;
+namespace Corcel\Laravel\Auth;
 
 use Illuminate\Support\ServiceProvider;
-use Corcel\Providers\AuthUserProvider;
 
 /**
  * @author Mickael Burguet <www.rundef.com>

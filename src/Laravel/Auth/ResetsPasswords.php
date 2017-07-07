@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel\Auth;
+namespace Corcel\Laravel\Auth;
 
 use Corcel\Password\PasswordService;
 use Auth;

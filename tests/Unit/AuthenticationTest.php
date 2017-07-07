@@ -3,8 +3,8 @@
 namespace Corcel\Tests\Unit;
 
 use Corcel\User;
-use Corcel\Providers\AuthUserProvider;
-use Corcel\Password\PasswordService;
+use Corcel\Laravel\Auth\AuthUserProvider;
+use Corcel\Services\PasswordService;
 
 /**
  * Class AuthenticationTest

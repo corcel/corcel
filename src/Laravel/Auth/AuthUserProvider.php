@@ -1,10 +1,10 @@
 <?php
 
-namespace Corcel\Providers;
+namespace Corcel\Laravel\Auth;
 
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Corcel\Password\PasswordService;
+use Corcel\Services\PasswordService;
 use Corcel\User;
 
 /**

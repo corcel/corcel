@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel\Password;
+namespace Corcel\Services;
 
 use Hautelook\Phpass\PasswordHash;
 
