@@ -175,24 +175,29 @@ echo $post->fields->link;
 echo $post->link; // OR
 ```
 
-Updating post custom fields:
+To create or update meta data form a User just use the `saveMeta()` or `saveField()` methods. They return `bool` like the Eloquent `save()` method.
 
 ```php
 $post = Post::find(1);
-$post->meta->username = 'juniorgrossi';
-$post->meta->url = 'http://grossi.io';
-$post->save();
+$post->saveMeta('username', 'jgrossi');
 ```
 
-Inserting custom fields:
+You can save many meta data at the same time too:
 
 ```php
-$post = new Post;
-$post->save();
+$post = Post::find(1);
+$post->saveMeta([
+    'username' => 'jgrossi',
+    'url' => 'http://jgrossi.com',
+]);
+```
 
-$post->meta->username = 'juniorgrossi';
-$post->meta->url = 'http://grossi.io';
-$post->save();
+You also have the `createMeta()` and `createField()` methods, that work like the `saveX()` methods, but they are used only for creation and return the `PostMeta` created instance, instead of `bool`.
+
+```php
+$post = Post::find(1);
+$postMeta = $post->createMeta('foo', 'bar'); // instance of PostMeta class
+$trueOrFalse = $post->saveMeta('foo', 'baz'); // boolean
 ```
 
 ## <a id="acf"></a>  Advanced Custom Fields (ACF)
