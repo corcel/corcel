@@ -2,25 +2,31 @@
 
 namespace Corcel\Laravel\Auth;
 
-use Corcel\Password\PasswordService;
 use Auth;
+use Corcel\Services\PasswordService;
+use Illuminate\Contracts\Auth\CanResetPassword;
 
+/**
+ * Trait ResetsPasswords
+ *
+ * @package Corcel\Laravel\Auth
+ * @author Mickael Burguet <www.rundef.com>
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 trait ResetsPasswords
 {
     /**
      * Reset the given user's password.
      *
-     * @param \Illuminate\Contracts\Auth\CanResetPassword $user
-     * @param string                                      $password
+     * @param CanResetPassword $user
+     * @param string $password
      */
-    protected function resetPassword($user, $password)
+    protected function resetPassword(CanResetPassword $user, $password)
     {
-        $passwordService = new PasswordService();
-
-        $user->user_pass = $passwordService->makeHash($password);
-
+        $user->user_pass = (new PasswordService())->makeHash($password);
         $user->save();
 
-        Auth::guard($this->getGuard())->login($user);
+        Auth::guard($this->getGuard())
+            ->login($user);
     }
 }
