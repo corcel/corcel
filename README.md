@@ -411,7 +411,7 @@ echo $user->user_login;
 
 ## <a id="auth"></a>Authentication
 
-### Using laravel
+### Using Laravel
 
 Make sure you have `CorcelServiceProvider` provider registered in `config/app.php` :
 
@@ -432,6 +432,15 @@ And then, define the user provider in `config/auth.php` to allow Laravel to logi
         'model'  => Corcel\User::class,
     ],
 ],
+```
+
+Now you can use the `Auth` facade to authenticate users:
+
+```php
+Auth::validate([
+    'email' => 'admin@example.com', // or using 'username' too
+    'password' => 'secret',
+]);
 ```
 
 To make Laravel's Password Reset work with Corcel, we have to override how passwords are stored in the database. To do this, you must change `Auth/PasswordController.php` from:
@@ -459,25 +468,16 @@ class PasswordController extends Controller
     }
 ```
 
-### Using something else
+### Not using Laravel
 
-You can use the `AuthUserProvider` class to authenticate an user :
+You can use the `AuthUserProvider` class to manually authenticate a user :
 
 ```php
-$userProvider = new Corcel\Providers\AuthUserProvider;
+$userProvider = new Corcel\Laravel\Auth\AuthUserProvider;
 $user = $userProvider->retrieveByCredentials(['username' => 'admin']);
 if(!is_null($user) && $userProvider->validateCredentials($user, ['password' => 'admin'])) {
     // successfully login
 }
-```
-
-Or even using the `Auth` facade:
-
-```php
-Auth::validate([
-    'email' => 'admin@example.com',
-    'password' => 'secret',
-]);
 ```
 
 > Remember you can use both `username` and `email` as credentials for a User.
