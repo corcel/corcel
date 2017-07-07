@@ -159,6 +159,23 @@ class PostTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
+    public function it_can_save_multiple_meta_at_the_same_time()
+    {
+        $post = factory(Post::class)->create();
+
+        $post->saveMeta([
+            'foo' => 'bar',
+            'fee' => 'baz',
+        ]);
+
+        $this->assertCount(2, $post->meta);
+        $this->assertEquals('bar', $post->meta->foo);
+        $this->assertEquals('baz', $post->meta->fee);
+    }
+
+    /**
+     * @test
+     */
     public function they_can_be_ordered_ascending()
     {
         factory(Post::class, 2)->create();
