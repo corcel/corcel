@@ -38,7 +38,7 @@ class AuthenticationTest extends \Corcel\Tests\TestCase
      */
     public function user_provider_with_simple_password()
     {
-        $provider = new AuthUserProvider(null);
+        $provider = new AuthUserProvider();
         $service = new PasswordService();
 
         $user = new User();
@@ -53,7 +53,7 @@ class AuthenticationTest extends \Corcel\Tests\TestCase
      */
     public function user_provider_with_complex_password()
     {
-        $provider = new AuthUserProvider(null);
+        $provider = new AuthUserProvider();
         $service = new PasswordService();
         $password = ')_)E~O79}?w+5"4&6{!;ct>656Lx~5';
 
