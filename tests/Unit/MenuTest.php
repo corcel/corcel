@@ -86,17 +86,43 @@ class MenuTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
+    public function it_can_have_custom_links_associated_as_meta()
+    {
+        $item = factory(MenuItem::class)->create([
+            'post_title' => 'Foobar',
+        ]);
+
+        $item->saveMeta([
+            '_menu_item_type' => 'custom',
+            '_menu_item_menu_item_parent' => 0,
+            '_menu_item_object_id' => $item->ID,
+            '_menu_item_object' => 'custom',
+            '_menu_item_target' => '',
+            '_menu_item_classes' => 'a:1:{i:0;s:0:"";}',
+            '_menu_item_xfn' => '',
+            '_menu_item_url' => 'http://example.com',
+        ]);
+
+        $this->assertEquals('Foobar', $item->post_title);
+        $this->assertEquals('Foobar', $item->instance()->link_text);
+        $this->assertEquals('http://example.com', $item->meta->_menu_item_url);
+        $this->assertEquals('http://example.com', $item->instance()->url);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_have_pages()
     {
         $menu = $this->createComplexMenu();
 
-        $posts = $menu->items->filter(function ($item) {
+        $pages = $menu->items->filter(function ($item) {
             return $item->meta->_menu_item_object === 'page';
         });
 
-        $posts->each(function (MenuItem $item, $i) {
-            $this->assertEquals("page-title#$i", $item->instance()->title);
-            $this->assertEquals("page-content#$i", $item->instance()->content);
+        $pages->each(function (MenuItem $item) {
+            $this->assertEquals("page-title", $item->instance()->post_title);
+            $this->assertEquals("page-content", $item->instance()->post_content);
         });
     }
 
@@ -111,9 +137,9 @@ class MenuTest extends \Corcel\Tests\TestCase
             return $item->meta->_menu_item_object === 'post';
         });
 
-        $posts->each(function (MenuItem $item, $i) {
-            $this->assertEquals("post-title#$i", $item->instance()->title);
-            $this->assertEquals("post-content#$i", $item->instance()->content);
+        $posts->each(function (MenuItem $item) {
+            $this->assertEquals("post-title", $item->instance()->title);
+            $this->assertEquals("post-content", $item->instance()->content);
         });
     }
 
@@ -128,9 +154,9 @@ class MenuTest extends \Corcel\Tests\TestCase
             return $item->meta->_menu_item_object === 'custom';
         });
 
-        $posts->each(function (MenuItem $item, $i) {
-            $this->assertEquals("http://example.com#$i", $item->instance()->url);
-            $this->assertEquals("custom-link-text#$i", $item->instance()->link_text);
+        $posts->each(function (MenuItem $item) {
+            $this->assertEquals("http://example.com", $item->instance()->url);
+            $this->assertEquals("custom-link-text", $item->instance()->link_text);
         });
     }
 
@@ -145,9 +171,9 @@ class MenuTest extends \Corcel\Tests\TestCase
             return $item->meta->_menu_item_object === 'category';
         });
 
-        $posts->each(function (MenuItem $item, $i) {
-            $this->assertEquals("category-name#$i", $item->instance()->name);
-            $this->assertEquals("category-slug#$i", $item->instance()->slug);
+        $posts->each(function (MenuItem $item) {
+            $this->assertEquals("Bar", $item->instance()->name);
+            $this->assertEquals("bar", $item->instance()->slug);
         });
     }
 
@@ -167,88 +193,119 @@ class MenuTest extends \Corcel\Tests\TestCase
         });
     }
 
+    /**
+     * @return Menu
+     */
     private function createComplexMenu()
     {
-        $pages = $this->buildPages(2);
-        $posts = $this->buildPosts(2);
-        $custom = $this->buildCustomLinks(2);
-        $categories = $this->buildCategories(2);
+        $menu = factory(Menu::class)->create();
 
-        // TODO
+        $this->buildPage($menu);
+        $this->buildPost($menu);
+        $this->buildCustomLink($menu);
+        $this->buildCategory($menu);
 
+        return $menu;
     }
 
     /**
-     * @param int $times
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param Menu $menu
      */
-    private function buildPages($times = 2)
+    private function buildPage(Menu $menu)
     {
-        $pages = factory(Post::class, $times)->make(['post_type' => 'page']);
+        $page = factory(Post::class)->create([
+            'post_type' => 'page',
+            'post_title' => 'page-title',
+            'post_content' => 'page-content',
+        ]);
 
-        $pages->each(function ($page, $i) {
-            $page->post_title = "page-title#$i";
-            $page->post_content = "page-content#$i";
-            $page->save();
-        });
+        $item = factory(MenuItem::class)->create();
 
-        return $pages;
+        $item->saveMeta([
+            '_menu_item_type' => 'post_type',
+            '_menu_item_menu_item_parent' => 0,
+            '_menu_item_object_id' => $page->ID,
+            '_menu_item_object' => $page->post_type,
+            '_menu_item_target' => '',
+            '_menu_item_classes' => 'a:1:{i:0;s:0:"";}',
+            '_menu_item_xfn' => '',
+            '_menu_item_url' => '',
+        ]);
+
+        $menu->items()->save($item);
     }
 
     /**
-     * @param int $times
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param Menu $menu
      */
-    private function buildPosts($times = 2)
+    private function buildPost(Menu $menu)
     {
-        $posts = factory(Post::class, $times)->make();
+        $post = factory(Post::class)->create([
+            'post_title' => 'post-title',
+            'post_content' => 'post-content',
+        ]);
 
-        $posts->each(function ($post, $i) {
-            $post->post_title = "post-title#$i";
-            $post->post_content = "post-content#$i";
-            $post->save();
-        });
+        $item = factory(MenuItem::class)->create();
 
-        return $posts;
+        $item->saveMeta([
+            '_menu_item_type' => 'post_type',
+            '_menu_item_menu_item_parent' => 0,
+            '_menu_item_object_id' => $post->ID,
+            '_menu_item_object' => $post->post_type,
+            '_menu_item_target' => '',
+            '_menu_item_classes' => 'a:1:{i:0;s:0:"";}',
+            '_menu_item_xfn' => '',
+            '_menu_item_url' => '',
+        ]);
+
+        $menu->items()->save($item);
     }
 
     /**
-     * @param int $times
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param Menu $menu
      */
-    private function buildCustomLinks($times = 2)
+    private function buildCustomLink(Menu $menu)
     {
-        $links = factory(CustomLink::class, $times)->make();
+        $link = factory(CustomLink::class)->create([
+            'post_title' => 'custom-link-text',
+        ]);
 
-        $links->each(function ($link, $i) {
-            $link->post_title = "custom-link-text#$i";
-            $link->save();
+        $link->saveMeta([
+            '_menu_item_type' => 'custom',
+            '_menu_item_menu_item_parent' => 0,
+            '_menu_item_object_id' => $link->ID,
+            '_menu_item_object' => 'custom',
+            '_menu_item_target' => '',
+            '_menu_item_classes' => 'a:1:{i:0;s:0:"";}',
+            '_menu_item_xfn' => '',
+            '_menu_item_url' => 'http://example.com',
+        ]);
 
-            $link->saveMeta('_menu_item_url', "http://example.com#$i");
-        });
-
-        return $links;
+        $menu->items()->save($link);
     }
 
     /**
-     * @param int $times
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param Menu $menu
      */
-    private function buildCategories($times)
+    private function buildCategory(Menu $menu)
     {
-        $terms = factory(Term::class, $times)->create();
+        $taxonomy = factory(TermTaxonomy::class)->create([
+            'taxonomy' => 'category',
+        ]);
 
-        $terms->each(function ($term, $i) {
-            $term->name = "category-name#$i";
-            $term->slug = "category-slug#$i";
-            $term->save();
-        });
+        $item = factory(MenuItem::class)->create();
 
-        return $terms->map(function ($term, $i) {
-            return factory(TermTaxonomy::class)->create([
-                'taxonomy' => 'category',
-                'term_id' => $term->term_id,
-            ]);
-        });
+        $item->saveMeta([
+            '_menu_item_type' => 'taxonomy',
+            '_menu_item_menu_item_parent' => 0,
+            '_menu_item_object_id' => $taxonomy->term_taxonomy_id,
+            '_menu_item_object' => 'category',
+            '_menu_item_target' => '',
+            '_menu_item_classes' => 'a:1:{i:0;s:0:"";}',
+            '_menu_item_xfn' => '',
+            '_menu_item_url' => '',
+        ]);
+
+        $menu->items()->save($item);
     }
 }
