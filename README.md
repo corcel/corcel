@@ -413,17 +413,17 @@ echo $user->user_login;
 
 ### Using laravel
 
-You will have to register Corcel's authentication service provider in `config/app.php` :
+Make sure you have `CorcelServiceProvider` provider registered in `config/app.php` :
 
 ```php
 'providers' => [
     // Other Service Providers
 
-    Corcel\Providers\Laravel\AuthServiceProvider::class,
+    Corcel\Laravel\CorcelServiceProvider::class,
 ],
 ```
 
-And then, define the user provider in `config/auth.php` :
+And then, define the user provider in `config/auth.php` to allow Laravel to login with WordPress users:
 
 ```php
 'providers' => [
@@ -434,7 +434,7 @@ And then, define the user provider in `config/auth.php` :
 ],
 ```
 
-To make Laravel's Password Reset work with Corcel, we have to override how passwords are stored in the database. To do this, you must change `Auth/PasswordController.php` from :
+To make Laravel's Password Reset work with Corcel, we have to override how passwords are stored in the database. To do this, you must change `Auth/PasswordController.php` from:
 
 ```php
 use App\Http\Controllers\Controller;
@@ -450,7 +450,7 @@ to
 ```php
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Corcel\Auth\ResetsPasswords as CorcelResetsPasswords;
+use Corcel\Laravel\Auth\ResetsPasswords as CorcelResetsPasswords;
 
 class PasswordController extends Controller
 {
@@ -470,6 +470,17 @@ if(!is_null($user) && $userProvider->validateCredentials($user, ['password' => '
     // successfully login
 }
 ```
+
+Or even using the `Auth` facade:
+
+```php
+Auth::validate([
+    'email' => 'admin@example.com',
+    'password' => 'secret',
+]);
+```
+
+> Remember you can use both `username` and `email` as credentials for a User.
 
 # <a id="tests"></a> Running Tests
 
