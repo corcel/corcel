@@ -365,6 +365,8 @@ print_r($post->revision);
 
 > In previous versions of Corcel this classe was called `Options` instead of `Option` (singular). So take care of using always this class in the singular form starting from `v2.0.0`.
 
+> The `Option::getAll()` method was removed in Corcel 2+, in favor of `Option::asArray($keys [])`.
+
 You can use the `Option` class to get data from `wp_options` table:
 
 ```php
