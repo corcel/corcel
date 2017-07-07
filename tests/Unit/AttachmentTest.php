@@ -29,20 +29,6 @@ class AttachmentTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
-    public function it_merges_the_parent_aliases()
-    {
-        $attachment = factory(Attachment::class)->create([
-            'post_status' => 'foo',
-            'post_content' => 'bar',
-        ]);
-
-        $this->assertNotNull($attachment->status);
-        $this->assertNotNull($attachment->content);
-    }
-
-    /**
-     * @test
-     */
     public function its_to_array_method_has_all_appends_property_values()
     {
         $attachment = $this->createAttachmentWithMeta();
