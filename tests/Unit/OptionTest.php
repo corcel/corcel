@@ -32,6 +32,24 @@ class OptionTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
+    public function it_can_return_just_the_config_passing_the_keys()
+    {
+        Option::add('one', 'two');
+        Option::add('three', 'four');
+        Option::add('five', 'six');
+
+        $options = Option::asArray(['three', 'five']);
+
+        $this->assertCount(2, $options);
+        $this->assertArrayHasKey('three', $options);
+        $this->assertArrayHasKey('five', $options);
+        $this->assertArrayNotHasKey('one', $options);
+        $this->assertEquals('four', $options['three']);
+    }
+
+    /**
+     * @test
+     */
     public function it_has_a_countable_as_array_method()
     {
         factory(Option::class, 2)->create();

@@ -90,11 +90,18 @@ class Option extends Model
     }
 
     /**
+     * @param array $keys
      * @return array
      */
-    public static function asArray()
+    public static function asArray($keys = [])
     {
-        return static::all()
+        $query = static::query();
+
+        if (!empty($keys)) {
+            $query->whereIn('option_name', $keys);
+        }
+
+        return $query->get()
             ->pluck('value', 'option_name')
             ->toArray();
     }
