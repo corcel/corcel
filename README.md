@@ -201,6 +201,28 @@ $postMeta = $post->createMeta('foo', 'bar'); // instance of PostMeta class
 $trueOrFalse = $post->saveMeta('foo', 'baz'); // boolean
 ```
 
+The `Post` class has support to "aliases", so if you check the `Post` class you should note some aliases defined in the static `$aliases` array, like `title` for `post_title` and `content` for `post_content`.
+
+```php
+$post = Post::find(1);
+$post->title === $post->post_title; // true
+```
+
+If you're extending the `Post` class to create your own class you can use `$aliases` too. Just add new aliases to that static property inside your own class and it will automatically inherit all aliases from parent `Post` class:
+
+```php
+class A extends \Corcel\Post
+{
+    protected static $aliases = [
+        'foo' => 'post_foo',
+    ];
+}
+
+$a = A::find(1);
+echo $a->foo;
+echo $a->title; // from Post class
+```
+
 ## <a id="acf"></a>  Advanced Custom Fields (ACF)
 
 If you want to retrieve a custom field created by the [Advanced Custom Fields (ACF)](http://advancedcustomfields.com) plugin, you have to install the [`corcel/acf`](http://github.com/corcel/acf) plugin and call the custom field like this:
