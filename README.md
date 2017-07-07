@@ -30,6 +30,7 @@ This way, you can use WordPress as the backend (admin panel), to insert posts, c
     - [Pages](#pages)
     - [Categories & Taxonomies](#cats)
     - [Attachments & Revision](#attachments)
+    - [Options](#options)
     - [Menu](#menu)
     - [Users](#users)
     - [Authentication](#auth)
@@ -358,6 +359,37 @@ print_r($page->attachment);
 $post = Post::slug('test')->with('revision')->first();
 // get all revisions from a post or page
 print_r($post->revision);
+```
+
+## <a id="options"></a>Options
+
+> In previous versions of Corcel this classe was called `Options` instead of `Option` (singular). So take care of using always this class in the singular form starting from `v2.0.0`.
+
+You can use the `Option` class to get data from `wp_options` table:
+
+```php
+$siteUrl = Option::get('siteurl');
+```
+
+You can also add new options:
+
+```php
+Option::add('foo', 'bar'); // stored as string
+Option::add('baz', ['one' => 'two']); // this will be serialized and saved
+```
+
+You can get all options in a simple array:
+
+```php
+$options = Option::asArray();
+echo $options['siteurl'];
+```
+
+Or you can specify only the keys you want to get:
+
+```php
+$options = Option::asArray(['siteurl', 'home', 'blogname']);
+echo $options['home'];
 ```
 
 ## <a id="menu"></a> Menu
