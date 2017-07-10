@@ -95,12 +95,12 @@ class User extends Model implements Authenticatable, CanResetPassword
     }
 
     /**
-     * @return UserBuilder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function newQuery()
     {
-        $builder = new UserBuilder($this->newBaseQueryBuilder());
-        $builder->setModel($this)->with($this->with);
+        $builder = parent::newQuery();
+
         $builder->orderBy('user_registered', 'desc');
 
         return $builder;

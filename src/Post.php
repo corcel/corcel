@@ -235,23 +235,15 @@ class Post extends Model
 
     /**
      * @param bool $excludeDeleted
-     * @return PostBuilder
+     * @return Builder
      * @todo Fix orderBy issue
      */
     public function newQuery($excludeDeleted = true)
     {
-        $builder = new PostBuilder($this->newBaseQueryBuilder());
-        $builder->setModel($this)->with($this->with);
-        // disabled the default orderBy because else Post::all()->orderBy(..)
-        // is not working properly anymore.
-        // $builder->orderBy('post_date', 'desc');
+        $builder = parent::newQuery();
 
         if (isset($this->postType) and $this->postType) {
             $builder->type($this->postType);
-        }
-
-        if ($excludeDeleted and $this->softDelete) {
-            $builder->whereNull($this->getQualifiedDeletedAtColumn());
         }
 
         return $builder;
