@@ -4,6 +4,7 @@ namespace Corcel;
 
 use Corcel\Traits\HasMetaFields;
 use Corcel\Traits\TimestampsTrait;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class Comment
@@ -33,6 +34,15 @@ class Comment extends Model
      * @var array
      */
     protected $dates = ['comment_date'];
+
+    /**
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeApproved(Builder $query)
+    {
+        return $this->where('comment_approved', 1);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -101,23 +111,5 @@ class Comment extends Model
         $instance = new static();
 
         return $instance->where('comment_post_ID', $postId)->get();
-    }
-
-    /**
-     * Override the parent newQuery() to the custom CommentBuilder class.
-     *
-     * @param bool $excludeDeleted
-     * @return \Corcel\CommentBuilder
-     */
-    public function newQuery($excludeDeleted = true)
-    {
-        $builder = new CommentBuilder($this->newBaseQueryBuilder());
-        $builder->setModel($this)->with($this->with);
-
-        if ($excludeDeleted and $this->softDelete) {
-            $builder->whereNull($this->getQualifiedDeletedAtColumn());
-        }
-
-        return $builder;
     }
 }

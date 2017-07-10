@@ -2,6 +2,7 @@
 
 namespace Corcel\Tests\Unit;
 
+use Carbon\Carbon;
 use Corcel\Comment;
 use Corcel\Post;
 
@@ -33,6 +34,23 @@ class CommentTest extends \Corcel\Tests\TestCase
         $this->assertInternalType('integer', $comment->comment_ID);
     }
 
+    /**
+     * @test
+     */
+    public function it_has_approved_scope()
+    {
+        factory(Comment::class)->create(['comment_approved' => 0]);
+        $lastComment = Comment::orderBy('created_at', 'desc')->approved()->first();
+        $this->assertNull($lastComment);
+
+        $comment = factory(Comment::class)->create(['comment_approved' => 1]);
+        $lastComment = Comment::orderBy('created_at', 'desc')->approved()->first();
+        $this->assertNotNull($lastComment);
+        $this->assertEquals($comment->comment_ID, $lastComment->comment_ID);
+        $this->assertEquals($comment->comment_author, $lastComment->comment_author);
+        $this->assertEquals($comment->comment_date, $lastComment->comment_date);
+    }
+    
     /**
      * @test
      */
