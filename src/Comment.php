@@ -41,7 +41,7 @@ class Comment extends Model
      */
     public function scopeApproved(Builder $query)
     {
-        return $this->where('comment_approved', 1);
+        return $query->where('comment_approved', 1);
     }
 
     /**

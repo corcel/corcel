@@ -7,6 +7,7 @@ use Corcel\Traits\TimestampsTrait;
 use Corcel\Traits\HasAcfFields;
 use Corcel\Traits\HasMetaFields;
 use Corcel\Traits\ShortcodesTrait;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class Post
@@ -104,6 +105,71 @@ class Post extends Model
         }
 
         parent::__construct($attributes);
+    }
+
+    /**
+     * @param Builder $query
+     * @param string $status
+     * @return Builder
+     */
+    public function scopeStatus(Builder $query, $status)
+    {
+        return $query->where('post_status', $status);
+    }
+
+    /**
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopePublished(Builder $query)
+    {
+        return $query->status('publish');
+    }
+
+    /**
+     * @param Builder $query
+     * @param string $type
+     * @return Builder
+     */
+    public function scopeType(Builder $query, $type)
+    {
+        return $query->where('post_type', $type);
+    }
+
+    /**
+     * @param Builder $query
+     * @param array $types
+     * @return Builder
+     */
+    public function scopeTypeIn(Builder $query, array $types)
+    {
+        return $query->whereIn('post_type', $types);
+    }
+
+    /**
+     * @param Builder $query
+     * @param string $slug
+     * @return Builder
+     */
+    public function scopeSlug(Builder $query, $slug)
+    {
+        return $query->where('post_name', $slug);
+    }
+
+    /**
+     * @param Builder $query
+     * @param string $taxonomy
+     * @param mixed $terms
+     * @return Builder
+     */
+    public function scopeTaxonomy(Builder $query, $taxonomy, $terms)
+    {
+        return $query->whereHas('taxonomies', function ($query) use ($taxonomy, $terms) {
+            $query->where('taxonomy', $taxonomy)
+                ->whereHas('term', function ($query) use ($terms) {
+                    $query->whereIn('slug', is_array($terms) ? $terms : [$terms]);
+                });
+        });
     }
 
     /**

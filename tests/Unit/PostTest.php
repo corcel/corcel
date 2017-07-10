@@ -41,6 +41,89 @@ class PostTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
+    public function it_has_status_scope()
+    {
+        factory(Post::class)->create(['post_status' => 'foo']);
+
+        $posts = Post::status('foo')->get();
+
+        $this->assertNotNull($posts);
+        $this->assertCount(1, $posts);
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_published_scope()
+    {
+        factory(Post::class)->create(['post_status' => 'publish']);
+
+        $posts = Post::published()->get();
+
+        $this->assertNotNull($posts);
+        $this->assertGreaterThan(0, $posts->count());
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_type_scope()
+    {
+        factory(Post::class)->create(['post_type' => 'foo']);
+
+        $posts = Post::type('foo')->get();
+
+        $this->assertNotNull($posts);
+        $this->assertCount(1, $posts);
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_type_in_scope()
+    {
+        factory(Post::class)->create(['post_type' => 'blue']);
+        factory(Post::class)->create(['post_type' => 'red']);
+        factory(Post::class)->create(['post_type' => 'yellow']);
+
+        $posts = Post::typeIn(['blue', 'yellow'])->get();
+
+        $this->assertNotNull($posts);
+        $this->assertCount(2, $posts);
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_slug_scope()
+    {
+        factory(Post::class)->create(['post_name' => 'my-fake-post-slug']);
+
+        $posts = Post::slug('my-fake-post-slug')->get();
+
+        $this->assertNotNull($posts);
+        $this->assertCount(1, $posts);
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_taxonomy_scope()
+    {
+        $this->createPostWithTaxonomiesAndTerms();
+
+        $posts = Post::taxonomy('foo', 'bar')->get();
+        $this->assertNotNull($posts);
+        $this->assertGreaterThan(0, $posts->count());
+
+        $posts = Post::taxonomy('foo', ['bar'])->get();
+        $this->assertNotNull($posts);
+        $this->assertGreaterThan(0, $posts->count());
+    }
+
+    /**
+     * @test
+     */
     public function it_can_have_different_post_type()
     {
         $page = factory(Post::class)->create(['post_type' => 'page']);
