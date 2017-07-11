@@ -166,6 +166,8 @@ $posts = Post::published()->hasMeta('field')->get();
 $posts = Post::hasMeta('acf')->get();
 ```
 
+### Meta Data (Custom Fields)
+
 You can retrieve meta data from posts too.
 
 ```php
@@ -201,6 +203,8 @@ $postMeta = $post->createMeta('foo', 'bar'); // instance of PostMeta class
 $trueOrFalse = $post->saveMeta('foo', 'baz'); // boolean
 ```
 
+### Fields Aliases
+
 The `Post` class has support to "aliases", so if you check the `Post` class you should note some aliases defined in the static `$aliases` array, like `title` for `post_title` and `content` for `post_content`.
 
 ```php
@@ -223,12 +227,31 @@ echo $a->foo;
 echo $a->title; // from Post class
 ```
 
+### Custom Scopes
+
 To order posts you can use `newest()` and `oldest()` scopes, for both `Post` and `User` classes:
 
 ```php
 $newest = Post::newest()->first();
 $oldest = Post::oldest()->first();
 ```
+
+### Ordering
+
+To order posts just use Eloquent `paginate()` method:
+
+```php
+$posts = Post::published()->paginate(5);
+foreach ($posts as $post) {
+    // ...
+}
+```
+
+To display the pagination links just call the `links()` method:
+ 
+ ```php
+ {{ $posts->links() }}
+ ```
 
 ## <a id="acf"></a>  Advanced Custom Fields (ACF)
 
