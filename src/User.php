@@ -98,25 +98,6 @@ class User extends Model implements Authenticatable, CanResetPassword
     }
 
     /**
-     * Magic method to return the meta data like the user original fields.
-     *
-     * @param string $key
-     * @return string
-     */
-    public function __get($key)
-    {
-        if ($value = parent::__get($key)) {
-            return $value;
-        }
-
-        if (!isset($this->$key)) {
-            if (isset($this->meta->$key)) {
-                return $this->meta->$key;
-            }
-        }
-    }
-
-    /**
      * @param array $options
      * @return bool
      * @todo Refactor this to HasMetaFields trait of something like this
