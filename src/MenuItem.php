@@ -30,17 +30,36 @@ class MenuItem extends Post
     /**
      * @return Post|Page|CustomLink|TermTaxonomy
      */
-    public function instance()
+    public function parent()
     {
-        $className = Arr::get(
-            $this->instanceRelations, $this->meta->_menu_item_object
-        );
-
-        if ($className) {
+        if ($className = $this->getClassName()) {
             return (new $className)->newQuery()
-                ->findOrFail($this->meta->_menu_item_object_id);
+                ->find($this->meta->_menu_item_menu_item_parent);
         }
 
         return null;
+    }
+
+    /**
+     * @return Post|Page|CustomLink|TermTaxonomy
+     */
+    public function instance()
+    {
+        if ($className = $this->getClassName()) {
+            return (new $className)->newQuery()
+                ->find($this->meta->_menu_item_object_id);
+        }
+
+        return null;
+    }
+
+    /**
+     * @return string
+     */
+    private function getClassName()
+    {
+        return Arr::get(
+            $this->instanceRelations, $this->meta->_menu_item_object
+        );
     }
 }
