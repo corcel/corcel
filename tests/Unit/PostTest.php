@@ -9,6 +9,7 @@ use Corcel\PostMetaCollection;
 use Corcel\Term;
 use Corcel\TermTaxonomy;
 use Corcel\User;
+use Illuminate\Support\Arr;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 /**
@@ -296,6 +297,26 @@ class PostTest extends \Corcel\Tests\TestCase
         $this->assertTrue($last->post_date->greaterThanOrEqualTo($first->post_date));
     }
 
+    /**
+     * @test
+     */
+    public function it_can_be_paginated()
+    {
+        $post = factory(Post::class)->create();
+        factory(Post::class)->create();
+        factory(Post::class)->create();
+
+        /** @var \Illuminate\Pagination\LengthAwarePaginator $paginator */
+        $paginator = Post::paginate(2);
+        $firstPost = Arr::first($paginator->items());
+
+        $this->assertEquals(2, $paginator->perPage());
+        $this->assertEquals(2, $paginator->count());
+        $this->assertEquals(3, $paginator->total());
+        $this->assertInstanceOf(Post::class, $firstPost);
+        $this->assertEquals($post->post_title, $firstPost->post_title);
+    }
+    
     /**
      * @test
      */
