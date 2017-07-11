@@ -2,9 +2,9 @@
 
 namespace Corcel\Tests\Unit;
 
-use Corcel\Attachment;
-use Corcel\Post;
-use Corcel\ThumbnailMeta;
+use Corcel\Model\Attachment;
+use Corcel\Model\Meta\ThumbnailMeta;
+use Corcel\Model\Post;
 
 /**
  * Class ThumbnailTest

@@ -1,14 +1,17 @@
 <?php
 
+namespace Corcel\Model;
+
 /**
- * Page class.
+ * Class Page
  *
+ * @package Corcel\Model
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class Page extends Corcel\Post
+class Page extends Post
 {
     /**
-     * Used to set the post's type.
+     * @var string
      */
     protected $postType = 'page';
 }

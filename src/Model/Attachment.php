@@ -1,13 +1,13 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Model;
 
 use Corcel\Traits\AliasesTrait;
 
 /**
  * Class Attachment
  *
- * @package Corcel
+ * @package Corcel\Model
  * @author José CI <josec89@gmail.com>
  * @author Junior Grossi <juniorgro@gmail.com>
  */

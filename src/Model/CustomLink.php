@@ -1,11 +1,11 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Model;
 
 /**
  * Class CustomLink
  *
- * @package Corcel
+ * @package Corcel\Model
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 class CustomLink extends Post

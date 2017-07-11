@@ -3,7 +3,7 @@
 namespace Corcel\Tests;
 
 use Corcel\Laravel\CorcelServiceProvider;
-use Corcel\User;
+use Corcel\Model\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Orchestra\Database\ConsoleServiceProvider;
 

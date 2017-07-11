@@ -1,11 +1,13 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Model\Meta;
+
+use Corcel\Model\Comment;
 
 /**
  * Class CommentMeta
  *
- * @package Corcel
+ * @package Corcel\Model\Meta
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 class CommentMeta extends PostMeta

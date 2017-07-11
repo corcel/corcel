@@ -1,13 +1,14 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Model\Meta;
 
+use Corcel\Model\Attachment;
 use Illuminate\Support\Arr;
 
 /**
  * Class ThumbnailMeta
  *
- * @package Corcel
+ * @package Corcel\Model\Meta
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 class ThumbnailMeta extends PostMeta

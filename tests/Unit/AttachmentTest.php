@@ -2,7 +2,7 @@
 
 namespace Corcel\Tests\Unit;
 
-use Corcel\Attachment;
+use Corcel\Model\Attachment;
 
 /**
  * Class AttachmentTest

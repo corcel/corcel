@@ -2,7 +2,7 @@
 
 namespace Corcel\Tests\Unit;
 
-use Corcel\Post;
+use Corcel\Model\Post;
 
 /**
  * Class PostTypeTest

@@ -2,7 +2,7 @@
 
 namespace Corcel\Tests\Unit;
 
-use Corcel\Term;
+use Corcel\Model\Term;
 
 /**
  * Class TermTest

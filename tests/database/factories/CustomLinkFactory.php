@@ -1,8 +1,9 @@
 <?php
 
+use Corcel\Model\CustomLink;
 use Illuminate\Support\Str;
 
-$factory->define(\Corcel\CustomLink::class, function (Faker\Generator $faker) {
+$factory->define(CustomLink::class, function (Faker\Generator $faker) {
     return [
         'post_author' => $faker->name,
         'post_date' => $faker->dateTimeThisYear,

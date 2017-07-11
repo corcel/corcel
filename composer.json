@@ -30,9 +30,6 @@
         "psr-4": {
             "Corcel\\": "src/",
             "Corcel\\Tests\\": "tests/"
-        },
-        "classmap": [
-            "models"
-        ]
+        }
     }
 }

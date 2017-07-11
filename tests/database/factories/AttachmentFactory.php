@@ -1,8 +1,9 @@
 <?php
 
+use Corcel\Model\Attachment;
 use Illuminate\Support\Str;
 
-$factory->define(\Corcel\Attachment::class, function (Faker\Generator $faker) {
+$factory->define(Attachment::class, function (Faker\Generator $faker) {
     return [
         'post_author' => $faker->name,
         'post_date' => $faker->dateTimeThisYear,

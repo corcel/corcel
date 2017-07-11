@@ -3,8 +3,8 @@
 namespace Corcel\Tests\Unit;
 
 use Carbon\Carbon;
-use Corcel\User;
-use Corcel\UserMetaCollection;
+use Corcel\Model\Collection\UserMetaCollection;
+use Corcel\Model\User;
 
 /**
  * Class UserTest

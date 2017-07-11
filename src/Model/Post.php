@@ -1,7 +1,9 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Model;
 
+use Corcel\Model;
+use Corcel\Model\Meta\ThumbnailMeta;
 use Corcel\Traits\AliasesTrait;
 use Corcel\Traits\OrderedTrait;
 use Corcel\Traits\TimestampsTrait;
@@ -13,7 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * Class Post
  *
- * @package Corcel
+ * @package Corcel\Model
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 class Post extends Model
@@ -189,7 +191,7 @@ class Post extends Model
     public function taxonomies()
     {
         return $this->belongsToMany(
-            TermTaxonomy::class, 'term_relationships', 'object_id', 'term_taxonomy_id'
+            Taxonomy::class, 'term_relationships', 'object_id', 'term_taxonomy_id'
         );
     }
 

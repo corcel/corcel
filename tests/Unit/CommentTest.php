@@ -2,9 +2,8 @@
 
 namespace Corcel\Tests\Unit;
 
-use Carbon\Carbon;
-use Corcel\Comment;
-use Corcel\Post;
+use Corcel\Model\Comment;
+use Corcel\Model\Post;
 
 /**
  * Class CommentTest

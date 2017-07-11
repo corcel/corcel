@@ -1,14 +1,15 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Model;
 
 /**
- * Menu class.
+ * Class Menu
  *
+ * @package Corcel\Model
  * @author Yoram de Langen <yoramdelangen@gmail.com>
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class Menu extends TermTaxonomy
+class Menu extends Taxonomy
 {
     /**
      * Set taxonomy type.

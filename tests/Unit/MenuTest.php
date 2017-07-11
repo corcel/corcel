@@ -2,11 +2,11 @@
 
 namespace Corcel\Tests\Unit;
 
-use Corcel\CustomLink;
-use Corcel\Menu;
-use Corcel\MenuItem;
-use Corcel\Post;
-use Corcel\TermTaxonomy;
+use Corcel\Model\CustomLink;
+use Corcel\Model\Menu;
+use Corcel\Model\MenuItem;
+use Corcel\Model\Post;
+use Corcel\Model\Taxonomy;
 
 /**
  * Class MenuTest
@@ -313,7 +313,7 @@ class MenuTest extends \Corcel\Tests\TestCase
      */
     private function buildCategory(Menu $menu)
     {
-        $taxonomy = factory(TermTaxonomy::class)->create([
+        $taxonomy = factory(Taxonomy::class)->create([
             'taxonomy' => 'category',
         ]);
 

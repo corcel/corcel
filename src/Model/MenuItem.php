@@ -1,13 +1,13 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Model;
 
 use Illuminate\Support\Arr;
 
 /**
  * Class MenuItem
  *
- * @package Corcel
+ * @package Corcel\Model
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 class MenuItem extends Post
@@ -24,11 +24,11 @@ class MenuItem extends Post
         'post' => Post::class,
         'page' => Page::class,
         'custom' => CustomLink::class,
-        'category' => TermTaxonomy::class,
+        'category' => Taxonomy::class,
     ];
 
     /**
-     * @return Post|Page|CustomLink|TermTaxonomy
+     * @return Post|Page|CustomLink|Taxonomy
      */
     public function parent()
     {
@@ -41,7 +41,7 @@ class MenuItem extends Post
     }
 
     /**
-     * @return Post|Page|CustomLink|TermTaxonomy
+     * @return Post|Page|CustomLink|Taxonomy
      */
     public function instance()
     {

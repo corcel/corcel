@@ -2,7 +2,7 @@
 
 namespace Corcel\Tests\Unit\Traits;
 
-use Corcel\Attachment;
+use Corcel\Model\Attachment;
 
 /**
  * Class AliasesTraitTest

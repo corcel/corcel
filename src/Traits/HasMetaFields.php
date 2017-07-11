@@ -2,11 +2,11 @@
 
 namespace Corcel\Traits;
 
-use Corcel\Attachment;
-use Corcel\CustomLink;
-use Corcel\MenuItem;
-use Corcel\Post;
-use Corcel\PostMeta;
+use Corcel\Model\Attachment;
+use Corcel\Model\CustomLink;
+use Corcel\Model\MenuItem;
+use Corcel\Model\Meta\PostMeta;
+use Corcel\Model\Post;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 

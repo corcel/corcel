@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Str;
+use Corcel\Model\Option;
 
-$factory->define(\Corcel\Option::class, function (Faker\Generator $faker) {
+$factory->define(Option::class, function (Faker\Generator $faker) {
     return [
         'option_name' => $faker->word,
         'option_value' => $faker->sentence(),

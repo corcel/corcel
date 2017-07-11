@@ -3,12 +3,12 @@
 namespace Corcel\Tests\Unit;
 
 use Carbon\Carbon;
-use Corcel\Page;
-use Corcel\Post;
-use Corcel\PostMetaCollection;
-use Corcel\Term;
-use Corcel\TermTaxonomy;
-use Corcel\User;
+use Corcel\Model\Collection\PostMetaCollection;
+use Corcel\Model\Page;
+use Corcel\Model\Post;
+use Corcel\Model\Taxonomy;
+use Corcel\Model\Term;
+use Corcel\Model\User;
 use Illuminate\Support\Arr;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
@@ -542,7 +542,7 @@ class PostTest extends \Corcel\Tests\TestCase
         $post = factory(Post::class)->create();
 
         $post->taxonomies()->attach(
-            factory(TermTaxonomy::class)->create([
+            factory(Taxonomy::class)->create([
                 'taxonomy' => 'foo',
             ])->term_taxonomy_id, [
                 'term_order' => 0,
@@ -589,7 +589,7 @@ class PostTest extends \Corcel\Tests\TestCase
         $post = factory(Post::class)->create();
 
         $post->taxonomies()->attach(
-            factory(TermTaxonomy::class)->create([
+            factory(Taxonomy::class)->create([
                 'taxonomy' => 'post_format',
                 'term_id' => function () {
                     return factory(Term::class)->create([

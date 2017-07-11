@@ -1,7 +1,8 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Model;
 
+use Corcel\Model;
 use Corcel\Traits\AliasesTrait;
 use Corcel\Traits\HasMetaFields;
 use Corcel\Traits\OrderedTrait;
@@ -11,7 +12,7 @@ use Illuminate\Contracts\Auth\CanResetPassword;
 /**
  * Class User
  *
- * @package Corcel
+ * @package Corcel\Model
  * @author Ashwin Sureshkumar <ashwin.sureshkumar@gmail.com>
  * @author Mickael Burguet <www.rundef.com>
  * @author Junior Grossi <juniorgro@gmail.com>

@@ -2,10 +2,9 @@
 
 namespace Corcel\Tests\Unit;
 
-use Corcel\Post;
-use Corcel\Term;
-use Corcel\TermTaxonomy;
-use Taxonomy;
+use Corcel\Model\Post;
+use Corcel\Model\Taxonomy;
+use Corcel\Model\Term;
 
 /**
  * Class TermTaxonomyTest
@@ -19,7 +18,7 @@ class TermTaxonomyTest extends \Corcel\Tests\TestCase
      */
     public function it_belongs_to_a_term()
     {
-        $taxonomy = factory(TermTaxonomy::class)->create([
+        $taxonomy = factory(Taxonomy::class)->create([
             'term_id' => 0,
             'count' => 1,
         ]);
@@ -97,7 +96,7 @@ class TermTaxonomyTest extends \Corcel\Tests\TestCase
      */
     private function createTaxonomyWithTermsAndPosts()
     {
-        $taxonomy = factory(TermTaxonomy::class)->create([
+        $taxonomy = factory(Taxonomy::class)->create([
             'taxonomy' => 'foo',
             'term_id' => function () {
                 return factory(Term::class)->create([

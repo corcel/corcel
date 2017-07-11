@@ -1,13 +1,15 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Model;
 
+use Corcel\Model;
 use Corcel\Traits\HasAcfFields;
 use Corcel\Traits\HasMetaFields;
 
 /**
  * Class Term.
  *
+ * @package Corcel\Model
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 class Term extends Model
@@ -24,6 +26,6 @@ class Term extends Model
      */
     public function taxonomy()
     {
-        return $this->hasOne(TermTaxonomy::class, 'term_id');
+        return $this->hasOne(Taxonomy::class, 'term_id');
     }
 }

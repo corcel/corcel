@@ -1,50 +1,55 @@
 <?php
 
-/**
- * Corcel\PostMeta.
- *
- * @author Junior Grossi <juniorgro@gmail.com>
- */
+namespace Corcel\Model\Meta;
 
-namespace Corcel;
-
+use Corcel\Model;
+use Corcel\Model\Collection\PostMetaCollection;
+use Corcel\Model\Post;
 use Exception;
 
+/**
+ * Class PostMeta
+ *
+ * @package Corcel\Model\Meta
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class PostMeta extends Model
 {
+    /**
+     * @var string
+     */
     protected $table = 'postmeta';
+
+    /**
+     * @var string
+     */
     protected $primaryKey = 'meta_id';
+
+    /**
+     * @var bool
+     */
     public $timestamps = false;
+
+    /**
+     * @var array
+     */
     protected $fillable = ['meta_key', 'meta_value', 'post_id'];
 
     /**
-     * Post relationship.
-     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function post($ref = false)
+    public function post()
     {
-        if ($ref) {
-            $this->primaryKey = 'meta_value';
-
-            return $this->hasOne('Corcel\Post', 'ID');
-        }
-
-        return $this->belongsTo('Corcel\Post');
+        return $this->belongsTo(Post::class);
     }
 
     /**
-     * The accessors to append to the model's array form.
-     *
      * @var array
      */
     protected $appends = ['value'];
 
     /**
-     * Gets the value.
-     * Tries to unserialize the object and returns the value if that doesn't work.
-     *
-     * @return value
+     * @return mixed
      */
     public function getValueAttribute()
     {
@@ -60,10 +65,7 @@ class PostMeta extends Model
     }
 
     /**
-     * Taxonomy relationship from the meta_value.
-     *
      * @param string $key
-     *
      * @return \Illuminate\Database\Eloquent\Relations\Relation
      */
     public function taxonomy($primary = null, $where = null)
@@ -88,8 +90,7 @@ class PostMeta extends Model
      * Override newCollection() to return a custom collection.
      *
      * @param array $models
-     *
-     * @return \Corcel\PostMetaCollection
+     * @return PostMetaCollection
      */
     public function newCollection(array $models = [])
     {

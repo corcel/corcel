@@ -3,8 +3,8 @@
 namespace Corcel\Tests\Unit\Traits;
 
 use Corcel\Model;
-use Corcel\Post;
-use Corcel\User;
+use Corcel\Model\Post;
+use Corcel\Model\User;
 use Illuminate\Support\Collection;
 
 /**

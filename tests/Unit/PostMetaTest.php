@@ -2,8 +2,8 @@
 
 namespace Corcel\Tests\Unit;
 
-use Corcel\Post;
-use Corcel\PostMeta;
+use Corcel\Model\Meta\PostMeta;
+use Corcel\Model\Post;
 
 /**
  * Class PostMetaTest

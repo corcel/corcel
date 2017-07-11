@@ -1,8 +1,9 @@
 <?php
 
+use Corcel\Model\Post;
 use Illuminate\Support\Str;
 
-$factory->define(\Corcel\Post::class, function (Faker\Generator $faker) {
+$factory->define(Post::class, function (Faker\Generator $faker) {
     return [
         'post_author' => $faker->name,
         'post_date' => $faker->dateTimeThisYear,

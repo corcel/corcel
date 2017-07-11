@@ -1,7 +1,8 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Model;
 
+use Corcel\Model;
 use Corcel\Traits\HasMetaFields;
 use Corcel\Traits\TimestampsTrait;
 use Illuminate\Database\Eloquent\Builder;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * Class Comment
  *
- * @package Corcel
+ * @package Corcel\Model
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 class Comment extends Model
@@ -104,7 +105,7 @@ class Comment extends Model
      * Find a comment by post ID.
      *
      * @param int $postId
-     * @return \Corcel\Comment
+     * @return Comment
      */
     public static function findByPostId($postId)
     {

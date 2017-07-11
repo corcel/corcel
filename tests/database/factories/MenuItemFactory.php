@@ -1,8 +1,9 @@
 <?php
 
+use Corcel\Model\MenuItem;
 use Illuminate\Support\Str;
 
-$factory->define(\Corcel\MenuItem::class, function (Faker\Generator $faker) {
+$factory->define(MenuItem::class, function (Faker\Generator $faker) {
     return [
         'post_author' => $faker->name,
         'post_date' => $faker->dateTimeThisYear,

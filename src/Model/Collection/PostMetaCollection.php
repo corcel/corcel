@@ -1,28 +1,32 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Model\Collection;
 
+use Corcel\Model\Meta\PostMeta;
 use Corcel\Traits\MetaCollection;
 use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Class UserMetaCollection
+ * Class PostMetaCollection
  *
- * @package Corcel
- * @author Mickael Burguet <www.rundef.com>
+ * @package Corcel\Model\Collection
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class UserMetaCollection extends Collection
+class PostMetaCollection extends Collection
 {
     use MetaCollection;
 
+    /**
+     * @var array
+     */
     protected $changedKeys = [];
 
     /**
      * @param $key
      * @param $value
      *
-     * TODO remove this, is it necessary?
+     * TODO remove this
+     * @see UserMetaCollection
      */
     public function __set($key, $value)
     {
@@ -36,7 +40,7 @@ class UserMetaCollection extends Collection
             }
         }
 
-        $item = new UserMeta([
+        $item = new PostMeta([
             'meta_key' => $key,
             'meta_value' => $value,
         ]);
@@ -45,14 +49,15 @@ class UserMetaCollection extends Collection
     }
 
     /**
-     * @param $userId
-     * TODO is this necessary? Remove this
+     * @param $postId
+     * TODO remove this
+     * @see UserMetaCollection
      */
-    public function save($userId)
+    public function save($postId)
     {
-        $this->each(function ($item) use ($userId) {
+        $this->each(function ($item) use ($postId) {
             if (in_array($item->meta_key, $this->changedKeys)) {
-                $item->user_id = $userId;
+                $item->post_id = $postId;
                 $item->save();
             }
         });

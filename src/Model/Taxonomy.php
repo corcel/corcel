@@ -1,14 +1,18 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Model;
+
+use Corcel\Model;
+use Corcel\Model\Meta\TermMeta;
+use Corcel\TermTaxonomyBuilder;
 
 /**
- * Class TermTaxonomy
+ * Class Taxonomy
  *
- * @package Corcel
+ * @package Corcel\Model
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class TermTaxonomy extends Model
+class Taxonomy extends Model
 {
     /**
      * @var string
@@ -51,7 +55,7 @@ class TermTaxonomy extends Model
      */
     public function parentTerm()
     {
-        return $this->belongsTo(TermTaxonomy::class, 'parent');
+        return $this->belongsTo(Taxonomy::class, 'parent');
     }
 
     /**

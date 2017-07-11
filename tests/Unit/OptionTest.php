@@ -2,7 +2,7 @@
 
 namespace Corcel\Tests\Unit;
 
-use Corcel\Option;
+use Corcel\Model\Option;
 
 /**
  * Class OptionTest

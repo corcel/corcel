@@ -1,8 +1,9 @@
 <?php
 
-use Corcel\Post;
+use Corcel\Model\Comment;
+use Corcel\Model\Post;
 
-$factory->define(\Corcel\Comment::class, function (Faker\Generator $faker) {
+$factory->define(Comment::class, function (Faker\Generator $faker) {
     return [
         'comment_post_ID' => function () {
             return factory(Post::class)->create()->ID;

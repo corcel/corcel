@@ -1,16 +1,17 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Model;
 
 /**
  * Tag class.
  *
+ * @package Corcel\Model
  * @author Mickael Burguet <www.rundef.com>
  */
-class Tag extends TermTaxonomy
+class Tag extends Taxonomy
 {
     /**
-     * Used to set the post's type.
+     * @var string
      */
     protected $taxonomy = 'post_tag';
 }
