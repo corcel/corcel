@@ -1,26 +1,29 @@
 <?php
 
-/**
- * User model.
- *
- * @author Ashwin Sureshkumar<ashwin.sureshkumar@gmail.com>
- * @author Mickael Burguet <www.rundef.com>
- */
-
 namespace Corcel;
 
 use Corcel\Traits\AliasesTrait;
 use Corcel\Traits\HasMetaFields;
+use Corcel\Traits\OrderedTrait;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 
+/**
+ * Class User
+ *
+ * @package Corcel
+ * @author Ashwin Sureshkumar <ashwin.sureshkumar@gmail.com>
+ * @author Mickael Burguet <www.rundef.com>
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class User extends Model implements Authenticatable, CanResetPassword
 {
     const CREATED_AT = 'user_registered';
     const UPDATED_AT = null;
 
-    use HasMetaFields;
     use AliasesTrait;
+    use HasMetaFields;
+    use OrderedTrait;
 
     /**
      * @var string
@@ -92,18 +95,6 @@ class User extends Model implements Authenticatable, CanResetPassword
     public function comments()
     {
         return $this->hasMany(Comment::class, 'user_id');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function newQuery()
-    {
-        $builder = parent::newQuery();
-
-        $builder->orderBy('user_registered', 'desc');
-
-        return $builder;
     }
 
     /**

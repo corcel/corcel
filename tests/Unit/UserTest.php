@@ -2,6 +2,7 @@
 
 namespace Corcel\Tests\Unit;
 
+use Carbon\Carbon;
 use Corcel\Model;
 use Corcel\User;
 use Corcel\UserMetaCollection;
@@ -33,6 +34,23 @@ class UserTest extends \Corcel\Tests\TestCase
 
         $this->assertNotNull($user);
         $this->assertEquals(20, $user->ID);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_ordered()
+    {
+        $date = Carbon::now()->subYear();
+
+        $first = factory(User::class)->create(['user_registered' => $date]);
+        $last = factory(User::class)->create(['user_registered' => $date->addMonth()]);
+
+        $newest = User::newest()->first();
+        $oldest = User::oldest()->first();
+
+        $this->assertEquals($first->ID, $oldest->ID);
+        $this->assertEquals($last->ID, $newest->ID);
     }
 
     /**
