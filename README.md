@@ -448,44 +448,43 @@ echo $options['home'];
 
 ## <a id="menu"></a> Menu
 
-To get a menu by its slug, use the syntax below.
-The menu items will be loaded in the `nav_items` variable. The currently supported menu items are: Pages, Posts, Links, Categories, Tags.
+To get a menu by its slug, use the syntax below. The menu items will be loaded in the `items` variable (it's a collection of `Corcel\MenuItem` objects). 
+
+The currently supported menu items are: Pages, Posts, Custom Links and Categories.
+
+Once you'll have instances of `MenuItem` class, if you want to use the original instance (like the original Page or Term, for example), just call the `MenuItem::instance()` method. The `MenuItem` object is just a post with `post_type` equals `nav_menu_item`:
 
 ```php
 $menu = Menu::slug('primary')->first();
 
-foreach ($menu->nav_items as $item) {
-    // ....
-    'post_title'    => '....', // Nav item name
-    'post_name'     => '....', // Nav item slug
-    'guid'          => '....', // Nav full url, influent by permalinks
-    // ....
+foreach ($menu->items as $item) {
+    echo $item->instance()->title; // if it's a Post
+    echo $item->instance()->name; // if it's a Term
+    echo $item->instance()->link_text; // if it's a custom link 
 }
 ```
 
-To handle multi-levels menus, loop through all the menu items to put them on the right levels in an array.
-Then, you can walk through the items recursively.
+The `instance()` method will return the matching object:
 
-Here's just a basic example:
+- `Post` instance for `post` menu item;
+- `Page` instance for `page` menu item;
+- `CustomLink` instance for `custom` menu item;
+- `Term` instance for `category` menu item.
+
+### Multi-levels Menus
+
+To handle multi-levels menus, loop through all the menu items to put them on the right levels, for example.
+
+You can use the `MenuItem::parent()` method to retrieve the parent instance of that menu item:
 
 ```php
-// first, set all menu items on their level
-$menuArray = array();
-foreach ($menu->nav_items as $item) {
-    $parent_id = $item->meta->_menu_item_menu_item_parent;
-    $menuArray[$parent_id][] = $item;
-}
-
-// now build the menu
-foreach ($menuArray[0] as $item) {
-    echo '.. menu item main ..';
-    if (isset($menuArray[$item->ID])) {
-        foreach($menuArray[$item->ID] as $subItem) {
-            echo '.. show sub menu item ..';
-        }
-    }
-}
+$items = Menu::slug('foo')->first()->items;
+$parent = $items->first()->parent(); // Post, Page, CustomLink or Term (category)
 ```
+
+To group menu items according their parents, you can use the `->groupBy()` method in the `$menu->items` collection, grouping menu items by their `$item->parent()->ID`. 
+
+To read more about the `groupBy()` method [take a look on the Laravel documentation](https://laravel.com/docs/5.4/collections#method-groupby).
 
 ## <a id="users"></a> Users
 

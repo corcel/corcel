@@ -99,7 +99,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         $this->assertEquals($parent->ID, $child->parent()->ID);
         $this->assertEquals($parent->post_name, $child->parent()->post_name);
     }
-    
+
     /**
      * @test
      */
