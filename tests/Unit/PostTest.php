@@ -2,6 +2,7 @@
 
 namespace Corcel\Tests\Unit;
 
+use Carbon\Carbon;
 use Corcel\Page;
 use Corcel\Post;
 use Corcel\PostMetaCollection;
@@ -119,6 +120,26 @@ class PostTest extends \Corcel\Tests\TestCase
         $posts = Post::taxonomy('foo', ['bar'])->get();
         $this->assertNotNull($posts);
         $this->assertGreaterThan(0, $posts->count());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_ordered()
+    {
+        $older = Carbon::now()->subYears(10);
+
+        $firstPost = factory(Post::class)->create(['post_date' => $older]);
+        factory(Post::class)->create(['post_date' => $older->addMonths(1)]);
+        $lastPost = factory(Post::class)->create(['post_date' => $older->addMonths(2)]);
+
+        $newest = Post::newest()->first();
+        $oldest = Post::oldest()->first();
+
+        $this->assertEquals($firstPost->post_name, $oldest->post_name);
+        $this->assertEquals($firstPost->post_title, $oldest->post_title);
+        $this->assertEquals($lastPost->post_name, $newest->post_name);
+        $this->assertEquals($lastPost->post_title, $newest->post_title);
     }
 
     /**

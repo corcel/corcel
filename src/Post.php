@@ -3,6 +3,7 @@
 namespace Corcel;
 
 use Corcel\Traits\AliasesTrait;
+use Corcel\Traits\OrderedTrait;
 use Corcel\Traits\TimestampsTrait;
 use Corcel\Traits\HasAcfFields;
 use Corcel\Traits\HasMetaFields;
@@ -21,6 +22,7 @@ class Post extends Model
     use HasAcfFields;
     use HasMetaFields;
     use ShortcodesTrait;
+    use OrderedTrait;
     use TimestampsTrait;
 
     const CREATED_AT = 'post_date';
@@ -234,11 +236,9 @@ class Post extends Model
     }
 
     /**
-     * @param bool $excludeDeleted
      * @return Builder
-     * @todo Fix orderBy issue
      */
-    public function newQuery($excludeDeleted = true)
+    public function newQuery()
     {
         $builder = parent::newQuery();
 
