@@ -223,6 +223,13 @@ echo $a->foo;
 echo $a->title; // from Post class
 ```
 
+To order posts you can use `newest()` and `oldest()` scopes, for both `Post` and `User` classes:
+
+```php
+$newest = Post::newest()->first();
+$oldest = Post::oldest()->first();
+```
+
 ## <a id="acf"></a>  Advanced Custom Fields (ACF)
 
 If you want to retrieve a custom field created by the [Advanced Custom Fields (ACF)](http://advancedcustomfields.com) plugin, you have to install the [`corcel/acf`](http://github.com/corcel/acf) plugin and call the custom field like this:
