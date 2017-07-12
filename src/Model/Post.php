@@ -2,6 +2,7 @@
 
 namespace Corcel\Model;
 
+use Corcel\Corcel;
 use Corcel\Model;
 use Corcel\Model\Builder\PostBuilder;
 use Corcel\Model\Meta\ThumbnailMeta;
@@ -106,22 +107,37 @@ class Post extends Model
      */
     public function newFromBuilder($attributes = [], $connection = null)
     {
-        $attributes = (array)$attributes;
+        $model = $this->getPostInstance((array)$attributes);
+
+        $model->exists = true;
+
+        $model->setRawAttributes((array)$attributes, true);
+        $model->setConnection($connection ?: $this->getConnectionName());
+
+        return $model;
+    }
+
+    /**
+     * @param array $attributes
+     * @return array
+     */
+    protected function getPostInstance(array $attributes)
+    {
         $class = static::class;
 
         // Check if it should be instantiated with a custom post type class
         if (isset($attributes['post_type']) && $attributes['post_type']) {
             if (isset(static::$postTypes[$attributes['post_type']])) {
                 $class = static::$postTypes[$attributes['post_type']];
+            } elseif (Corcel::isLaravel()) {
+                $postTypes = config('corcel.post_types');
+                if (is_array($postTypes) && isset($postTypes[$attributes['post_type']])) {
+                    $class = $postTypes[$attributes['post_type']];
+                }
             }
         }
 
-        $model = new $class();
-        $model->exists = true;
-        $model->setRawAttributes($attributes, true);
-        $model->setConnection($connection ?: $this->getConnectionName());
-
-        return $model;
+        return new $class();
     }
 
     /**

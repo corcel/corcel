@@ -36,6 +36,16 @@ class TestCase extends \Orchestra\Testbench\TestCase
      */
     protected function getEnvironmentSetUp($app)
     {
+        $this->configureDatabaseConfig($app);
+        $this->configureAuthProvider($app);
+        $this->configureCustomPostTypes($app);
+    }
+
+    /**
+     * @param \Illuminate\Foundation\Application $app
+     */
+    private function configureDatabaseConfig($app)
+    {
         // TODO change this to make sure corcel.connection is working
         $app['config']->set('database.default', 'wp');
 
@@ -51,12 +61,29 @@ class TestCase extends \Orchestra\Testbench\TestCase
             'prefix'   => 'foo_',
         ]);
 
+//        $app['config']->set('corcel.connection', 'wp');
+    }
+
+    /**
+     * @param \Illuminate\Foundation\Application $app
+     */
+    private function configureAuthProvider($app)
+    {
         $app['config']->set('auth.providers.users', [
             'driver' => 'corcel',
             'model' => User::class,
         ]);
+    }
 
-//        $app['config']->set('corcel.connection', 'wp');
+    /**
+     * @param \Illuminate\Foundation\Application $app
+     */
+    private function configureCustomPostTypes($app)
+    {
+        $app['config']->set('corcel.post_types', [
+            'fake_post' => FakePost::class,
+            'fake_page' => FakePage::class,
+        ]);
     }
 
     /**
@@ -80,4 +107,24 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         // TODO: Implement be() method.
     }
+}
+
+/**
+ * Class FakePost
+ *
+ * @package Corcel\Tests
+ */
+class FakePost extends \Corcel\Model\Post
+{
+    protected $postType = 'fake_post';
+}
+
+/**
+ * Class FakePage
+ *
+ * @package Corcel\Tests
+ */
+class FakePage extends \Corcel\Model\Page
+{
+    protected $postType = 'fake_page';
 }

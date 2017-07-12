@@ -3,6 +3,8 @@
 namespace Corcel\Tests\Unit\Model;
 
 use Corcel\Model\Post;
+use Corcel\Tests\FakePage;
+use Corcel\Tests\FakePost;
 
 /**
  * Class PostTypeTest
@@ -50,6 +52,22 @@ class PostTypeTest extends \Corcel\Tests\TestCase
 
         $this->assertInstanceOf(Video::class, $video);
         $this->assertEquals('video', $video->post_type);
+    }
+
+    /**
+     * @test
+     */
+    public function it_is_configurable_by_the_config_file()
+    {
+        factory(Post::class)->create(['post_type' => 'fake_post']);
+        $post = Post::type('fake_post')->first();
+        $this->assertNotNull($post);
+        $this->assertInstanceOf(FakePost::class, $post);
+
+        factory(Post::class)->create(['post_type' => 'fake_page']);
+        $post = Post::type('fake_page')->first();
+        $this->assertNotNull($post);
+        $this->assertInstanceOf(FakePage::class, $post);
     }
 }
 

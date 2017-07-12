@@ -2,6 +2,8 @@
 
 namespace Corcel;
 
+use Illuminate\Foundation\Application;
+
 /**
  * Class Corcel
  *
@@ -15,6 +17,7 @@ class Corcel
      */
     public static function isLaravel()
     {
-        return isset(LARAVEL_START) && LARAVEL_START;
+        return function_exists('app') &&
+            app() instanceof Application;
     }
 }
