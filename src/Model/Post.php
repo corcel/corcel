@@ -11,13 +11,13 @@ use Corcel\Traits\TimestampsTrait;
 use Corcel\Traits\HasAcfFields;
 use Corcel\Traits\HasMetaFields;
 use Corcel\Traits\ShortcodesTrait;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class Post
  *
  * @package Corcel\Model
  * @author Junior Grossi <juniorgro@gmail.com>
+ * @author Mickael Burguet <www.rundef.com>
  */
 class Post extends Model
 {
@@ -30,11 +30,6 @@ class Post extends Model
 
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
-
-    /**
-     * @var array
-     */
-    protected static $postTypes = [];
 
     /**
      * @var string
@@ -55,6 +50,11 @@ class Post extends Model
      * @var array
      */
     protected $with = ['meta'];
+
+    /**
+     * @var array
+     */
+    protected static $postTypes = [];
 
     /**
      * @var array
@@ -98,6 +98,31 @@ class Post extends Model
         'updated_at' => 'post_modified',
         'status' => 'post_status',
     ];
+
+    /**
+     * @param array $attributes
+     * @param null $connection
+     * @return mixed
+     */
+    public function newFromBuilder($attributes = [], $connection = null)
+    {
+        $attributes = (array)$attributes;
+        $class = static::class;
+
+        // Check if it should be instantiated with a custom post type class
+        if (isset($attributes['post_type']) && $attributes['post_type']) {
+            if (isset(static::$postTypes[$attributes['post_type']])) {
+                $class = static::$postTypes[$attributes['post_type']];
+            }
+        }
+
+        $model = new $class();
+        $model->exists = true;
+        $model->setRawAttributes($attributes, true);
+        $model->setConnection($connection ?: $this->getConnectionName());
+
+        return $model;
+    }
 
     /**
      * @param \Illuminate\Database\Query\Builder $query
@@ -316,43 +341,8 @@ class Post extends Model
     }
 
     /**
-     * @param array $attributes
-     * @param null $connection
-     * @return mixed
-     */
-    public function newFromBuilder($attributes = [], $connection = null)
-    {
-        $attributes = (array)$attributes;
-        $class = static::class;
-
-        // Check if it should be instantiated with a custom post type class
-        if (isset($attributes['post_type']) && $attributes['post_type']) {
-            if (isset(static::$postTypes[$attributes['post_type']])) {
-                $class = static::$postTypes[$attributes['post_type']];
-            }
-        }
-
-        $model = new $class();
-        $model->exists = true;
-        $model->setRawAttributes($attributes, true);
-        $model->setConnection($connection ?: $this->getConnectionName());
-
-        return $model;
-    }
-
-    /**
-     * Register your Post Type classes here to have them be instantiated instead of the standard Post model.
-     *
-     * This method allows you to register classes that will be used for specific post types as defined in the post_type
-     * column of the wp_posts table. If a post type is registered here, when a Post object is returned from the posts
-     * table it will be automatically converted into the appropriate class for its post type.
-     *
-     * If you register a Page class for the post_type 'page', then whenever a Post is fetched from the database that has
-     * its post_type has 'page', it will be returned as a Page instance, instead of the default and generic
-     * Post instance.
-     *
-     * @param string $name  The name of the post type (e.g. 'post', 'page', 'custom_post_type')
-     * @param string $class The class that represents the post type model (e.g. 'Post', 'Page', 'CustomPostType')
+     * @param string $name The post type slug
+     * @param string $class The class to be instantiated
      */
     public static function registerPostType($name, $class)
     {
