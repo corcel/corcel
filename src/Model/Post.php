@@ -100,21 +100,6 @@ class Post extends Model
     ];
 
     /**
-     * @param array $attributes
-     * @todo Check if this is really necessary
-     */
-    public function __construct(array $attributes = [])
-    {
-        foreach ($this->fillable as $field) {
-            if (!isset($attributes[$field])) {
-                $attributes[$field] = '';
-            }
-        }
-
-        parent::__construct($attributes);
-    }
-
-    /**
      * @param \Illuminate\Database\Query\Builder $query
      * @return PostBuilder
      */
