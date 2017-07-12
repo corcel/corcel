@@ -112,7 +112,10 @@ class Post extends Model
         $model->exists = true;
 
         $model->setRawAttributes((array)$attributes, true);
-        $model->setConnection($connection ?: $this->getConnectionName());
+
+        $model->setConnection(
+            $connection ?: $this->getConnectionName()
+        );
 
         return $model;
     }

@@ -4,6 +4,9 @@ namespace Corcel\Tests;
 
 use Corcel\Laravel\CorcelServiceProvider;
 use Corcel\Model\User;
+use Corcel\Tests\Unit\Model\FakePage;
+use Corcel\Tests\Unit\Model\FakePost;
+use Corcel\Tests\Unit\Model\FakeShortcode;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Orchestra\Database\ConsoleServiceProvider;
 
@@ -39,6 +42,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
         $this->configureDatabaseConfig($app);
         $this->configureAuthProvider($app);
         $this->configureCustomPostTypes($app);
+        $this->configureShortcodes($app);
     }
 
     /**
@@ -85,6 +89,16 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
     /**
      * @param \Illuminate\Foundation\Application $app
+     */
+    public function configureShortcodes($app)
+    {
+        $app['config']->set('corcel.shortcodes', [
+            'fake' => FakeShortcode::class,
+        ]);
+    }
+
+    /**
+     * @param \Illuminate\Foundation\Application $app
      * @return array
      */
     protected function getPackageProviders($app)
@@ -104,24 +118,4 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         // TODO: Implement be() method.
     }
-}
-
-/**
- * Class FakePost
- *
- * @package Corcel\Tests
- */
-class FakePost extends \Corcel\Model\Post
-{
-    protected $postType = 'fake_post';
-}
-
-/**
- * Class FakePage
- *
- * @package Corcel\Tests
- */
-class FakePage extends \Corcel\Model\Page
-{
-    protected $postType = 'fake_page';
 }

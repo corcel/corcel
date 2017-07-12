@@ -2,6 +2,7 @@
 
 namespace Corcel\Traits;
 
+use Corcel\Corcel;
 use Thunder\Shortcode\ShortcodeFacade;
 
 /**
@@ -49,10 +50,32 @@ trait ShortcodesTrait
     {
         $facade = new ShortcodeFacade();
 
+        $this->parseClassShortcodes($facade);
+        $this->parseConfigShortcodes($facade);
+
+        return $facade->process($content);
+    }
+
+    /**
+     * @param ShortcodeFacade $facade
+     */
+    private function parseClassShortcodes(ShortcodeFacade $facade)
+    {
         foreach (self::$shortcodes as $tag => $func) {
             $facade->addHandler($tag, $func);
         }
+    }
 
-        return $facade->process($content);
+    /**
+     * @param ShortcodeFacade $facade
+     */
+    private function parseConfigShortcodes(ShortcodeFacade $facade)
+    {
+        if (Corcel::isLaravel()) {
+            $shortcodes = config('corcel.shortcodes');
+            foreach ($shortcodes as $tag => $class) {
+                $facade->addHandler($tag, [new $class, 'render']);
+            }
+        }
     }
 }

@@ -13,6 +13,6 @@ return [
     ],
 
     'shortcodes' => [
-//        'foo' => \App\WordPress\Shortcodes\FooShortcode::class,
+//        'foo' => App\Shortcodes\FooShortcode::class,
     ],
 ];

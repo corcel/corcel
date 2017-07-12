@@ -3,8 +3,6 @@
 namespace Corcel\Tests\Unit\Model;
 
 use Corcel\Model\Post;
-use Corcel\Tests\FakePage;
-use Corcel\Tests\FakePost;
 
 /**
  * Class PostTypeTest
@@ -71,10 +69,17 @@ class PostTypeTest extends \Corcel\Tests\TestCase
     }
 }
 
-/**
- * Class Video
- */
 class Video extends Post
 {
     protected $postType = 'video';
+}
+
+class FakePost extends Post
+{
+    protected $postType = 'fake_post';
+}
+
+class FakePage extends Post
+{
+    protected $postType = 'fake_page';
 }

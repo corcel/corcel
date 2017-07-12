@@ -9,6 +9,7 @@ use Corcel\Model\Post;
 use Corcel\Model\Taxonomy;
 use Corcel\Model\Term;
 use Corcel\Model\User;
+use Corcel\Shortcode;
 use Illuminate\Support\Arr;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
@@ -457,6 +458,18 @@ class PostTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
+    public function it_can_have_shortcode_from_config_file()
+    {
+        $post = factory(Post::class)->create([
+            'post_content' => 'foo [fake one="two"]',
+        ]);
+
+        $this->assertEquals('foo html-for-shortcode-fake-two', $post->content);
+    }
+
+    /**
+     * @test
+     */
     public function its_content_can_have_multiple_shortcodes()
     {
         $this->registerFooShortcode();
@@ -573,5 +586,21 @@ class PostTest extends \Corcel\Tests\TestCase
         );
 
         return $post;
+    }
+}
+
+class FakeShortcode implements Shortcode
+{
+    /**
+     * @param ShortcodeInterface $shortcode
+     * @return string
+     */
+    public function render(ShortcodeInterface $shortcode)
+    {
+        return sprintf(
+            'html-for-shortcode-%s-%s',
+            $shortcode->getName(),
+            $shortcode->getParameter('one')
+        );
     }
 }
