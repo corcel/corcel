@@ -2,9 +2,6 @@
 
 namespace Corcel\Model\Meta;
 
-use Corcel\Model;
-use Corcel\Model\Collection\UserMetaCollection;
-
 /**
  * Class UserMeta
  *
@@ -12,7 +9,7 @@ use Corcel\Model\Collection\UserMetaCollection;
  * @author Mickael Burguet <www.rundef.com>
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class UserMeta extends Model
+class UserMeta extends PostMeta
 {
     /**
      * @var string
@@ -40,14 +37,5 @@ class UserMeta extends Model
     public function user()
     {
         return $this->belongsTo('Corcel\User');
-    }
-
-    /**
-     * @param array $models
-     * @return UserMetaCollection|\Illuminate\Database\Eloquent\Collection
-     */
-    public function newCollection(array $models = [])
-    {
-        return new UserMetaCollection($models);
     }
 }

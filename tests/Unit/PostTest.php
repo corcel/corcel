@@ -3,7 +3,7 @@
 namespace Corcel\Tests\Unit;
 
 use Carbon\Carbon;
-use Corcel\Model\Collection\PostMetaCollection;
+use Corcel\Model\Collection\MetaCollection;
 use Corcel\Model\Page;
 use Corcel\Model\Post;
 use Corcel\Model\Taxonomy;
@@ -219,7 +219,7 @@ class PostTest extends \Corcel\Tests\TestCase
 
         $this->assertNotEmpty($post->meta);
         $this->assertNotEmpty($post->fields);
-        $this->assertInstanceOf(PostMetaCollection::class, $post->meta);
+        $this->assertInstanceOf(MetaCollection::class, $post->meta);
     }
 
     /**
@@ -363,22 +363,6 @@ class PostTest extends \Corcel\Tests\TestCase
         $this->assertEquals('Bar', $post->main_category);
         $this->assertEquals(['Bar'], $post->keywords);
         $this->assertEquals('Bar', $post->keywords_str);
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_update_custom_fields_using_meta_attribute()
-    {
-        $post = factory(Post::class)->create(['post_name' => 'foo']);
-        $post->meta->username = 'jgrossi';
-        $post->meta->url = 'http://jgrossi.com';
-        $post->save();
-
-        $post = Post::query()->where('post_name', 'foo')->first();
-
-        $this->assertEquals($post->meta->username, 'jgrossi');
-        $this->assertEquals($post->meta->url, 'http://jgrossi.com');
     }
 
     /**

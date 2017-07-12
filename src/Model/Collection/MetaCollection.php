@@ -1,14 +1,16 @@
 <?php
 
-namespace Corcel\Traits;
+namespace Corcel\Model\Collection;
+
+use Illuminate\Database\Eloquent\Collection;
 
 /**
- * Trait MetaCollection
+ * Class MetaCollection
  *
- * @package Corcel\Traits
+ * @package Corcel\Model\Collection
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-trait MetaCollection
+class MetaCollection extends Collection
 {
     /**
      * @param string $key

@@ -99,20 +99,6 @@ class User extends Model implements Authenticatable, CanResetPassword
     }
 
     /**
-     * @param array $options
-     * @return bool
-     * @todo Refactor this to HasMetaFields trait of something like this
-     */
-    public function save(array $options = [])
-    {
-        if (isset($this->attributes[$this->primaryKey])) {
-            $this->meta->save($this->attributes[$this->primaryKey]);
-        }
-
-        return parent::save($options);
-    }
-
-    /**
      * Get the name of the unique identifier for the user.
      *
      * @return string

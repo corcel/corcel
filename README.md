@@ -168,6 +168,8 @@ $posts = Post::hasMeta('acf')->get();
 
 ### Meta Data (Custom Fields)
 
+> NOTE: In Corcel v1 you could save meta data using the `Post::save()` method. That's not allowed anymore. Use `saveMeta()` or `createMeta()` (see below) methods to save post meta.
+
 You can retrieve meta data from posts too.
 
 ```php

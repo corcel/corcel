@@ -3,7 +3,7 @@
 namespace Corcel\Tests\Unit;
 
 use Carbon\Carbon;
-use Corcel\Model\Collection\UserMetaCollection;
+use Corcel\Model\Collection\MetaCollection;
 use Corcel\Model\User;
 
 /**
@@ -93,7 +93,7 @@ class UserTest extends \Corcel\Tests\TestCase
 
         $this->assertNotEmpty($user->meta);
         $this->assertNotEmpty($user->fields);
-        $this->assertInstanceOf(UserMetaCollection::class, $user->meta);
+        $this->assertInstanceOf(MetaCollection::class, $user->meta);
     }
 
     /**

@@ -3,8 +3,9 @@
 namespace Corcel\Model\Meta;
 
 use Corcel\Model;
-use Corcel\Model\Collection\PostMetaCollection;
+use Corcel\Model\Collection\MetaCollection;
 use Corcel\Model\Post;
+use Corcel\Model\Taxonomy;
 use Exception;
 
 /**
@@ -76,7 +77,7 @@ class PostMeta extends Model
         }
 
         // load relationship
-        $relation = $this->hasOne('Corcel\TermTaxonomy', 'term_taxonomy_id');
+        $relation = $this->hasOne(Taxonomy::class, 'term_taxonomy_id');
 
         // do we need to filter which value to look for with meta_value
         // if (!is_null($where) && !empty($where)) {
@@ -90,10 +91,10 @@ class PostMeta extends Model
      * Override newCollection() to return a custom collection.
      *
      * @param array $models
-     * @return PostMetaCollection
+     * @return MetaCollection
      */
     public function newCollection(array $models = [])
     {
-        return new PostMetaCollection($models);
+        return new MetaCollection($models);
     }
 }

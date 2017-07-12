@@ -205,20 +205,6 @@ class Post extends Model
     }
 
     /**
-     * @param array $options
-     * @return bool
-     * @todo Remove this method or mark as deprecated
-     */
-    public function save(array $options = [])
-    {
-        if (isset($this->attributes[$this->primaryKey])) {
-            $this->meta->save($this->attributes[$this->primaryKey]);
-        }
-
-        return parent::save($options);
-    }
-
-    /**
      * Whether the post contains the term or not.
      *
      * @param string $taxonomy
