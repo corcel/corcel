@@ -14,8 +14,6 @@ use Illuminate\Database\Eloquent\Builder;
 class TaxonomyBuilder extends Builder
 {
     /**
-     * Set taxonomy type to category.
-     *
      * @return TaxonomyBuilder
      */
     public function category()
@@ -24,8 +22,6 @@ class TaxonomyBuilder extends Builder
     }
 
     /**
-     * Set taxonomy type to nav_menu.
-     *
      * @return TaxonomyBuilder
      */
     public function menu()
@@ -43,8 +39,6 @@ class TaxonomyBuilder extends Builder
     }
 
     /**
-     * Get a term taxonomy by specific slug.
-     *
      * @param string $slug
      * @return TaxonomyBuilder
      */
@@ -57,5 +51,14 @@ class TaxonomyBuilder extends Builder
         }
 
         return $this;
+    }
+
+    /**
+     * @param null $slug
+     * @return TaxonomyBuilder
+     */
+    public function term($slug = null)
+    {
+        return $this->slug($slug);
     }
 }

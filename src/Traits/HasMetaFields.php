@@ -66,7 +66,6 @@ trait HasMetaFields
      * @param string $key
      * @param mixed $value
      * @return bool
-     * @todo Add support to array in $key
      */
     public function saveMeta($key, $value = null)
     {

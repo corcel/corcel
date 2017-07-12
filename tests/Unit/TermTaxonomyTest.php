@@ -68,6 +68,18 @@ class TermTaxonomyTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
+    public function it_can_be_queries_by_term_as_an_aliases_to_slug()
+    {
+        $this->createTaxonomyWithTermsAndPosts();
+
+        $foo = Taxonomy::name('foo')->term('bar')->first();
+
+        $this->assertEquals('Bar', $foo->name);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_query_taxonomy_by_term_and_get_all_posts_related()
     {
         $this->createTaxonomyWithTermsAndPosts();

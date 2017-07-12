@@ -173,6 +173,5 @@ class User extends Model implements Authenticatable, CanResetPassword
      */
     public function sendPasswordResetNotification($token)
     {
-        // TODO: Implement sendPasswordResetNotification() method.
     }
 }

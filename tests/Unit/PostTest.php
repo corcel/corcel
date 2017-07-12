@@ -368,20 +368,6 @@ class PostTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
-    public function it_can_update_custom_fields_using_meta_attribute_and_accessors()
-    {
-        $post = factory(Post::class)->create(['post_title' => 'Post title']);
-        $post->meta->title = 'Meta title';
-        $post->save();
-
-        $this->assertEquals($post->post_title, $post->title);
-        $this->assertEquals($post->title, 'Post title');
-        $this->assertEquals($post->meta->title, 'Meta title');
-    }
-
-    /**
-     * @test
-     */
     public function it_can_have_author_relation()
     {
         $post = $this->createPostWithAuthor();
