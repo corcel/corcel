@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel\Tests\Unit;
+namespace Corcel\Tests\Unit\Model;
 
 use Corcel\Model\Post;
 

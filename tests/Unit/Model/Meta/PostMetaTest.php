@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel\Tests\Unit;
+namespace Corcel\Tests\Unit\Model\Meta;
 
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Post;

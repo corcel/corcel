@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel\Tests\Unit;
+namespace Corcel\Tests\Unit\Model;
 
 use Corcel\Model\Post;
 use Corcel\Model\Taxonomy;
@@ -11,7 +11,7 @@ use Corcel\Model\Term;
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class TermTaxonomyTest extends \Corcel\Tests\TestCase
+class TaxonomyTest extends \Corcel\Tests\TestCase
 {
     /**
      * @test
