@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel\Tests\Unit\Laravel\Auth;
+namespace Corcel\Tests\Unit;
 
 use Corcel\Laravel\Auth\AuthUserProvider;
 use Corcel\Model\User;
