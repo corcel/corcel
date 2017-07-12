@@ -151,7 +151,7 @@ trait HasMetaFields
     private function getClassName()
     {
         $className = sprintf(
-            'Corcel\\%sMeta', $this->getCallerClassName()
+            'Corcel\\Model\\Meta\\%sMeta', $this->getCallerClassName()
         );
 
         return class_exists($className) ? $className : PostMeta::class;

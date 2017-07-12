@@ -17,8 +17,19 @@ class Term extends Model
     use HasMetaFields;
     use HasAcfFields;
 
+    /**
+     * @var string
+     */
     protected $table = 'terms';
+
+    /**
+     * @var string
+     */
     protected $primaryKey = 'term_id';
+
+    /**
+     * @var bool
+     */
     public $timestamps = false;
 
     /**

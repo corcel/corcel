@@ -30,7 +30,9 @@ class Post extends Model
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
 
-    /** @var array */
+    /**
+     * @var array
+     */
     protected static $postTypes = [];
 
     /**
