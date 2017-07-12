@@ -316,35 +316,26 @@ class Post extends Model
     }
 
     /**
-     * Overrides default behaviour by instantiating class based on the $attributes->post_type value.
-     *
-     * By default, this method will always return an instance of the calling class. However if post types have
-     * been registered with the Post class using the registerPostType() static method, this will now return an
-     * instance of that class instead.
-     *
-     * If the post type string from $attributes->post_type does not appear in the static $postTypes array,
-     * then the class instantiated will be the called class (the default behaviour of this method).
-     *
      * @param array $attributes
-     * @param null  $connection
-     *
+     * @param null $connection
      * @return mixed
      */
     public function newFromBuilder($attributes = [], $connection = null)
     {
-        if (is_object($attributes) && array_key_exists($attributes->post_type, static::$postTypes)) {
-            $class = static::$postTypes[$attributes->post_type];
-        } elseif (is_array($attributes) && array_key_exists($attributes['post_type'], static::$postTypes)) {
-            $class = static::$postTypes[$attributes['post_type']];
-        } else {
-            $class = get_called_class();
+        $attributes = (array)$attributes;
+        $class = static::class;
+
+        // Check if it should be instantiated with a custom post type class
+        if (isset($attributes['post_type']) && $attributes['post_type']) {
+            if (isset(static::$postTypes[$attributes['post_type']])) {
+                $class = static::$postTypes[$attributes['post_type']];
+            }
         }
 
-        $model = new $class([]);
+        $model = new $class();
         $model->exists = true;
-
-        $model->setRawAttributes((array) $attributes, true);
-        $model->setConnection($connection ?: $this->connection); // TODO fix this to PHP 5.5+
+        $model->setRawAttributes($attributes, true);
+        $model->setConnection($connection ?: $this->getConnectionName());
 
         return $model;
     }
