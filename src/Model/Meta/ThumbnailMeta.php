@@ -35,10 +35,6 @@ class ThumbnailMeta extends PostMeta
      * @param $size
      * @return array
      * @throws \Exception
-     *
-     * @todo Fix this method
-     * @todo Rewrite this _wp_attachment_metadata key
-     * @todo dirname() here? Fix this
      */
     public function size($size)
     {
