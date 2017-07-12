@@ -3,6 +3,7 @@
 namespace Corcel\Model;
 
 use Corcel\Model;
+use Corcel\Model\Builder\PostBuilder;
 use Corcel\Model\Meta\ThumbnailMeta;
 use Corcel\Traits\AliasesTrait;
 use Corcel\Traits\OrderedTrait;
@@ -114,68 +115,16 @@ class Post extends Model
     }
 
     /**
-     * @param Builder $query
-     * @param string $status
-     * @return Builder
+     * @param \Illuminate\Database\Query\Builder $query
+     * @return PostBuilder
      */
-    public function scopeStatus(Builder $query, $status)
+    public function newEloquentBuilder($query)
     {
-        return $query->where('post_status', $status);
-    }
+        $builder = new PostBuilder($query);
 
-    /**
-     * @param Builder $query
-     * @return Builder
-     */
-    public function scopePublished(Builder $query)
-    {
-        return $query->status('publish');
-    }
-
-    /**
-     * @param Builder $query
-     * @param string $type
-     * @return Builder
-     */
-    public function scopeType(Builder $query, $type)
-    {
-        return $query->where('post_type', $type);
-    }
-
-    /**
-     * @param Builder $query
-     * @param array $types
-     * @return Builder
-     */
-    public function scopeTypeIn(Builder $query, array $types)
-    {
-        return $query->whereIn('post_type', $types);
-    }
-
-    /**
-     * @param Builder $query
-     * @param string $slug
-     * @return Builder
-     */
-    public function scopeSlug(Builder $query, $slug)
-    {
-        return $query->where('post_name', $slug);
-    }
-
-    /**
-     * @param Builder $query
-     * @param string $taxonomy
-     * @param mixed $terms
-     * @return Builder
-     */
-    public function scopeTaxonomy(Builder $query, $taxonomy, $terms)
-    {
-        return $query->whereHas('taxonomies', function ($query) use ($taxonomy, $terms) {
-            $query->where('taxonomy', $taxonomy)
-                ->whereHas('term', function ($query) use ($terms) {
-                    $query->whereIn('slug', is_array($terms) ? $terms : [$terms]);
-                });
-        });
+        return isset($this->postType) && $this->postType ?
+            $builder->type($this->postType) :
+            $builder;
     }
 
     /**
@@ -237,20 +186,6 @@ class Post extends Model
     {
         return $this->hasMany(Post::class, 'post_parent')
             ->where('post_type', 'revision');
-    }
-
-    /**
-     * @return Builder
-     */
-    public function newQuery()
-    {
-        $builder = parent::newQuery();
-
-        if (isset($this->postType) and $this->postType) {
-            $builder->type($this->postType);
-        }
-
-        return $builder;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Corcel\Model;
 
 use Corcel\Model;
+use Corcel\Model\Builder\CommentBuilder;
 use Corcel\Traits\HasMetaFields;
 use Corcel\Traits\TimestampsTrait;
 use Illuminate\Database\Eloquent\Builder;
@@ -35,15 +36,6 @@ class Comment extends Model
      * @var array
      */
     protected $dates = ['comment_date'];
-
-    /**
-     * @param Builder $query
-     * @return Builder
-     */
-    public function scopeApproved(Builder $query)
-    {
-        return $query->where('comment_approved', 1);
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -99,6 +91,15 @@ class Comment extends Model
     public function hasReplies()
     {
         return $this->replies->count() > 0;
+    }
+
+    /**
+     * @param \Illuminate\Database\Query\Builder $query
+     * @return CommentBuilder
+     */
+    public function newEloquentBuilder($query)
+    {
+        return new CommentBuilder($query);
     }
 
     /**

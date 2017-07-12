@@ -1,32 +1,22 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Model\Builder;
 
 use Illuminate\Database\Eloquent\Builder;
 
 /**
- * Class TermTaxonomyBuilder
+ * Class TaxonomyBuilder
  *
  * @package Corcel
  * @author Junior Grossi <juniorgro@gmail.com>
  * @author Yoram de Langen <yoramdelangen@gmail.com>
  */
-class TermTaxonomyBuilder extends Builder
+class TaxonomyBuilder extends Builder
 {
-    /**
-     * Add posts to the relationship builder.
-     *
-     * @return TermTaxonomyBuilder
-     */
-    public function posts()
-    {
-        return $this->with('posts');
-    }
-
     /**
      * Set taxonomy type to category.
      *
-     * @return TermTaxonomyBuilder
+     * @return TaxonomyBuilder
      */
     public function category()
     {
@@ -36,7 +26,7 @@ class TermTaxonomyBuilder extends Builder
     /**
      * Set taxonomy type to nav_menu.
      *
-     * @return TermTaxonomyBuilder
+     * @return TaxonomyBuilder
      */
     public function menu()
     {
@@ -56,7 +46,7 @@ class TermTaxonomyBuilder extends Builder
      * Get a term taxonomy by specific slug.
      *
      * @param string $slug
-     * @return TermTaxonomyBuilder
+     * @return TaxonomyBuilder
      */
     public function slug($slug = null)
     {

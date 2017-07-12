@@ -53,7 +53,7 @@ class TermTaxonomyTest extends \Corcel\Tests\TestCase
     {
         $taxonomy = $this->createTaxonomyWithTermsAndPosts();
 
-        // TODO This TermTaxonomyBuilder::posts() method is wrong. posts() should be a relation not a with()
+        // TODO This TaxonomyBuilder::posts() method is wrong. posts() should be a relation not a with()
         // TODO Maybe change slug() to term()
         $foo = Taxonomy::name('foo')->slug('bar')->first();
         $this->assertEquals('Bar', $foo->name);

@@ -3,8 +3,8 @@
 namespace Corcel\Model;
 
 use Corcel\Model;
+use Corcel\Model\Builder\TaxonomyBuilder;
 use Corcel\Model\Meta\TermMeta;
-use Corcel\TermTaxonomyBuilder;
 
 /**
  * Class Taxonomy
@@ -69,21 +69,16 @@ class Taxonomy extends Model
     }
 
     /**
-     * Overriding newQuery() to the custom TermTaxonomyBuilder with some interesting methods.
-     *
-     * @param bool $excludeDeleted
-     * @return TermTaxonomyBuilder
+     * @param \Illuminate\Database\Query\Builder $query
+     * @return TaxonomyBuilder
      */
-    public function newQuery($excludeDeleted = true)
+    public function newEloquentBuilder($query)
     {
-        $builder = new TermTaxonomyBuilder($this->newBaseQueryBuilder());
-        $builder->setModel($this)->with($this->with);
+        $builder = new TaxonomyBuilder($query);
 
-        if (isset($this->taxonomy) and !empty($this->taxonomy) and !is_null($this->taxonomy)) {
-            $builder->where('taxonomy', $this->taxonomy);
-        }
-
-        return $builder;
+        return isset($this->taxonomy) && $this->taxonomy ?
+            $builder->where('taxonomy', $this->taxonomy) :
+            $builder;
     }
 
     /**
