@@ -199,6 +199,19 @@ class Post extends Model
     }
 
     /**
+     * Whether the post contains the term or not.
+     *
+     * @param string $taxonomy
+     * @param string $term
+     * @return bool
+     */
+    public function hasTerm($taxonomy, $term)
+    {
+        return isset($this->terms[$taxonomy]) &&
+            isset($this->terms[$taxonomy][$term]);
+    }
+
+    /**
      * @param string $postType
      */
     public function setPostType($postType)
@@ -212,34 +225,6 @@ class Post extends Model
     public function getPostType()
     {
         return $this->postType;
-    }
-
-    /**
-     * @param string $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        $value = parent::__get($key);
-
-        if ($value === null && !property_exists($this, $key)) {
-            return $this->meta->$key;
-        }
-
-        return $value;
-    }
-
-    /**
-     * Whether the post contains the term or not.
-     *
-     * @param string $taxonomy
-     * @param string $term
-     * @return bool
-     */
-    public function hasTerm($taxonomy, $term)
-    {
-        return isset($this->terms[$taxonomy]) &&
-            isset($this->terms[$taxonomy][$term]);
     }
 
     /**
@@ -375,5 +360,20 @@ class Post extends Model
         }
 
         return false;
+    }
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function __get($key)
+    {
+        $value = parent::__get($key);
+
+        if ($value === null && !property_exists($this, $key)) {
+            return $this->meta->$key;
+        }
+
+        return $value;
     }
 }
