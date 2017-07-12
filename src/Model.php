@@ -24,7 +24,6 @@ class Model extends Eloquent
      */
     public function __construct(array $attributes = array())
     {
-        $this->configureDatabaseConnection();
         parent::__construct($attributes);
     }
 
@@ -187,19 +186,14 @@ class Model extends Eloquent
         }
     }
 
-    /**
-     * @return void
-     */
-    protected function configureDatabaseConnection()
+    public function getConnectionName()
     {
-        if (!isset($this->connection) && defined('LARAVEL_START') && function_exists('config')) {
+        if (!isset($this->connection) && Corcel::isLaravel()) {
             if ($connection = config('corcel.connection')) {
                 $this->connection = $connection;
-            } elseif (config('database.connections.corcel')) {
-                $this->connection = 'corcel';
-            } elseif (config('database.connections.wordpress')) {
-                $this->connection = 'wordpress';
             }
         }
+
+        return $this->connection;
     }
 }

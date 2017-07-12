@@ -19,12 +19,12 @@ class TestCase extends \Orchestra\Testbench\TestCase
         parent::setUp();
 
         $this->loadMigrationsFrom([
-            '--database' => 'wp',
+            '--database' => 'foo',
             '--realpath' => __DIR__.'/database/migrations',
         ]);
 
         $this->loadMigrationsFrom([
-            '--database' => 'foo',
+            '--database' => 'wp',
             '--realpath' => __DIR__.'/database/migrations',
         ]);
 
@@ -46,9 +46,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
      */
     private function configureDatabaseConfig($app)
     {
-        // TODO change this to make sure corcel.connection is working
-        $app['config']->set('database.default', 'wp');
-
         $app['config']->set('database.connections.wp', [
             'driver'   => 'sqlite',
             'database' => ':memory:',
@@ -61,7 +58,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
             'prefix'   => 'foo_',
         ]);
 
-//        $app['config']->set('corcel.connection', 'wp');
+        $app['config']->set('database.default', 'wp');
     }
 
     /**
