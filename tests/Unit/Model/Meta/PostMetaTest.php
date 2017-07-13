@@ -92,6 +92,64 @@ class PostMetaTest extends \Corcel\Tests\TestCase
     }
 
     /**
+     * @test
+     */
+    public function it_has_has_meta_scope()
+    {
+        $post = factory(Post::class)->create();
+        $post->saveMeta('one', 'two');
+        $post->saveMeta('three', 'four');
+
+        $newPost = Post::hasMeta('one')->first();
+        $this->assertEquals($post->ID, $newPost->ID);
+
+        $newPost = Post::hasMeta('one', 'two')->first();
+        $this->assertEquals($post->ID, $newPost->ID);
+    }
+
+    /**
+     * @test
+     */
+    public function its_has_meta_scope_accepts_array_as_parameter()
+    {
+        $post = factory(Post::class)->create();
+        $post->saveMeta('one', 'two');
+        $post->saveMeta('three', 'four');
+
+        $newPost = Post::hasMeta(['one' => 'two'])->first();
+
+        $this->assertNotNull($newPost);
+        $this->assertEquals($post->title, $newPost->title);
+        $this->assertEquals($post->ID, $newPost->ID);
+
+        $newPost = Post::hasMeta([
+            'one' => 'two',
+            'three' => 'four',
+        ])->first();
+
+        $this->assertNotNull($newPost);
+        $this->assertEquals($post->title, $newPost->title);
+        $this->assertEquals($post->ID, $newPost->ID);
+    }
+
+    /**
+     * @test
+     */
+    public function its_has_meta_scope_can_have_array_with_only_values()
+    {
+        $post = factory(Post::class)->create();
+        $post->saveMeta('one', 'two');
+        $post->saveMeta('three', 'four');
+
+        $newPost = Post::hasMeta(['one', 'three'])->first();
+
+
+        $this->assertNotNull($newPost);
+        $this->assertEquals($post->title, $newPost->title);
+        $this->assertEquals($post->ID, $newPost->ID);
+    }
+
+    /**
      * @return PostMeta
      */
     private function createMetaWithPost()

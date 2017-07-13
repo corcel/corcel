@@ -57,6 +57,24 @@ class PostTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
+    public function it_has_has_meta_scope()
+    {
+        $post = factory(Post::class)->create();
+        $post->saveMeta('foo', 'bar');
+
+        $posts = Post::hasMeta('foo')->get();
+
+        $this->assertCount(1, $posts);
+        $this->assertInstanceOf(Post::class, $posts->first());
+
+        $newPost = Post::hasMeta('foo', 'bar')->first();
+        $this->assertEquals($post->title, $newPost->title);
+        $this->assertEquals($post->ID, $newPost->ID);
+    }
+
+    /**
+     * @test
+     */
     public function it_has_published_scope()
     {
         factory(Post::class)->create(['post_status' => 'publish']);

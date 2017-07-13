@@ -9,6 +9,7 @@ use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Post;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
+use ReflectionClass;
 
 /**
  * Trait HasMetaFields
@@ -53,13 +54,24 @@ trait HasMetaFields
      */
     public function scopeHasMeta(Builder $query, $meta, $value = null)
     {
-        return $query->whereHas('meta', function ($query) use ($meta, $value) {
-            $query->where('meta_key', $meta);
+        if (!is_array($meta)) {
+            $meta = [$meta => $value];
+        }
 
-            if (!is_null($value)) {
-                $query->where('meta_value', $value);
-            }
-        });
+        foreach($meta as $key => $value) {
+            $query->whereHas('meta', function ($query) use ($key, $value) {
+                if (is_string($key)) {
+                    $query->where('meta_key', $key);
+
+                    return is_null($value) ? $query : // 'foo' => null
+                        $query->where('meta_value', $value); // 'foo' => 'bar'
+                }
+
+                return $query->where('meta_key', $value); // 0 => 'foo'
+            });
+        }
+
+        return $query;
     }
 
     /**
@@ -177,6 +189,6 @@ trait HasMetaFields
             $class = $relation;
         }
 
-        return Arr::last(explode('\\', $class));
+        return (new ReflectionClass($class))->getShortName();
     }
 }
