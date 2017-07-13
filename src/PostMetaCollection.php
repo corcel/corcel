@@ -30,6 +30,21 @@ class PostMetaCollection extends Collection
         }
     }
 
+    public function __isset($key)
+    {
+        if (parent::__isset($key)) {
+            return true;
+        }
+
+        foreach ($this->items as $item) {
+            if ($item->meta_key == $key) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Shortcut for the getAttribute method, by passing an object attribute
      *

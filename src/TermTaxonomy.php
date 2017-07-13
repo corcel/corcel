@@ -101,4 +101,17 @@ class TermTaxonomy extends Model
 
         return parent::__get($key);
     }
+
+    public function __isset($key)
+    {
+        if (property_exists($this, $key)) {
+            return true;
+        }
+
+        if (property_exists($this, 'term') && property_exists($this->term, $key)) {
+            return true;
+        }
+
+        return parent::__isset($key);
+    }
 }
