@@ -56,9 +56,7 @@ You can install WordPress inside Laravel's `/public` directory, like `/public/wo
 
 ## Laravel Setup
 
-Corcel by default will look for a `wordpress` or `corcel` database connection in your Laravel `config/database.php` file. If it does not find any of these connections it'll use the `default` connection.
-
-For example, you can have a `default` connection for your Laravel app tables and models, and another one called `wordpress` or `corcel` for your WordPress tables. Easy like that.
+Just the the database `connection` you want to be used by Corcel. Let' suppose you have those following database connections in your `config/database.php` file:
 
 ```php
 <?php // File: /config/database.php
@@ -91,6 +89,12 @@ For example, you can have a `default` connection for your Laravel app tables and
         'engine'    => null,
     ],
 ],
+```
+
+In this case you should want to use the `wordpress` connection for Corcel, so just set it into the Corcel config file `config/corcel.php`:
+
+```php
+'connection' => 'wordpress',
 ```
 
 ## Other PHP Framework (not Laravel) Setup
@@ -339,6 +343,39 @@ You can also do this for inbuilt classes, such as Page or Post. Simply register 
 This is particular useful when you are intending to get a Collection of Posts of different types (e.g. when fetching the posts defined in a menu).
 
 ## <a id="shortcodes"></a> Shortcodes
+
+### From config (Laravel)
+
+You can map all shortcodes you want inside the `config/corcel.php` file, under the `'shortocodes'` key. In this case you should create your own class that `implements` the `Corcel\Shortcode` interface, that requires a `render()` method:
+
+```php
+'shortcodes' => [
+    'foo' => App\Shortcodes\FooShortcode::class,
+    'bar' => App\Shortcodes\BarShortcode::class,
+],
+```
+
+This is a sample shortcode class:
+
+```php
+class FakeShortcode implements \Corcel\Shortcode
+{
+    /**
+     * @param ShortcodeInterface $shortcode
+     * @return string
+     */
+    public function render(ShortcodeInterface $shortcode)
+    {
+        return sprintf(
+            'html-for-shortcode-%s-%s',
+            $shortcode->getName(),
+            $shortcode->getParameter('one')
+        );
+    }
+}
+```
+
+### In runtime
 
 You can add [shortcodes](https://codex.wordpress.org/Shortcode_API) by calling the `addShortcode` method on the `Post` model :
 
