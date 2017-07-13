@@ -93,7 +93,7 @@ Just set the database `connection` you want to be used by Corcel in `config/corc
 Let' suppose you have those following database connections in your `config/database.php` file:
 
 ```php
-<?php // File: /config/database.php
+// File: /config/database.php
 
 'connections' => [
 
