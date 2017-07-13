@@ -12,14 +12,16 @@ Corcel
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/corcelphp.svg?style=social&label=Follow)](http://twitter.com/CorcelPHP)
 
-Corcel is a class collection created to retrieve WordPress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project, with any framework, including Laravel.
+Corcel is a collection of classes created to retrieve WordPress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project, with any framework, including Laravel.
 
 This way, you can use WordPress as the backend (admin panel), to insert posts, custom types, etc, and you can use whatever you want in the frontend, like Silex, Slim Framework, Laravel, Zend, or even pure PHP (why not?). So, just use Corcel to retrieve data from WordPress.
 
-# Contents
+This make possible to use WordPress as your CMS of choice and using Laravel in the front to create routes, views, controller, and fetch WordPress data using Corcel.
+
+# Table of Contents
 
 - [Installing Corcel](#install)
-- [Changelog](#changelog)
+- [Changelog (v1 to v2)](#changelog)
 - [Database Setup](#database-setup)
 - [Usage](#usage)
     - [Posts](#posts)
@@ -52,10 +54,12 @@ composer require jgrossi/corcel
 Now you have to include `CorcelServiceProvider` in your `config/app.php`:
 
 ```php
-/*
- * Package Service Providers...
- */
-Corcel\Laravel\CorcelServiceProvider::class,
+'providers' => [
+    /*
+     * Package Service Providers...
+     */
+    Corcel\Laravel\CorcelServiceProvider::class,
+]
 ```
 
 Now configure our config file to make sure your database is set correctly and to allow you to register custom post types and shortcodes in a very easy way:
@@ -68,7 +72,7 @@ php artisan config:publish corcel
 
 Now you have a `config/corcel.php` config file, where you can set the database connection with WordPress tables and much more.
 
-# <a id="changelog"></a> Changelog
+# <a id="changelog"></a> Changelog (v1 to v2)
 
 ## Namespace change
 
@@ -366,9 +370,24 @@ foreach ($stores as $store) {
 
 Every time you call something like `Post::type('video)->first()` or `Video::first()` you receive a `Corcel\Model\Post` instance.
 
-#### Registering Post Types (the hard way)
-
 If you choose to create a new class for your custom post type, you can have this class be returned for all instances of that post type.
+
+#### Registering Post Types (the easy way)
+
+Instead of call `Post::registerPostType()` method for all custom post type you want to register, just use the Corcel's config file and map all custom posts and it's classes. They will be registered automatically for you:
+
+```php
+'post_types' => [
+    'video' => App\Video::class,
+    'foo' => App\Foo::class,
+]
+```
+
+So every time you query a custom post type the mapped instance will be returned.
+
+> This is particular useful when you are intending to get a Collection of Posts of different types (e.g. when fetching the posts defined in a menu).
+
+#### Registering Post Types (the hard way)
 
 ```php
 //all objects in the $videos Collection will be instances of Post
@@ -383,21 +402,6 @@ $videos = Post::type('video')->status('publish')->get();
 ```
 
 You can also do this for inbuilt classes, such as Page or Post. Simply register the Page or Post class with the associated post type string, and that object will be returned instead of the default one.
-
-This is particular useful when you are intending to get a Collection of Posts of different types (e.g. when fetching the posts defined in a menu).
-
-#### Registering Post Types (the easy way)
-
-Instead of call `Post::registerPostType()` method for all custom post type you want to register, just use the Corcel's config file and map all custom posts and it's classes. They will be registered automatically for you:
-
-```php
-'post_types' => [
-    'video' => App\Video::class,
-    'foo' => App\Foo::class,
-]
-```
-
-So every time you query a custom post type the mapped instance will be returned.
 
 ## <a id="shortcodes"></a> Shortcodes
 
@@ -475,11 +479,11 @@ echo $post->getFormat(); // should return something like 'video', etc
 
 ## <a id="pages"></a>Pages
 
-Pages are like custom post types. You can use `Post::type('page')` or the `Corcel\Page` class.
+Pages are like custom post types. You can use `Post::type('page')` or the `Corcel\Model\Page` class.
 
 ```php
 
-use Corcel\Page;
+use Corcel\Model\Page;
 
 // Find a page by slug
 $page = Page::slug('about')->first(); // OR
@@ -559,7 +563,7 @@ echo $options['home'];
 
 ## <a id="menu"></a> Menu
 
-To get a menu by its slug, use the syntax below. The menu items will be loaded in the `items` variable (it's a collection of `Corcel\MenuItem` objects). 
+To get a menu by its slug, use the syntax below. The menu items will be loaded in the `items` variable (it's a collection of `Corcel\Model\MenuItem` objects). 
 
 The currently supported menu items are: Pages, Posts, Custom Links and Categories.
 
@@ -630,7 +634,7 @@ And then, define the user provider in `config/auth.php` to allow Laravel to logi
 'providers' => [
     'users' => [
         'driver' => 'corcel',
-        'model'  => Corcel\User::class,
+        'model'  => Corcel\Model\User::class,
     ],
 ],
 ```
@@ -705,17 +709,17 @@ All contributions are welcome to help improve Corcel.
 
 Before you submit your Pull Request (PR) consider the following guidelines:
 
-- Fork `corcel/corcel` in Github;
+- Fork https://github.com/corcel/corcel in Github;
 
 - Clone your forked repository (not Corcel's) locally and create your own branch based on `dev` one: `git checkout -b my-fix-branch dev`;
 
-- Make all code changes. Remember here to write at least one test case for any feature you add or any bugfix (if it's not tested yet). Our goal is to have 100% of the code covered by tests, so help us to write a better code ;-)
+- Make all code changes. Remember here to write at least one test case for any feature you add or any bugfix (if it's not tested yet). Our goal is to have 100% of the code covered by tests, so help us to write a better code ;-) If you don' have experience with tests it's a good opportunity to learn. Just take a look into our tests cases and you'll see how simple they are.
 
 - Run the unit tests locally to make sure your changes did not break any other piece of code;
 
 - Push your new branch to your forked repository, usually `git push origin HEAD` should work;
 
-- In GitHub again, create a Pull Request (PR) from your custom `branch` (from your forked repository) to `corcel:dev`, not `corcel:master`, please;
+- In GitHub again, create a Pull Request (PR) from your custom `my-fix-branch` branch (from your forked repository) to `corcel:dev`, not `corcel:master`, please;
 
 - Wait for the approval :-)
 
