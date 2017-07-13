@@ -19,6 +19,7 @@ This way, you can use WordPress as the backend (admin panel), to insert posts, c
 # Contents
 
 - [Installing Corcel](#install)
+- [Changelog](#changelog)
 - [Database Setup](#database-setup)
 - [Usage](#usage)
     - [Posts](#posts)
@@ -46,17 +47,46 @@ You need to use Composer to install Corcel into your project:
 composer require jgrossi/corcel
 ```
 
-Now you're almost ready to use Corcel classes, like `Corcel\Post`.
+## Configuring (Laravel)
 
-## WordPress Installation
+Now you have to include `CorcelServiceProvider` in your `config/app.php`:
 
-You can install WordPress inside Laravel's `/public` directory, like `/public/wordpress`, for example, or even in a different domain or server. You only have to enable access to its database, because that's what Corcel will use. This is made by creating a database connection.
+```php
+/*
+ * Package Service Providers...
+ */
+Corcel\Laravel\CorcelServiceProvider::class,
+```
+
+Now configure our config file to make sure your database is set correctly and to allow you to register custom post types and shortcodes in a very easy way:
+
+Run the following Artisan command in your terminal:
+
+```
+php artisan config:publish corcel
+```
+
+Now you have a `config/corcel.php` config file, where you can set the database connection with WordPress tables and much more.
+
+# <a id="changelog"></a> Changelog
+
+## Namespace change
+
+In Corcel v1 all model classes were located in the `Corcel` namespace. In v2 all models are located in the `Corcel\Model` namespace. So if you want to fetch posts using the `Post` class just use `Corcel\Model\Post::all()`, for example.
+
+## Configuration file and Service Provider class
+
+In Corcel v2 we have now a config file and a Service Provider class. This makes easier to setup the database connection you want to be used by Corcel (the WordPress one).
+
+You can also configure custom post types and shortcodes directly from the config file. This file should be located in `config/corcel.php` (after publishing - see instructions above).
 
 # <a id="database-setup"></a> Database Setup
 
 ## Laravel Setup
 
-Just the the database `connection` you want to be used by Corcel. Let' suppose you have those following database connections in your `config/database.php` file:
+Just set the database `connection` you want to be used by Corcel in `config/corcel.php`. 
+
+Let' suppose you have those following database connections in your `config/database.php` file:
 
 ```php
 <?php // File: /config/database.php
@@ -76,7 +106,7 @@ Just the the database `connection` you want to be used by Corcel. Let' suppose y
         'engine'    => null,
     ],
 
-    'wordpress' => [ // for WordPress database
+    'wordpress' => [ // for WordPress database (used by Corcel)
         'driver'    => 'mysql',
         'host'      => 'localhost',
         'database'  => 'mydatabase',
@@ -129,7 +159,27 @@ You can specify all Eloquent params, but some are default (but you can override 
 
 # <a id="usage"></a>  Usage
 
-Optionally you can create your own `Post` model which extends `Corcel\Post`. Then set the connection name you're using, in this case `foo-bar`:
+## <a id="posts"></a> Posts
+
+> Every time you see `Post::method()`, if you're using your own Post class (where you set the connection name), like `App\Post` you should use `App\Post::method()` and not `Post::method()`. All the examples are assuming you already know this difference.
+
+> In the examples, every time you see `Post::method()` assume `Corcel\Model\Post::method()`.
+
+```php
+// All published posts
+$posts = Post::published()->get();
+$posts = Post::status('publish')->get();
+
+// A specific post
+$post = Post::find(31);
+echo $post->post_title;
+```
+
+## Creating your own model classes
+
+Optionally you can create your own `Post` model (or Page, or whatever) which extends `Corcel\Post`. Then set the connection name (if you want to override the Corcel's default one) you're using, in this case `foo-bar`:
+
+> Extending `Corcel\Model\Post` class can add flexibility to your project, once you can add custom methods and logic, according what you need to use from your WordPress database.
 
 ```php
 <?php // File: app/Post.php
@@ -141,6 +191,10 @@ use Corcel\Post as Corcel;
 class Post extends Corcel
 {
     protected $connection = 'foo-bar';
+    
+    public function customMethod() {
+        //
+    }
 }
 ```
 
@@ -150,21 +204,7 @@ So, now you can fetch WP database data using your own class:
 $posts = App\Post::all(); // using the 'foo-bar' connection
 ```
 
-> Remembering that if you have a `wordpress` or `corcel` database connection you don't need to extend `Corcel\Post` class, just use `Corcel\Post` instead.
-
-## <a id="posts"></a> Posts
-
-> Every time you see `Post::method()`, if you're using your own Post class (where you set the connection name), like `App\Post` you should use `App\Post::method()` and not `Post::method()`. All the examples are assuming you already know this difference.
-
-```php
-// All published posts
-$posts = Post::published()->get();
-$posts = Post::status('publish')->get();
-
-// A specific post
-$post = Post::find(31);
-echo $post->post_title;
-```
+> Just remember you don't have to extends our `Post` class, you can use `Corcel\Model\Post` and all others model without any problem.
 
 ### Meta Data (Custom Fields)
 
@@ -276,7 +316,7 @@ To display the pagination links just call the `links()` method:
 
 ## <a id="acf"></a>  Advanced Custom Fields (ACF)
 
-If you want to retrieve a custom field created by the [Advanced Custom Fields (ACF)](http://advancedcustomfields.com) plugin, you have to install the [`corcel/acf`](http://github.com/corcel/acf) plugin and call the custom field like this:
+If you want to retrieve a custom field created by the [Advanced Custom Fields (ACF)](http://advancedcustomfields.com) plugin, you have to install the `corcel/acf` plugin - [click here for more information](http://github.com/corcel/acf) - and call the custom field like this:
 
 ```php
 $post = Post::find(123);
@@ -322,7 +362,11 @@ foreach ($stores as $store) {
 }
 ```
 
-## <a id="single-tab"></a>Single Table Inheritance
+### Configuring the returning Instance
+
+Every time you call something like `Post::type('video)->first()` or `Video::first()` you receive a `Corcel\Model\Post` instance.
+
+#### Registering Post Types (the hard way)
 
 If you choose to create a new class for your custom post type, you can have this class be returned for all instances of that post type.
 
@@ -341,6 +385,19 @@ $videos = Post::type('video')->status('publish')->get();
 You can also do this for inbuilt classes, such as Page or Post. Simply register the Page or Post class with the associated post type string, and that object will be returned instead of the default one.
 
 This is particular useful when you are intending to get a Collection of Posts of different types (e.g. when fetching the posts defined in a menu).
+
+#### Registering Post Types (the easy way)
+
+Instead of call `Post::registerPostType()` method for all custom post type you want to register, just use the Corcel's config file and map all custom posts and it's classes. They will be registered automatically for you:
+
+```php
+'post_types' => [
+    'video' => App\Video::class,
+    'foo' => App\Foo::class,
+]
+```
+
+So every time you query a custom post type the mapped instance will be returned.
 
 ## <a id="shortcodes"></a> Shortcodes
 
@@ -430,7 +487,7 @@ $page = Post::type('page')->slug('about')->first();
 echo $page->post_title;
 ```
 
-## <a id="cats"></a>Categories & Taxonomies
+## <a id="cats"></a>Categories and Taxonomies
 
 Get a category or taxonomy or load posts from a certain category. There are multiple ways
 to achieve it.
@@ -640,21 +697,27 @@ If you have the global `phpunit` command installed you can just type:
 phpunit
 ```
 
+All tests were written using Sqlite with `:memory` database, so it runs in your memory. All tests use `factories` and `migrations`. Take a look on `tests/database/factories` and `tests/database/migrations` directories for more information.
+
 # <a id="contrib"></a> Contributing
 
 All contributions are welcome to help improve Corcel.
 
-Before you submit your pull request consider the following guidelines:
+Before you submit your Pull Request (PR) consider the following guidelines:
 
-- Make your changes in a new git branch, based on the dev branch:
+- Fork `corcel/corcel` in Github;
 
-`git checkout -b my-fix-branch dev`
+- Clone your forked repository (not Corcel's) locally and create your own branch based on `dev` one: `git checkout -b my-fix-branch dev`;
 
-- Create your patch/feature, including appropriate test cases.
+- Make all code changes. Remember here to write at least one test case for any feature you add or any bugfix (if it's not tested yet). Our goal is to have 100% of the code covered by tests, so help us to write a better code ;-)
 
-- Run the unit tests, and ensure that all tests pass.
+- Run the unit tests locally to make sure your changes did not break any other piece of code;
 
-- In GitHub, send a pull request to `corcel:dev`, not `corcel:master`, please.
+- Push your new branch to your forked repository, usually `git push origin HEAD` should work;
+
+- In GitHub again, create a Pull Request (PR) from your custom `branch` (from your forked repository) to `corcel:dev`, not `corcel:master`, please;
+
+- Wait for the approval :-)
 
 ## <a id="license"></a> Licence
 
