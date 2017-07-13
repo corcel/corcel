@@ -239,11 +239,11 @@ class Post extends Model
 
     public function save(array $options = [])
     {
-        if (isset($this->attributes[$this->primaryKey])) {
+        $result = parent::save($options);
+        if ($result) {
             $this->meta->save($this->attributes[$this->primaryKey]);
         }
-
-        return parent::save($options);
+        return $result;
     }
 
     /**
