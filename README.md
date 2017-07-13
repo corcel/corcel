@@ -160,10 +160,6 @@ $posts = Post::status('publish')->get();
 // A specific post
 $post = Post::find(31);
 echo $post->post_title;
-
-// Filter by meta/custom field
-$posts = Post::published()->hasMeta('field')->get();
-$posts = Post::hasMeta('acf')->get();
 ```
 
 ### Meta Data (Custom Fields)
@@ -205,6 +201,25 @@ $postMeta = $post->createMeta('foo', 'bar'); // instance of PostMeta class
 $trueOrFalse = $post->saveMeta('foo', 'baz'); // boolean
 ```
 
+### Querying Posts by Custom Fields (Meta)
+
+There are multiples possibilities to query posts by their custom fields (meta). Just use the `hasMeta()` scope under `Post` (actually for all models using the `HasMetaFields` trait) class:
+
+```php
+// Using just one custom field
+$post = Post::published()->hasMeta('username', 'jgrossi')->first(); // setting key and value
+$post = Post::published()->hasMeta('username'); // setting just the key
+```
+
+You can also use the `hasMeta()` scope passing an array as parameter:
+
+```php
+$post = Post::hasMeta(['username' => 'jgrossi'])->first();
+$post = Post::hasMeta(['username' => 'jgrossi', 'url' => 'jgrossi.com'])->first();
+// Or just passing the keys
+$post = Post::hasMeta(['username', 'url'])->first();
+```
+
 ### Fields Aliases
 
 The `Post` class has support to "aliases", so if you check the `Post` class you should note some aliases defined in the static `$aliases` array, like `title` for `post_title` and `content` for `post_content`.
@@ -238,7 +253,7 @@ $newest = Post::newest()->first();
 $oldest = Post::oldest()->first();
 ```
 
-### Ordering
+### Pagination
 
 To order posts just use Eloquent `paginate()` method:
 
