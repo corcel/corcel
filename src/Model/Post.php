@@ -202,6 +202,14 @@ class Post extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function children()
+    {
+        return $this->hasMany(Post::class, 'post_parent');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function attachment()
     {
         return $this->hasMany(Post::class, 'post_parent')

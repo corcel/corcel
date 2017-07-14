@@ -145,6 +145,23 @@ class PostTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
+    public function it_has_children_relation()
+    {
+        $post = factory(Post::class)->create();
+        factory(Post::class)->create(['post_parent' => $post->ID]);
+        factory(Post::class)->create(['post_parent' => $post->ID]);
+        factory(Post::class)->create(['post_parent' => $post->ID]);
+
+        $children = $post->children;
+
+        $this->assertCount(3, $children);
+        $this->assertInstanceOf(Post::class, $children->first());
+        $this->assertEquals($post->ID, $children->first()->post_parent);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_be_ordered()
     {
         $older = Carbon::now()->subYears(10);
