@@ -20,12 +20,9 @@ use Illuminate\Support\Str;
 class Model extends Eloquent
 {
     /**
-     * @param array $attributes
+     * @var string
      */
-    public function __construct(array $attributes = array())
-    {
-        parent::__construct($attributes);
-    }
+    protected $postType;
 
     /**
      * Replace the original hasMany function to forward the connection name.
@@ -186,6 +183,9 @@ class Model extends Eloquent
         }
     }
 
+    /**
+     * @return string
+     */
     public function getConnectionName()
     {
         if (!isset($this->connection) && Corcel::isLaravel()) {

@@ -151,7 +151,7 @@ class Post extends Model
     {
         $builder = new PostBuilder($query);
 
-        return isset($this->postType) && $this->postType ?
+        return !is_null($this->postType) ?
             $builder->type($this->postType) :
             $builder;
     }
@@ -402,14 +402,5 @@ class Post extends Model
         }
 
         return $value;
-    }
-
-    /**
-     * @param string $key
-     * @return bool
-     */
-    public function __isset($key)
-    {
-        return !is_null($this->__get($key));
     }
 }
