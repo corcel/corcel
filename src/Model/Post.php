@@ -151,7 +151,7 @@ class Post extends Model
     {
         $builder = new PostBuilder($query);
 
-        return !is_null($this->postType) ?
+        return $this->postType ?
             $builder->type($this->postType) :
             $builder;
     }
