@@ -403,4 +403,13 @@ class Post extends Model
 
         return $value;
     }
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function __isset($key)
+    {
+        return !is_null($this->__get($key));
+    }
 }

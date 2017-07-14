@@ -28,4 +28,13 @@ class MetaCollection extends Collection
 
         return null;
     }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return !is_null($this->__get($name));
+    }
 }

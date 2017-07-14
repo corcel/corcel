@@ -213,6 +213,19 @@ class PostTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
+    public function it_has_isset_method_working()
+    {
+        $post = factory(Post::class)->create();
+        $post->createMeta('foo', 'bar');
+
+        $post = $post->fresh();
+
+        $this->assertTrue(isset($post->meta->foo));
+    }
+
+    /**
+     * @test
+     */
     public function it_can_add_alias_in_runtime()
     {
         $post = factory(Post::class)->create();
