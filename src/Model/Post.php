@@ -290,14 +290,14 @@ class Post extends Model
      */
     public function getTermsAttribute()
     {
-        return collect($this->taxonomies)->map(function ($taxonomy) {
-            $name = $taxonomy->taxonomy == 'post_tag' ?
+        return $this->taxonomies->groupBy(function ($taxonomy) {
+            return $taxonomy->taxonomy == 'post_tag' ?
                 'tag' : $taxonomy->taxonomy;
-
-            return [$name => [
-                $taxonomy->term->slug => $taxonomy->term->name,
-            ]];
-        })->collapse()->toArray();
+        })->map(function ($group) {
+            return $group->mapWithKeys(function ($item) {
+                return [$item->term->slug => $item->term->name];
+            });
+        })->toArray();
     }
 
     /**
