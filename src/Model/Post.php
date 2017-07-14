@@ -290,15 +290,16 @@ class Post extends Model
      */
     public function getTermsAttribute()
     {
-        $taxonomies = $this->taxonomies;
-        $terms = [];
+        return collect($this->taxonomies)->map(function ($taxonomy) {
+            $name = $taxonomy['taxonomy'] == 'post_tag' ?
+                'tag' : $taxonomy['taxonomy'];
 
-        foreach ($taxonomies as $taxonomy) {
-            $taxonomyName = $taxonomy['taxonomy'] == 'post_tag' ? 'tag' : $taxonomy['taxonomy'];
-            $terms[$taxonomyName][$taxonomy->term['slug']] = $taxonomy->term['name'];
-        }
-
-        return $terms;
+            return [
+                $name => [
+                    $taxonomy->term['slug'] => $taxonomy->term['name']
+                ]
+            ];
+        })->collapse()->toArray();
     }
 
     /**
@@ -329,17 +330,9 @@ class Post extends Model
      */
     public function getKeywordsAttribute()
     {
-        $keywords = [];
-
-        if ($this->terms) {
-            foreach ($this->terms as $taxonomy) {
-                foreach ($taxonomy as $term) {
-                    $keywords[] = $term;
-                }
-            }
-        }
-
-        return $keywords;
+        return collect($this->terms)->map(function ($taxonomy) {
+            return collect($taxonomy)->values();
+        })->collapse()->toArray();
     }
 
     /**
