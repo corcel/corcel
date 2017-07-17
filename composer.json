@@ -29,5 +29,12 @@
         "classmap": [
             "models"
         ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Corcel\\Laravel\\CorcelServiceProvider"
+            ]
+        }
     }
 }
