@@ -94,12 +94,12 @@ class ThumbnailTest extends \Corcel\Tests\TestCase
      */
     private function createPostWithThumbnail()
     {
+        $attachment = factory(Attachment::class)->create([
+            'guid' => 'http://google.com',
+        ]);
+
         $thumbnail = factory(ThumbnailMeta::class)->create([
-            'meta_value' => function () {
-                return factory(Attachment::class)->create([
-                    'guid' => 'http://google.com',
-                ])->ID;
-            },
+            'meta_value' => $attachment->ID,
         ]);
 
         return $thumbnail->post;

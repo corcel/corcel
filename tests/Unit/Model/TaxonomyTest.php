@@ -106,14 +106,14 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
      */
     private function createTaxonomyWithTermsAndPosts()
     {
+        $term = factory(Term::class)->create([
+            'name' => 'Bar',
+            'slug' => 'bar',
+        ]);
+
         $taxonomy = factory(Taxonomy::class)->create([
             'taxonomy' => 'foo',
-            'term_id' => function () {
-                return factory(Term::class)->create([
-                    'name' => 'Bar',
-                    'slug' => 'bar',
-                ])->term_id;
-            }
+            'term_id' => $term->term_id,
         ]);
 
         $post = factory(Post::class)->create([
@@ -121,6 +121,8 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
         ]);
 
         $post->taxonomies()->attach($taxonomy->term_taxonomy_id);
+
+        $taxonomy->load(['term', 'posts']);
 
         return $taxonomy;
     }

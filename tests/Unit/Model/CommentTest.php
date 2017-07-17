@@ -199,10 +199,10 @@ class CommentTest extends \Corcel\Tests\TestCase
      */
     private function createCommentWithParent()
     {
+        $parent = factory(Comment::class)->create();
+
         return factory(Comment::class)->create([
-            'comment_parent' => function () {
-                return factory(Comment::class)->create()->comment_ID;
-            }
+            'comment_parent' => $parent->comment_ID,
         ]);
     }
 

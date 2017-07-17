@@ -4,10 +4,10 @@ use Corcel\Model\Comment;
 use Corcel\Model\Post;
 
 $factory->define(Comment::class, function (Faker\Generator $faker) {
+    $post = factory(Post::class)->create();
+
     return [
-        'comment_post_ID' => function () {
-            return factory(Post::class)->create()->ID;
-        },
+        'comment_post_ID' => $post->ID,
         'comment_author' => $faker->name,
         'comment_author_email' => $faker->email,
         'comment_author_url' => $faker->url,

@@ -154,10 +154,10 @@ class PostMetaTest extends \Corcel\Tests\TestCase
      */
     private function createMetaWithPost()
     {
+        $post = factory(Post::class)->create();
+
         return factory(PostMeta::class)->create([
-            'post_id' => function () {
-                return factory(Post::class)->create()->ID;
-            },
+            'post_id' => $post->ID,
         ]);
     }
 }

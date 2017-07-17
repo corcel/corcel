@@ -208,6 +208,8 @@ class MenuTest extends \Corcel\Tests\TestCase
         $menu = factory(Menu::class)->create();
         $menu->posts()->attach([$parent->ID, $child->ID]);
 
+        $menu->load(['items', 'posts']);
+
         return $menu;
     }
 
@@ -225,6 +227,8 @@ class MenuTest extends \Corcel\Tests\TestCase
 
         $this->buildCustomLink($menu);
         $this->buildCategory($menu);
+
+        $menu->load('items');
 
         return $menu;
     }

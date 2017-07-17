@@ -355,14 +355,14 @@ class PostTest extends \Corcel\Tests\TestCase
 
         /** @var \Illuminate\Pagination\LengthAwarePaginator $paginator */
         $paginator = Post::paginate(2);
-        $firstPost = Arr::first($paginator->items());
+        $firstPost = $paginator->items()[0];
 
         $this->assertEquals(2, $paginator->perPage());
         $this->assertEquals(2, $paginator->count());
         $this->assertEquals(3, $paginator->total());
         $this->assertInstanceOf(Post::class, $firstPost);
         $this->assertEquals($post->post_title, $firstPost->post_title);
-        $this->assertStringStartsWith('<ul class="pagination">', $paginator->toHtml());
+        $this->assertStringStartsWith('<ul class="pagination">', $paginator->render());
     }
     
     /**
@@ -617,15 +617,15 @@ class PostTest extends \Corcel\Tests\TestCase
     {
         $post = factory(Post::class)->create();
 
+        $term = factory(Term::class)->create([
+            'name' => $name = 'post-format-foo',
+            'slug' => $name,
+        ]);
+
         $post->taxonomies()->attach(
             factory(Taxonomy::class)->create([
                 'taxonomy' => 'post_format',
-                'term_id' => function () {
-                    return factory(Term::class)->create([
-                        'name' => $name = 'post-format-foo',
-                        'slug' => $name,
-                    ])->term_id;
-                },
+                'term_id' => $term->term_id,
             ])->term_taxonomy_id, [
                 'term_order' => 0,
             ]
