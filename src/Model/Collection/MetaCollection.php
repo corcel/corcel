@@ -19,7 +19,7 @@ class MetaCollection extends Collection
     public function __get($key)
     {
         if (isset($this->items) && count($this->items)) {
-            $meta = $this->first(function ($meta) use ($key) {
+            $meta = $this->first(function ($i, $meta) use ($key) {
                 return $meta->meta_key === $key;
             });
 

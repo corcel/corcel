@@ -305,9 +305,9 @@ class Post extends Model
             return $taxonomy->taxonomy == 'post_tag' ?
                 'tag' : $taxonomy->taxonomy;
         })->map(function ($group) {
-            return $group->mapWithKeys(function ($item) {
+            return $group->map(function ($item) {
                 return [$item->term->slug => $item->term->name];
-            });
+            })->collapse();
         })->toArray();
     }
 
