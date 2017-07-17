@@ -125,7 +125,7 @@ class Post extends Model
         $model->setRawAttributes((array)$attributes, true);
 
         $model->setConnection(
-            $connection ?: $this->getConnectionName()
+            $connection ?: $this->getConnection()->getName()
         );
 
         return $model;
