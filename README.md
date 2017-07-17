@@ -21,7 +21,10 @@ This way, you can use WordPress as the backend (admin panel), to insert posts, c
 This make possible to use WordPress as your CMS of choice and using Laravel in the front to create routes, views, controller, and fetch WordPress data using Corcel.
 
 # Table of Contents
+# <a id="install"></a> Installing Corcel
 
+
+- [Version Compatibility](#versions)
 - [Installing Corcel](#install)
 - [Changelog (v1 to v2)](#changelog)
 - [Database Setup](#database-setup)
@@ -42,6 +45,15 @@ This make possible to use WordPress as your CMS of choice and using Laravel in t
     - [Running Tests](#tests)
 - [Contributing](#contrib)
 - [License](#license)
+
+# <a id="versions"></a> Version Compatibility
+
+ Laravel  | Corcel
+:---------|:----------
+ 5.0.x    | 2.0.x
+ 5.1.x    | 2.1.x
+ 5.2.x    | 2.2.x
+ 5.3.x    | 2.3.x
 
 # <a id="install"></a> Installing Corcel
 
@@ -90,7 +102,7 @@ You can also configure custom post types and shortcodes directly from the config
 
 ## Laravel Setup
 
-Just set the database `connection` you want to be used by Corcel in `config/corcel.php`. 
+Just set the database `connection` you want to be used by Corcel in `config/corcel.php`.
 
 Let' suppose you have those following database connections in your `config/database.php` file:
 
@@ -197,7 +209,7 @@ use Corcel\Post as Corcel;
 class Post extends Corcel
 {
     protected $connection = 'foo-bar';
-    
+
     public function customMethod() {
         //
     }
@@ -315,7 +327,7 @@ foreach ($posts as $post) {
 ```
 
 To display the pagination links just call the `links()` method:
- 
+
  ```php
  {{ $posts->links() }}
  ```
@@ -565,7 +577,7 @@ echo $options['home'];
 
 ## <a id="menu"></a> Menu
 
-To get a menu by its slug, use the syntax below. The menu items will be loaded in the `items` variable (it's a collection of `Corcel\Model\MenuItem` objects). 
+To get a menu by its slug, use the syntax below. The menu items will be loaded in the `items` variable (it's a collection of `Corcel\Model\MenuItem` objects).
 
 The currently supported menu items are: Pages, Posts, Custom Links and Categories.
 
@@ -577,7 +589,7 @@ $menu = Menu::slug('primary')->first();
 foreach ($menu->items as $item) {
     echo $item->instance()->title; // if it's a Post
     echo $item->instance()->name; // if it's a Term
-    echo $item->instance()->link_text; // if it's a custom link 
+    echo $item->instance()->link_text; // if it's a custom link
 }
 ```
 
@@ -599,7 +611,7 @@ $items = Menu::slug('foo')->first()->items;
 $parent = $items->first()->parent(); // Post, Page, CustomLink or Term (category)
 ```
 
-To group menu items according their parents, you can use the `->groupBy()` method in the `$menu->items` collection, grouping menu items by their `$item->parent()->ID`. 
+To group menu items according their parents, you can use the `->groupBy()` method in the `$menu->items` collection, grouping menu items by their `$item->parent()->ID`.
 
 To read more about the `groupBy()` method [take a look on the Laravel documentation](https://laravel.com/docs/5.4/collections#method-groupby).
 
