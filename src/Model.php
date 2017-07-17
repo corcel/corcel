@@ -25,6 +25,16 @@ class Model extends Eloquent
     protected $postType;
 
     /**
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->configureDatabaseConnection();
+        parent::__construct($attributes);
+    }
+
+
+    /**
      * Replace the original hasMany function to forward the connection name.
      *
      * @param string $related
@@ -178,16 +188,26 @@ class Model extends Eloquent
     }
 
     /**
-     * @return string
+     * @return \Illuminate\Database\Connection|string
      */
     public function getConnectionName()
+    {
+        if (null === $this->connection) {
+            return $this->getConnection()->getName();
+        }
+
+        return $this->connection;
+    }
+
+    /**
+     * @return void
+     */
+    private function configureDatabaseConnection()
     {
         if (!isset($this->connection) && Corcel::isLaravel()) {
             if ($connection = config('corcel.connection')) {
                 $this->connection = $connection;
             }
         }
-
-        return $this->connection;
     }
 }

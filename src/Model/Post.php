@@ -55,6 +55,13 @@ class Post extends Model
     /**
      * @var array
      */
+    protected $casts = [
+        'ID' => 'integer',
+    ];
+
+    /**
+     * @var array
+     */
     protected static $postTypes = [];
 
     /**
@@ -124,9 +131,7 @@ class Post extends Model
 
         $model->setRawAttributes((array)$attributes, true);
 
-        $model->setConnection(
-            $connection ?: $this->getConnection()->getName()
-        );
+        $model->setConnection($connection ?: $this->connection);
 
         return $model;
     }
