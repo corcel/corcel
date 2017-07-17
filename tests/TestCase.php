@@ -70,7 +70,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
      */
     private function configureAuthProvider($app)
     {
-        $app['config']->set('auth.providers.users', [
+        $app['config']->set('auth', [
             'driver' => 'corcel',
             'model' => User::class,
         ]);

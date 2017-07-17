@@ -21,8 +21,8 @@
         "thunderer/shortcode": "^0.6.2"
     },
     "require-dev": {
-        "orchestra/testbench": "~3.1.0",
-        "orchestra/database": "~3.1.0",
+        "orchestra/testbench": "3.1.*",
+        "orchestra/database": "3.1.*",
         "satooshi/php-coveralls": "dev-master",
         "phpunit/phpunit": "~4.8"
     },
