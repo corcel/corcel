@@ -1,3 +1,5 @@
+![Readme Art](http://i.imgur.com/Kq8iHtg.png)
+
 Corcel
 ======
 
