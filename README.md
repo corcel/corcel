@@ -54,6 +54,7 @@ This make possible to use WordPress as your CMS of choice and using Laravel in t
  5.1.x    | 2.1.x
  5.2.x    | 2.2.x
  5.3.x    | 2.3.x
+ 5.4.x    | 2.4.x
 
 # <a id="install"></a> Installing Corcel
 
