@@ -69,7 +69,7 @@ Now configure our config file to make sure your database is set correctly and to
 Run the following Artisan command in your terminal:
 
 ```
-php artisan config:publish corcel
+php artisan vendor:publish --provider="Corcel\Laravel\CorcelServiceProvider"
 ```
 
 Now you have a `config/corcel.php` config file, where you can set the database connection with WordPress tables and much more.

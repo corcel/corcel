@@ -39,7 +39,7 @@ class CorcelServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/config.php' => config_path('corcel.php'),
-        ], 'config');
+        ]);
     }
 
     /**
