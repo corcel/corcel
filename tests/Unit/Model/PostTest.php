@@ -218,8 +218,6 @@ class PostTest extends \Corcel\Tests\TestCase
         $post = factory(Post::class)->create();
         $post->createMeta('foo', 'bar');
 
-        $post = $post->fresh();
-
         $this->assertTrue(isset($post->meta->foo));
     }
 

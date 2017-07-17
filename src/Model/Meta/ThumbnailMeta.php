@@ -32,7 +32,7 @@ class ThumbnailMeta extends PostMeta
     }
 
     /**
-     * @param $size
+     * @param string $size
      * @return array
      * @throws \Exception
      */

@@ -56,18 +56,20 @@ class PostMeta extends Model
     {
         try {
             $value = unserialize($this->meta_value);
-            // if we get false, but the original value is not false then something has gone wrong.
-            // return the meta_value as is instead of unserializing
-            // added this to handle cases where unserialize doesn't throw an error that is catchable
-            return $value === false && $this->meta_value !== false ? $this->meta_value : $value;
+
+            return $value === false && $this->meta_value !== false ?
+                $this->meta_value :
+                $value;
         } catch (Exception $ex) {
             return $this->meta_value;
         }
     }
 
     /**
-     * @param string $key
+     * @param string $primary
+     * @param string $where
      * @return \Illuminate\Database\Eloquent\Relations\Relation
+     * @todo test
      */
     public function taxonomy($primary = null, $where = null)
     {
@@ -76,20 +78,16 @@ class PostMeta extends Model
             $this->primaryKey = $primary;
         }
 
-        // load relationship
         $relation = $this->hasOne(Taxonomy::class, 'term_taxonomy_id');
 
-        // do we need to filter which value to look for with meta_value
-        // if (!is_null($where) && !empty($where)) {
-        //     $relation->where($where, $this->meta_value);
-        // }
+        if (!is_null($where) && !empty($where)) {
+            $relation->where($where, $this->meta_value);
+        }
 
         return $relation;
     }
 
     /**
-     * Override newCollection() to return a custom collection.
-     *
      * @param array $models
      * @return MetaCollection
      */

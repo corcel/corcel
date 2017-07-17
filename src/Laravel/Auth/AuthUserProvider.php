@@ -3,7 +3,7 @@
 namespace Corcel\Laravel\Auth;
 
 use Corcel\Services\PasswordService;
-use Corcel\User;
+use Corcel\Model\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Support\Arr;

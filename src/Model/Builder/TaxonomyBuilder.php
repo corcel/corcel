@@ -31,7 +31,7 @@ class TaxonomyBuilder extends Builder
 
     /**
      * @param string $name
-     * @return static
+     * @return TaxonomyBuilder
      */
     public function name($name)
     {

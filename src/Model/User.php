@@ -71,8 +71,14 @@ class User extends Model implements Authenticatable, CanResetPassword
      * @var array
      */
     protected $appends = [
-        'login', 'email', 'slug', 'url', 'nickname',
-        'first_name', 'last_name', 'created_at',
+        'login',
+        'email',
+        'slug',
+        'url',
+        'nickname',
+        'first_name',
+        'last_name',
+        'created_at',
     ];
 
     /**
@@ -135,7 +141,9 @@ class User extends Model implements Authenticatable, CanResetPassword
      */
     public function getRememberToken()
     {
-        return $this->meta->{$this->getRememberTokenName()};
+        $tokenName = $this->getRememberTokenName();
+
+        return $this->meta->{$tokenName};
     }
 
     /**
@@ -145,7 +153,9 @@ class User extends Model implements Authenticatable, CanResetPassword
      */
     public function setRememberToken($value)
     {
-        $this->meta->{$this->getRememberTokenName()} = $value;
+        $tokenName = $this->getRememberTokenName();
+
+        $this->meta->{$tokenName} = $value;
     }
 
     /**

@@ -22,11 +22,6 @@ class UserMeta extends PostMeta
     protected $primaryKey = 'umeta_id';
 
     /**
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
      * @var array
      */
     protected $fillable = ['meta_key', 'meta_value', 'user_id'];

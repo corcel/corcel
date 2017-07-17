@@ -74,12 +74,23 @@ class Post extends Model
      * @var array
      */
     protected $appends = [
-        'title', 'slug', 'content', 'type', 'mime_type', 'url', 'author_id', 'parent_id',
-        'created_at', 'updated_at', 'excerpt', 'status', 'image',
-        // Terms inside all taxonomies
+        'title',
+        'slug',
+        'content',
+        'type',
+        'mime_type',
+        'url',
+        'author_id',
+        'parent_id',
+        'created_at',
+        'updated_at',
+        'excerpt',
+        'status',
+        'image',
         'terms',
-        // Terms analysis
-        'main_category', 'keywords', 'keywords_str',
+        'main_category',
+        'keywords',
+        'keywords_str',
     ];
 
     /**

@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 class CommentBuilder extends Builder
 {
     /**
-     * @return $this
+     * @return CommentBuilder
      */
     public function approved()
     {

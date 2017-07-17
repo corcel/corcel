@@ -53,7 +53,7 @@ class Taxonomy extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function parentTerm()
+    public function parent()
     {
         return $this->belongsTo(Taxonomy::class, 'parent');
     }

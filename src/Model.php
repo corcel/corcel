@@ -28,9 +28,8 @@ class Model extends Eloquent
      * Replace the original hasMany function to forward the connection name.
      *
      * @param string $related
-     * @param null   $foreignKey
-     * @param null   $localKey
-     *
+     * @param string $foreignKey
+     * @param string $localKey
      * @return HasMany
      */
     public function hasMany($related, $foreignKey = null, $localKey = null)
@@ -53,9 +52,8 @@ class Model extends Eloquent
      * Replace the original hasOne function to forward the connection name.
      *
      * @param string $related
-     * @param null   $foreignKey
-     * @param null   $localKey
-     *
+     * @param string $foreignKey
+     * @param string $localKey
      * @return HasOne
      */
     public function hasOne($related, $foreignKey = null, $localKey = null)
@@ -78,17 +76,15 @@ class Model extends Eloquent
      * Replace the original belongsTo function to forward the connection name.
      *
      * @param string $related
-     * @param null   $foreignKey
-     * @param null   $otherKey
-     * @param null   $relation
-     *
+     * @param string $foreignKey
+     * @param string $otherKey
+     * @param string $relation
      * @return BelongsTo
      */
     public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
     {
         if (is_null($relation)) {
-            list($current, $caller) = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
-
+            list(, $caller) = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
             $relation = $caller['function'];
         }
 
@@ -114,11 +110,10 @@ class Model extends Eloquent
      * Replace the original belongsToMany function to forward the connection name.
      *
      * @param string $related
-     * @param null   $table
-     * @param null   $foreignKey
-     * @param null   $otherKey
-     * @param null   $relation
-     *
+     * @param string $table
+     * @param string $foreignKey
+     * @param string $otherKey
+     * @param string $relation
      * @return BelongsToMany
      */
     public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
@@ -151,7 +146,6 @@ class Model extends Eloquent
      * Get the relation value setting the connection name.
      *
      * @param string $key
-     *
      * @return mixed
      */
     public function getRelationValue($key)

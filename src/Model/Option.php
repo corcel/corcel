@@ -49,8 +49,9 @@ class Option extends Model
         try {
             $value = unserialize($this->option_value);
 
-            return $value === false &&
-                $this->option_value !== false ? $this->option_value : $value;
+            return $value === false && $this->option_value !== false ?
+                $this->option_value :
+                $value;
         } catch (Exception $ex) {
             return $this->option_value;
         }

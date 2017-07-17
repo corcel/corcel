@@ -9,6 +9,7 @@ use Hautelook\Phpass\PasswordHash;
  *
  * @package Corcel\Services
  * @author Mickael Burguet <www.rundef.com>
+ * @author Junior Grossi <juniorgro@gmail.com>
  */
 class PasswordService
 {
@@ -20,10 +21,6 @@ class PasswordService
     /**
      * Create a hash (encrypt) of a plain text password.
      *
-     * For integration with other applications, this function can be overwritten to
-     * instead use the other package password checking algorithm.
-     *
-     * @since 2.5.0
      * @param string $password Plain text user password to hash
      * @return string The hash string of the password
      */
@@ -35,23 +32,13 @@ class PasswordService
     /**
      * Checks the plaintext password against the encrypted Password.
      *
-     * Maintains compatibility between old version and the new cookie authentication
-     * protocol using PHPass library. The $hash parameter is the encrypted password
-     * and the function compares the plain text password when encrypted similarly
-     * against the already encrypted password to see if they match.
-     *
-     * For integration with other applications, this function can be overwritten to
-     * instead use the other package password checking algorithm.
-     *
-     * @since 2.5.0
-     * @param string     $password Plaintext user's password
-     * @param string     $hash     Hash of the user's password to check against
-     * @param string|int $user_id  Optional. User ID
-     * @return bool False, if the $password does not match the hashed password
+     * @param string $password Plaintext password
+     * @param string $hash Hashed password
+     * @return bool
      */
-    public function check($password, $hash, $user_id = '')
+    public function check($password, $hash)
     {
-        if (strlen($hash) <= 32) { // If the hash is still md5...
+        if (strlen($hash) <= 32) { // if the hash is still md5
             return $hash === md5($password);
         }
 

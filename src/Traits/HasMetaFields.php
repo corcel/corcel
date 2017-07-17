@@ -125,9 +125,13 @@ trait HasMetaFields
     public function createMeta($key, $value = null)
     {
         if (is_array($key)) {
-            return collect($key)->map(function ($value, $key) {
+            $metas = collect($key)->map(function ($value, $key) {
                 return $this->createOneMeta($key, $value);
             });
+
+            $this->load('meta');
+
+            return $metas;
         }
 
         return $this->createOneMeta($key, $value);
@@ -165,7 +169,9 @@ trait HasMetaFields
             'Corcel\\Model\\Meta\\%sMeta', $this->getCallerClassName()
         );
 
-        return class_exists($className) ? $className : PostMeta::class;
+        return class_exists($className) ?
+            $className :
+            PostMeta::class;
     }
 
     /**

@@ -12,15 +12,11 @@ namespace Corcel\Model;
 class Menu extends Taxonomy
 {
     /**
-     * Set taxonomy type.
-     *
      * @var string
      */
     protected $taxonomy = 'nav_menu';
 
     /**
-     * Add related relationships we need to use for a menu.
-     *
      * @var array
      */
     protected $with = ['term', 'items'];

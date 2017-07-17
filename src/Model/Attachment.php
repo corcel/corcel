@@ -16,8 +16,6 @@ class Attachment extends Post
     use AliasesTrait;
 
     /**
-     * Type of post.
-     *
      * @var string
      */
     protected $postType = 'attachment';
