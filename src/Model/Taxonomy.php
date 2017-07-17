@@ -27,7 +27,7 @@ class Taxonomy extends Model
     /**
      * @var array
      */
-    protected $with = ['term'];
+    protected $with = ['term', 'posts'];
 
     /**
      * @var bool
