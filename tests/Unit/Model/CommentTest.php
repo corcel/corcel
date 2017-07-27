@@ -161,7 +161,6 @@ class CommentTest extends \Corcel\Tests\TestCase
         $this->assertEquals('bar', $comment->meta->foo);
 
         $comment->saveField('foo', 'baz');
-        $comment->load('meta');
 
         $this->assertEquals('baz', $comment->meta->foo);
     }

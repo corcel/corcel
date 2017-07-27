@@ -41,6 +41,21 @@ class PostTypeTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
+    public function it_has_meta_fields_using_custom_class()
+    {
+        factory(Post::class)->create(['post_type' => 'fake_post']);
+        $fake = Post::newest()->first();
+
+        $this->assertInstanceOf(FakePost::class, $fake);
+
+        $fake->createMeta('foo', 'bar');
+
+        $this->assertEquals('bar', $fake->meta->foo);
+    }
+
+    /**
+     * @test
+     */
     public function it_has_custom_instance_using_custom_class_builder()
     {
         Post::registerPostType('video', Video::class);

@@ -6,6 +6,7 @@ use Corcel\Model\Attachment;
 use Corcel\Model\CustomLink;
 use Corcel\Model\MenuItem;
 use Corcel\Model\Meta\PostMeta;
+use Corcel\Model\Page;
 use Corcel\Model\Post;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -22,10 +23,10 @@ trait HasMetaFields
     /**
      * @var array
      */
-    private $relatedMetaClasses = [
-        Attachment::class => Post::class,
-        CustomLink::class => Post::class,
-        MenuItem::class => Post::class,
+    private $customMetaClasses = [
+        \Corcel\Model\Comment::class,
+        \Corcel\Model\Term::class,
+        \Corcel\Model\User::class,
     ];
 
     /**
@@ -104,7 +105,11 @@ trait HasMetaFields
         $meta = $this->meta()->where('meta_key', $key)
             ->firstOrNew(['meta_key' => $key]);
 
-        return $meta->fill(['meta_value' => $value])->save();
+        $result = $meta->fill(['meta_value' => $value])->save();
+
+        $this->load('meta');
+
+        return $result;
     }
 
     /**
@@ -125,13 +130,9 @@ trait HasMetaFields
     public function createMeta($key, $value = null)
     {
         if (is_array($key)) {
-            $metas = collect($key)->map(function ($value, $key) {
+            return collect($key)->map(function ($value, $key) {
                 return $this->createOneMeta($key, $value);
             });
-
-            $this->load('meta');
-
-            return $metas;
         }
 
         return $this->createOneMeta($key, $value);
@@ -144,10 +145,14 @@ trait HasMetaFields
      */
     private function createOneMeta($key, $value)
     {
-        return $this->meta()->create([
+        $meta =  $this->meta()->create([
             'meta_key' => $key,
             'meta_value' => $value,
         ]);
+
+        $this->load('meta');
+
+        return $meta;
     }
 
     /**
@@ -191,8 +196,8 @@ trait HasMetaFields
     {
         $class = static::class;
 
-        if ($relation = Arr::get($this->relatedMetaClasses, $class)) {
-            $class = $relation;
+        if (!in_array($class, $this->customMetaClasses)) {
+            $class = Post::class;
         }
 
         return (new ReflectionClass($class))->getShortName();
