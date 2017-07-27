@@ -307,13 +307,37 @@ class Post extends Model
      *
      * @return string
      */
-    public function getContentAttribute()
+    public function getContent()
     {
         if (empty(self::$shortcodes)) {
             return $this->post_content;
         }
 
         return $this->stripShortcodes($this->post_content);
+    }
+
+    /**
+     * Gets the content attribute.
+     *
+     * @return string
+     */
+    public function getContentAttribute()
+    {
+        return $this->getContent();
+    }
+
+    /**
+     * Gets the formatted content attribute.
+     *
+     * @return string
+     */
+    public function getFormattedContentAttribute()
+    {
+        $postFormatter = new PostFormatter();
+
+        return $postFormatter->process(
+            $this->getContent()
+        );
     }
 
     /**
