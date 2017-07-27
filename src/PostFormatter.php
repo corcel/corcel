@@ -161,7 +161,8 @@ class PostFormatter
      *
      * @return string
      */
-    private function replaceWithinHtmlTags($haystack, $replacePairs) {
+    private function replaceWithinHtmlTags($haystack, $replacePairs)
+    {
         // Find all elements.
         $regex = '/(<(?(?=!--|!\[CDATA\[)(?(?=!-)!(?:-(?!->)[^\-]*+)*+(?:-->)?|!\[CDATA\[[^\]]*+(?:](?!]>)[^\]]*+)*+(?:]]>)?)|[^>]*>?))/';
         $textArray = preg_split($regex, $haystack, -1, PREG_SPLIT_DELIM_CAPTURE);
