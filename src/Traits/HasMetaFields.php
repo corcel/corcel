@@ -54,7 +54,7 @@ trait HasMetaFields
             $meta = [$meta => $value];
         }
 
-        foreach($meta as $key => $value) {
+        foreach ($meta as $key => $value) {
             $query->whereHas('meta', function ($query) use ($key, $value) {
                 if (is_string($key)) {
                     $query->where('meta_key', $key);
