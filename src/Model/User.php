@@ -191,7 +191,7 @@ class User extends Model implements Authenticatable, CanResetPassword
      *
      * @return string
      */
-    public function getAvatarAttribute() 
+    public function getAvatarAttribute()
     {
         $hash = !empty($this->email) ? md5(strtolower(trim($this->email))) : '';
 
