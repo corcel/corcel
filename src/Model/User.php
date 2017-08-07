@@ -188,10 +188,11 @@ class User extends Model implements Authenticatable, CanResetPassword
 
     /**
      * Get the avatar url from Gravatar
-     * 
+     *
      * @return string
      */
-    public function getAvatarAttribute() {
+    public function getAvatarAttribute() 
+    {
         $hash = !empty($this->email) ? md5(strtolower(trim($this->email))) : '';
 
         return sprintf('//secure.gravatar.com/avatar/%s?d=mm', $hash);
