@@ -37,7 +37,7 @@ trait AliasesTrait
 
     /**
      * Get alias value from mutator or directly from attribute
-     * 
+     *
      * @param  string $key
      * @param  mixed $value
      * @return mixed
