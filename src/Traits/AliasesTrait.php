@@ -36,6 +36,22 @@ trait AliasesTrait
     }
 
     /**
+     * Get alias value from mutator or directly from attribute
+     * 
+     * @param  string $key
+     * @param  mixed $value
+     * @return mixed
+     */
+    public function mutateAttribute($key, $value)
+    {
+        if ($this->hasGetMutator($key)) {
+            return parent::mutateAttribute($key, $value);
+        }
+
+        return $this->getAttribute($key);
+    }
+
+    /**
      * @return array
      */
     public static function getAliases()
