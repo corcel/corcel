@@ -78,6 +78,7 @@ class User extends Model implements Authenticatable, CanResetPassword
         'nickname',
         'first_name',
         'last_name',
+        'avatar',
         'created_at',
     ];
 
@@ -183,5 +184,17 @@ class User extends Model implements Authenticatable, CanResetPassword
      */
     public function sendPasswordResetNotification($token)
     {
+    }
+
+    /**
+     * Get the avatar url from Gravatar
+     *
+     * @return string
+     */
+    public function getAvatarAttribute()
+    {
+        $hash = !empty($this->email) ? md5(strtolower(trim($this->email))) : '';
+
+        return sprintf('//secure.gravatar.com/avatar/%s?d=mm', $hash);
     }
 }

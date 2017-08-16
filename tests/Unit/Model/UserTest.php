@@ -180,6 +180,25 @@ class UserTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
+    public function it_has_avatar()
+    {
+        $user = factory(User::class)->create();
+
+        $this->assertEquals('//secure.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?d=mm', $user->avatar);
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_not_avatar()
+    {
+        $user = factory(User::class)->create(['user_email' => '']);
+
+        $this->assertEquals('//secure.gravatar.com/avatar/?d=mm', $user->avatar);
+    }
+    /**
+     * @test
+     */
     public function it_children_has_correct_meta_relation()
     {
         $post = factory(Post::class)->create();
