@@ -190,12 +190,14 @@ class UserTest extends \Corcel\Tests\TestCase
         $customer = new Customer();
         $customer->ID = $user->ID;
 
+        // post ID and customer ID are same
         $this->assertEquals($post->ID, $customer->ID);
         $this->assertEquals('foo', $customer->meta->bar);
         $this->assertNull($customer->meta->foo);
     }
 }
 
-class Customer extends User {
+class Customer extends User
+{
     //
 }
