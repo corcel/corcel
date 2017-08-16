@@ -196,6 +196,7 @@ class UserTest extends \Corcel\Tests\TestCase
 
         $this->assertEquals('//secure.gravatar.com/avatar/?d=mm', $user->avatar);
     }
+
     /**
      * @test
      */
