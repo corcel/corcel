@@ -73,6 +73,19 @@ class ThumbnailTest extends \Corcel\Tests\TestCase
     }
 
     /**
+     * @test
+     */
+    public function it_returns_full_size_for_unknown_size()
+    {
+        $meta = $this->createThumbnailMetaWithAttachment();
+
+        $full_size = $meta->size(ThumbnailMeta::SIZE_FULL);
+        $unknown_size = $meta->size('unknown');
+
+        $this->assertEquals($full_size, $unknown_size);
+    }
+
+    /**
      * @return ThumbnailMeta
      */
     private function createThumbnailMetaWithAttachment()
