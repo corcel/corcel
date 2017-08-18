@@ -46,7 +46,7 @@ class ThumbnailMeta extends PostMeta
         $sizes = Arr::get($meta, 'sizes');
 
         if (!isset($sizes[$size])) {
-            throw new \Exception('Invalid size: ' . $size);
+            return $this->attachment->url;
         }
 
         $data = Arr::get($sizes, $size);
