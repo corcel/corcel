@@ -72,7 +72,7 @@ trait ShortcodesTrait
     private function parseConfigShortcodes(ShortcodeFacade $facade)
     {
         if (Corcel::isLaravel()) {
-            $shortcodes = config('corcel.shortcodes');
+            $shortcodes = config('corcel.shortcodes', []);
             foreach ($shortcodes as $tag => $class) {
                 $facade->addHandler($tag, [new $class, 'render']);
             }
