@@ -43,14 +43,4 @@ class Attachment extends Post
         'caption' => 'post_excerpt',
         'alt' => ['meta' => '_wp_attachment_image_alt'],
     ];
-
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-        return collect($this->appends)->map(function ($field) {
-            return [$field => $this->getAttribute($field)];
-        })->collapse()->toArray();
-    }
 }
