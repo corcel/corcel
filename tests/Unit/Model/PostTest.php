@@ -602,8 +602,6 @@ class PostTest extends \Corcel\Tests\TestCase
 
         $this->assertEquals($expectedMultipleWordQuery, $multipleWord->toSql());
         $this->assertSame($expectedMultipleWordBindings, $multipleWord->getBindings());
-
-
     }
 
     /**
@@ -623,7 +621,8 @@ class PostTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
-    public function its_search_for_different_post_types_is_correct() {
+    public function its_search_for_different_post_types_is_correct()
+    {
         $singleWord = Page::search('foo');
         $multipleWord = Page::search('foo bar');
 

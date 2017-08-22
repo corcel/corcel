@@ -83,9 +83,9 @@ class PostBuilder extends Builder
 
         $terms = is_string($term) ? explode(' ', $term) : $term;
         
-        $terms = collect($terms)->map(function($term) {
+        $terms = collect($terms)->map(function ($term) {
             return trim(str_replace('%', '', $term));
-        })->filter()->map(function($term) {
+        })->filter()->map(function ($term) {
             return '%' . $term . '%';
         });
 
@@ -93,8 +93,8 @@ class PostBuilder extends Builder
             return $this;
         }
 
-        return $this->where(function($query) use ($terms) {
-            $terms->each(function($term) use ($query) {
+        return $this->where(function ($query) use ($terms) {
+            $terms->each(function ($term) use ($query) {
                 $query->orWhere('post_title', 'like', $term)
                     ->orWhere('post_excerpt', 'like', $term)
                     ->orWhere('post_content', 'like', $term);
