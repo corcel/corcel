@@ -563,6 +563,35 @@ class PostTest extends \Corcel\Tests\TestCase
     }
 
     /**
+     * @test
+     */
+    public function its_search_generate_correct_query() {
+        $emptyWord = Post::search();
+        $singleWord = Post::search('foo');
+        $multipleWord = Post::search('foo bar');
+        $multipleWordArray = Post::search(['foo', 'bar']);
+
+        $expectedEmptyWordQuery = 'select * from "wp_posts"';
+        $expectedSingleWordQuery = 'select * from "wp_posts" where ("post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
+        $expectedMultipleWordQuery = 'select * from "wp_posts" where ("post_title" like ? or "post_excerpt" like ? or "post_content" like ? or "post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
+
+        $expectedSingleWordBindings = ['%foo%', '%foo%', '%foo%'];
+        $expectedMultipleWordBindings = ['%foo%', '%foo%', '%foo%', '%bar%', '%bar%', '%bar%'];
+
+        $this->assertEquals($emptyWord->toSql(), $expectedEmptyWordQuery);
+        $this->assertSame($emptyWord->getBindings(), []);
+
+        $this->assertEquals($singleWord->toSql(), $expectedSingleWordQuery);
+        $this->assertSame($singleWord->getBindings(), $expectedSingleWordBindings);
+
+        $this->assertEquals($multipleWord->toSql(), $expectedMultipleWordQuery);
+        $this->assertSame($multipleWord->getBindings(), $expectedMultipleWordBindings);
+
+        $this->assertEquals($multipleWordArray->toSql(), $expectedMultipleWordQuery);
+        $this->assertSame($multipleWordArray->getBindings(), $expectedMultipleWordBindings);
+    }
+
+    /**
      *
      * @return Post
      */
