@@ -567,7 +567,7 @@ class PostTest extends \Corcel\Tests\TestCase
      */
     public function it_has_correct_post_type_with_callback_in_where()
     {
-        $query = Page::where(function($q) {
+        $query = Page::where(function ($q) {
             $q->where('foo', 'bar');
         });
 
