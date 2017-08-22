@@ -72,7 +72,7 @@ class PostBuilder extends Builder
     }
 
     /**
-     * @param bool|string|array $term
+     * @param mixed $term
      * @return PostBuilder
      */
     public function search($term = false)
