@@ -565,30 +565,73 @@ class PostTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
-    public function its_search_generate_correct_query() {
+    public function its_search_has_correct_empty_word_query()
+    {
         $emptyWord = Post::search();
-        $singleWord = Post::search('foo');
-        $multipleWord = Post::search('foo bar');
-        $multipleWordArray = Post::search(['foo', 'bar']);
 
         $expectedEmptyWordQuery = 'select * from "wp_posts"';
-        $expectedSingleWordQuery = 'select * from "wp_posts" where ("post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
-        $expectedMultipleWordQuery = 'select * from "wp_posts" where ("post_title" like ? or "post_excerpt" like ? or "post_content" like ? or "post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
+        $expectedEmptyWordBindings = [];
 
+        $this->assertEquals($expectedEmptyWordQuery, $emptyWord->toSql());
+        $this->assertSame($expectedEmptyWordBindings, $emptyWord->getBindings());
+    }
+
+    /**
+     * @test
+     */
+    public function its_search_has_correct_single_word_query()
+    {
+        $singleWord = Post::search('foo');
+
+        $expectedSingleWordQuery = 'select * from "wp_posts" where ("post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
         $expectedSingleWordBindings = ['%foo%', '%foo%', '%foo%'];
+
+        $this->assertEquals($expectedSingleWordQuery, $singleWord->toSql());
+        $this->assertSame($expectedSingleWordBindings, $singleWord->getBindings());
+    }
+
+    /**
+     * @test
+     */
+    public function its_search_has_correct_multiple_word_query()
+    {
+        $multipleWord = Post::search('foo bar');
+
+        $expectedMultipleWordQuery = 'select * from "wp_posts" where ("post_title" like ? or "post_excerpt" like ? or "post_content" like ? or "post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
         $expectedMultipleWordBindings = ['%foo%', '%foo%', '%foo%', '%bar%', '%bar%', '%bar%'];
 
-        $this->assertEquals($emptyWord->toSql(), $expectedEmptyWordQuery);
-        $this->assertSame($emptyWord->getBindings(), []);
+        $this->assertEquals($expectedMultipleWordQuery, $multipleWord->toSql());
+        $this->assertSame($expectedMultipleWordBindings, $multipleWord->getBindings());
 
-        $this->assertEquals($singleWord->toSql(), $expectedSingleWordQuery);
-        $this->assertSame($singleWord->getBindings(), $expectedSingleWordBindings);
 
-        $this->assertEquals($multipleWord->toSql(), $expectedMultipleWordQuery);
-        $this->assertSame($multipleWord->getBindings(), $expectedMultipleWordBindings);
+    }
 
-        $this->assertEquals($multipleWordArray->toSql(), $expectedMultipleWordQuery);
-        $this->assertSame($multipleWordArray->getBindings(), $expectedMultipleWordBindings);
+    /**
+     * @test
+     */
+    public function its_search_has_correct_multiple_word_in_array_query()
+    {
+        $multipleWordArray = Post::search(['foo', 'bar']);
+
+        $expectedMultipleWordQuery = 'select * from "wp_posts" where ("post_title" like ? or "post_excerpt" like ? or "post_content" like ? or "post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
+        $expectedMultipleWordBindings = ['%foo%', '%foo%', '%foo%', '%bar%', '%bar%', '%bar%'];
+
+        $this->assertEquals($expectedMultipleWordQuery, $multipleWordArray->toSql());
+        $this->assertSame($expectedMultipleWordBindings, $multipleWordArray->getBindings());
+    }
+
+    /**
+     * @test
+     */
+    public function its_search_for_different_post_types_is_correct() {
+        $singleWord = Page::search('foo');
+        $multipleWord = Page::search('foo bar');
+
+        $expectedSingleWordQuery = 'select * from "wp_posts" where "post_type" = ? and ("post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
+        $expectedMultipleWordQuery = 'select * from "wp_posts" where "post_type" = ? and ("post_title" like ? or "post_excerpt" like ? or "post_content" like ? or "post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
+
+        $this->assertEquals($expectedSingleWordQuery, $singleWord->toSql());
+        $this->assertEquals($expectedMultipleWordQuery, $multipleWord->toSql());
     }
 
     /**
