@@ -5,6 +5,7 @@ namespace Corcel\Tests\Unit\Model;
 use Carbon\Carbon;
 use Corcel\Model\Collection\MetaCollection;
 use Corcel\Model\User;
+use Corcel\Model\Post;
 
 /**
  * Class UserTest
@@ -195,4 +196,28 @@ class UserTest extends \Corcel\Tests\TestCase
 
         $this->assertEquals('//secure.gravatar.com/avatar/?d=mm', $user->avatar);
     }
+
+    /**
+     * @test
+     */
+    public function it_children_has_correct_meta_relation()
+    {
+        $post = factory(Post::class)->create();
+        $post->createMeta('foo', 'bar');
+        $user = factory(User::class)->create();
+        $user->createMeta('bar', 'foo');
+
+        $customer = new Customer();
+        $customer->ID = $user->ID;
+
+        // post ID and customer ID are same
+        $this->assertEquals($post->ID, $customer->ID);
+        $this->assertEquals('foo', $customer->meta->bar);
+        $this->assertNull($customer->meta->foo);
+    }
+}
+
+class Customer extends User
+{
+    //
 }
