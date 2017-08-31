@@ -28,6 +28,7 @@ class Post extends Model
     protected $primaryKey = 'ID';
     protected $dates = ['post_date', 'post_date_gmt', 'post_modified', 'post_modified_gmt'];
     protected $with = ['meta'];
+    protected $wordPressPostFormatter;
 
     protected $fillable = [
         'post_content',
@@ -75,6 +76,8 @@ class Post extends Model
                 $attributes[$field] = '';
             }
         }
+
+        $this->wordPressPostFormatter = new WordPressPostFormatter;
 
         parent::__construct($attributes);
     }
@@ -303,7 +306,7 @@ class Post extends Model
     }
 
     /**
-     * Gets the content attribute.
+     * Get the content.
      *
      * @return string
      */
