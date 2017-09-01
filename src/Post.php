@@ -309,7 +309,7 @@ class Post extends Model
      */
     public function getContent()
     {
-        if (empty(self::$shortcodes)) {
+        if (!self::hasShortcodes()) {
             return $this->post_content;
         }
 
@@ -335,9 +335,9 @@ class Post extends Model
     {
         $postFormatter = new PostFormatter();
 
-        return $postFormatter->process(
-            $this->getContent()
-        );
+        $content = $postFormatter->process($this->post_content);
+
+        return self::hasShortcodes() ? $this->stripShortcodes($content) : $content;
     }
 
     /**
@@ -583,6 +583,16 @@ class Post extends Model
     public static function clearRegisteredPostTypes()
     {
         static::$postTypes = [];
+    }
+
+    /**
+     * Check if there are any shortcodes.
+     *
+     * @return bool
+     */
+    public static function hasShortcodes()
+    {
+        return !empty(self::$shortcodes);
     }
 
     /**
