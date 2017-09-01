@@ -13,9 +13,9 @@
     ],
     "require": {
         "php": ">=5.6.4",
-        "illuminate/database": "~5.4.0",
-        "illuminate/filesystem": "~5.4.0",
-        "illuminate/support": "~5.4.0",
+        "illuminate/database": "~5.5.*",
+        "illuminate/filesystem": "~5.5.*",
+        "illuminate/support": "~5.5.*",
         "fzaninotto/faker": "^1.6",
         "hautelook/phpass": "0.3.4",
         "thunderer/shortcode": "^0.6.2"
