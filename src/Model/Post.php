@@ -160,11 +160,17 @@ class Post extends Model
      */
     public function newEloquentBuilder($query)
     {
-        $builder = new PostBuilder($query);
+        return new PostBuilder($query);
+    }
 
+    /**
+     * @return PostBuilder
+     */
+    public function newQuery()
+    {
         return $this->postType ?
-            $builder->type($this->postType) :
-            $builder;
+            parent::newQuery()->type($this->postType) :
+            parent::newQuery();
     }
 
     /**

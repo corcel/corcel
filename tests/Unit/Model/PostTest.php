@@ -565,6 +565,22 @@ class PostTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
+    public function it_has_correct_post_type_with_callback_in_where()
+    {
+        $query = Page::where(function ($q) {
+            $q->where('foo', 'bar');
+        });
+
+        $expectedQuery = 'select * from "wp_posts" where "post_type" = ? and ("foo" = ?)';
+        $expectedBindings = ['page', 'bar'];
+
+        $this->assertEquals($expectedQuery, $query->toSql());
+        $this->assertSame($expectedBindings, $query->getBindings());
+    }
+
+    /**
+     * @test
+     */
     public function its_search_has_correct_empty_word_query()
     {
         $emptyWord = Post::search();
