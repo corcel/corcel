@@ -12,7 +12,7 @@ use Exception;
  * @package Corcel\Model\Meta
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class Meta extends Model
+abstract class Meta extends Model
 {
     /**
      * @var string
