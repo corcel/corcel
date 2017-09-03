@@ -6,6 +6,7 @@ use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Post;
 use Illuminate\Database\Eloquent\Builder;
 use ReflectionClass;
+use UnexpectedValueException;
 
 /**
  * Trait HasMetaFields
@@ -18,10 +19,11 @@ trait HasMetaFields
     /**
      * @var array
      */
-    private $customMetaClasses = [
-        \Corcel\Model\Comment::class,
-        \Corcel\Model\Term::class,
-        \Corcel\Model\User::class,
+    private $builtInClasses = [
+        \Corcel\Model\Comment::class => \Corcel\Model\Meta\CommentMeta::class,
+        \Corcel\Model\Post::class    => \Corcel\Model\Meta\PostMeta::class,
+        \Corcel\Model\Term::class    => \Corcel\Model\Meta\TermMeta::class,
+        \Corcel\Model\User::class    => \Corcel\Model\Meta\UserMeta::class,
     ];
 
     /**
@@ -29,9 +31,47 @@ trait HasMetaFields
      */
     public function meta()
     {
-        return $this->hasMany(
-            $this->getClassName(), $this->getFieldName()
-        );
+        return $this->hasMany($this->getMetaClass(), $this->getMetaForeignKey());
+    }
+
+    /**
+     * @return string
+     *
+     * @throws \UnexpectedValueException
+     */
+    protected function getMetaClass()
+    {
+        foreach ($this->builtInClasses as $model => $meta) {
+            if ($this instanceOf $model) {
+                return $meta;
+            }
+        }
+
+        throw new UnexpectedValueException(sprintf(
+            '%s must extends one of Corcel built-in models: Comment, Post, Term or User.',
+            static::class
+        ));
+    }
+
+    /**
+     * @return string
+     *
+     * @throws \UnexpectedValueException
+     */
+    protected function getMetaForeignKey()
+    {
+        foreach ($this->builtInClasses as $model => $meta) {
+            if ($this instanceOf $model) {
+                $basename = class_basename($model);
+
+                return sprintf('%s_id', strtolower($basename));
+            }
+        }
+
+        throw new UnexpectedValueException(sprintf(
+            '%s must extends one of Corcel built-in models: Comment, Post, Term or User.',
+            static::class
+        ));
     }
 
     /**
@@ -158,43 +198,5 @@ trait HasMetaFields
     public function createField($key, $value)
     {
         return $this->createMeta($key, $value);
-    }
-
-    /**
-     * @return string
-     */
-    private function getClassName()
-    {
-        $className = sprintf(
-            'Corcel\\Model\\Meta\\%sMeta', $this->getCallerClassName()
-        );
-
-        return class_exists($className) ?
-            $className :
-            PostMeta::class;
-    }
-
-    /**
-     * @return string
-     */
-    private function getFieldName()
-    {
-        $callerName = $this->getCallerClassName();
-
-        return sprintf('%s_id', strtolower($callerName));
-    }
-
-    /**
-     * @return string
-     */
-    private function getCallerClassName()
-    {
-        $class = static::class;
-
-        if (!in_array($class, $this->customMetaClasses)) {
-            $class = Post::class;
-        }
-
-        return (new ReflectionClass($class))->getShortName();
     }
 }
