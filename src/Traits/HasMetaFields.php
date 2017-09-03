@@ -42,7 +42,7 @@ trait HasMetaFields
     protected function getMetaClass()
     {
         foreach ($this->builtInClasses as $model => $meta) {
-            if ($this instanceOf $model) {
+            if ($this instanceof $model) {
                 return $meta;
             }
         }
@@ -61,7 +61,7 @@ trait HasMetaFields
     protected function getMetaForeignKey()
     {
         foreach ($this->builtInClasses as $model => $meta) {
-            if ($this instanceOf $model) {
+            if ($this instanceof $model) {
                 $basename = class_basename($model);
 
                 return sprintf('%s_id', strtolower($basename));

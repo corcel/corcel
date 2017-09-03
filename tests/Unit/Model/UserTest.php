@@ -200,7 +200,7 @@ class UserTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
-     public function it_children_has_correct_meta_relation()
+    public function it_children_has_correct_meta_relation()
     {
         $post = factory(Post::class)->create();
         $post->createMeta('foo', 'bar');
