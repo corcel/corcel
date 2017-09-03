@@ -10,7 +10,7 @@ use Corcel\Model\Term;
  * @package Corcel\Model\Meta
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class TermMeta extends PostMeta
+class TermMeta extends Meta
 {
     /**
      * @var string

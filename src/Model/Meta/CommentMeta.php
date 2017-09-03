@@ -10,7 +10,7 @@ use Corcel\Model\Comment;
  * @package Corcel\Model\Meta
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class CommentMeta extends PostMeta
+class CommentMeta extends Meta
 {
     /**
      * @var string
@@ -18,10 +18,15 @@ class CommentMeta extends PostMeta
     protected $table = 'commentmeta';
 
     /**
+     * @var array
+     */
+    protected $fillable = ['meta_key', 'meta_value', 'comment_id'];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function comment()
     {
-        return $this->belongsTo(Comment::class, 'comment_id');
+        return $this->belongsTo(Comment::class);
     }
 }
