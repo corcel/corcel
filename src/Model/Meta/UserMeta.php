@@ -2,7 +2,7 @@
 
 namespace Corcel\Model\Meta;
 
-use Corcel\Meta\User;
+use Corcel\Model\User;
 
 /**
  * Class UserMeta
