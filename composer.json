@@ -31,5 +31,12 @@
             "Corcel\\": "src/",
             "Corcel\\Tests\\": "tests/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Corcel\\Laravel\\CorcelServiceProvider"
+            ]
+        }
     }
 }
