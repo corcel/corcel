@@ -36,12 +36,9 @@ class Model extends Eloquent
     {
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
-        $instance = new $related();
-        if ($instance instanceof self) {
-            $instance->setConnection($this->getConnection()->getName());
-        } else {
-            $instance->setConnection($instance->getConnection()->getName());
-        }
+        $instance = $this->setInstanceConnection(
+            new $related()
+        );
 
         $localKey = $localKey ?: $this->getKeyName();
 
@@ -60,12 +57,9 @@ class Model extends Eloquent
     {
         $foreignKey = $foreignKey ?: $this->getForeignKey();
 
-        $instance = new $related();
-        if ($instance instanceof self) {
-            $instance->setConnection($this->getConnection()->getName());
-        } else {
-            $instance->setConnection($instance->getConnection()->getName());
-        }
+        $instance = $this->setInstanceConnection(
+            new $related()
+        );
 
         $localKey = $localKey ?: $this->getKeyName();
 
@@ -92,12 +86,9 @@ class Model extends Eloquent
             $foreignKey = Str::snake($relation).'_id';
         }
 
-        $instance = new $related();
-        if ($instance instanceof self) {
-            $instance->setConnection($this->getConnection()->getName());
-        } else {
-            $instance->setConnection($instance->getConnection()->getName());
-        }
+        $instance = $this->setInstanceConnection(
+            new $related()
+        );
 
         $query = $instance->newQuery();
 
@@ -111,35 +102,37 @@ class Model extends Eloquent
      *
      * @param string $related
      * @param string $table
-     * @param string $foreignKey
-     * @param string $otherKey
+     * @param string $foreignPivotKey
+     * @param string $relatedPivotKey
+     * @param string $parentKey
+     * @param string $relatedKey
      * @param string $relation
      * @return BelongsToMany
      */
-    public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
+    public function belongsToMany($related, $table = null, $foreignPivotKey = null, $relatedPivotKey = null,
+                                  $parentKey = null, $relatedKey = null, $relation = null)
     {
         if (is_null($relation)) {
-            $relation = $this->getRelations();
+            $relation = $this->guessBelongsToManyRelation();
         }
 
-        $foreignKey = $foreignKey ?: $this->getForeignKey();
+        $instance = $this->setInstanceConnection(
+            $this->newRelatedInstance($related)
+        );
 
-        $instance = new $related();
-        if ($instance instanceof self) {
-            $instance->setConnection($this->getConnection()->getName());
-        } else {
-            $instance->setConnection($instance->getConnection()->getName());
-        }
+        $foreignPivotKey = $foreignPivotKey ?: $this->getForeignKey();
 
-        $otherKey = $otherKey ?: $instance->getForeignKey();
+        $relatedPivotKey = $relatedPivotKey ?: $instance->getForeignKey();
 
         if (is_null($table)) {
             $table = $this->joiningTable($related);
         }
 
-        $query = $instance->newQuery();
-
-        return new BelongsToMany($query, $this, $table, $foreignKey, $otherKey, $relation);
+        return new BelongsToMany(
+            $instance->newQuery(), $this, $table, $foreignPivotKey,
+            $relatedPivotKey, $parentKey ?: $this->getKeyName(),
+            $relatedKey ?: $instance->getKeyName(), $relation
+        );
     }
 
     /**
@@ -189,5 +182,17 @@ class Model extends Eloquent
         }
 
         return $this->connection;
+    }
+
+    /**
+     * @param $instance
+     */
+    protected function setInstanceConnection($instance)
+    {
+        return $instance->setConnection(
+            $instance instanceof self ?
+                $this->getConnection()->getName() :
+                $instance->getConnection()->getName()
+        );
     }
 }
