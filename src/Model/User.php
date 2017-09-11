@@ -197,4 +197,13 @@ class User extends Model implements Authenticatable, CanResetPassword
 
         return sprintf('//secure.gravatar.com/avatar/%s?d=mm', $hash);
     }
+
+    /**
+     * @param mixed $value
+     * @return void
+     */
+    public function setUpdatedAt($value)
+    {
+        //
+    }
 }
