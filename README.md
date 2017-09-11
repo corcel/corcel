@@ -464,6 +464,8 @@ $post = Post::find(1);
 echo $post->content;
 ```
 
+> Laravel 5.5 uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider
+
 If you are using Laravel, we suggest adding your shortcodes handlers in `App\Providers\AppServiceProvider`, in the `boot` method.
 
 The [*thunderer/shortcode*](https://github.com/thunderer/Shortcode) library is used to parse the shortcodes.  For more information, [click here](https://github.com/thunderer/Shortcode).
