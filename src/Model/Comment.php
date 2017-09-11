@@ -114,4 +114,13 @@ class Comment extends Model
             ->where('comment_post_ID', $postId)
             ->get();
     }
+
+    /**
+     * @param mixed $value
+     * @return void
+     */
+    public function setUpdatedAt($value)
+    {
+        //
+    }
 }
