@@ -102,6 +102,22 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
     }
 
     /**
+     * @test
+     */
+    public function it_has_correct_query_with_callback_in_where()
+    {
+        $query = Category::where(function ($q) {
+            $q->where('foo', 'bar');
+        });
+
+        $expectedQuery = 'select * from "wp_term_taxonomy" where "taxonomy" = ? and ("foo" = ?)';
+        $expectedBindings = ['category', 'bar'];
+
+        $this->assertEquals($expectedQuery, $query->toSql());
+        $this->assertSame($expectedBindings, $query->getBindings());
+    }
+
+    /**
      * @return \Illuminate\Support\Collection
      */
     private function createTaxonomyWithTermsAndPosts()
@@ -124,4 +140,9 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
 
         return $taxonomy;
     }
+}
+
+class Category extends Taxonomy
+{
+    protected $taxonomy = 'category';
 }
