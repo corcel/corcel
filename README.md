@@ -205,7 +205,7 @@ Optionally you can create your own `Post` model (or Page, or whatever) which ext
 
 namespace App;
 
-use Corcel\Post as Corcel;
+use Corcel\Model\Post as Corcel;
 
 class Post extends Corcel
 {
