@@ -205,9 +205,10 @@ class MenuTest extends \Corcel\Tests\TestCase
         $child = factory(Post::class)->create(['post_type' => 'nav_menu_item']);
         $child->saveMeta('_menu_item_menu_item_parent', $parent->ID);
 
-        return tap(factory(Menu::class)->create(), function ($menu) use ($parent, $child) {
-            $menu->posts()->attach([$parent->ID, $child->ID]);
-        });
+        $menu = factory(Menu::class)->create();
+        $menu->posts()->attach([$parent->ID, $child->ID]);
+
+        return $menu;
     }
 
     /**
