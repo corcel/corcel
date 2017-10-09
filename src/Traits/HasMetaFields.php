@@ -161,6 +161,19 @@ trait HasMetaFields
     }
 
     /**
+     * @param string $attribute
+     * @return mixed|null
+     */
+    public function getMeta($attribute)
+    {
+        if ($meta = $this->meta->{$attribute}) {
+            return $meta;
+        }
+
+        return null;
+    }
+
+    /**
      * @return string
      */
     private function getClassName()
