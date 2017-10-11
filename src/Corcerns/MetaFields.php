@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel\Traits;
+namespace Corcel\Corcerns;
 
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Post;
@@ -14,7 +14,7 @@ use UnexpectedValueException;
  * @package Corcel\Traits
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-trait HasMetaFields
+trait MetaFields
 {
     /**
      * @var array

@@ -2,11 +2,11 @@
 
 namespace Corcel\Model;
 
+use Corcel\Concerns\AdvancedCustomFields;
+use Corcel\Corcerns\Aliases;
+use Corcel\Corcerns\MetaFields;
+use Corcel\Corcerns\OrderScopes;
 use Corcel\Model;
-use Corcel\Traits\AliasesTrait;
-use Corcel\Traits\HasMetaFields;
-use Corcel\Traits\HasAcfFields;
-use Corcel\Traits\OrderedTrait;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 
@@ -23,10 +23,10 @@ class User extends Model implements Authenticatable, CanResetPassword
     const CREATED_AT = 'user_registered';
     const UPDATED_AT = null;
 
-    use AliasesTrait;
-    use HasMetaFields;
-    use HasAcfFields;
-    use OrderedTrait;
+    use AdvancedCustomFields;
+    use Aliases;
+    use MetaFields;
+    use OrderScopes;
 
     /**
      * @var string

@@ -1,7 +1,7 @@
 <?php
-namespace Corcel\Traits;
+namespace Corcel\Corcerns;
 
-use Corcel\Acf\AdvancedCustomFields;
+use Corcel\Acf\AdvancedCustomFields as BaseAdvancedCustomFields;
 
 /**
  * Trait HasAcfFields
@@ -9,13 +9,13 @@ use Corcel\Acf\AdvancedCustomFields;
  * @package Corcel\Traits
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-trait HasAcfFields
+trait AdvancedCustomFields
 {
     /**
      * @return AdvancedCustomFields
      */
     public function getAcfAttribute()
     {
-        return new AdvancedCustomFields($this);
+        return new BaseAdvancedCustomFields($this);
     }
 }

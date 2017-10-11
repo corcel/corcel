@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel\Traits;
+namespace Corcel\Corcerns;
 
 use Illuminate\Support\Arr;
 
@@ -10,7 +10,7 @@ use Illuminate\Support\Arr;
  * @package Corcel\Traits
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-trait AliasesTrait
+trait Aliases
 {
     /**
      * @param string $key

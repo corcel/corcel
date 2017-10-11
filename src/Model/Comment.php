@@ -4,8 +4,8 @@ namespace Corcel\Model;
 
 use Corcel\Model;
 use Corcel\Model\Builder\CommentBuilder;
-use Corcel\Traits\HasMetaFields;
-use Corcel\Traits\TimestampsTrait;
+use Corcel\Corcerns\MetaFields;
+use Corcel\Corcerns\CustomTimestamps;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -16,8 +16,8 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class Comment extends Model
 {
-    use HasMetaFields;
-    use TimestampsTrait;
+    use MetaFields;
+    use CustomTimestamps;
 
     const CREATED_AT = 'comment_date';
     const UPDATED_AT = null;
