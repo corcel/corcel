@@ -1,14 +1,14 @@
 <?php
 
-namespace Corcel\Traits;
+namespace Corcel\Corcerns;
 
 /**
- * Trait TimestampsTrait
+ * Trait CustomTimestamps
  *
  * @package Corcel\Traits
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-trait TimestampsTrait
+trait CustomTimestamps
 {
     /**
      * @param mixed $value
