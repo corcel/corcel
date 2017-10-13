@@ -54,6 +54,7 @@ This make possible to use WordPress as your CMS of choice and using Laravel in t
  5.2.x    | 2.2.x
  5.3.x    | 2.3.x
  5.4.x    | 2.4.x
+ 5.5.x    | 2.5.x
 
 # <a id="install"></a> Installing Corcel
 
@@ -204,7 +205,7 @@ Optionally you can create your own `Post` model (or Page, or whatever) which ext
 
 namespace App;
 
-use Corcel\Post as Corcel;
+use Corcel\Model\Post as Corcel;
 
 class Post extends Corcel
 {
@@ -462,6 +463,8 @@ Post::addShortcode('gallery', function ($shortcode) {
 $post = Post::find(1);
 echo $post->content;
 ```
+
+> Laravel 5.5 uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider
 
 If you are using Laravel, we suggest adding your shortcodes handlers in `App\Providers\AppServiceProvider`, in the `boot` method.
 
@@ -725,7 +728,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 
 - Fork https://github.com/corcel/corcel in Github;
 
-- Clone your forked repository (not Corcel's) locally and create your own branch based on `dev` one: `git checkout -b my-fix-branch dev`;
+- Clone your forked repository (not Corcel's) locally and create your own branch based on the version you want to fix (`2.1`, `2.2`, `2.3`, `2.4` or `2.5`): `git checkout -b my-fix-branch 2.5`;
 
 - Make all code changes. Remember here to write at least one test case for any feature you add or any bugfix (if it's not tested yet). Our goal is to have 100% of the code covered by tests, so help us to write a better code ;-) If you don' have experience with tests it's a good opportunity to learn. Just take a look into our tests cases and you'll see how simple they are.
 
@@ -733,7 +736,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 
 - Push your new branch to your forked repository, usually `git push origin HEAD` should work;
 
-- In GitHub again, create a Pull Request (PR) from your custom `my-fix-branch` branch (from your forked repository) to `corcel:dev`, not `corcel:master`, please;
+- In GitHub again, create a Pull Request (PR) from your custom `my-fix-branch` branch (from your forked repository) to the related branch (`corcel:2.5`, for example, not `corcel:master`, please;
 
 - Wait for the approval :-)
 

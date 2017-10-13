@@ -76,4 +76,16 @@ class HasMetaFieldsTest extends \Corcel\Tests\TestCase
         $meta = $user->createMeta('foo', 'bar');
         $this->assertInstanceOf(Model::class, $meta);
     }
+
+    /**
+     * @test
+     */
+    public function it_can_get_meta_data_from_get_meta_method()
+    {
+        $user = factory(User::class)->create();
+
+        $user->createMeta('foo', 'bar');
+
+        $this->assertEquals('bar', $user->getMeta('foo'));
+    }
 }

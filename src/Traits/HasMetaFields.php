@@ -199,4 +199,17 @@ trait HasMetaFields
     {
         return $this->createMeta($key, $value);
     }
+
+    /**
+     * @param string $attribute
+     * @return mixed|null
+     */
+    public function getMeta($attribute)
+    {
+        if ($meta = $this->meta->{$attribute}) {
+            return $meta;
+        }
+
+        return null;
+    }
 }
