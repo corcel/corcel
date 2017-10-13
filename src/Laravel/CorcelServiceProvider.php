@@ -58,9 +58,7 @@ class CorcelServiceProvider extends ServiceProvider
      */
     private function registerRoutes()
     {
-        $router = $this->app->make('router');
-
-        $router->group([
+        $this->app->make('router')->group([
             'namespace' => 'Corcel\Laravel\Controllers',
             'prefix' => 'api',
         ], function ($router) {
