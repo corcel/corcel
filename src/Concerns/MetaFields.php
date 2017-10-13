@@ -29,6 +29,14 @@ trait MetaFields
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function fields()
+    {
+        return $this->meta();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function meta()
     {
         return $this->hasMany($this->getMetaClass(), $this->getMetaForeignKey());
@@ -75,14 +83,6 @@ trait MetaFields
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function fields()
-    {
-        return $this->meta();
-    }
-
-    /**
      * @param Builder $query
      * @param string $meta
      * @param mixed $value
@@ -108,6 +108,16 @@ trait MetaFields
         }
 
         return $query;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return bool
+     */
+    public function saveField($key, $value)
+    {
+        return $this->saveMeta($key, $value);
     }
 
     /**
@@ -150,11 +160,11 @@ trait MetaFields
     /**
      * @param string $key
      * @param mixed $value
-     * @return bool
+     * @return \Illuminate\Database\Eloquent\Model
      */
-    public function saveField($key, $value)
+    public function createField($key, $value)
     {
-        return $this->saveMeta($key, $value);
+        return $this->createMeta($key, $value);
     }
 
     /**
@@ -188,16 +198,6 @@ trait MetaFields
         $this->load('meta');
 
         return $meta;
-    }
-
-    /**
-     * @param string $key
-     * @param mixed $value
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public function createField($key, $value)
-    {
-        return $this->createMeta($key, $value);
     }
 
     /**

@@ -2,16 +2,16 @@
 
 namespace Corcel\Model;
 
+use Corcel\Concerns\AdvancedCustomFields;
+use Corcel\Concerns\Aliases;
+use Corcel\Concerns\CustomTimestamps;
+use Corcel\Concerns\MetaFields;
+use Corcel\Concerns\OrderScopes;
+use Corcel\Concerns\Shortcodes;
 use Corcel\Corcel;
 use Corcel\Model;
 use Corcel\Model\Builder\PostBuilder;
 use Corcel\Model\Meta\ThumbnailMeta;
-use Corcel\Concerns\Aliases;
-use Corcel\Concerns\OrderScopes;
-use Corcel\Concerns\CustomTimestamps;
-use Corcel\Concerns\AdvancedCustomFields;
-use Corcel\Concerns\MetaFields;
-use Corcel\Concerns\Shortcodes;
 
 /**
  * Class Post

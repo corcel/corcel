@@ -13,6 +13,27 @@ use Illuminate\Support\Arr;
 trait Aliases
 {
     /**
+     * @return array
+     */
+    public static function getAliases()
+    {
+        if (isset(parent::$aliases) && count(parent::$aliases)) {
+            return array_merge(parent::$aliases, static::$aliases);
+        }
+
+        return static::$aliases;
+    }
+
+    /**
+     * @param string $new
+     * @param string $old
+     */
+    public static function addAlias($new, $old)
+    {
+        static::$aliases[$new] = $old;
+    }
+
+    /**
      * @param string $key
      * @return mixed
      */
@@ -49,26 +70,5 @@ trait Aliases
         }
 
         return $this->getAttribute($key);
-    }
-
-    /**
-     * @return array
-     */
-    public static function getAliases()
-    {
-        if (isset(parent::$aliases) && count(parent::$aliases)) {
-            return array_merge(parent::$aliases, static::$aliases);
-        }
-
-        return static::$aliases;
-    }
-
-    /**
-     * @param string $new
-     * @param string $old
-     */
-    public static function addAlias($new, $old)
-    {
-        static::$aliases[$new] = $old;
     }
 }

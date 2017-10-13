@@ -27,14 +27,6 @@ class CorcelServiceProvider extends ServiceProvider
     /**
      * @return void
      */
-    public function register()
-    {
-        //
-    }
-
-    /**
-     * @return void
-     */
     private function publishConfigFile()
     {
         $this->publishes([
@@ -50,5 +42,13 @@ class CorcelServiceProvider extends ServiceProvider
         Auth::provider('corcel', function ($app, array $config) {
             return new AuthUserProvider($config);
         });
+    }
+
+    /**
+     * @return void
+     */
+    public function register()
+    {
+        //
     }
 }

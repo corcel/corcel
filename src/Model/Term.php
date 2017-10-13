@@ -2,9 +2,9 @@
 
 namespace Corcel\Model;
 
-use Corcel\Model;
 use Corcel\Concerns\AdvancedCustomFields;
 use Corcel\Concerns\MetaFields;
+use Corcel\Model;
 
 /**
  * Class Term.
