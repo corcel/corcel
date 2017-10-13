@@ -6,12 +6,12 @@ use Corcel\Corcel;
 use Corcel\Model;
 use Corcel\Model\Builder\PostBuilder;
 use Corcel\Model\Meta\ThumbnailMeta;
-use Corcel\Corcerns\Aliases;
-use Corcel\Corcerns\OrderScopes;
-use Corcel\Corcerns\CustomTimestamps;
-use Corcel\Corcerns\AdvancedCustomFields;
-use Corcel\Corcerns\MetaFields;
-use Corcel\Corcerns\Shortcodes;
+use Corcel\Concerns\Aliases;
+use Corcel\Concerns\OrderScopes;
+use Corcel\Concerns\CustomTimestamps;
+use Corcel\Concerns\AdvancedCustomFields;
+use Corcel\Concerns\MetaFields;
+use Corcel\Concerns\Shortcodes;
 
 /**
  * Class Post

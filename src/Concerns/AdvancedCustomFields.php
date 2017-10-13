@@ -1,5 +1,6 @@
 <?php
-namespace Corcel\Corcerns;
+
+namespace Corcel\Concerns;
 
 use Corcel\Acf\AdvancedCustomFields as BaseAdvancedCustomFields;
 

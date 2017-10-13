@@ -2,7 +2,7 @@
 
 namespace Corcel\Model;
 
-use Corcel\Corcerns\Aliases;
+use Corcel\Concerns\Aliases;
 
 /**
  * Class Attachment

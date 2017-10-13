@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel\Corcerns;
+namespace Corcel\Concerns;
 
 use Illuminate\Support\Arr;
 

@@ -3,9 +3,9 @@
 namespace Corcel\Model;
 
 use Corcel\Concerns\AdvancedCustomFields;
-use Corcel\Corcerns\Aliases;
-use Corcel\Corcerns\MetaFields;
-use Corcel\Corcerns\OrderScopes;
+use Corcel\Concerns\Aliases;
+use Corcel\Concerns\MetaFields;
+use Corcel\Concerns\OrderScopes;
 use Corcel\Model;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\CanResetPassword;

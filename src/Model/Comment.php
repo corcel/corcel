@@ -4,8 +4,8 @@ namespace Corcel\Model;
 
 use Corcel\Model;
 use Corcel\Model\Builder\CommentBuilder;
-use Corcel\Corcerns\MetaFields;
-use Corcel\Corcerns\CustomTimestamps;
+use Corcel\Concerns\MetaFields;
+use Corcel\Concerns\CustomTimestamps;
 use Illuminate\Database\Eloquent\Builder;
 
 /**

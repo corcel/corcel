@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel\Corcerns;
+namespace Corcel\Concerns;
 
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Post;

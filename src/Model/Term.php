@@ -3,8 +3,8 @@
 namespace Corcel\Model;
 
 use Corcel\Model;
-use Corcel\Corcerns\AdvancedCustomFields;
-use Corcel\Corcerns\MetaFields;
+use Corcel\Concerns\AdvancedCustomFields;
+use Corcel\Concerns\MetaFields;
 
 /**
  * Class Term.
