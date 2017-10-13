@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel\Traits;
+namespace Corcel\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 
@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @package Corcel\Traits
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-trait OrderedTrait
+trait OrderScopes
 {
     /**
      * @param Builder $query

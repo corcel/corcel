@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel\Traits;
+namespace Corcel\Concerns;
 
 use Corcel\Model\Meta\PostMeta;
 use Corcel\Model\Post;
@@ -14,7 +14,7 @@ use UnexpectedValueException;
  * @package Corcel\Traits
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-trait HasMetaFields
+trait MetaFields
 {
     /**
      * @var array
@@ -25,6 +25,14 @@ trait HasMetaFields
         \Corcel\Model\Term::class    => \Corcel\Model\Meta\TermMeta::class,
         \Corcel\Model\User::class    => \Corcel\Model\Meta\UserMeta::class,
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function fields()
+    {
+        return $this->meta();
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -75,14 +83,6 @@ trait HasMetaFields
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function fields()
-    {
-        return $this->meta();
-    }
-
-    /**
      * @param Builder $query
      * @param string $meta
      * @param mixed $value
@@ -108,6 +108,16 @@ trait HasMetaFields
         }
 
         return $query;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return bool
+     */
+    public function saveField($key, $value)
+    {
+        return $this->saveMeta($key, $value);
     }
 
     /**
@@ -150,11 +160,11 @@ trait HasMetaFields
     /**
      * @param string $key
      * @param mixed $value
-     * @return bool
+     * @return \Illuminate\Database\Eloquent\Model
      */
-    public function saveField($key, $value)
+    public function createField($key, $value)
     {
-        return $this->saveMeta($key, $value);
+        return $this->createMeta($key, $value);
     }
 
     /**
@@ -188,16 +198,6 @@ trait HasMetaFields
         $this->load('meta');
 
         return $meta;
-    }
-
-    /**
-     * @param string $key
-     * @param mixed $value
-     * @return \Illuminate\Database\Eloquent\Model
-     */
-    public function createField($key, $value)
-    {
-        return $this->createMeta($key, $value);
     }
 
     /**

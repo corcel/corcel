@@ -2,16 +2,16 @@
 
 namespace Corcel\Model;
 
+use Corcel\Concerns\AdvancedCustomFields;
+use Corcel\Concerns\Aliases;
+use Corcel\Concerns\CustomTimestamps;
+use Corcel\Concerns\MetaFields;
+use Corcel\Concerns\OrderScopes;
+use Corcel\Concerns\Shortcodes;
 use Corcel\Corcel;
 use Corcel\Model;
 use Corcel\Model\Builder\PostBuilder;
 use Corcel\Model\Meta\ThumbnailMeta;
-use Corcel\Traits\AliasesTrait;
-use Corcel\Traits\OrderedTrait;
-use Corcel\Traits\TimestampsTrait;
-use Corcel\Traits\HasAcfFields;
-use Corcel\Traits\HasMetaFields;
-use Corcel\Traits\ShortcodesTrait;
 
 /**
  * Class Post
@@ -22,12 +22,12 @@ use Corcel\Traits\ShortcodesTrait;
  */
 class Post extends Model
 {
-    use AliasesTrait;
-    use HasAcfFields;
-    use HasMetaFields;
-    use ShortcodesTrait;
-    use OrderedTrait;
-    use TimestampsTrait;
+    use Aliases;
+    use AdvancedCustomFields;
+    use MetaFields;
+    use Shortcodes;
+    use OrderScopes;
+    use CustomTimestamps;
 
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';

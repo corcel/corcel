@@ -2,11 +2,10 @@
 
 namespace Corcel\Model;
 
+use Corcel\Concerns\CustomTimestamps;
+use Corcel\Concerns\MetaFields;
 use Corcel\Model;
 use Corcel\Model\Builder\CommentBuilder;
-use Corcel\Traits\HasMetaFields;
-use Corcel\Traits\TimestampsTrait;
-use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Class Comment
@@ -16,8 +15,8 @@ use Illuminate\Database\Eloquent\Builder;
  */
 class Comment extends Model
 {
-    use HasMetaFields;
-    use TimestampsTrait;
+    use MetaFields;
+    use CustomTimestamps;
 
     const CREATED_AT = 'comment_date';
     const UPDATED_AT = null;
@@ -38,6 +37,19 @@ class Comment extends Model
     protected $dates = ['comment_date'];
 
     /**
+     * Find a comment by post ID.
+     *
+     * @param int $postId
+     * @return Comment
+     */
+    public static function findByPostId($postId)
+    {
+        return (new static())
+            ->where('comment_post_ID', $postId)
+            ->get();
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function post()
@@ -48,17 +60,17 @@ class Comment extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function original()
+    public function parent()
     {
-        return $this->belongsTo(Comment::class, 'comment_parent');
+        return $this->original();
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function parent()
+    public function original()
     {
-        return $this->original();
+        return $this->belongsTo(Comment::class, 'comment_parent');
     }
 
     /**
@@ -100,19 +112,6 @@ class Comment extends Model
     public function newEloquentBuilder($query)
     {
         return new CommentBuilder($query);
-    }
-
-    /**
-     * Find a comment by post ID.
-     *
-     * @param int $postId
-     * @return Comment
-     */
-    public static function findByPostId($postId)
-    {
-        return (new static())
-            ->where('comment_post_ID', $postId)
-            ->get();
     }
 
     /**

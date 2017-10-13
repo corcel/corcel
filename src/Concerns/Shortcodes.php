@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel\Traits;
+namespace Corcel\Concerns;
 
 use Corcel\Corcel;
 use Thunder\Shortcode\ShortcodeFacade;
@@ -12,7 +12,7 @@ use Thunder\Shortcode\ShortcodeFacade;
  * @author Mickael Burguet <www.rundef.com>
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-trait ShortcodesTrait
+trait Shortcodes
 {
     /**
      * @var array
