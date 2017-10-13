@@ -21,7 +21,7 @@ class Page extends Post
      * @param Builder $query
      * @return mixed
      */
-    public function scopeHomePage(Builder $query)
+    public function scopeHome(Builder $query)
     {
         return $query
             ->where('ID', '=', Option::get('page_on_front'))
