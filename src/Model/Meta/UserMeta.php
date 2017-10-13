@@ -2,6 +2,8 @@
 
 namespace Corcel\Model\Meta;
 
+use Corcel\Model\User;
+
 /**
  * Class UserMeta
  *
@@ -9,7 +11,7 @@ namespace Corcel\Model\Meta;
  * @author Mickael Burguet <www.rundef.com>
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class UserMeta extends PostMeta
+class UserMeta extends Meta
 {
     /**
      * @var string
@@ -31,6 +33,6 @@ class UserMeta extends PostMeta
      */
     public function user()
     {
-        return $this->belongsTo('Corcel\User');
+        return $this->belongsTo(User::class);
     }
 }
