@@ -73,22 +73,6 @@ class Option extends Model
     }
 
     /**
-     * @param string $key
-     * @param mixed $value
-     * @return bool
-     */
-    public static function save($key, $value)
-    {
-        $where = ['option_name' => $key];
-
-        return static::query()->updateOrInsert($where, [
-            'option_value' => is_array($value) ?
-                serialize($value) :
-                $value,
-        ]);
-    }
-
-    /**
      * @param string $name
      * @return mixed
      */
