@@ -5,6 +5,12 @@ namespace Corcel\Services;
 use Corcel\Model\Option;
 use Illuminate\Support\Arr;
 
+/**
+ * Class RoleManager
+ *
+ * @package Corcel\Services
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class RoleManager
 {
     /**

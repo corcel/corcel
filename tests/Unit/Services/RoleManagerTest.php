@@ -6,6 +6,12 @@ use Corcel\Model\Option;
 use Corcel\Services\RoleManager;
 use Corcel\Tests\TestCase;
 
+/**
+ * Class RoleManagerTest
+ *
+ * @package Corcel\Tests\Services
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 class RoleManagerTest extends TestCase
 {
     /**
