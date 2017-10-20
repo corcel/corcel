@@ -34,7 +34,7 @@ class RoleManager
      */
     public function __construct()
     {
-        $this->option = Option::get($this->optionKey);
+        $this->option = Option::get($this->optionKey); // TODO set this to the Option model
     }
 
     /**
@@ -63,10 +63,13 @@ class RoleManager
             'capabilities' => array_merge($this->capabilities, $capabilities),
         ];
 
-        Option::query()->update(['option_name' => $this->optionKey], [
-            'option_value' => serialize($this->option),
-        ]);
+        $option = Option::query()
+            ->where(['option_name' => $this->optionKey])
+            ->first();
 
-        return $role;
+        $option->option_value = serialize($this->option);
+        $result = $option->save();
+
+        return $result ? $role : null;
     }
 }
