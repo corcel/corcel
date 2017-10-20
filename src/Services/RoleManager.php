@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
  *
  * @package Corcel\Services
  * @author Junior Grossi <juniorgro@gmail.com>
+ * @todo Update, delete and list roles
  */
 class RoleManager
 {
@@ -57,7 +58,7 @@ class RoleManager
     {
         $key = str_slug($name, '_');
 
-        $this->option[$key] = $role = [
+        $this->option[][$key] = $role = [
             'name' => $name,
             'capabilities' => array_merge($this->capabilities, $capabilities),
         ];
