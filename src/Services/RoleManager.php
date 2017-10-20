@@ -62,4 +62,3 @@ class RoleManager
         return $role;
     }
 }
-
