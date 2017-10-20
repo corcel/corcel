@@ -20,7 +20,7 @@ class RoleManagerTest extends TestCase
         $role = $manager->from('editor')->create('foo', [
             'edit_pages' => false,
             'edit_others_pages' => false,
-        ])->get('foo');
+        ]);
 
         $this->assertFalse($role['capabilities']['edit_pages']);
         $this->assertFalse($role['capabilities']['edit_others_pages']);
