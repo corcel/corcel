@@ -58,12 +58,12 @@ class RoleManager
     {
         $key = str_slug($name, '_');
 
-        $this->option[][$key] = $role = [
+        $this->option[$key] = $role = [
             'name' => $name,
             'capabilities' => array_merge($this->capabilities, $capabilities),
         ];
 
-        Option::query()->update(['option_name' => $key], [
+        Option::query()->update(['option_name' => $this->optionKey], [
             'option_value' => serialize($this->option),
         ]);
 
