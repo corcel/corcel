@@ -29,12 +29,19 @@ class RoleManager
     protected $capabilities = [];
 
     /**
+     * Create a new RoleManager instance
+     */
+    public function __construct()
+    {
+        $this->option = Option::get($this->optionKey);
+    }
+
+    /**
      * @param string $role
      * @return $this
      */
     public function from($role)
     {
-        $this->option = Option::get($this->optionKey);
         $role = Arr::get($this->option, $role);
         $this->capabilities = Arr::get($role, 'capabilities');
 

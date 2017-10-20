@@ -15,21 +15,42 @@ use Corcel\Tests\TestCase;
 class RoleManagerTest extends TestCase
 {
     /**
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        $this->insertDefaultRoles();
+    }
+
+    /**
      * @test
      */
     public function it_creates_a_new_role_based_on_a_previous_one()
     {
-        $this->insertDefaultRoles();
-
-        $manager = new RoleManager();
-
-        $role = $manager->from('editor')->create('foo', [
-            'edit_pages' => false,
-            'edit_others_pages' => false,
-        ]);
+        $role = (new RoleManager())->from('editor')
+            ->create('foo', [
+                'edit_pages' => false,
+                'edit_others_pages' => false,
+            ]);
 
         $this->assertFalse($role['capabilities']['edit_pages']);
         $this->assertFalse($role['capabilities']['edit_others_pages']);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_create_a_new_role_without_setting_from()
+    {
+        $role = (new RoleManager())->create('foo', [
+            'edit_pages' => true,
+            'edit_others_pages' => true,
+        ]);
+
+        $this->assertTrue($role['capabilities']['edit_pages']);
+        $this->assertTrue($role['capabilities']['edit_others_pages']);
+        $this->assertCount(2, $role['capabilities']);
     }
 
     /**
