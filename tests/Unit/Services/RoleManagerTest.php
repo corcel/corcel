@@ -36,7 +36,7 @@ class RoleManagerTest extends TestCase
 
         $this->assertFalse($role['capabilities']['edit_pages']);
         $this->assertFalse($role['capabilities']['edit_others_pages']);
-        $this->assertRole('foo', $role);
+        $this->assertRoleEquals('foo', $role);
     }
 
     /**
@@ -52,7 +52,7 @@ class RoleManagerTest extends TestCase
         $this->assertTrue($role['capabilities']['edit_pages']);
         $this->assertTrue($role['capabilities']['edit_others_pages']);
         $this->assertCount(2, $role['capabilities']);
-        $this->assertRole('foo', $role);
+        $this->assertRoleEquals('foo', $role);
     }
 
     /**
@@ -69,7 +69,7 @@ class RoleManagerTest extends TestCase
      * @param string $key
      * @param array $role
      */
-    private function assertRole($key, array $role)
+    private function assertRoleEquals($key, array $role)
     {
         $roles = Option::get('wp_user_roles');
 

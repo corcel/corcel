@@ -34,16 +34,7 @@ class RoleManager
      */
     public function __construct()
     {
-        $this->option = Option::get($this->optionKey); // TODO set this to the Option model
-    }
-
-    /**
-     * @param string $role
-     * @return array
-     */
-    public function get($role)
-    {
-        return Arr::get($this->option, $role);
+        $this->option = $this->fetch();
     }
 
     /**
@@ -60,6 +51,15 @@ class RoleManager
     }
 
     /**
+     * @param string $role
+     * @return array
+     */
+    public function get($role)
+    {
+        return Arr::get($this->option->value, $role);
+    }
+
+    /**
      * @param string $name
      * @param array $capabilities
      * @return array
@@ -67,19 +67,25 @@ class RoleManager
     public function create($name, array $capabilities)
     {
         $key = str_slug($name, '_');
+        $roles = $this->option->value;
 
-        $this->option[$key] = $role = [
+        $roles[$key] = $role = [
             'name' => $name,
             'capabilities' => array_merge($this->capabilities, $capabilities),
         ];
 
-        $option = Option::query()
-            ->where(['option_name' => $this->optionKey])
-            ->first();
+        $this->option->option_value = serialize($roles);
 
-        $option->option_value = serialize($this->option);
-        $result = $option->save();
+        return $this->option->save() ? $role : null;
+    }
 
-        return $result ? $role : null;
+    /**
+     * @return Option|\Illuminate\Database\Eloquent\Model|null|static
+     */
+    private function fetch()
+    {
+        return Option::query()->where([
+            'option_name' => $this->optionKey,
+        ])->first();
     }
 }
