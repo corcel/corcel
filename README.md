@@ -116,7 +116,7 @@ Let' suppose you have those following database connections in your `config/datab
         'driver'    => 'mysql',
         'host'      => 'localhost',
         'database'  => 'mydatabase',
-        'username'  => 'admin',
+        'username'  => 'admin'
         'password'  => 'secret',
         'charset'   => 'utf8',
         'collation' => 'utf8_unicode_ci',
