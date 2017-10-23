@@ -3,6 +3,7 @@
 namespace Corcel\Laravel;
 
 use Auth;
+use Corcel\Corcel;
 use Corcel\Laravel\Auth\AuthUserProvider;
 use Illuminate\Support\ServiceProvider;
 
@@ -30,7 +31,7 @@ class CorcelServiceProvider extends ServiceProvider
     private function publishConfigFile()
     {
         $this->publishes([
-            __DIR__ . '/config.php' => config_path('corcel.php'),
+            __DIR__ . '/config.php' => base_path('config/corcel.php'),
         ]);
     }
 
@@ -39,9 +40,11 @@ class CorcelServiceProvider extends ServiceProvider
      */
     private function registerAuthProvider()
     {
-        Auth::provider('corcel', function ($app, array $config) {
-            return new AuthUserProvider($config);
-        });
+        if (Corcel::isLaravel()) {
+            Auth::provider('corcel', function ($app, array $config) {
+                return new AuthUserProvider($config);
+            });
+        }
     }
 
     /**
