@@ -28,11 +28,13 @@ class RoleManagerTest extends TestCase
      */
     public function it_creates_a_new_role_based_on_a_previous_one()
     {
-        $role = (new RoleManager())->from('editor')
+        (new RoleManager)->from('editor')
             ->create('foo', [
                 'edit_pages' => false,
                 'edit_others_pages' => false,
             ]);
+
+        $role = (new RoleManager)->get('foo');
 
         $this->assertFalse($role['capabilities']['edit_pages']);
         $this->assertFalse($role['capabilities']['edit_others_pages']);
@@ -44,10 +46,12 @@ class RoleManagerTest extends TestCase
      */
     public function it_can_create_a_new_role_without_setting_from()
     {
-        $role = (new RoleManager())->create('foo', [
+        (new RoleManager)->create('foo', [
             'edit_pages' => true,
             'edit_others_pages' => true,
         ]);
+
+        $role = (new RoleManager)->get('foo');
 
         $this->assertTrue($role['capabilities']['edit_pages']);
         $this->assertTrue($role['capabilities']['edit_others_pages']);
