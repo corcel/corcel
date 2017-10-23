@@ -3,6 +3,7 @@
 namespace Corcel\Laravel;
 
 use Auth;
+use Corcel\Corcel;
 use Corcel\Laravel\Auth\AuthUserProvider;
 use Illuminate\Support\ServiceProvider;
 
