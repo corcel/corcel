@@ -39,12 +39,22 @@ class RoleManager
 
     /**
      * @param string $role
+     * @return array
+     */
+    public function get($role)
+    {
+        return Arr::get($this->option, $role);
+    }
+
+    /**
+     * @param string $role
      * @return $this
      */
     public function from($role)
     {
-        $role = Arr::get($this->option, $role);
-        $this->capabilities = Arr::get($role, 'capabilities');
+        $this->capabilities = Arr::get(
+            $this->get($role), 'capabilities'
+        );
 
         return $this;
     }
