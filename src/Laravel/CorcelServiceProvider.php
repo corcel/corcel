@@ -38,7 +38,7 @@ class CorcelServiceProvider extends ServiceProvider
     private function publishConfigFile()
     {
         $this->publishes([
-            __DIR__ . '/config.php' => config_path('corcel.php'),
+            __DIR__ . '/config.php' => base_path('config/corcel.php'),
         ]);
     }
 
