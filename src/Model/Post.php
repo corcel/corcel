@@ -229,8 +229,7 @@ class Post extends Model
      */
     public function attachment()
     {
-        return $this->hasMany(Post::class, 'post_parent')
-            ->where('post_type', 'attachment');
+        return $this->hasMany(Attachment::class, 'post_parent');
     }
 
     /**

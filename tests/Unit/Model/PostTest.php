@@ -3,6 +3,7 @@
 namespace Corcel\Tests\Unit\Model;
 
 use Carbon\Carbon;
+use Corcel\Model\Attachment;
 use Corcel\Model\Collection\MetaCollection;
 use Corcel\Model\Page;
 use Corcel\Model\Post;
@@ -647,6 +648,20 @@ class PostTest extends \Corcel\Tests\TestCase
 
         $this->assertEquals($expectedSingleWordQuery, $singleWord->toSql());
         $this->assertEquals($expectedMultipleWordQuery, $multipleWord->toSql());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_have_attachment_post()
+    {
+        $post = factory(Post::class)->create();
+        $attachment = factory(Attachment::class)->create();
+
+        $post->attachment()->save($attachment);
+        $attachment = $post->fresh()->attachment->first();
+
+        $this->assertInstanceOf(Attachment::class, $attachment);
     }
 
     /**
