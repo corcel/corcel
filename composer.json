@@ -23,8 +23,8 @@
     "require-dev": {
         "orchestra/testbench": "3.5.*",
         "orchestra/database": "3.5.*",
-        "satooshi/php-coveralls": "dev-master",
-        "phpunit/phpunit": "~6.0"
+        "phpunit/phpunit": "~6.0",
+        "codeclimate/php-test-reporter": "^0.4.4"
     },
     "autoload": {
         "psr-4": {
