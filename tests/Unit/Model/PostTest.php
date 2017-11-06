@@ -163,6 +163,34 @@ class PostTest extends \Corcel\Tests\TestCase
     /**
      * @test
      */
+    public function it_has_attachment_relation()
+    {
+        $post = factory(Post::class)->create();
+        $attachment = factory(Attachment::class)->create();
+
+        $post->attachment()->save($attachment);
+        $attachment = $post->fresh()->attachment->first();
+
+        $this->assertInstanceOf(Attachment::class, $attachment);
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_revision_relation()
+    {
+        $post = factory(Post::class)->create();
+        $revision = factory(Post::class)->create(['post_type' => 'revision']);
+
+        $post->revision()->save($revision);
+        $revision = $post->fresh()->revision->first();
+
+        $this->assertInstanceOf(Post::class, $revision);
+    }
+
+    /**
+     * @test
+     */
     public function it_can_be_ordered()
     {
         $older = Carbon::now()->subYears(10);
@@ -648,20 +676,6 @@ class PostTest extends \Corcel\Tests\TestCase
 
         $this->assertEquals($expectedSingleWordQuery, $singleWord->toSql());
         $this->assertEquals($expectedMultipleWordQuery, $multipleWord->toSql());
-    }
-
-    /**
-     * @test
-     */
-    public function it_can_have_attachment_post()
-    {
-        $post = factory(Post::class)->create();
-        $attachment = factory(Attachment::class)->create();
-
-        $post->attachment()->save($attachment);
-        $attachment = $post->fresh()->attachment->first();
-
-        $this->assertInstanceOf(Attachment::class, $attachment);
     }
 
     /**
