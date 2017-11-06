@@ -6,14 +6,15 @@ use Corcel\Model;
 use Corcel\Model\Post;
 use Corcel\Model\User;
 use Illuminate\Support\Collection;
+use UnexpectedValueException;
 
 /**
- * Class HasMetaFieldsTest
+ * Class MetaFieldsTest
  *
  * @package Corcel\Tests\Unit\Traits
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-class HasMetaFieldsTest extends \Corcel\Tests\TestCase
+class MetaFieldsTest extends \Corcel\Tests\TestCase
 {
     /**
      * @test
@@ -87,5 +88,21 @@ class HasMetaFieldsTest extends \Corcel\Tests\TestCase
         $user->createMeta('foo', 'bar');
 
         $this->assertEquals('bar', $user->getMeta('foo'));
+        $this->assertNull($user->getMeta('bar'));
+    }
+
+    /**
+     * @test
+     */
+    public function it_throws_an_exception_if_model_is_invalid()
+    {
+        $class = new class extends Model
+        {
+            use \Corcel\Concerns\MetaFields;
+        };
+
+        $this->expectException(UnexpectedValueException::class);
+
+        $class->createMeta('foo', 'bar');
     }
 }
