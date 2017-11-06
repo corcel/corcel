@@ -8,9 +8,11 @@ Corcel
 [![Travis](https://travis-ci.org/corcel/corcel.svg?branch=master)](https://travis-ci.org/corcel/corcel?branch=master)
 [![Packagist](https://img.shields.io/packagist/v/jgrossi/corcel.svg)](https://packagist.org/packages/jgrossi/corcel)
 [![Packagist](https://img.shields.io/packagist/dt/jgrossi/corcel.svg)](https://github.com/jgrossi/corcel/releases)
-[![Coverage Status](https://coveralls.io/repos/github/corcel/corcel/badge.svg?branch=master)](https://coveralls.io/github/corcel/corcel?branch=master)
+[![Test Coverage](https://codeclimate.com/github/corcel/corcel/badges/coverage.svg)](https://codeclimate.com/github/corcel/corcel/coverage)
 
-<a href='https://ko-fi.com/A36513JF' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi4.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+<a href="https://ko-fi.com/A36513JF" target="_blank">
+  <img height="36" style="border:0px;height:36px;" src="https://az743702.vo.msecnd.net/cdn/kofi4.png?v=0" border="0" alt="Buy Me a Coffee at ko-fi.com" />
+</a>
 
 [![Twitter Follow](https://img.shields.io/twitter/follow/corcelphp.svg?style=social&label=Follow)](http://twitter.com/CorcelPHP)
 
