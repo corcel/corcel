@@ -9,6 +9,7 @@ use Corcel\Acf\AdvancedCustomFields as BaseAdvancedCustomFields;
  *
  * @package Corcel\Traits
  * @author Junior Grossi <juniorgro@gmail.com>
+ * @codeCoverageIgnore
  */
 trait AdvancedCustomFields
 {

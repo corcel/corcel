@@ -75,11 +75,6 @@ trait MetaFields
                 return sprintf('%s_id', strtolower($basename));
             }
         }
-
-        throw new UnexpectedValueException(sprintf(
-            '%s must extends one of Corcel built-in models: Comment, Post, Term or User.',
-            static::class
-        ));
     }
 
     /**
