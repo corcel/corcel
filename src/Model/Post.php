@@ -406,7 +406,6 @@ class Post extends Model
      */
     public static function getByPath($page_path, $post_type = 'page')
     {
-
         $page_path = rawurlencode(urldecode($page_path));
         $page_path = str_replace('%2F', '/', $page_path);
         $page_path = str_replace('%20', ' ', $page_path);
@@ -439,18 +438,20 @@ class Post extends Model
                  * Loop through the given path parts from right to left,
                  * ensuring each matches the post ancestry.
                  */
-                while ($p->post_parent != 0 && isset( $pages[$p->post_parent])) {
+                while ($p->post_parent != 0 && isset($pages[$p->post_parent])) {
                     $count++;
                     $parent = $pages[$p->post_parent];
-                    if (!isset($revparts[$count]) || $parent->post_name != $revparts[$count])
+                    if (!isset($revparts[$count]) || $parent->post_name != $revparts[$count]) {
                         break;
+                    }
                     $p = $parent;
                 }
 
                 if ($p->post_parent == 0 && $count + 1 == count($revparts) && $p->post_name == $revparts[$count]) {
                     $foundid = $page->ID;
-                    if ($page->post_type == $post_type)
+                    if ($page->post_type == $post_type) {
                         break;
+                    }
                 }
             }
         }
