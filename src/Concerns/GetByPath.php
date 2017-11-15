@@ -102,31 +102,31 @@ trait GetByPath
     private static function searchIdInPath($pages, $reverseParts, $postType)
     {
         $foundId = 0;
-        $pagesFiltered = $pages->filter(function ($page) use ($reverseParts) {
+        $pagesWithTheSameName = $pages->filter(function ($page) use ($reverseParts) {
             return $page->post_name == $reverseParts[0];
         });
-        foreach ($pagesFiltered as $page) {
+        $pagesWithTheSameName->each(function($page) use (&$foundId, $pages, $reverseParts, $postType) {
             $count = 0;
-            $p = $page;
+            $currentPage = $page;
 
             /*
             * Loop through the given path parts from right to left,
             * ensuring each matches the post ancestry.
             */
-            while ($p->post_parent != 0 && isset($pages[$p->post_parent])) {
-                if (!isset($reverseParts[++$count]) || $pages[$p->post_parent]->post_name != $reverseParts[$count]) {
+            while ($currentPage->post_parent != 0 && isset($pages[$currentPage->post_parent])) {
+                if (!isset($reverseParts[++$count]) || $pages[$currentPage->post_parent]->post_name != $reverseParts[$count]) {
                     break;
                 }
-                $p = $pages[$p->post_parent];
+                $currentPage = $pages[$currentPage->post_parent];
             }
 
-            if ($p->post_parent == 0 && $count + 1 == count($reverseParts) && $p->post_name == $reverseParts[$count]) {
+            if ($currentPage->post_parent == 0 && $count + 1 == count($reverseParts) && $currentPage->post_name == $reverseParts[$count]) {
                 $foundId = $page->ID;
                 if ($page->post_type == $postType) {
-                    break;
+                    return false;
                 }
             }
-        }
+        });
 
         return $foundId;
     }
