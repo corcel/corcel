@@ -112,12 +112,10 @@ trait GetByPath
                 * ensuring each matches the post ancestry.
                 */
                 while ($p->post_parent != 0 && isset($pages[$p->post_parent])) {
-                    $count++;
-                    $parent = $pages[$p->post_parent];
-                    if (!isset($reverseParts[$count]) || $parent->post_name != $reverseParts[$count]) {
+                    if (!isset($reverseParts[++$count]) || $pages[$p->post_parent]->post_name != $reverseParts[$count]) {
                         break;
                     }
-                    $p = $parent;
+                    $p = $pages[$p->post_parent];
                 }
 
                 if ($p->post_parent == 0 && $count + 1 == count($reverseParts) && $p->post_name == $reverseParts[$count]) {
