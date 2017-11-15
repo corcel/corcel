@@ -102,27 +102,28 @@ trait GetByPath
     private static function searchIdInPath($pages, $reverseParts, $postType)
     {
         $foundId = 0;
-        foreach ($pages as $page) {
-            if ($page->post_name == $reverseParts[0]) {
-                $count = 0;
-                $p = $page;
+        $pagesFiltered = $pages->filter(function ($page) use ($reverseParts) {
+            return $page->post_name == $reverseParts[0];
+        });
+        foreach ($pagesFiltered as $page) {
+            $count = 0;
+            $p = $page;
 
-                /*
-                * Loop through the given path parts from right to left,
-                * ensuring each matches the post ancestry.
-                */
-                while ($p->post_parent != 0 && isset($pages[$p->post_parent])) {
-                    if (!isset($reverseParts[++$count]) || $pages[$p->post_parent]->post_name != $reverseParts[$count]) {
-                        break;
-                    }
-                    $p = $pages[$p->post_parent];
+            /*
+            * Loop through the given path parts from right to left,
+            * ensuring each matches the post ancestry.
+            */
+            while ($p->post_parent != 0 && isset($pages[$p->post_parent])) {
+                if (!isset($reverseParts[++$count]) || $pages[$p->post_parent]->post_name != $reverseParts[$count]) {
+                    break;
                 }
+                $p = $pages[$p->post_parent];
+            }
 
-                if ($p->post_parent == 0 && $count + 1 == count($reverseParts) && $p->post_name == $reverseParts[$count]) {
-                    $foundId = $page->ID;
-                    if ($page->post_type == $postType) {
-                        break;
-                    }
+            if ($p->post_parent == 0 && $count + 1 == count($reverseParts) && $p->post_name == $reverseParts[$count]) {
+                $foundId = $page->ID;
+                if ($page->post_type == $postType) {
+                    break;
                 }
             }
         }
