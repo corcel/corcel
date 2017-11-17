@@ -105,7 +105,7 @@ trait GetByPath
         $pagesWithTheSameName = $pages->filter(function ($page) use ($reverseParts) {
             return $page->post_name == $reverseParts[0];
         });
-        $pagesWithTheSameName->each(function($page) use (&$foundId, $pages, $reverseParts, $postType) {
+        $pagesWithTheSameName->each(function ($page) use (&$foundId, $pages, $reverseParts, $postType) {
             $count = 0;
             $currentPage = $page;
 
