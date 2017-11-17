@@ -130,5 +130,4 @@ trait GetByPath
 
         return $foundId;
     }
-    
 }
