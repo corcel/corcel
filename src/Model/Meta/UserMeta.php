@@ -31,6 +31,6 @@ class UserMeta extends PostMeta
      */
     public function user()
     {
-        return $this->belongsTo('Corcel\User');
+        return $this->belongsTo('Corcel\Model\User');
     }
 }
