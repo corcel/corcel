@@ -7,6 +7,7 @@ use Corcel\Model\Menu;
 use Corcel\Model\MenuItem;
 use Corcel\Model\Post;
 use Corcel\Model\Taxonomy;
+use Corcel\Model\Page;
 
 /**
  * Class MenuTest
@@ -93,7 +94,7 @@ class MenuTest extends \Corcel\Tests\TestCase
             return $item->meta->_menu_item_object === 'post';
         });
 
-        $parent = $posts->first()->instance();
+        $parent = $posts->first()->object;
         $child = $posts->last();
 
         $this->assertEquals($parent->ID, $child->parent()->ID);
@@ -122,7 +123,9 @@ class MenuTest extends \Corcel\Tests\TestCase
 
         $this->assertEquals('Foobar', $item->post_title);
         $this->assertEquals('Foobar', $item->instance()->link_text);
+        $this->assertEquals('Foobar', $item->object->link_text);
         $this->assertEquals('http://example.com', $item->meta->_menu_item_url);
+        $this->assertEquals('http://example.com', $item->object->url);
         $this->assertEquals('http://example.com', $item->instance()->url);
     }
 
@@ -138,6 +141,8 @@ class MenuTest extends \Corcel\Tests\TestCase
         });
 
         $pages->each(function (MenuItem $item) {
+            $this->assertEquals('page', $item->object_type);
+            $this->assertInstanceOf(Page::class, $item->object);
             $this->assertEquals("page-title", $item->instance()->post_title);
             $this->assertEquals("page-content", $item->instance()->post_content);
         });
@@ -155,6 +160,8 @@ class MenuTest extends \Corcel\Tests\TestCase
         });
 
         $posts->each(function (MenuItem $item) {
+            $this->assertEquals('post', $item->object_type);
+            $this->assertInstanceOf(Post::class, $item->object);
             $this->assertEquals("post-title", $item->instance()->title);
             $this->assertEquals("post-content", $item->instance()->content);
         });
@@ -172,6 +179,8 @@ class MenuTest extends \Corcel\Tests\TestCase
         });
 
         $posts->each(function (MenuItem $item) {
+            $this->assertEquals('custom', $item->object_type);
+            $this->assertInstanceOf(CustomLink::class, $item->object);
             $this->assertEquals("http://example.com", $item->instance()->url);
             $this->assertEquals("custom-link-text", $item->instance()->link_text);
         });
@@ -189,6 +198,8 @@ class MenuTest extends \Corcel\Tests\TestCase
         });
 
         $posts->each(function (MenuItem $item) {
+            $this->assertEquals('category', $item->object_type);
+            $this->assertInstanceOf(Taxonomy::class, $item->object);
             $this->assertEquals("Bar", $item->instance()->name);
             $this->assertEquals("bar", $item->instance()->slug);
         });
