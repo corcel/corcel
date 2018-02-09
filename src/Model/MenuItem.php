@@ -59,6 +59,7 @@ class MenuItem extends Post
     }
 
     /**
+     * @deprecated deprecated in favor of object()
      * @return Post|Page|CustomLink|Taxonomy
      */
     public function instance()
