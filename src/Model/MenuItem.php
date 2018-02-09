@@ -30,6 +30,24 @@ class MenuItem extends Post
     /**
      * @return Post|Page|CustomLink|Taxonomy
      */
+    public function object()
+    {
+        return $this->morphTo();
+    }
+
+    public function getObjectIdAttribute()
+    {
+        return $this->meta->_menu_item_object_id;
+    }
+
+    public function getObjectTypeAttribute()
+    {
+        return $this->meta->_menu_item_object;
+    }
+
+    /**
+     * @return Post|Page|CustomLink|Taxonomy
+     */
     public function parent()
     {
         if ($className = $this->getClassName()) {
@@ -41,13 +59,13 @@ class MenuItem extends Post
     }
 
     /**
+     * @deprecated deprecated in favor of object()
      * @return Post|Page|CustomLink|Taxonomy
      */
     public function instance()
     {
         if ($className = $this->getClassName()) {
-            return (new $className)->newQuery()
-                ->find($this->meta->_menu_item_object_id);
+            return $this->object;
         }
 
         return null;
