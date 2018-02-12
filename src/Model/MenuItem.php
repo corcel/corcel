@@ -47,7 +47,6 @@ class MenuItem extends Post
 
     /**
      * Get the parent menu item (if any)
-     * 
      * @return MenuItem|null
      */
     public function parent_item()
