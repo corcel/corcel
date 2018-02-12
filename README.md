@@ -609,14 +609,15 @@ foreach ($menu->items as $item) {
 
 To handle multi-levels menus, loop through all the menu items to put them on the right levels, for example.
 
-You can use the `MenuItem::parent()` method to retrieve the parent instance of that menu item:
+You can use the `MenuItem::parent_item()` relation to retrieve the parent instance of that menu item:
 
 ```php
 $items = Menu::slug('foo')->first()->items;
-$parent = $items->first()->parent(); // Post, Page, CustomLink or Term (category)
+$parentItem = $items->first()->parent_item; // MenuItem or null for top-level items
+$parent_object = $parentItem->object; // Post, Page, CustomLink or Term (category)
 ```
 
-To group menu items according their parents, you can use the `->groupBy()` method in the `$menu->items` collection, grouping menu items by their `$item->parent()->ID`.
+To group menu items according their parents, you can use the `->groupBy()` method in the `$menu->items` collection, grouping menu items by their `$item->parent_item_id`.
 
 To read more about the `groupBy()` method [take a look on the Laravel documentation](https://laravel.com/docs/5.4/collections#method-groupby).
 

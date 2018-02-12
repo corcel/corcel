@@ -90,15 +90,16 @@ class MenuTest extends \Corcel\Tests\TestCase
     {
         $menu = $this->createComplexMenu();
 
-        $posts = $menu->items->filter(function ($item) {
-            return $item->meta->_menu_item_object === 'post';
-        });
+        $parentItem = $menu->items->get(1);
+        $childItem = $menu->items->get(2);
+        $parentObject = $parentItem->object;
 
-        $parent = $posts->first()->object;
-        $child = $posts->last();
+        $this->assertNull($parentItem->parent_item);
 
-        $this->assertEquals($parent->ID, $child->parent()->ID);
-        $this->assertEquals($parent->post_name, $child->parent()->post_name);
+        $this->assertEquals($parentItem->ID, $childItem->parent_item_id);
+
+        $this->assertEquals($parentObject->ID, $childItem->parent()->ID);
+        $this->assertEquals($parentObject->post_name, $childItem->parent()->post_name);
     }
 
     /**
@@ -230,8 +231,8 @@ class MenuTest extends \Corcel\Tests\TestCase
 
         $this->buildPage($menu);
 
-        $post = $this->buildPost($menu);
-        $this->buildPost($menu, $post->ID);
+        $item = $this->buildPost($menu);
+        $this->buildPost($menu, $item->ID);
 
         $this->buildCustomLink($menu);
         $this->buildCategory($menu);
@@ -293,7 +294,7 @@ class MenuTest extends \Corcel\Tests\TestCase
 
         $menu->items()->save($item);
 
-        return $post;
+        return $item;
     }
 
     /**
