@@ -24,7 +24,7 @@ class CorcelServiceProvider extends ServiceProvider
         $this->publishConfigFile();
         $this->registerAuthProvider();
     }
-    
+
     /**
      * @return void
      */
