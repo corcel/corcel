@@ -30,7 +30,7 @@ class CorcelServiceProvider extends ServiceProvider
         $this->registerAuthProvider();
         $this->registerMorphMaps();
     }
-    
+
     /**
      * @return void
      */

@@ -17,15 +17,9 @@ class Corcel
      */
     public static function isLaravel()
     {
-        return function_exists('app') &&
-            app() instanceof Application;
-    }
-
-    /**
-     * @return bool
-     */
-    public static function isLumen()
-    {
-        return preg_match('/Lumen', app()->version()) === 1;
+        return function_exists('app') && (
+            app() instanceof Application ||
+            strpos(app()->version(), 'Lumen') === 0
+        );
     }
 }
