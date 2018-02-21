@@ -633,6 +633,23 @@ $user = User::find(1);
 echo $user->user_login;
 ```
 
+### Creating Roles
+
+You can also create a new role based on a pre-existent one. For example, to create a role `foo` based on the `editor` role:
+
+```php
+$manager = new RoleManager();
+$role = $manager->from('editor')->create('foo', [
+    'edit_pages' => false,
+    'edit_others_pages' => false,
+]);
+
+echo $role['name'];
+var_dump($role['capabilities']); // array
+```
+
+The new capabilities array you send in the `create()` method will override the `editor` capabilities. You can also add new capabilities as well.
+
 ## <a id="auth"></a>Authentication
 
 ### Using Laravel

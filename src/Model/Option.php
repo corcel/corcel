@@ -62,11 +62,11 @@ class Option extends Model
     /**
      * @param string $key
      * @param mixed $value
-     * @return Option
+     * @return Option|\Illuminate\Database\Eloquent\Model
      */
     public static function add($key, $value)
     {
-        return static::create([
+        return static::query()->create([
             'option_name' => $key,
             'option_value' => is_array($value) ? serialize($value) : $value,
         ]);
