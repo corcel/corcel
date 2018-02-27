@@ -92,6 +92,11 @@ class AuthUserProvider implements UserProvider
                 ->first();
         }
 
+        if ($api_token = Arr::get($credentials, 'api_token')) {
+            return $query->where('api_token', $api_token)
+                ->first();
+        }
+
         return null;
     }
 
