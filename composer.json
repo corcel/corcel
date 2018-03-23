@@ -28,6 +28,9 @@
         "codeclimate/php-test-reporter": "dev-master"
     },
     "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
         "psr-4": {
             "Corcel\\": "src/",
             "Corcel\\Tests\\": "tests/"
