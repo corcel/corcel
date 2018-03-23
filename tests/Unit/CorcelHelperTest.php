@@ -60,12 +60,14 @@ class CorcelHelperTest extends TestCase
     public function it_works_for_different_connection_names()
     {
         $this->app['config']->set('corcel.connection', 'foo');
-        $data = factory(Post::class)->create();
+        factory(Post::class)->create();
+
+        $this->app['config']->set('corcel.connection', 'wp');
+        $this->assertNull(corcel('post')->first());
 
         $post = corcel('post')->on('foo')->first();
 
         $this->assertInstanceOf(Post::class, $post);
-        $this->assertEquals($data->ID, $post->ID);
         $this->assertEquals('foo', $post->getConnectionName());
     }
 }
