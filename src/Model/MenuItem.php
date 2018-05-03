@@ -20,7 +20,7 @@ class MenuItem extends Post
     /**
      * @var array
      */
-    private $instanceRelations = [
+    protected $instanceRelations = [
         'post' => Post::class,
         'page' => Page::class,
         'custom' => CustomLink::class,

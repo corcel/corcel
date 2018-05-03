@@ -19,7 +19,7 @@ trait MetaFields
     /**
      * @var array
      */
-    private $builtInClasses = [
+    protected $builtInClasses = [
         \Corcel\Model\Comment::class => \Corcel\Model\Meta\CommentMeta::class,
         \Corcel\Model\Post::class    => \Corcel\Model\Meta\PostMeta::class,
         \Corcel\Model\Term::class    => \Corcel\Model\Meta\TermMeta::class,
