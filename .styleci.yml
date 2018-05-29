@@ -1,9 +1,5 @@
 preset: psr2
 
-risky: false
-
-linting: true
-
 finder:
   name:
     - "*.php"
