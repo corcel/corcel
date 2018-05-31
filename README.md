@@ -609,11 +609,11 @@ foreach ($menu->items as $item) {
 
 To handle multi-levels menus, loop through all the menu items to put them on the right levels, for example.
 
-You can use the `MenuItem::parent_item()` relation to retrieve the parent instance of that menu item:
+You can use the `MenuItem::parentItem()` relation to retrieve the parent instance of that menu item:
 
 ```php
 $items = Menu::slug('foo')->first()->items;
-$parentItem = $items->first()->parent_item; // MenuItem or null for top-level items
+$parentItem = $items->first()->parentItem; // MenuItem or null for top-level items
 $parent_object = $parentItem->object; // Post, Page, CustomLink or Term (category)
 ```
 

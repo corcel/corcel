@@ -49,7 +49,7 @@ class MenuItem extends Post
      * Get the parent menu item (if any)
      * @return MenuItem|null
      */
-    public function parent_item()
+    public function parentItem()
     {
         return $this->belongsTo(MenuItem::class);
     }
@@ -60,11 +60,11 @@ class MenuItem extends Post
     }
 
     /**
-     * @deprecated in favor of parent_item()->object
+     * @deprecated in favor of parentItem()->object
      */
     public function parent()
     {
-        return $this->parent_item->object ?? null;
+        return $this->parentItem->object ?? null;
     }
 
     /**

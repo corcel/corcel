@@ -94,7 +94,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         $childItem = $menu->items->get(2);
         $parentObject = $parentItem->object;
 
-        $this->assertNull($parentItem->parent_item);
+        $this->assertNull($parentItem->parentItem);
 
         $this->assertEquals($parentItem->ID, $childItem->parent_item_id);
 
