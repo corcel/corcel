@@ -46,16 +46,25 @@ class MenuItem extends Post
     }
 
     /**
-     * @return Post|Page|CustomLink|Taxonomy
+     * Get the parent menu item (if any)
+     * @return MenuItem|null
+     */
+    public function parentItem()
+    {
+        return $this->belongsTo(MenuItem::class);
+    }
+
+    public function getParentItemIdAttribute()
+    {
+        return $this->meta->_menu_item_menu_item_parent;
+    }
+
+    /**
+     * @deprecated in favor of parentItem()->object
      */
     public function parent()
     {
-        if ($className = $this->getClassName()) {
-            return (new $className)->newQuery()
-                ->find($this->meta->_menu_item_menu_item_parent);
-        }
-
-        return null;
+        return $this->parentItem->object ?? null;
     }
 
     /**
