@@ -55,6 +55,15 @@ class PostBuilder extends Builder
     {
         return $this->where('post_name', $slug);
     }
+    
+    /**
+     * @param string $postParentId
+     * @return PostBuilder
+     */
+    public function parent($postParentId)
+    {
+        return $this->where('post_parent', $postParentId);
+    }
 
     /**
      * @param string $taxonomy
