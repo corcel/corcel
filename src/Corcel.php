@@ -2,8 +2,6 @@
 
 namespace Corcel;
 
-use Illuminate\Container\Container;
-
 /**
  * Class Corcel
  *
