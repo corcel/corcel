@@ -2,7 +2,7 @@
 
 namespace Corcel;
 
-use Illuminate\Foundation\Application;
+use Illuminate\Container\Container;
 
 /**
  * Class Corcel
@@ -17,9 +17,14 @@ class Corcel
      */
     public static function isLaravel()
     {
-        return function_exists('app') && (
-            app() instanceof Application ||
-            strpos(app()->version(), 'Lumen') === 0
-        );
+        if (!function_exists('app')) {
+            return false;
+        }
+
+        if (app() instanceof Container) {
+            return true;
+        }
+
+        return false;
     }
 }
