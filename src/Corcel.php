@@ -21,7 +21,10 @@ class Corcel
             return false;
         }
 
-        if (app() instanceof Container) {
+        $class = get_class(app());
+
+        if ($class === 'Illuminate\\Foundation\\Application' ||
+            $class === 'Laravel\\Lumen\\Application') {
             return true;
         }
 
