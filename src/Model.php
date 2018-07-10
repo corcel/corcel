@@ -4,10 +4,10 @@ namespace Corcel;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
 /**
@@ -175,10 +175,12 @@ class Model extends Eloquent
      */
     public function getConnectionName()
     {
-        if (!isset($this->connection) && Corcel::isLaravel()) {
-            if ($connection = config('corcel.connection')) {
-                $this->connection = $connection;
-            }
+        if (isset($this->connection)) {
+            return $this->connection;
+        }
+
+        if ($connection = App::config('corcel.connection')) {
+            $this->connection = $connection;
         }
 
         return $this->connection;
@@ -186,8 +188,9 @@ class Model extends Eloquent
 
     /**
      * @param $instance
+     * @return Model
      */
-    protected function setInstanceConnection($instance)
+    protected function setInstanceConnection(Model $instance)
     {
         return $instance->setConnection(
             $instance instanceof self ?

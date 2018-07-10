@@ -2,7 +2,7 @@
 
 namespace Corcel\Concerns;
 
-use Corcel\Corcel;
+use Corcel\App;
 use Thunder\Shortcode\ShortcodeFacade;
 
 /**
@@ -71,8 +71,7 @@ trait Shortcodes
      */
     private function parseConfigShortcodes(ShortcodeFacade $facade)
     {
-        if (Corcel::isLaravel()) {
-            $shortcodes = config('corcel.shortcodes', []);
+        if ($shortcodes = App::config('corcel.shortcodes', [])) {
             foreach ($shortcodes as $tag => $class) {
                 $facade->addHandler($tag, [new $class, 'render']);
             }

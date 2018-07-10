@@ -2,8 +2,7 @@
 
 namespace Corcel\Laravel;
 
-use Auth;
-use Corcel\Corcel;
+use Corcel\App;
 use Corcel\Laravel\Auth\AuthUserProvider;
 use Illuminate\Support\ServiceProvider;
 
@@ -40,8 +39,8 @@ class CorcelServiceProvider extends ServiceProvider
      */
     private function registerAuthProvider()
     {
-        if (Corcel::isLaravel()) {
-            Auth::provider('corcel', function ($app, array $config) {
+        if ($auth = App::instance('auth')) {
+            $auth->provider('corcel', function ($app, array $config) {
                 return new AuthUserProvider($config);
             });
         }

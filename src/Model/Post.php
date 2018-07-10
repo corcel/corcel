@@ -2,13 +2,13 @@
 
 namespace Corcel\Model;
 
+use Corcel\App;
 use Corcel\Concerns\AdvancedCustomFields;
 use Corcel\Concerns\Aliases;
 use Corcel\Concerns\CustomTimestamps;
 use Corcel\Concerns\MetaFields;
 use Corcel\Concerns\OrderScopes;
 use Corcel\Concerns\Shortcodes;
-use Corcel\Corcel;
 use Corcel\Model;
 use Corcel\Model\Builder\PostBuilder;
 use Corcel\Model\Meta\ThumbnailMeta;
@@ -143,11 +143,12 @@ class Post extends Model
         if (isset($attributes['post_type']) && $attributes['post_type']) {
             if (isset(static::$postTypes[$attributes['post_type']])) {
                 $class = static::$postTypes[$attributes['post_type']];
-            } elseif (Corcel::isLaravel()) {
-                $postTypes = config('corcel.post_types');
-                if (is_array($postTypes) && isset($postTypes[$attributes['post_type']])) {
-                    $class = $postTypes[$attributes['post_type']];
-                }
+            }
+
+            $postTypes = App::config('corcel.post_types');
+
+            if (is_array($postTypes) && isset($postTypes[$attributes['post_type']])) {
+                $class = $postTypes[$attributes['post_type']];
             }
         }
 
