@@ -24,6 +24,14 @@ class Menu extends Taxonomy
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
+    public function posts()
+    {
+        return parent::posts()->type('nav_menu_item');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function items()
     {
         return $this->belongsToMany(
