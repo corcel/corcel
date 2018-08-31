@@ -31,6 +31,7 @@ class Post extends Model
 
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
+    const DEFAULT_POST_TYPE = 'post';
 
     /**
      * @var string
@@ -170,7 +171,7 @@ class Post extends Model
     {
         return $this->postType ?
             parent::newQuery()->type($this->postType) :
-            parent::newQuery();
+            parent::newQuery()->type(static::DEFAULT_POST_TYPE);
     }
 
     /**

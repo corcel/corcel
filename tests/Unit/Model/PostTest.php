@@ -189,6 +189,16 @@ class PostTest extends \Corcel\Tests\TestCase
         $this->assertEquals($page->post_type, 'page');
     }
 
+    /** @test */
+	public function it_sets_the_default_post_type_to_post_but_you_can_override_that()
+	{
+		factory(Post::class, 2)->create(['post_type' => 'post']);
+		factory(Post::class, 3)->create(['post_type' => 'page']);
+
+		$this->assertEquals(2, Post::all()->count());
+		$this->assertEquals(3, Post::type('page')->get()->count());
+    }
+
     /**
      * @test
      */
@@ -585,8 +595,8 @@ class PostTest extends \Corcel\Tests\TestCase
     {
         $emptyWord = Post::search();
 
-        $expectedEmptyWordQuery = 'select * from "wp_posts"';
-        $expectedEmptyWordBindings = [];
+        $expectedEmptyWordQuery = 'select * from "wp_posts" where "post_type" = ?';
+        $expectedEmptyWordBindings = ['post'];
 
         $this->assertEquals($expectedEmptyWordQuery, $emptyWord->toSql());
         $this->assertSame($expectedEmptyWordBindings, $emptyWord->getBindings());
@@ -599,8 +609,8 @@ class PostTest extends \Corcel\Tests\TestCase
     {
         $singleWord = Post::search('foo');
 
-        $expectedSingleWordQuery = 'select * from "wp_posts" where ("post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
-        $expectedSingleWordBindings = ['%foo%', '%foo%', '%foo%'];
+        $expectedSingleWordQuery = 'select * from "wp_posts" where "post_type" = ? and ("post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
+        $expectedSingleWordBindings = ['post', '%foo%', '%foo%', '%foo%'];
 
         $this->assertEquals($expectedSingleWordQuery, $singleWord->toSql());
         $this->assertSame($expectedSingleWordBindings, $singleWord->getBindings());
@@ -613,8 +623,8 @@ class PostTest extends \Corcel\Tests\TestCase
     {
         $multipleWord = Post::search('foo bar');
 
-        $expectedMultipleWordQuery = 'select * from "wp_posts" where ("post_title" like ? or "post_excerpt" like ? or "post_content" like ? or "post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
-        $expectedMultipleWordBindings = ['%foo%', '%foo%', '%foo%', '%bar%', '%bar%', '%bar%'];
+        $expectedMultipleWordQuery = 'select * from "wp_posts" where "post_type" = ? and ("post_title" like ? or "post_excerpt" like ? or "post_content" like ? or "post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
+        $expectedMultipleWordBindings = ['post', '%foo%', '%foo%', '%foo%', '%bar%', '%bar%', '%bar%'];
 
         $this->assertEquals($expectedMultipleWordQuery, $multipleWord->toSql());
         $this->assertSame($expectedMultipleWordBindings, $multipleWord->getBindings());
@@ -627,8 +637,8 @@ class PostTest extends \Corcel\Tests\TestCase
     {
         $multipleWordArray = Post::search(['foo', 'bar']);
 
-        $expectedMultipleWordQuery = 'select * from "wp_posts" where ("post_title" like ? or "post_excerpt" like ? or "post_content" like ? or "post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
-        $expectedMultipleWordBindings = ['%foo%', '%foo%', '%foo%', '%bar%', '%bar%', '%bar%'];
+        $expectedMultipleWordQuery = 'select * from "wp_posts" where "post_type" = ? and ("post_title" like ? or "post_excerpt" like ? or "post_content" like ? or "post_title" like ? or "post_excerpt" like ? or "post_content" like ?)';
+        $expectedMultipleWordBindings = ['post', '%foo%', '%foo%', '%foo%', '%bar%', '%bar%', '%bar%'];
 
         $this->assertEquals($expectedMultipleWordQuery, $multipleWordArray->toSql());
         $this->assertSame($expectedMultipleWordBindings, $multipleWordArray->getBindings());
