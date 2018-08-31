@@ -28,6 +28,11 @@ class TermRelationship extends Model
     public $timestamps = false;
 
     /**
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function post()
