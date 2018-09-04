@@ -362,7 +362,7 @@ class PostTest extends \Corcel\Tests\TestCase
         $this->assertEquals(3, $paginator->total());
         $this->assertInstanceOf(Post::class, $firstPost);
         $this->assertEquals($post->post_title, $firstPost->post_title);
-        $this->assertStringStartsWith('<ul class="pagination">', $paginator->toHtml());
+        $this->assertStringStartsWith('<ul class="pagination"', $paginator->toHtml());
     }
     
     /**
