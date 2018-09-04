@@ -28,7 +28,6 @@ This make possible to use WordPress as your CMS of choice and using Laravel in t
 
 - [Version Compatibility](#versions)
 - [Installing Corcel](#install)
-- [Changelog (v1 to v2)](#changelog)
 - [Database Setup](#database-setup)
 - [Usage](#usage)
     - [Posts](#posts)
@@ -58,6 +57,7 @@ This make possible to use WordPress as your CMS of choice and using Laravel in t
  5.4.x    | 2.4.x
  5.5.x    | 2.5.x
  5.6.x    | 2.6.x
+ 5.7.x    | 2.7.x
 
 # <a id="install"></a> Installing Corcel
 
@@ -89,18 +89,6 @@ php artisan vendor:publish --provider="Corcel\Laravel\CorcelServiceProvider"
 ```
 
 Now you have a `config/corcel.php` config file, where you can set the database connection with WordPress tables and much more.
-
-# <a id="changelog"></a> Changelog (v1 to v2)
-
-## Namespace change
-
-In Corcel v1 all model classes were located in the `Corcel` namespace. In v2 all models are located in the `Corcel\Model` namespace. So if you want to fetch posts using the `Post` class just use `Corcel\Model\Post::all()`, for example.
-
-## Configuration file and Service Provider class
-
-In Corcel v2 we have now a config file and a Service Provider class. This makes easier to setup the database connection you want to be used by Corcel (the WordPress one).
-
-You can also configure custom post types and shortcodes directly from the config file. This file should be located in `config/corcel.php` (after publishing - see instructions above).
 
 # <a id="database-setup"></a> Database Setup
 
