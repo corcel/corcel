@@ -39,6 +39,7 @@ This make possible to use WordPress as your CMS of choice and using Laravel in t
     - [Pages](#pages)
     - [Categories & Taxonomies](#cats)
     - [Attachments & Revision](#attachments)
+    - [Thumbnails](#thumbnails)
     - [Options](#options)
     - [Menu](#menu)
     - [Users](#users)
@@ -534,6 +535,40 @@ print_r($page->attachment);
 $post = Post::slug('test')->with('revision')->first();
 // get all revisions from a post or page
 print_r($post->revision);
+```
+
+## <a id="thumbnails"></a>Thumbnails
+
+Getting the thumbnail for a `Post` or `Page`.
+
+```php
+$post = Post::find(1);
+
+// Retrieve an instance of Corcel\Model\Meta\ThumbnailMeta.
+print_r($post->thumbnail);
+
+// For convenience you may also echo the thumbnail instance to get the URL of the original image.
+echo $post->thumbnail;
+```
+
+To retrieve a particular thumbnail size you may call the `->size()` method on the thumbnail object and pass in a thumbnail size string parameter (e.g. `thumbnail` or `medium`). If the thumbnail has been generated, this method returns an array of image metadata, otherwise the original image URL will be returned as a fallback.
+
+```php
+if ($post->thumbnail !== null) {
+    /**
+     * [
+     *     'file' => 'filename-300x300.jpg',
+     *     'width' => 300,
+     *     'height' => 300,
+     *     'mime-type' => 'image/jpeg',
+     *     'url' => 'http://localhost/wp-content/uploads/filename-300x300.jpg',
+     * ]
+     */
+    print_r($post->thumbnail->size(Corcel\Model\Meta\ThumbnailMeta::SIZE_THUMBNAIL));
+
+    // http://localhost/wp-content/uploads/filename.jpg
+    print_r($post->thumbnail->size('invalid_size'));
+}
 ```
 
 ## <a id="options"></a>Options
