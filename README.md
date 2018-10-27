@@ -507,7 +507,7 @@ to achieve it.
 
 ```php
 // all categories
-$cat = Taxonomy::category()->slug('uncategorized')->posts()->first();
+$cat = Taxonomy::category()->slug('uncategorized')->posts->first();
 echo "<pre>"; print_r($cat->name); echo "</pre>";
 
 // only all categories and posts connected with it
@@ -517,7 +517,7 @@ $cat->each(function($category) {
 });
 
 // clean and simple all posts from a category
-$cat = Category::slug('uncategorized')->posts()->first();
+$cat = Category::slug('uncategorized')->posts->first();
 $cat->posts->each(function($post) {
     echo $post->post_title;
 });
