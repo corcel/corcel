@@ -414,7 +414,7 @@ You can also do this for inbuilt classes, such as Page or Post. Simply register 
 
 ### From config (Laravel)
 
-You can map all shortcodes you want inside the `config/corcel.php` file, under the `'shortocodes'` key. In this case you should create your own class that `implements` the `Corcel\Shortcode` interface, that requires a `render()` method:
+You can map all shortcodes you want inside the `config/corcel.php` file, under the `'shortcodes'` key. In this case you should create your own class that `implements` the `Corcel\Shortcode` interface, that requires a `render()` method:
 
 ```php
 'shortcodes' => [
