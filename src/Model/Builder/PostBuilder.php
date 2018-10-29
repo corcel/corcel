@@ -26,7 +26,13 @@ class PostBuilder extends Builder
      */
     public function published()
     {
-        return $this->status('publish');
+        return $this->where(function ($query) {
+            $query->status('publish');
+            $query->orWhere(function ($query) {
+                $query->status('future');
+                $query->where('post_date', '<=', \Carbon\Carbon::now()->format('Y-m-d H:i:s'));
+            });
+        });
     }
 
     /**
