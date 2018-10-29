@@ -2,6 +2,7 @@
 
 namespace Corcel\Model\Builder;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -30,7 +31,7 @@ class PostBuilder extends Builder
             $query->status('publish');
             $query->orWhere(function ($query) {
                 $query->status('future');
-                $query->where('post_date', '<=', \Carbon\Carbon::now()->format('Y-m-d H:i:s'));
+                $query->where('post_date', '<=', Carbon::now()->format('Y-m-d H:i:s'));
             });
         });
     }
