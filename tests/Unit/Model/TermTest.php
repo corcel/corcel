@@ -38,7 +38,7 @@ class TermTest extends \Corcel\Tests\TestCase
         $meta = $term->meta;
 
         $this->assertNotEmpty($term->meta);
-        $this->assertTrue($meta->count() > 0);
+        $this->assertGreaterThan(0, $meta->count());
         $this->assertEquals('bar', $term->meta->foo);
     }
 
