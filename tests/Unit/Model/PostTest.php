@@ -37,7 +37,7 @@ class PostTest extends \Corcel\Tests\TestCase
     {
         $post = factory(Post::class)->create();
 
-        $this->assertTrue(is_int($post->ID));
+        $this->assertInternalType('int', $post->ID);
         $this->assertGreaterThan(0, $post->ID);
     }
 

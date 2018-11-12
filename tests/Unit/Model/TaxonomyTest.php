@@ -98,7 +98,7 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
 
         $post = $taxonomy->posts->first();
 
-        $this->assertTrue(count($post->keywords) > 0);
+        $this->assertGreaterThan(0, count($post->keywords));
     }
 
     /**

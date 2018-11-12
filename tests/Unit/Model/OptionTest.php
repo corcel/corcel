@@ -56,8 +56,8 @@ class OptionTest extends \Corcel\Tests\TestCase
 
         $options = Option::asArray();
 
-        $this->assertTrue(is_array($options));
-        $this->assertTrue(count($options) > 0);
+        $this->assertInternalType('array', $options);
+        $this->assertGreaterThan(0, count($options));
     }
 
     /**
