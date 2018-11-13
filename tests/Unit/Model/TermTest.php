@@ -82,6 +82,7 @@ class TermTest extends \Corcel\Tests\TestCase
         $this->assertInstanceOf(Term::class, $term);
         $this->assertTrue($post->hasTerm('category', 'foo'));
         $this->assertFalse($post->hasTerm('category', 'bar'));
+        $this->assertEquals($term->taxonomy->taxonomy, 'category');
     }
 
     /**
