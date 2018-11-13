@@ -278,7 +278,7 @@ class Post extends Model
     }
 
     /**
-     * @param string $postTyper
+     * @param string $postType
      */
     public function setPostType($postType)
     {
