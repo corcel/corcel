@@ -242,6 +242,23 @@ class Post extends Model
             ->where('post_type', 'revision');
     }
 
+    public function addTerm(string $taxonomy, string $term): Term
+    {
+        // create first the term
+        $term = Term::query()->create([
+            'name' => $term,
+            'slug' => str_slug($term),
+            'term_group' => 0,
+        ]);
+
+        return tap($term, function (Term $term) use ($taxonomy) {
+            $this->taxonomies()->create([
+                'term_id' => $term->term_id,
+                'taxonomy' => $taxonomy,
+            ]);
+        });
+    }
+
     /**
      * Whether the post contains the term or not.
      *
@@ -256,7 +273,7 @@ class Post extends Model
     }
 
     /**
-     * @param string $postType
+     * @param string $postTyper
      */
     public function setPostType($postType)
     {
