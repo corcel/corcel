@@ -244,11 +244,9 @@ class Post extends Model
 
     public function addTerm(string $taxonomy, string $term): Term
     {
-        // create first the term
         $term = Term::query()->create([
             'name' => $term,
             'slug' => str_slug($term),
-            'term_group' => 0,
         ]);
 
         return tap($term, function (Term $term) use ($taxonomy) {
