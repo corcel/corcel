@@ -3,6 +3,7 @@
 namespace Corcel\Tests\Unit\Model;
 
 use Corcel\Model\Post;
+use Corcel\Model\Taxonomy;
 use Corcel\Model\Term;
 
 /**
@@ -83,6 +84,23 @@ class TermTest extends \Corcel\Tests\TestCase
         $this->assertTrue($post->hasTerm('category', 'foo'));
         $this->assertFalse($post->hasTerm('category', 'bar'));
         $this->assertEquals($term->taxonomy->taxonomy, 'category');
+    }
+
+    /**
+     * @test
+     */
+    public function it_is_not_overridden_when_adding_at_post_level()
+    {
+        /** @var Post $post */
+        $post = factory(Post::class)->create();
+
+        $term1 = $post->addTerm('category', 'foo');
+        $term2 = $post->addTerm('category', 'foo');
+        $post->refresh();
+
+        $this->assertEquals($term1->term_id, $term2->term_id);
+        $this->assertEquals($term1->taxonomy, $term2->taxonomy);
+        $this->assertCount(1, Taxonomy::all());
     }
 
     /**
