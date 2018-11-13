@@ -27,7 +27,21 @@ class Taxonomy extends Model
     /**
      * @var array
      */
+    protected $fillable = ['term_id', 'taxonomy', 'description', 'parent'];
+
+    /**
+     * @var array
+     */
     protected $with = ['term'];
+
+    /**
+     * @var array
+     */
+    protected $attributes = [
+        'description' => '',
+        'parent' => 0,
+        'count' => 1,
+    ];
 
     /**
      * @var bool

@@ -28,6 +28,18 @@ class Term extends Model
     protected $primaryKey = 'term_id';
 
     /**
+     * @var array
+     */
+    protected $fillable = ['name', 'slug', 'term_group'];
+
+    /**
+     * @var array
+     */
+    protected $attributes = [
+        'term_group' => 0,
+    ];
+
+    /**
      * @var bool
      */
     public $timestamps = false;
