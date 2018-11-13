@@ -242,6 +242,13 @@ class Post extends Model
             ->where('post_type', 'revision');
     }
 
+    /**
+     * Add a new term and taxonomy to the post
+     *
+     * @param string $taxonomy
+     * @param string $term
+     * @return Term
+     */
     public function addTerm(string $taxonomy, string $term): Term
     {
         $term = Term::query()->create([
