@@ -5,6 +5,12 @@ namespace Corcel\Concerns;
 use Corcel\Model\Taxonomy;
 use Corcel\Model\Term;
 
+/**
+ * Trait TaxonomySupport
+ *
+ * @package Corcel\Concerns
+ * @author Junior Grossi <juniorgro@gmail.com>
+ */
 trait TaxonomySupport
 {
     /**
