@@ -65,14 +65,16 @@ trait TaxonomySupport
      */
     public function getTermsAttribute()
     {
-        return $this->taxonomies->groupBy(function ($taxonomy) {
-            return $taxonomy->taxonomy == 'post_tag' ?
-                'tag' : $taxonomy->taxonomy;
-        })->map(function ($group) {
-            return $group->mapWithKeys(function ($item) {
-                return [$item->term->slug => $item->term->name];
-            });
-        })->toArray();
+        return $this->taxonomies
+            ->groupBy(function ($taxonomy) {
+                return $taxonomy->taxonomy == 'post_tag' ?
+                    'tag' : $taxonomy->taxonomy;
+            })->map(function ($group) {
+                return $group->mapWithKeys(function ($item) {
+                    return [$item->term->slug => $item->term->name];
+                });
+            })
+            ->toArray();
     }
 
     /**
@@ -80,20 +82,18 @@ trait TaxonomySupport
      *
      * @return string
      */
-    public function getMainCategoryAttribute()
+    public function getMainCategoryAttribute(): string
     {
-        $mainCategory = 'Uncategorized';
+        $main_category = 'Uncategorized';
 
         if (!empty($this->terms)) {
-            $taxonomies = array_values($this->terms);
-
-            if (!empty($taxonomies[0])) {
-                $terms = array_values($taxonomies[0]);
-                $mainCategory = $terms[0];
+            $first_taxonomy = array_first($this->terms);
+            if (!empty($first_taxonomy)) {
+                $main_category = array_first(array_values($first_taxonomy));
             }
         }
 
-        return $mainCategory;
+        return $main_category;
     }
 
     /**
@@ -101,11 +101,14 @@ trait TaxonomySupport
      *
      * @return array
      */
-    public function getKeywordsAttribute()
+    public function getKeywordsAttribute(): array
     {
-        return collect($this->terms)->map(function ($taxonomy) {
-            return collect($taxonomy)->values();
-        })->collapse()->toArray();
+        return collect($this->terms)
+            ->map(function ($taxonomy) {
+                return collect($taxonomy)->values();
+            })
+            ->collapse()
+            ->toArray();
     }
 
     /**
@@ -113,7 +116,7 @@ trait TaxonomySupport
      *
      * @return string
      */
-    public function getKeywordsStrAttribute()
+    public function getKeywordsStrAttribute(): string
     {
         return implode(',', (array) $this->keywords);
     }
@@ -130,9 +133,7 @@ trait TaxonomySupport
             ->first();
 
         if ($taxonomy && $taxonomy->term) {
-            return str_replace(
-                'post-format-', '', $taxonomy->term->slug
-            );
+            return str_replace('post-format-', '', $taxonomy->term->slug);
         }
 
         return false;
