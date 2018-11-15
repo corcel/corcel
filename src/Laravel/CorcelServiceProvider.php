@@ -5,6 +5,8 @@ namespace Corcel\Laravel;
 use Auth;
 use Corcel\Corcel;
 use Corcel\Laravel\Auth\AuthUserProvider;
+use Corcel\Laravel\Observers\UserObserver;
+use Corcel\Model\User;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -23,6 +25,15 @@ class CorcelServiceProvider extends ServiceProvider
     {
         $this->publishConfigFile();
         $this->registerAuthProvider();
+        $this->registerObservers();
+    }
+
+    /**
+     * @return void
+     */
+    public function register()
+    {
+        //
     }
 
     /**
@@ -47,11 +58,8 @@ class CorcelServiceProvider extends ServiceProvider
         }
     }
 
-    /**
-     * @return void
-     */
-    public function register()
+    private function registerObservers(): void
     {
-        //
+        User::observe(UserObserver::class);
     }
 }
