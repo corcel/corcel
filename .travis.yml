@@ -8,6 +8,7 @@ php:
 dist: trusty
 
 before_script:
+  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then phpenv config-rm xdebug.ini || echo "xdebug not available"; fi
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
