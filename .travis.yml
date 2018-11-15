@@ -6,14 +6,20 @@ php:
   - 7.3
 
 dist: trusty
-sudo: required
 
 before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+install:
   - composer self-update
   - composer install
 
 script:
-  - mkdir -p build/logs
+  - "./vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml"
   - ./vendor/bin/phpunit
 
-after_script: ./codeclimate.sh
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
