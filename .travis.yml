@@ -9,7 +9,6 @@ dist: trusty
 sudo: required
 
 before_script:
-  - if [ $TRAVIS_PHP_VERSION != "7.3" ]; then phpenv config-rm xdebug.ini; fi
   - composer self-update
   - composer install
 
