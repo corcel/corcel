@@ -18,7 +18,6 @@ install:
 
 script:
   - "./vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml"
-  - ./vendor/bin/phpunit
 
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
