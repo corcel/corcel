@@ -8,6 +8,7 @@ use Corcel\Concerns\CustomTimestamps;
 use Corcel\Concerns\MetaFields;
 use Corcel\Concerns\OrderScopes;
 use Corcel\Concerns\Shortcodes;
+use Corcel\Concerns\TaxonomySupport;
 use Corcel\Corcel;
 use Corcel\Model;
 use Corcel\Model\Builder\PostBuilder;
@@ -28,6 +29,7 @@ class Post extends Model
     use Shortcodes;
     use OrderScopes;
     use CustomTimestamps;
+    use TaxonomySupport;
 
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
@@ -183,16 +185,6 @@ class Post extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function taxonomies()
-    {
-        return $this->belongsToMany(
-            Taxonomy::class, 'term_relationships', 'object_id', 'term_taxonomy_id'
-        );
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function comments()
@@ -243,19 +235,6 @@ class Post extends Model
     }
 
     /**
-     * Whether the post contains the term or not.
-     *
-     * @param string $taxonomy
-     * @param string $term
-     * @return bool
-     */
-    public function hasTerm($taxonomy, $term)
-    {
-        return isset($this->terms[$taxonomy]) &&
-            isset($this->terms[$taxonomy][$term]);
-    }
-
-    /**
      * @param string $postType
      */
     public function setPostType($postType)
@@ -301,66 +280,6 @@ class Post extends Model
     }
 
     /**
-     * Gets all the terms arranged taxonomy => terms[].
-     *
-     * @return array
-     */
-    public function getTermsAttribute()
-    {
-        return $this->taxonomies->groupBy(function ($taxonomy) {
-            return $taxonomy->taxonomy == 'post_tag' ?
-                'tag' : $taxonomy->taxonomy;
-        })->map(function ($group) {
-            return $group->mapWithKeys(function ($item) {
-                return [$item->term->slug => $item->term->name];
-            });
-        })->toArray();
-    }
-
-    /**
-     * Gets the first term of the first taxonomy found.
-     *
-     * @return string
-     */
-    public function getMainCategoryAttribute()
-    {
-        $mainCategory = 'Uncategorized';
-
-        if (!empty($this->terms)) {
-            $taxonomies = array_values($this->terms);
-
-            if (!empty($taxonomies[0])) {
-                $terms = array_values($taxonomies[0]);
-                $mainCategory = $terms[0];
-            }
-        }
-
-        return $mainCategory;
-    }
-
-    /**
-     * Gets the keywords as array.
-     *
-     * @return array
-     */
-    public function getKeywordsAttribute()
-    {
-        return collect($this->terms)->map(function ($taxonomy) {
-            return collect($taxonomy)->values();
-        })->collapse()->toArray();
-    }
-
-    /**
-     * Gets the keywords as string.
-     *
-     * @return string
-     */
-    public function getKeywordsStrAttribute()
-    {
-        return implode(',', (array) $this->keywords);
-    }
-
-    /**
      * @param string $name The post type slug
      * @param string $class The class to be instantiated
      */
@@ -375,26 +294,6 @@ class Post extends Model
     public static function clearRegisteredPostTypes()
     {
         static::$postTypes = [];
-    }
-
-    /**
-     * Get the post format, like the WP get_post_format() function.
-     *
-     * @return bool|string
-     */
-    public function getFormat()
-    {
-        $taxonomy = $this->taxonomies()
-            ->where('taxonomy', 'post_format')
-            ->first();
-
-        if ($taxonomy && $taxonomy->term) {
-            return str_replace(
-                'post-format-', '', $taxonomy->term->slug
-            );
-        }
-
-        return false;
     }
 
     /**
