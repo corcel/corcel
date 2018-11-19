@@ -57,9 +57,7 @@ class AuthenticationTest extends \Corcel\Tests\TestCase
      */
     public function it_can_validate_simple_passwords()
     {
-        $user = factory(User::class)->make([
-            'user_pass' => $this->checker->makeHash('foobar'),
-        ]);
+        $user = factory(User::class)->make(['user_pass' => 'foobar']);
 
         $this->assertTrue($this->provider->validateCredentials($user, ['password' => 'foobar']));
         $this->assertFalse($this->provider->validateCredentials($user, ['password' => 'foobaz']));
@@ -71,10 +69,7 @@ class AuthenticationTest extends \Corcel\Tests\TestCase
     public function it_can_validate_complex_passwords()
     {
         $password = ')_)E~O79}?w+5"4&6{!;ct>656Lx~5';
-
-        $user = factory(User::class)->make([
-            'user_pass' => $this->checker->makeHash($password),
-        ]);
+        $user = factory(User::class)->make(['user_pass' => $password]);
 
         $this->assertTrue($this->provider->validateCredentials($user, compact('password')));
         $this->assertFalse($this->provider->validateCredentials($user, ['password' => $password.'a']));
@@ -85,9 +80,7 @@ class AuthenticationTest extends \Corcel\Tests\TestCase
      */
     public function it_can_authenticate_users_using_auth_facade_with_email()
     {
-        factory(User::class)->create([
-            'user_pass' => $this->checker->makeHash('correct-password'),
-        ]);
+        factory(User::class)->create(['user_pass' => 'correct-password']);
 
         $this->assertTrue(Auth::validate([
             'email' => 'admin@example.com',
@@ -105,9 +98,7 @@ class AuthenticationTest extends \Corcel\Tests\TestCase
      */
     public function it_can_authenticate_users_using_auth_facade_with_username()
     {
-        factory(User::class)->create([
-            'user_pass' => $this->checker->makeHash('correct-password'),
-        ]);
+        factory(User::class)->create(['user_pass' => 'correct-password']);
 
         $this->assertTrue(Auth::validate([
             'username' => 'admin',

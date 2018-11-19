@@ -7,6 +7,7 @@ use Corcel\Concerns\Aliases;
 use Corcel\Concerns\MetaFields;
 use Corcel\Concerns\OrderScopes;
 use Corcel\Model;
+use Corcel\Services\PasswordService;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 
@@ -52,6 +53,20 @@ class User extends Model implements Authenticatable, CanResetPassword
      * @var array
      */
     protected $with = ['meta'];
+
+    /**
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
+     * @var array
+     */
+    protected $attributes = [
+        'user_url' => '',
+        'user_activation_key' => '',
+        'user_status' => 0,
+    ];
 
     /**
      * @var array
@@ -199,6 +214,18 @@ class User extends Model implements Authenticatable, CanResetPassword
         $hash = !empty($this->email) ? md5(strtolower(trim($this->email))) : '';
 
         return sprintf('//secure.gravatar.com/avatar/%s?d=mm', $hash);
+    }
+
+    /**
+     * Hash the user password according to the WP rules
+     *
+     * @param string $password
+     */
+    public function setUserPassAttribute(string $password): void
+    {
+        $service = new PasswordService();
+
+        $this->attributes['user_pass'] = $service->makeHash($password);
     }
 
     /**

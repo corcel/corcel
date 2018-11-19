@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use Corcel\Model\Collection\MetaCollection;
 use Corcel\Model\User;
 use Corcel\Model\Post;
+use Corcel\Services\PasswordService;
+use Illuminate\Database\QueryException;
 
 /**
  * Class UserTest
@@ -214,6 +216,43 @@ class UserTest extends \Corcel\Tests\TestCase
         $this->assertEquals($post->ID, $customer->ID);
         $this->assertEquals('foo', $customer->meta->bar);
         $this->assertNull($customer->meta->foo);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_be_created()
+    {
+        $user = User::query()->create([
+            'user_login' => 'admin',
+            'user_pass' => 'secret',
+            'user_email' => 'admin@example.com',
+        ]);
+
+        $password_service = new PasswordService();
+
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertTrue($password_service->check('secret', $user->user_pass));
+        $this->assertEquals($user->user_login, $user->user_nicename);
+        $this->assertEquals($user->user_login, $user->display_name);
+    }
+
+    /**
+     * @test
+     */
+    public function it_requires_login_password_and_email_when_creating()
+    {
+        $fields = ['user_login', 'user_pass', 'user_email'];
+
+        foreach ($fields as $field) {
+            $this->expectException(QueryException::class);
+
+            User::query()->create(array_except([
+                'user_login' => 'admin',
+                'user_pass' => 'secret',
+                'user_email' => 'admin@example.com',
+            ], $field));
+        }
     }
 }
 
