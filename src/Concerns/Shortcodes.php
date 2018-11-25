@@ -4,6 +4,7 @@ namespace Corcel\Concerns;
 
 use Corcel\Corcel;
 use Thunder\Shortcode\ShortcodeFacade;
+use Thunder\Shortcode\Parser\RegularParser;
 
 /**
  * Trait ShortcodesTrait
@@ -49,6 +50,9 @@ trait Shortcodes
     public function stripShortcodes($content)
     {
         $facade = new ShortcodeFacade();
+
+        $parser = config('corcel.shortcode_parser', RegularParser::class);
+        $facade->setParser(new $parser);
 
         $this->parseClassShortcodes($facade);
         $this->parseConfigShortcodes($facade);
