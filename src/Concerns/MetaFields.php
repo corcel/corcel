@@ -121,17 +121,18 @@ trait MetaFields
         if (!is_array($meta)) {
             $meta = [$meta => $value];
         }
-         foreach ($meta as $key => $value) {
+        foreach ($meta as $key => $value) {
             $query->whereHas('meta', function ($query) use ($key, $value) {
                 if (is_string($key)) {
                     $query->where('meta_key', 'like', $key);
-                     return is_null($value) ? $query : // 'foo' => null
+
+                    return is_null($value) ? $query : // 'foo' => null
                         $query->where('meta_value', 'like', $value); // 'foo' => 'bar'
                 }
-                 return $query->where('meta_key', 'like', $value); // 0 => 'foo'
+                return $query->where('meta_key', 'like', $value); // 0 => 'foo'
             });
         }
-         return $query;
+        return $query;
     }
 
 
