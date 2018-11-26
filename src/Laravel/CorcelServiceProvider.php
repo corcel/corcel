@@ -54,7 +54,7 @@ class CorcelServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(ShortcodeFacade::class, function () {
+        $this->app->bind(ShortcodeFacade::class, function () {
             return tap(new ShortcodeFacade(), function (ShortcodeFacade $facade) {
                 $parser_class = config('corcel.shortcode_parser', RegularParser::class);
                 $facade->setParser(new $parser_class);
