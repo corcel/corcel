@@ -259,21 +259,38 @@ $trueOrFalse = $post->saveMeta('foo', 'baz'); // boolean
 
 ### Querying Posts by Custom Fields (Meta)
 
-There are multiples possibilities to query posts by their custom fields (meta). Just use the `hasMeta()` scope under `Post` (actually for all models using the `HasMetaFields` trait) class:
+There are multiples possibilities to query posts by their custom fields (meta) by using scopes on a `Post` (or another other model which uses the `HasMetaFields` trait) class:
 
-```php
-// Using just one custom field
-$post = Post::published()->hasMeta('username', 'jgrossi')->first(); // setting key and value
-$post = Post::published()->hasMeta('username'); // setting just the key
+To check if a meta key exists, use the `hasMeta()` scope:
+```
+// Finds a published post with a meta flag.
+$post = Post::published()->hasMeta('featured_article'); 
 ```
 
-You can also use the `hasMeta()` scope passing an array as parameter:
+If you want to precisely match a meta-field, you can use the `hasMeta()` scope with a value.
+
+```php
+// Find a published post which matches both meta_key and meta_value.
+$post = Post::published()->hasMeta('username', 'jgrossi')->first();
+```
+
+If you need to match multiple meta-fields, you can also use the `hasMeta()` scope passing an array as parameter:
 
 ```php
 $post = Post::hasMeta(['username' => 'jgrossi'])->first();
 $post = Post::hasMeta(['username' => 'jgrossi', 'url' => 'jgrossi.com'])->first();
 // Or just passing the keys
 $post = Post::hasMeta(['username', 'url'])->first();
+```
+
+If you need to match a case-insensitive string, or match with wildcards, you can use the `hasMetaLike()` scope with a value. This uses an SQL `LIKE` operator, so use '%' as a wildcard operator.
+
+```php
+// Will match: 'J Grossi', 'J GROSSI', and 'j grossi'.
+$post = Post::published()->hasMetaLike('author', 'J GROSSI')->first();
+
+// Using % as a wildcard will match: 'J Grossi', 'J GROSSI', 'j grossi', 'Junior Grossi' etc.
+$post = Post::published()->hasMetaLike('author', 'J%GROSSI')->first();
 ```
 
 ### Fields Aliases
