@@ -83,11 +83,10 @@ trait Shortcodes
             return app()->make(ShortcodeFacade::class);
         }
 
-        $handler = new ShortcodeFacade();
-        $parser = $this->shortcode_parser ?: new RegularParser();
-        $handler->setParser($parser);
-
-        return $handler;
+        return tap(new ShortcodeFacade(), function (ShortcodeFacade $handler) {
+            $parser = $this->shortcode_parser ?: new RegularParser();
+            $handler->setParser($parser);
+        });
     }
 
     /**
