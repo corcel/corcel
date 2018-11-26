@@ -128,17 +128,11 @@ class HasMetaFieldsTest extends \Corcel\Tests\TestCase
      */
     public function it_can_find_users_by_meta_like_with_wildcard_after_creating_meta()
     {
-        $users = [
-            0 => factory(User::class)->create(),
-            1 => factory(User::class)->create(),
-            2 => factory(User::class)->create(),
-        ];
-        $metas = [
-            $users[0]->createMeta(['foo' => 'ba']),
-            $users[1]->createMeta(['foo' => 'bar']),
-            $users[2]->createMeta(['foo' => 'baz']),
-        ];
+        factory(User::class)->create()->createMeta(['foo' => 'ba']);
+        factory(User::class)->create()->createMeta(['foo' => 'bar']);
+        factory(User::class)->create()->createMeta(['foo' => 'baz']);
 
+        /** @var Collection $users */
         $users = User::hasMetaLike(['foo' => 'ba%'])->get();
 
         $this->assertInstanceOf(Collection::class, $users);
