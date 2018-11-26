@@ -6,6 +6,8 @@ use Auth;
 use Corcel\Corcel;
 use Corcel\Laravel\Auth\AuthUserProvider;
 use Illuminate\Support\ServiceProvider;
+use Thunder\Shortcode\Parser\RegularParser;
+use Thunder\Shortcode\ShortcodeFacade;
 
 /**
  * Class CorcelServiceProvider
@@ -52,6 +54,11 @@ class CorcelServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(ShortcodeFacade::class, function () {
+            return tap(new ShortcodeFacade(), function (ShortcodeFacade $facade) {
+                $parser_class = config('corcel.shortcode_parser', RegularParser::class);
+                $facade->setParser(new $parser_class);
+            });
+        });
     }
 }
