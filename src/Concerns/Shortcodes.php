@@ -3,10 +3,9 @@
 namespace Corcel\Concerns;
 
 use Corcel\Corcel;
-use Illuminate\Console\Parser;
 use Thunder\Shortcode\Parser\ParserInterface;
-use Thunder\Shortcode\ShortcodeFacade;
 use Thunder\Shortcode\Parser\RegularParser;
+use Thunder\Shortcode\ShortcodeFacade;
 
 /**
  * Trait ShortcodesTrait
@@ -85,7 +84,7 @@ trait Shortcodes
         }
 
         $handler = new ShortcodeFacade();
-        $parser = $this->shortcode_parser ?: new (RegularParser::class);
+        $parser = $this->shortcode_parser ?: (new (RegularParser::class));
         $handler->setParser($parser);
 
         return $handler;
