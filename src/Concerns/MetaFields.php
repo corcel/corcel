@@ -111,6 +111,31 @@ trait MetaFields
     }
 
     /**
+     * @param Builder $query
+     * @param string $meta
+     * @param mixed $value
+     * @return Builder
+     */
+    public function scopeHasMetaLike(Builder $query, $meta, $value = null)
+    {
+        if (!is_array($meta)) {
+            $meta = [$meta => $value];
+        }
+         foreach ($meta as $key => $value) {
+            $query->whereHas('meta', function ($query) use ($key, $value) {
+                if (is_string($key)) {
+                    $query->where('meta_key', 'like', $key);
+                     return is_null($value) ? $query : // 'foo' => null
+                        $query->where('meta_value', 'like', $value); // 'foo' => 'bar'
+                }
+                 return $query->where('meta_key', 'like', $value); // 0 => 'foo'
+            });
+        }
+         return $query;
+    }
+
+
+    /**
      * @param string $key
      * @param mixed $value
      * @return bool
