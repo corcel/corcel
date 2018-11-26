@@ -85,7 +85,7 @@ trait Shortcodes
         }
 
         $handler = new ShortcodeFacade();
-        $parser = $this->shortcode_parser ?: new RegularParser::class;
+        $parser = $this->shortcode_parser ?: new (RegularParser::class);
         $handler->setParser($parser);
 
         return $handler;
