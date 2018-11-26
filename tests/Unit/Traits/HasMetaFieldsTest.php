@@ -88,4 +88,69 @@ class HasMetaFieldsTest extends \Corcel\Tests\TestCase
 
         $this->assertEquals('bar', $user->getMeta('foo'));
     }
+
+    /**
+     * @test
+     */
+    public function it_can_find_users_by_meta_after_creating_meta()
+    {
+        $users = [
+            0 => factory(User::class)->create(),
+            1 => factory(User::class)->create(),
+            2 => factory(User::class)->create(),
+            3 => factory(User::class)->create(),
+        ];
+        $users[0]->createMeta(['foo' => 'ba']);
+        $users[1]->createMeta(['foo' => 'bar']);
+        $users[2]->createMeta(['foo' => 'baz']);
+        $users[3]->createMeta(['foo' => 'BA']);
+
+        $users = User::hasMeta(['foo' => 'ba'])->get();
+        $this->assertInstanceOf(Collection::class, $users);
+        $this->assertEquals(1, $users->count());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_find_users_by_meta_like_after_creating_meta()
+    {
+        $users = [
+            0 => factory(User::class)->create(),
+            1 => factory(User::class)->create(),
+            2 => factory(User::class)->create(),
+            3 => factory(User::class)->create(),
+        ];
+        $users[0]->createMeta(['foo' => 'ba']);
+        $users[1]->createMeta(['foo' => 'bar']);
+        $users[2]->createMeta(['foo' => 'baz']);
+        $users[3]->createMeta(['foo' => 'BA']);
+
+        $users = User::hasMetaLike(['foo' => 'ba'])->get();
+
+        $this->assertInstanceOf(Collection::class, $users);
+        $this->assertEquals(2, $users->count());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_find_users_by_meta_like_with_wildcard_after_creating_meta()
+    {
+        $users = [
+            0 => factory(User::class)->create(),
+            1 => factory(User::class)->create(),
+            2 => factory(User::class)->create(),
+        ];
+        $metas = [
+            $users[0]->createMeta(['foo' => 'ba']),
+            $users[1]->createMeta(['foo' => 'bar']),
+            $users[2]->createMeta(['foo' => 'baz']),
+        ];
+
+        $users = User::hasMetaLike(['foo' => 'ba%'])->get();
+
+        $this->assertInstanceOf(Collection::class, $users);
+        $this->assertEquals(3, $users->count());
+    }
 }
