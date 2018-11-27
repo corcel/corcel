@@ -264,7 +264,7 @@ There are multiples possibilities to query posts by their custom fields (meta) b
 To check if a meta key exists, use the `hasMeta()` scope:
 ```
 // Finds a published post with a meta flag.
-$post = Post::published()->hasMeta('featured_article'); 
+$post = Post::published()->hasMeta('featured_article')->first();
 ```
 
 If you want to precisely match a meta-field, you can use the `hasMeta()` scope with a value.
