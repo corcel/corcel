@@ -461,7 +461,20 @@ echo $post->content;
 
 If you are using Laravel, we suggest adding your shortcodes handlers in `App\Providers\AppServiceProvider`, in the `boot` method.
 
-The [*thunderer/shortcode*](https://github.com/thunderer/Shortcode) library is used to parse the shortcodes.  For more information, [click here](https://github.com/thunderer/Shortcode).
+### Shortcode Parsing
+
+Shortcodes are parsed with the [*thunderer/shortcode*](https://github.com/thunderer/Shortcode) library. 
+
+Several different parsers are provided. `RegularParser` is the most technically correct and is provided by default. This is suitable for most cases. However if you encounter some irregularities in your shortcode parsing, you may need to configure Corcel to use the `WordpressParser`, which more faithfully matches Wordpress' shortcode regex. To do this, edit the `config/corcel.php` file, and uncomment your preferred parser. Alternatively, you can replace this with a parser of your own.
+
+```php
+'shortcode_parser' => Thunder\Shortcode\Parser\RegularParser::class,
+// 'shortcode_parser' => Thunder\Shortcode\Parser\WordpressParser::class,
+```
+
+If you need to do this in runtime, you can call the `setShortcodeParser()` method from any class which uses the `Shortcodes` trait (such as `Post`).
+
+For more information, [click here](https://github.com/thunderer/Shortcode).
 
 ## <a id="taxonomies"></a>Taxonomies
 
