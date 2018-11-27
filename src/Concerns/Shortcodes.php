@@ -22,7 +22,7 @@ trait Shortcodes
     protected static $shortcodes = [];
 
     /** @var ParserInterface */
-    private $shortcode_parser;
+    private $shortcodeParser;
 
     /**
      * @param string $tag the shortcode tag
@@ -53,7 +53,7 @@ trait Shortcodes
      */
     public function setShortcodeParser(ParserInterface $parser): self
     {
-        $this->shortcode_parser = $parser;
+        $this->shortcodeParser = $parser;
 
         return $this;
     }
@@ -84,7 +84,7 @@ trait Shortcodes
         }
 
         return tap(new ShortcodeFacade(), function (ShortcodeFacade $handler) {
-            $parser = $this->shortcode_parser ?: new RegularParser();
+            $parser = $this->shortcodeParser ?: new RegularParser();
             $handler->setParser($parser);
         });
     }
