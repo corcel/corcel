@@ -1,0 +1,28 @@
+<?php
+
+namespace Corcel\Tests\Unit\Concerns;
+
+use Corcel\Model\Post;
+use Corcel\Tests\TestCase;
+use Thunder\Shortcode\Parser\WordpressParser;
+use Thunder\Shortcode\ShortcodeFacade;
+
+class ShortcodesTest extends TestCase
+{
+    /** @test */
+    public function you_can_change_the_shortcode_in_the_config_file()
+    {
+        config(['corcel.shortcode_parser' => WordpressParser::class]);
+
+        $post = factory(Post::class)->create();
+        $method = new \ReflectionMethod($post, 'getShortcodeHandlerInstance');
+        $method->setAccessible(true);
+        /** @var ShortcodeFacade $handler */
+        $handler = $method->invoke($post);
+
+        $property = new \ReflectionProperty($handler, 'parser');
+        $property->setAccessible(true);
+
+        $this->assertInstanceOf(WordpressParser::class, $property->getValue($handler));
+    }
+}
