@@ -465,16 +465,21 @@ If you are using Laravel, we suggest adding your shortcodes handlers in `App\Pro
 
 Shortcodes are parsed with the [*thunderer/shortcode*](https://github.com/thunderer/Shortcode) library. 
 
-Several different parsers are provided. `RegularParser` is the most technically correct and is provided by default. This is suitable for most cases. However if you encounter some irregularities in your shortcode parsing, you may need to configure Corcel to use the `WordpressParser`, which more faithfully matches Wordpress' shortcode regex. To do this, edit the `config/corcel.php` file, and uncomment your preferred parser. Alternatively, you can replace this with a parser of your own.
+Several different parsers are provided. `RegularParser` is the most technically correct and is provided by default. This is suitable for most cases. However if you encounter some irregularities in your shortcode parsing, you may need to configure Corcel to use the `WordpressParser`, which more faithfully matches WordPress' shortcode regex. To do this, if you are using Laravel, edit the `config/corcel.php` file, and uncomment your preferred parser. Alternatively, you can replace this with a parser of your own.
 
 ```php
 'shortcode_parser' => Thunder\Shortcode\Parser\RegularParser::class,
 // 'shortcode_parser' => Thunder\Shortcode\Parser\WordpressParser::class,
 ```
 
-If you need to do this in runtime, you can call the `setShortcodeParser()` method from any class which uses the `Shortcodes` trait (such as `Post`).
+If you are not using Laravel, you can to do this in runtime, calling the `setShortcodeParser()` method from any class which uses the `Shortcodes` trait, such as `Post`, for example.
 
-For more information, [click here](https://github.com/thunderer/Shortcode).
+```php
+$post->setShortcodeParser(new WordpressParser());
+echo $post->content; // content parsed with "WordpressParser" class
+```
+
+For more information about the shortcode package, [click here](https://github.com/thunderer/Shortcode).
 
 ## <a id="taxonomies"></a>Taxonomies
 
