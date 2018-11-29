@@ -5,7 +5,6 @@ namespace Corcel\Tests\Unit\Concerns;
 use Corcel\Model\Post;
 use Corcel\Tests\TestCase;
 use Illuminate\Container\Container;
-use Mockery\Mock;
 use Thunder\Shortcode\Parser\WordpressParser;
 use Thunder\Shortcode\ShortcodeFacade;
 
@@ -18,7 +17,7 @@ use Thunder\Shortcode\ShortcodeFacade;
 class ShortcodesTest extends TestCase
 {
     /** @test */
-    public function you_can_change_the_shortcode_in_the_config_file()
+    public function it_can_change_in_the_config_file_if_laravel()
     {
         config(['corcel.shortcode_parser' => WordpressParser::class]);
 
@@ -34,7 +33,7 @@ class ShortcodesTest extends TestCase
     }
 
     /** @test */
-    public function you_can_change_the_parser_in_runtime()
+    public function it_can_change_the_parser_in_runtime()
     {
         /** @var Post $post */
         $post = factory(Post::class)->create();
