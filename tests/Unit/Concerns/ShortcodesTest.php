@@ -6,7 +6,6 @@ use Corcel\Corcel;
 use Corcel\Model;
 use Corcel\Model\Post;
 use Corcel\Tests\TestCase;
-use Mockery\Mock;
 use Thunder\Shortcode\Parser\ParserInterface;
 use Thunder\Shortcode\Parser\WordpressParser;
 use Thunder\Shortcode\ShortcodeFacade;
