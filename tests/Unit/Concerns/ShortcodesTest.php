@@ -2,9 +2,12 @@
 
 namespace Corcel\Tests\Unit\Concerns;
 
+use Corcel\Corcel;
+use Corcel\Model;
 use Corcel\Model\Post;
 use Corcel\Tests\TestCase;
-use Illuminate\Container\Container;
+use Mockery\Mock;
+use Thunder\Shortcode\Parser\ParserInterface;
 use Thunder\Shortcode\Parser\WordpressParser;
 use Thunder\Shortcode\ShortcodeFacade;
 
@@ -16,41 +19,64 @@ use Thunder\Shortcode\ShortcodeFacade;
  */
 class ShortcodesTest extends TestCase
 {
-    /** @test */
+    /** @var Mock */
+    protected $mockedCorcel;
+
+    public function setUp(): void
+    {
+        $this->mockedCorcel = \Mockery::mock('alias:' . Corcel::class);
+        parent::setUp();
+    }
+
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function it_can_change_in_the_config_file_if_laravel()
     {
+        $this->mockedCorcel->shouldReceive('isLaravel')->andReturn(true);
         config(['corcel.shortcode_parser' => WordpressParser::class]);
 
         $post = factory(Post::class)->create();
-        $method = new \ReflectionMethod($post, 'getShortcodeHandlerInstance');
-        $method->setAccessible(true);
-        /** @var ShortcodeFacade $handler */
-        $handler = $method->invoke($post);
+        $handler = $this->getHandler($post);
+        $value = $this->getParserValue($handler);
 
-        $property = new \ReflectionProperty($handler, 'parser');
-        $property->setAccessible(true);
-        $this->assertInstanceOf(WordpressParser::class, $property->getValue($handler));
+        $this->assertInstanceOf(WordpressParser::class, $value);
     }
 
-    /** @test */
+    /**
+     * @test
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function it_can_change_the_parser_in_runtime()
     {
+        $this->mockedCorcel->shouldReceive('isLaravel')->andReturn(false);
+
         /** @var Post $post */
         $post = factory(Post::class)->create();
         $post->setShortcodeParser(new WordpressParser());
 
+        $handler = $this->getHandler($post);
+        $value = $this->getParserValue($handler);
+
+        $this->assertInstanceOf(WordpressParser::class, $value);
+    }
+
+    private function getHandler(Model $post): ShortcodeFacade
+    {
         $method = new \ReflectionMethod($post, 'getShortcodeHandlerInstance');
         $method->setAccessible(true);
-        // Forcing Corcel::isLaravel() to return false
-        $mock = \Mockery::mock(Container::class);
-        $mock->shouldReceive('version')->andReturn('foo');
-        Container::setInstance($mock);
 
-        /** @var ShortcodeFacade $handler */
-        $handler = $method->invoke($post);
+        return $method->invoke($post);
+    }
 
+    private function getParserValue(ShortcodeFacade $handler): ParserInterface
+    {
         $property = new \ReflectionProperty($handler, 'parser');
         $property->setAccessible(true);
-        $this->assertInstanceOf(WordpressParser::class, $property->getValue($handler));
+
+        return $property->getValue($handler);
     }
 }
