@@ -88,4 +88,54 @@ class HasMetaFieldsTest extends \Corcel\Tests\TestCase
 
         $this->assertEquals('bar', $user->getMeta('foo'));
     }
+
+    /**
+     * @test
+     */
+    public function it_can_check_meta_using_has_meta_method()
+    {
+        factory(User::class)->create()->createMeta(['foo' => 'ba']);
+        factory(User::class)->create()->createMeta(['foo' => 'bar']);
+        factory(User::class)->create()->createMeta(['foo' => 'baz']);
+        factory(User::class)->create()->createMeta(['foo' => 'BA']);
+
+        /** @var Collection $users */
+        $users = User::hasMeta(['foo' => 'ba'])->get();
+
+        $this->assertInstanceOf(Collection::class, $users);
+        $this->assertEquals(1, $users->count());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_find_users_by_meta_like_after_creating_meta()
+    {
+        factory(User::class)->create()->createMeta(['foo' => 'ba']);
+        factory(User::class)->create()->createMeta(['foo' => 'bar']);
+        factory(User::class)->create()->createMeta(['foo' => 'baz']);
+        factory(User::class)->create()->createMeta(['foo' => 'BA']);
+
+        /** @var Collection $users */
+        $users = User::hasMetaLike(['foo' => 'ba'])->get();
+
+        $this->assertInstanceOf(Collection::class, $users);
+        $this->assertEquals(2, $users->count());
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_find_users_by_meta_like_with_wildcard_after_creating_meta()
+    {
+        factory(User::class)->create()->createMeta(['foo' => 'ba']);
+        factory(User::class)->create()->createMeta(['foo' => 'bar']);
+        factory(User::class)->create()->createMeta(['foo' => 'baz']);
+
+        /** @var Collection $users */
+        $users = User::hasMetaLike(['foo' => 'ba%'])->get();
+
+        $this->assertInstanceOf(Collection::class, $users);
+        $this->assertEquals(3, $users->count());
+    }
 }
