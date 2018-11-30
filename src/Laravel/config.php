@@ -51,4 +51,19 @@ return [
 //        'foo' => App\Shortcodes\FooShortcode::class,
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Registered Shortcode Parser
+    |--------------------------------------------------------------------------
+    |
+    | Corcel uses the thunderer/shortcode library to parse shortcodes. Thunderer
+    | provides three different parsers for shortcodes. You can use a
+    | different parser if it suits your requirements better, or create your own.
+    |
+    */
+
+    'shortcode_parser' => Thunder\Shortcode\Parser\RegularParser::class,
+    // 'shortcode_parser' => Thunder\Shortcode\Parser\RegexParser::class,
+    // 'shortcode_parser' => Thunder\Shortcode\Parser\WordpressParser::class,
+
 ];
