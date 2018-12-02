@@ -1,4 +1,4 @@
-![Readme Art](http://i.imgur.com/Kq8iHtg.png)
+<div align="center"><img src="https://i.imgur.com/fHMqwTF.png" width="180"></div>
 
 Corcel
 ======
@@ -11,17 +11,14 @@ Corcel
 [![Test Coverage](https://codeclimate.com/github/corcel/corcel/badges/coverage.svg)](https://codeclimate.com/github/corcel/corcel/coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/3dc8135eee70ae7da325/maintainability)](https://codeclimate.com/github/corcel/corcel/maintainability)
 
-<a href="https://ko-fi.com/A36513JF" target="_blank">
-  <img height="36" style="border:0px;height:36px;" src="https://az743702.vo.msecnd.net/cdn/kofi4.png?v=0" border="0" alt="Buy Me a Coffee at ko-fi.com" />
-</a>
-
-[![Twitter Follow](https://img.shields.io/twitter/follow/corcelphp.svg?style=social&label=Follow)](http://twitter.com/CorcelPHP)
-
 Corcel is a collection of classes created to retrieve WordPress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project, with any framework, including Laravel.
 
 This way, you can use WordPress as the backend (admin panel), to insert posts, custom types, etc, and you can use whatever you want in the frontend, like Silex, Slim Framework, Laravel, Zend, or even pure PHP (why not?). So, just use Corcel to retrieve data from WordPress.
 
 This make possible to use WordPress as your CMS of choice and using Laravel in the front to create routes, views, controller, and fetch WordPress data using Corcel.
+
+<a href="https://ko-fi.com/A36513JF" target="_blank">Buy me a Coffee</a> | 
+<a href="https://twitter.com/corcelphp" target="_blank">Follow Corcel on Twitter</a>
 
 # Table of Contents
 # <a id="install"></a> Installing Corcel
