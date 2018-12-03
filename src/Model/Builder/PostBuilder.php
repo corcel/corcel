@@ -2,6 +2,7 @@
 
 namespace Corcel\Model\Builder;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -26,7 +27,13 @@ class PostBuilder extends Builder
      */
     public function published()
     {
-        return $this->status('publish');
+        return $this->where(function ($query) {
+            $query->status('publish');
+            $query->orWhere(function ($query) {
+                $query->status('future');
+                $query->where('post_date', '<=', Carbon::now()->format('Y-m-d H:i:s'));
+            });
+        });
     }
 
     /**
@@ -55,6 +62,15 @@ class PostBuilder extends Builder
     {
         return $this->where('post_name', $slug);
     }
+    
+    /**
+     * @param string $postParentId
+     * @return PostBuilder
+     */
+    public function parent($postParentId)
+    {
+        return $this->where('post_parent', $postParentId);
+    }
 
     /**
      * @param string $taxonomy
@@ -68,6 +84,37 @@ class PostBuilder extends Builder
                 ->whereHas('term', function ($query) use ($terms) {
                     $query->whereIn('slug', is_array($terms) ? $terms : [$terms]);
                 });
+        });
+    }
+
+    /**
+     * @param mixed $term
+     * @return PostBuilder
+     */
+    public function search($term = false)
+    {
+        if (empty($term)) {
+            return $this;
+        }
+
+        $terms = is_string($term) ? explode(' ', $term) : $term;
+        
+        $terms = collect($terms)->map(function ($term) {
+            return trim(str_replace('%', '', $term));
+        })->filter()->map(function ($term) {
+            return '%' . $term . '%';
+        });
+
+        if ($terms->isEmpty()) {
+            return $this;
+        }
+
+        return $this->where(function ($query) use ($terms) {
+            $terms->each(function ($term) use ($query) {
+                $query->orWhere('post_title', 'like', $term)
+                    ->orWhere('post_excerpt', 'like', $term)
+                    ->orWhere('post_content', 'like', $term);
+            });
         });
     }
 }

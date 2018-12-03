@@ -30,7 +30,7 @@ class PostMetaTest extends \Corcel\Tests\TestCase
         $meta = factory(PostMeta::class)->create();
 
         $this->assertNotNull($meta);
-        $this->assertTrue(is_int($meta->meta_id));
+        $this->assertInternalType('int', $meta->meta_id);
     }
 
     /**

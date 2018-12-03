@@ -1,4 +1,4 @@
-![Readme Art](http://i.imgur.com/Kq8iHtg.png)
+<div align="center"><img src="https://i.imgur.com/fHMqwTF.png" width="180"></div>
 
 Corcel
 ======
@@ -8,11 +8,8 @@ Corcel
 [![Travis](https://travis-ci.org/corcel/corcel.svg?branch=master)](https://travis-ci.org/corcel/corcel?branch=master)
 [![Packagist](https://img.shields.io/packagist/v/jgrossi/corcel.svg)](https://packagist.org/packages/jgrossi/corcel)
 [![Packagist](https://img.shields.io/packagist/dt/jgrossi/corcel.svg)](https://github.com/jgrossi/corcel/releases)
-[![Coverage Status](https://coveralls.io/repos/github/corcel/corcel/badge.svg?branch=master)](https://coveralls.io/github/corcel/corcel?branch=master)
-
-<a href='https://ko-fi.com/A36513JF' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi4.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-
-[![Twitter Follow](https://img.shields.io/twitter/follow/corcelphp.svg?style=social&label=Follow)](http://twitter.com/CorcelPHP)
+[![Test Coverage](https://codeclimate.com/github/corcel/corcel/badges/coverage.svg)](https://codeclimate.com/github/corcel/corcel/coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/3dc8135eee70ae7da325/maintainability)](https://codeclimate.com/github/corcel/corcel/maintainability)
 
 Corcel is a collection of classes created to retrieve WordPress database data using a better syntax. It uses the [Eloquent ORM](https://github.com/illuminate/database) developed for the Laravel Framework, but you can use Corcel in any type of PHP project, with any framework, including Laravel.
 
@@ -20,13 +17,15 @@ This way, you can use WordPress as the backend (admin panel), to insert posts, c
 
 This make possible to use WordPress as your CMS of choice and using Laravel in the front to create routes, views, controller, and fetch WordPress data using Corcel.
 
+<a href="https://ko-fi.com/A36513JF" target="_blank">Buy me a Coffee</a> | 
+<a href="https://twitter.com/corcelphp" target="_blank">Follow Corcel on Twitter</a>
+
 # Table of Contents
 # <a id="install"></a> Installing Corcel
 
 
 - [Version Compatibility](#versions)
 - [Installing Corcel](#install)
-- [Changelog (v1 to v2)](#changelog)
 - [Database Setup](#database-setup)
 - [Usage](#usage)
     - [Posts](#posts)
@@ -38,6 +37,7 @@ This make possible to use WordPress as your CMS of choice and using Laravel in t
     - [Pages](#pages)
     - [Categories & Taxonomies](#cats)
     - [Attachments & Revision](#attachments)
+    - [Thumbnails](#thumbnails)
     - [Options](#options)
     - [Menu](#menu)
     - [Users](#users)
@@ -54,6 +54,9 @@ This make possible to use WordPress as your CMS of choice and using Laravel in t
  5.2.x    | 2.2.x
  5.3.x    | 2.3.x
  5.4.x    | 2.4.x
+ 5.5.x    | 2.5.x
+ 5.6.x    | 2.6.x
+ 5.7.x    | 2.7.x
 
 # <a id="install"></a> Installing Corcel
 
@@ -85,18 +88,6 @@ php artisan vendor:publish --provider="Corcel\Laravel\CorcelServiceProvider"
 ```
 
 Now you have a `config/corcel.php` config file, where you can set the database connection with WordPress tables and much more.
-
-# <a id="changelog"></a> Changelog (v1 to v2)
-
-## Namespace change
-
-In Corcel v1 all model classes were located in the `Corcel` namespace. In v2 all models are located in the `Corcel\Model` namespace. So if you want to fetch posts using the `Post` class just use `Corcel\Model\Post::all()`, for example.
-
-## Configuration file and Service Provider class
-
-In Corcel v2 we have now a config file and a Service Provider class. This makes easier to setup the database connection you want to be used by Corcel (the WordPress one).
-
-You can also configure custom post types and shortcodes directly from the config file. This file should be located in `config/corcel.php` (after publishing - see instructions above).
 
 # <a id="database-setup"></a> Database Setup
 
@@ -204,7 +195,7 @@ Optionally you can create your own `Post` model (or Page, or whatever) which ext
 
 namespace App;
 
-use Corcel\Post as Corcel;
+use Corcel\Model\Post as Corcel;
 
 class Post extends Corcel
 {
@@ -265,21 +256,38 @@ $trueOrFalse = $post->saveMeta('foo', 'baz'); // boolean
 
 ### Querying Posts by Custom Fields (Meta)
 
-There are multiples possibilities to query posts by their custom fields (meta). Just use the `hasMeta()` scope under `Post` (actually for all models using the `HasMetaFields` trait) class:
+There are multiples possibilities to query posts by their custom fields (meta) by using scopes on a `Post` (or another other model which uses the `HasMetaFields` trait) class:
 
-```php
-// Using just one custom field
-$post = Post::published()->hasMeta('username', 'jgrossi')->first(); // setting key and value
-$post = Post::published()->hasMeta('username'); // setting just the key
+To check if a meta key exists, use the `hasMeta()` scope:
+```
+// Finds a published post with a meta flag.
+$post = Post::published()->hasMeta('featured_article')->first();
 ```
 
-You can also use the `hasMeta()` scope passing an array as parameter:
+If you want to precisely match a meta-field, you can use the `hasMeta()` scope with a value.
+
+```php
+// Find a published post which matches both meta_key and meta_value.
+$post = Post::published()->hasMeta('username', 'jgrossi')->first();
+```
+
+If you need to match multiple meta-fields, you can also use the `hasMeta()` scope passing an array as parameter:
 
 ```php
 $post = Post::hasMeta(['username' => 'jgrossi'])->first();
 $post = Post::hasMeta(['username' => 'jgrossi', 'url' => 'jgrossi.com'])->first();
 // Or just passing the keys
 $post = Post::hasMeta(['username', 'url'])->first();
+```
+
+If you need to match a case-insensitive string, or match with wildcards, you can use the `hasMetaLike()` scope with a value. This uses an SQL `LIKE` operator, so use '%' as a wildcard operator.
+
+```php
+// Will match: 'J Grossi', 'J GROSSI', and 'j grossi'.
+$post = Post::published()->hasMetaLike('author', 'J GROSSI')->first();
+
+// Using % as a wildcard will match: 'J Grossi', 'J GROSSI', 'j grossi', 'Junior Grossi' etc.
+$post = Post::published()->hasMetaLike('author', 'J%GROSSI')->first();
 ```
 
 ### Fields Aliases
@@ -421,7 +429,7 @@ You can also do this for inbuilt classes, such as Page or Post. Simply register 
 
 ### From config (Laravel)
 
-You can map all shortcodes you want inside the `config/corcel.php` file, under the `'shortocodes'` key. In this case you should create your own class that `implements` the `Corcel\Shortcode` interface, that requires a `render()` method:
+You can map all shortcodes you want inside the `config/corcel.php` file, under the `'shortcodes'` key. In this case you should create your own class that `implements` the `Corcel\Shortcode` interface, that requires a `render()` method:
 
 ```php
 'shortcodes' => [
@@ -463,9 +471,29 @@ $post = Post::find(1);
 echo $post->content;
 ```
 
+> Laravel 5.5 uses Package Auto-Discovery, so doesn't require you to manually add the ServiceProvider
+
 If you are using Laravel, we suggest adding your shortcodes handlers in `App\Providers\AppServiceProvider`, in the `boot` method.
 
-The [*thunderer/shortcode*](https://github.com/thunderer/Shortcode) library is used to parse the shortcodes.  For more information, [click here](https://github.com/thunderer/Shortcode).
+### Shortcode Parsing
+
+Shortcodes are parsed with the [*thunderer/shortcode*](https://github.com/thunderer/Shortcode) library. 
+
+Several different parsers are provided. `RegularParser` is the most technically correct and is provided by default. This is suitable for most cases. However if you encounter some irregularities in your shortcode parsing, you may need to configure Corcel to use the `WordpressParser`, which more faithfully matches WordPress' shortcode regex. To do this, if you are using Laravel, edit the `config/corcel.php` file, and uncomment your preferred parser. Alternatively, you can replace this with a parser of your own.
+
+```php
+'shortcode_parser' => Thunder\Shortcode\Parser\RegularParser::class,
+// 'shortcode_parser' => Thunder\Shortcode\Parser\WordpressParser::class,
+```
+
+If you are not using Laravel, you can to do this in runtime, calling the `setShortcodeParser()` method from any class which uses the `Shortcodes` trait, such as `Post`, for example.
+
+```php
+$post->setShortcodeParser(new WordpressParser());
+echo $post->content; // content parsed with "WordpressParser" class
+```
+
+For more information about the shortcode package, [click here](https://github.com/thunderer/Shortcode).
 
 ## <a id="taxonomies"></a>Taxonomies
 
@@ -512,7 +540,7 @@ to achieve it.
 
 ```php
 // all categories
-$cat = Taxonomy::category()->slug('uncategorized')->posts()->first();
+$cat = Taxonomy::category()->slug('uncategorized')->posts->first();
 echo "<pre>"; print_r($cat->name); echo "</pre>";
 
 // only all categories and posts connected with it
@@ -522,7 +550,7 @@ $cat->each(function($category) {
 });
 
 // clean and simple all posts from a category
-$cat = Category::slug('uncategorized')->posts()->first();
+$cat = Category::slug('uncategorized')->posts->first();
 $cat->posts->each(function($post) {
     echo $post->post_title;
 });
@@ -540,6 +568,40 @@ print_r($page->attachment);
 $post = Post::slug('test')->with('revision')->first();
 // get all revisions from a post or page
 print_r($post->revision);
+```
+
+## <a id="thumbnails"></a>Thumbnails
+
+Getting the thumbnail for a `Post` or `Page`.
+
+```php
+$post = Post::find(1);
+
+// Retrieve an instance of Corcel\Model\Meta\ThumbnailMeta.
+print_r($post->thumbnail);
+
+// For convenience you may also echo the thumbnail instance to get the URL of the original image.
+echo $post->thumbnail;
+```
+
+To retrieve a particular thumbnail size you may call the `->size()` method on the thumbnail object and pass in a thumbnail size string parameter (e.g. `thumbnail` or `medium`). If the thumbnail has been generated, this method returns an array of image metadata, otherwise the original image URL will be returned as a fallback.
+
+```php
+if ($post->thumbnail !== null) {
+    /**
+     * [
+     *     'file' => 'filename-300x300.jpg',
+     *     'width' => 300,
+     *     'height' => 300,
+     *     'mime-type' => 'image/jpeg',
+     *     'url' => 'http://localhost/wp-content/uploads/filename-300x300.jpg',
+     * ]
+     */
+    print_r($post->thumbnail->size(Corcel\Model\Meta\ThumbnailMeta::SIZE_THUMBNAIL));
+
+    // http://localhost/wp-content/uploads/filename.jpg
+    print_r($post->thumbnail->size('invalid_size'));
+}
 ```
 
 ## <a id="options"></a>Options
@@ -725,7 +787,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 
 - Fork https://github.com/corcel/corcel in Github;
 
-- Clone your forked repository (not Corcel's) locally and create your own branch based on `dev` one: `git checkout -b my-fix-branch dev`;
+- Clone your forked repository (not Corcel's) locally and create your own branch based on the version you want to fix (`2.1`, `2.2`, `2.3`, `2.4` or `2.5`): `git checkout -b my-fix-branch 2.5`;
 
 - Make all code changes. Remember here to write at least one test case for any feature you add or any bugfix (if it's not tested yet). Our goal is to have 100% of the code covered by tests, so help us to write a better code ;-) If you don' have experience with tests it's a good opportunity to learn. Just take a look into our tests cases and you'll see how simple they are.
 
@@ -733,7 +795,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 
 - Push your new branch to your forked repository, usually `git push origin HEAD` should work;
 
-- In GitHub again, create a Pull Request (PR) from your custom `my-fix-branch` branch (from your forked repository) to `corcel:dev`, not `corcel:master`, please;
+- In GitHub again, create a Pull Request (PR) from your custom `my-fix-branch` branch (from your forked repository) to the related branch (`corcel:2.5`, for example, not `corcel:master`, please;
 
 - Wait for the approval :-)
 

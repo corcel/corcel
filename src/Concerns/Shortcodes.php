@@ -1,8 +1,10 @@
 <?php
 
-namespace Corcel\Traits;
+namespace Corcel\Concerns;
 
 use Corcel\Corcel;
+use Thunder\Shortcode\Parser\ParserInterface;
+use Thunder\Shortcode\Parser\RegularParser;
 use Thunder\Shortcode\ShortcodeFacade;
 
 /**
@@ -12,12 +14,15 @@ use Thunder\Shortcode\ShortcodeFacade;
  * @author Mickael Burguet <www.rundef.com>
  * @author Junior Grossi <juniorgro@gmail.com>
  */
-trait ShortcodesTrait
+trait Shortcodes
 {
     /**
      * @var array
      */
     protected static $shortcodes = [];
+
+    /** @var ParserInterface */
+    private $shortcodeParser;
 
     /**
      * @param string $tag the shortcode tag
@@ -41,6 +46,19 @@ trait ShortcodesTrait
     }
 
     /**
+     * Change the default shortcode parser
+     *
+     * @param ParserInterface $parser
+     * @return Shortcodes
+     */
+    public function setShortcodeParser(ParserInterface $parser): self
+    {
+        $this->shortcodeParser = $parser;
+
+        return $this;
+    }
+
+    /**
      * Process the shortcodes.
      *
      * @param string $content the content
@@ -48,12 +66,27 @@ trait ShortcodesTrait
      */
     public function stripShortcodes($content)
     {
-        $facade = new ShortcodeFacade();
+        $handler = $this->getShortcodeHandlerInstance();
 
-        $this->parseClassShortcodes($facade);
-        $this->parseConfigShortcodes($facade);
+        $this->parseClassShortcodes($handler);
+        $this->parseConfigShortcodes($handler);
 
-        return $facade->process($content);
+        return $handler->process($content);
+    }
+
+    /**
+     * @return ShortcodeFacade
+     */
+    private function getShortcodeHandlerInstance(): ShortcodeFacade
+    {
+        if (Corcel::isLaravel()) {
+            return app()->make(ShortcodeFacade::class);
+        }
+
+        return tap(new ShortcodeFacade(), function (ShortcodeFacade $handler) {
+            $parser = $this->shortcodeParser ?: new RegularParser();
+            $handler->setParser($parser);
+        });
     }
 
     /**

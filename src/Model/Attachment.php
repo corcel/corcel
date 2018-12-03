@@ -2,7 +2,7 @@
 
 namespace Corcel\Model;
 
-use Corcel\Traits\AliasesTrait;
+use Corcel\Concerns\Aliases;
 
 /**
  * Class Attachment
@@ -13,7 +13,7 @@ use Corcel\Traits\AliasesTrait;
  */
 class Attachment extends Post
 {
-    use AliasesTrait;
+    use Aliases;
 
     /**
      * @var string

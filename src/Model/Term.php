@@ -2,9 +2,9 @@
 
 namespace Corcel\Model;
 
+use Corcel\Concerns\AdvancedCustomFields;
+use Corcel\Concerns\MetaFields;
 use Corcel\Model;
-use Corcel\Traits\HasAcfFields;
-use Corcel\Traits\HasMetaFields;
 
 /**
  * Class Term.
@@ -14,8 +14,8 @@ use Corcel\Traits\HasMetaFields;
  */
 class Term extends Model
 {
-    use HasMetaFields;
-    use HasAcfFields;
+    use MetaFields;
+    use AdvancedCustomFields;
 
     /**
      * @var string

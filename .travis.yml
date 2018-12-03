@@ -1,18 +1,24 @@
 language: php
 
 php:
-  - 5.6
-  - 7.0
+  - 7.1
+  - 7.2
+  - 7.3
 
 dist: trusty
-sudo: required
 
 before_script:
+  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then phpenv config-rm xdebug.ini || echo "xdebug not available"; fi
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+install:
   - composer self-update
   - composer install
 
 script:
-  - mkdir -p build/logs
-  - phpunit
+  - "./vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml"
 
-after_script: php vendor/bin/coveralls
+after_script:
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi

@@ -74,11 +74,17 @@ class Taxonomy extends Model
      */
     public function newEloquentBuilder($query)
     {
-        $builder = new TaxonomyBuilder($query);
+        return new TaxonomyBuilder($query);
+    }
 
+    /**
+     * @return TaxonomyBuilder
+     */
+    public function newQuery()
+    {
         return isset($this->taxonomy) && $this->taxonomy ?
-            $builder->where('taxonomy', $this->taxonomy) :
-            $builder;
+            parent::newQuery()->where('taxonomy', $this->taxonomy) :
+            parent::newQuery();
     }
 
     /**

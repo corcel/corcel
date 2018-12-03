@@ -14,9 +14,6 @@ use Exception;
  */
 class Option extends Model
 {
-    const CREATED_AT = null;
-    const UPDATED_AT = null;
-
     /**
      * @var string
      */
@@ -26,6 +23,11 @@ class Option extends Model
      * @var string
      */
     protected $primaryKey = 'option_id';
+
+    /**
+     * @var bool
+     */
+    public $timestamps = false;
 
     /**
      * @var array

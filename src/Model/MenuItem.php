@@ -20,7 +20,7 @@ class MenuItem extends Post
     /**
      * @var array
      */
-    private $instanceRelations = [
+    protected $instanceRelations = [
         'post' => Post::class,
         'page' => Page::class,
         'custom' => CustomLink::class,
@@ -56,7 +56,7 @@ class MenuItem extends Post
     /**
      * @return string
      */
-    private function getClassName()
+    protected function getClassName()
     {
         return Arr::get(
             $this->instanceRelations, $this->meta->_menu_item_object

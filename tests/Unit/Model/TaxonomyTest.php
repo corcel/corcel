@@ -98,7 +98,23 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
 
         $post = $taxonomy->posts->first();
 
-        $this->assertTrue(count($post->keywords) > 0);
+        $this->assertGreaterThan(0, count($post->keywords));
+    }
+
+    /**
+     * @test
+     */
+    public function it_has_correct_query_with_callback_in_where()
+    {
+        $query = Category::where(function ($q) {
+            $q->where('foo', 'bar');
+        });
+
+        $expectedQuery = 'select * from "wp_term_taxonomy" where "taxonomy" = ? and ("foo" = ?)';
+        $expectedBindings = ['category', 'bar'];
+
+        $this->assertEquals($expectedQuery, $query->toSql());
+        $this->assertSame($expectedBindings, $query->getBindings());
     }
 
     /**
@@ -124,4 +140,9 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
 
         return $taxonomy;
     }
+}
+
+class Category extends Taxonomy
+{
+    protected $taxonomy = 'category';
 }
