@@ -5,6 +5,7 @@ namespace Corcel\Tests\Unit\Model;
 use Corcel\Model\Post;
 use Corcel\Model\Taxonomy;
 use Corcel\Model\Term;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 /**
@@ -43,7 +44,7 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
 
     public function test_it_can_be_queried_by_name_and_term_slug()
     {
-        $taxonomy = $this->createTaxonomyWithTermsAndPosts();
+        $this->createTaxonomyWithTermsAndPosts();
 
         $foo = Taxonomy::name('foo')->slug('bar')->first();
         $this->assertEquals('Bar', $foo->name);
@@ -86,7 +87,8 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
 
     public function test_it_has_correct_query_with_callback_in_where()
     {
-        $query = Category::where(function ($q) {
+        /** @var Builder $query */
+        $query = Category::query()->where(function (Builder $q) {
             $q->where('foo', 'bar');
         });
 
