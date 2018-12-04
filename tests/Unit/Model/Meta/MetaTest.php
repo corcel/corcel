@@ -7,10 +7,15 @@ use Corcel\Tests\TestCase;
 
 class MetaTest extends TestCase
 {
-    public function test_it_might_not_serialize_value()
+    public function test_it_unserialize_serialized_values()
     {
-        // meta_value is not serialized
+        $meta = factory(PostMeta::class)->create(['meta_value' => serialize('foo')]);
+        $this->assertEquals('foo', $meta->value);
+    }
+
+    public function test_it_also_works_with_unserialized_values()
+    {
         $meta = factory(PostMeta::class)->create(['meta_value' => 'foo']);
         $this->assertEquals('foo', $meta->value);
-    }    
+    }
 }
