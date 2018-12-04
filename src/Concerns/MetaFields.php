@@ -41,7 +41,6 @@ trait MetaFields
 
     /**
      * @return string
-     *
      * @throws \UnexpectedValueException
      */
     protected function getMetaClass()
@@ -60,16 +59,13 @@ trait MetaFields
 
     /**
      * @return string
-     *
      * @throws \UnexpectedValueException
      */
-    protected function getMetaForeignKey()
+    protected function getMetaForeignKey(): string
     {
         foreach ($this->builtInClasses as $model => $meta) {
             if ($this instanceof $model) {
-                $basename = class_basename($model);
-
-                return sprintf('%s_id', strtolower($basename));
+                return sprintf('%s_id', strtolower(class_basename($model)));
             }
         }
 
@@ -140,7 +136,6 @@ trait MetaFields
             foreach ($key as $k => $v) {
                 $this->saveOneMeta($k, $v);
             }
-
             $this->load('meta');
 
             return true;
@@ -160,7 +155,6 @@ trait MetaFields
             ->firstOrNew(['meta_key' => $key]);
 
         $result = $meta->fill(['meta_value' => $value])->save();
-
         $this->load('meta');
 
         return $result;
@@ -203,7 +197,6 @@ trait MetaFields
             'meta_key' => $key,
             'meta_value' => $value,
         ]);
-
         $this->load('meta');
 
         return $meta;
