@@ -256,14 +256,6 @@ class Post extends Model
     }
 
     /**
-     * @param string $postType
-     */
-    public function setPostType($postType)
-    {
-        $this->postType = $postType;
-    }
-
-    /**
      * @return string
      */
     public function getPostType()
