@@ -16,11 +16,8 @@ trait CustomTimestamps
      */
     public function setCreatedAt($value)
     {
-        $field = static::CREATED_AT;
-        $this->{$field} = $value;
-
-        $field .= '_gmt';
-        $this->{$field} = $value;
+        $gmt_field = static::CREATED_AT . '_gmt';
+        $this->{$gmt_field} = $value;
 
         return parent::setCreatedAt($value);
     }
@@ -31,11 +28,8 @@ trait CustomTimestamps
      */
     public function setUpdatedAt($value)
     {
-        $field = static::UPDATED_AT;
-        $this->{$field} = $value;
-
-        $field .= '_gmt';
-        $this->{$field} = $value;
+        $gmt_field = static::UPDATED_AT . '_gmt';
+        $this->{$gmt_field} = $value;
 
         return parent::setUpdatedAt($value);
     }
