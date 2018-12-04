@@ -188,7 +188,6 @@ class UserTest extends \Corcel\Tests\TestCase
 
     public function test_timestamps_methods()
     {
-        /** @var User $user */
         $user = factory(User::class)->create();
 
         $this->assertEmpty($user->setUpdatedAtAttribute('foo'));

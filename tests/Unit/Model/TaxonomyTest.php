@@ -99,6 +99,28 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
         $this->assertSame($expectedBindings, $query->getBindings());
     }
 
+    public function test_it_has_meta_relation()
+    {
+        /** @var Taxonomy $taxonomy */
+        $taxonomy = factory(Taxonomy::class)->create();
+        /** @var Term $term */
+        $term = $taxonomy->term;
+        $term->saveMeta('foo', 'bar');
+
+        $this->assertNotEmpty($taxonomy->meta);
+        $this->assertEquals('bar', $taxonomy->meta->foo);
+    }
+
+    public function test_it_has_parent()
+    {
+        /** @var Taxonomy $parent */
+        $parent = factory(Taxonomy::class)->create();
+        /** @var Taxonomy $taxonomy */
+        $taxonomy = factory(Taxonomy::class)->create(['parent' => $parent->term_taxonomy_id]);
+
+        $this->assertEquals($parent->fresh(), $taxonomy->parent()->first());
+    }
+
     private function createTaxonomyWithTermsAndPosts(): Taxonomy
     {
         $taxonomy = factory(Taxonomy::class)->create([
