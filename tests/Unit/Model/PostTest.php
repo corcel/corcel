@@ -391,6 +391,37 @@ class PostTest extends \Corcel\Tests\TestCase
         $this->assertEquals(0, $post->post_parent);
     }
 
+    public function test_parent_relation()
+    {
+        $parent = factory(Post::class)->create();
+        $post = factory(Post::class)->create(['post_parent' => $parent->ID]);
+
+        $this->assertEquals($parent->fresh(), $post->parent);
+    }
+
+    public function test_attachment_relation()
+    {
+        $parent = factory(Post::class)->create();
+        $attachment = factory(Post::class)->create([
+            'post_parent' => $parent->ID,
+            'post_type' => 'attachment',
+        ]);
+
+        $this->assertEquals($attachment->fresh(), $parent->attachment->first());
+    }
+
+    public function test_revision_relation()
+    {
+        $parent = factory(Post::class)->create();
+        $revision = factory(Post::class)->create([
+            'post_parent' => $parent->ID,
+            'post_type' => 'revision',
+        ]);
+
+        $revisions = $parent->revision;
+        $this->assertEquals($revision->fresh(), $revisions->first());
+    }
+
     public function test_it_can_have_shortcode()
     {
         $this->registerFooShortcode();
