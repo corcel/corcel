@@ -102,7 +102,7 @@ class AuthUserProvider implements UserProvider
      * @param array $credentials
      * @return bool
      */
-    public function validateCredentials(Authenticatable $user, array $credentials)
+    public function validateCredentials(Authenticatable $user, array $credentials): bool
     {
         if (!isset($credentials['password'])) {
             return false;
