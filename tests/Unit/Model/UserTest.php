@@ -4,6 +4,7 @@ namespace Corcel\Tests\Unit\Model;
 
 use Carbon\Carbon;
 use Corcel\Model\Collection\MetaCollection;
+use Corcel\Model\Comment;
 use Corcel\Model\User;
 use Corcel\Model\Post;
 
@@ -172,6 +173,26 @@ class UserTest extends \Corcel\Tests\TestCase
         $this->assertEquals($post->ID, $customer->ID);
         $this->assertEquals('foo', $customer->meta->bar);
         $this->assertNull($customer->meta->foo);
+    }
+
+    public function test_missing_relations()
+    {
+        $user = factory(User::class)->create();
+
+        factory(Post::class, 2)->create(['post_author' => $user->ID]);
+        factory(Comment::class, 3)->create(['user_id' => $user->ID]);
+
+        $this->assertCount(2, $user->posts);
+        $this->assertCount(3, $user->comments);
+    }
+
+    public function test_timestamps_methods()
+    {
+        /** @var User $user */
+        $user = factory(User::class)->create();
+
+        $this->assertEmpty($user->setUpdatedAtAttribute('foo'));
+        $this->assertEmpty($user->setUpdatedAt('foo'));
     }
 }
 
