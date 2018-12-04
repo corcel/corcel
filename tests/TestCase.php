@@ -17,7 +17,7 @@ use Orchestra\Database\ConsoleServiceProvider;
  */
 class TestCase extends \Orchestra\Testbench\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -101,7 +101,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
      * @param \Illuminate\Foundation\Application $app
      * @return array
      */
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             ConsoleServiceProvider::class,

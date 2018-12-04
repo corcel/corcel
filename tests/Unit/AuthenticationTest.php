@@ -15,30 +15,20 @@ use Illuminate\Support\Facades\Auth;
  */
 class AuthenticationTest extends \Corcel\Tests\TestCase
 {
-    /**
-     * @var PasswordService
-     */
+    /** @var PasswordService */
     protected $checker;
 
-    /**
-     * @var AuthUserProvider
-     */
+    /** @var AuthUserProvider */
     protected $provider;
 
-    /**
-     * @return void
-     */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->checker = new PasswordService();
         $this->provider = new AuthUserProvider();
     }
 
-    /**
-     * @test
-     */
-    public function it_can_check_passwords()
+    public function test_it_can_check_passwords()
     {
         $this->assertTrue($this->checker->check('admin', $this->checker->makeHash('admin')));
         $this->assertTrue($this->checker->check('admin', '$P$BrYiES.08ardK6pQme0LdlmQ0idrIe/'));
@@ -52,10 +42,7 @@ class AuthenticationTest extends \Corcel\Tests\TestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function it_can_validate_simple_passwords()
+    public function test_it_can_validate_simple_passwords()
     {
         $user = factory(User::class)->make([
             'user_pass' => $this->checker->makeHash('foobar'),
@@ -65,10 +52,7 @@ class AuthenticationTest extends \Corcel\Tests\TestCase
         $this->assertFalse($this->provider->validateCredentials($user, ['password' => 'foobaz']));
     }
 
-    /**
-     * @test
-     */
-    public function it_can_validate_complex_passwords()
+    public function test_it_can_validate_complex_passwords()
     {
         $password = ')_)E~O79}?w+5"4&6{!;ct>656Lx~5';
 
@@ -80,10 +64,7 @@ class AuthenticationTest extends \Corcel\Tests\TestCase
         $this->assertFalse($this->provider->validateCredentials($user, ['password' => $password.'a']));
     }
 
-    /**
-     * @test
-     */
-    public function it_can_authenticate_users_using_auth_facade_with_email()
+    public function test_it_can_authenticate_users_using_auth_facade_with_email()
     {
         factory(User::class)->create([
             'user_pass' => $this->checker->makeHash('correct-password'),
@@ -100,10 +81,7 @@ class AuthenticationTest extends \Corcel\Tests\TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
-    public function it_can_authenticate_users_using_auth_facade_with_username()
+    public function test_it_can_authenticate_users_using_auth_facade_with_username()
     {
         factory(User::class)->create([
             'user_pass' => $this->checker->makeHash('correct-password'),

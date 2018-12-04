@@ -12,10 +12,7 @@ use Corcel\Model\Post;
  */
 class DatabaseTest extends \Corcel\Tests\TestCase
 {
-    /**
-     * @test
-     */
-    public function it_uses_the_default_database_connection()
+    public function test_it_uses_the_default_database_connection()
     {
         factory(Post::class)->create();
 
@@ -25,10 +22,7 @@ class DatabaseTest extends \Corcel\Tests\TestCase
         $this->assertEquals($connection, $post->getConnectionName());
     }
 
-    /**
-     * @test
-     */
-    public function it_uses_corcel_connection_if_it_is_present()
+    public function test_it_uses_corcel_connection_if_it_is_present()
     {
         factory(Post::class)->create();
         $post = Post::newest()->first();

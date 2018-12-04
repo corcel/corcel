@@ -11,10 +11,7 @@ use Corcel\Model\Post;
  */
 class PostTypeTest extends \Corcel\Tests\TestCase
 {
-    /**
-     * @test
-     */
-    public function it_still_has_post_type()
+    public function test_it_still_has_post_type()
     {
         /** @var Post $post */
         $post = factory(Post::class)->create([
@@ -24,10 +21,7 @@ class PostTypeTest extends \Corcel\Tests\TestCase
         $this->assertInstanceOf(Post::class, $post);
     }
 
-    /**
-     * @test
-     */
-    public function it_has_custom_instance_name()
+    public function test_it_has_custom_instance_name()
     {
         Post::registerPostType('video', Video::class);
         factory(Post::class)->create(['post_type' => 'video']);
@@ -38,10 +32,7 @@ class PostTypeTest extends \Corcel\Tests\TestCase
         $this->assertEquals('video', $post->getPostType());
     }
 
-    /**
-     * @test
-     */
-    public function it_has_meta_fields_using_custom_class()
+    public function test_it_has_meta_fields_using_custom_class()
     {
         factory(Post::class)->create(['post_type' => 'fake_post']);
         $fake = Post::newest()->first();
@@ -53,10 +44,7 @@ class PostTypeTest extends \Corcel\Tests\TestCase
         $this->assertEquals('bar', $fake->meta->foo);
     }
 
-    /**
-     * @test
-     */
-    public function it_has_custom_instance_using_custom_class_builder()
+    public function test_it_has_custom_instance_using_custom_class_builder()
     {
         Post::registerPostType('video', Video::class);
         factory(Post::class)->create(['post_type' => 'video']);
@@ -67,10 +55,7 @@ class PostTypeTest extends \Corcel\Tests\TestCase
         $this->assertEquals('video', $video->post_type);
     }
 
-    /**
-     * @test
-     */
-    public function it_is_configurable_by_the_config_file()
+    public function test_it_is_configurable_by_the_config_file()
     {
         factory(Post::class)->create(['post_type' => 'fake_post']);
         $post = Post::type('fake_post')->first();

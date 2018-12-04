@@ -11,10 +11,7 @@ use Corcel\Model\Attachment;
  */
 class AttachmentTest extends \Corcel\Tests\TestCase
 {
-    /**
-     * @test
-     */
-    public function it_has_aliases()
+    public function test_it_has_aliases()
     {
         $attachment = $this->createAttachmentWithMeta();
 
@@ -26,10 +23,7 @@ class AttachmentTest extends \Corcel\Tests\TestCase
         $this->assertEquals($attachment->meta->_wp_attachment_image_alt, $attachment->alt);
     }
 
-    /**
-     * @test
-     */
-    public function its_to_array_method_has_all_appends_property_values()
+    public function test_its_to_array_method_has_all_appends_property_values()
     {
         $attachment = $this->createAttachmentWithMeta();
 

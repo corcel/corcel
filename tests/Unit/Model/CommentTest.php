@@ -12,10 +12,7 @@ use Corcel\Model\Post;
  */
 class CommentTest extends \Corcel\Tests\TestCase
 {
-    /**
-     * @test
-     */
-    public function it_has_the_correct_instance()
+    public function test_it_has_the_correct_instance()
     {
         $comment = factory(Comment::class)->create();
 
@@ -23,20 +20,14 @@ class CommentTest extends \Corcel\Tests\TestCase
         $this->assertInstanceOf(Comment::class, $comment);
     }
 
-    /**
-     * @test
-     */
-    public function its_id_is_an_integer()
+    public function test_its_id_is_an_integer()
     {
         $comment = factory(Comment::class)->create();
 
         $this->assertInternalType('integer', $comment->comment_ID);
     }
 
-    /**
-     * @test
-     */
-    public function it_has_approved_scope()
+    public function test_it_has_approved_scope()
     {
         factory(Comment::class)->create(['comment_approved' => 0]);
         $lastComment = Comment::orderBy('created_at', 'desc')->approved()->first();
@@ -50,10 +41,7 @@ class CommentTest extends \Corcel\Tests\TestCase
         $this->assertEquals($comment->comment_date, $lastComment->comment_date);
     }
     
-    /**
-     * @test
-     */
-    public function it_has_post_relation()
+    public function test_it_has_post_relation()
     {
         $comment = factory(Comment::class)->create();
 
@@ -62,10 +50,7 @@ class CommentTest extends \Corcel\Tests\TestCase
         $this->assertInternalType('integer', $post->ID);
     }
 
-    /**
-     * @test
-     */
-    public function it_can_query_post_by_id()
+    public function test_it_can_query_post_by_id()
     {
         $post = $this->createPostWithComments();
         $comments = Comment::findByPostId($post->ID);
@@ -75,10 +60,7 @@ class CommentTest extends \Corcel\Tests\TestCase
         $this->assertEquals($post->ID, $comments->first()->post->ID);
     }
 
-    /**
-     * @test
-     */
-    public function it_has_parent()
+    public function test_it_has_parent()
     {
         $comment = $this->createCommentWithParent();
 
@@ -86,10 +68,7 @@ class CommentTest extends \Corcel\Tests\TestCase
         $this->assertEquals($comment->comment_parent, $comment->original->comment_ID);
     }
 
-    /**
-     * @test
-     */
-    public function it_is_approved()
+    public function test_it_is_approved()
     {
         $comment = factory(Comment::class)->create();
 
@@ -97,10 +76,7 @@ class CommentTest extends \Corcel\Tests\TestCase
         $this->assertTrue($comment->isApproved());
     }
 
-    /**
-     * @test
-     */
-    public function it_can_be_a_reply()
+    public function test_it_can_be_a_reply()
     {
         $comment = $this->createCommentWithReplies();
 
@@ -110,10 +86,7 @@ class CommentTest extends \Corcel\Tests\TestCase
         $this->assertTrue($comment->replies->first()->isReply());
     }
 
-    /**
-     * @test
-     */
-    public function it_has_replies()
+    public function test_it_has_replies()
     {
         $comment = $this->createCommentWithReplies();
 
@@ -121,10 +94,7 @@ class CommentTest extends \Corcel\Tests\TestCase
         $this->assertInternalType('boolean', $comment->hasReplies());
     }
 
-    /**
-     * @test
-     */
-    public function it_can_have_a_different_database_connection_name()
+    public function test_it_can_have_a_different_database_connection_name()
     {
         $comment = factory(Comment::class)->make();
         $comment->setConnection('foo');
@@ -138,10 +108,7 @@ class CommentTest extends \Corcel\Tests\TestCase
         $this->assertEquals('foo', $comment->post->getConnectionName());
     }
 
-    /**
-     * @test
-     */
-    public function it_can_have_meta_fields()
+    public function test_it_can_have_meta_fields()
     {
         $comment = factory(Comment::class)->create();
 
@@ -150,10 +117,7 @@ class CommentTest extends \Corcel\Tests\TestCase
         $this->assertEquals('bar', $comment->meta->foo);
     }
 
-    /**
-     * @test
-     */
-    public function it_can_update_meta()
+    public function test_it_can_update_meta()
     {
         $comment = factory(Comment::class)->create();
         $comment->saveMeta('foo', 'bar');
@@ -165,10 +129,7 @@ class CommentTest extends \Corcel\Tests\TestCase
         $this->assertEquals('baz', $comment->meta->foo);
     }
 
-    /**
-     * @test
-     */
-    public function it_has_meta()
+    public function test_it_has_meta()
     {
         factory(Comment::class)->create()
             ->saveMeta('foo', 'bar');

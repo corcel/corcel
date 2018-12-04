@@ -18,8 +18,7 @@ use Thunder\Shortcode\ShortcodeFacade;
  */
 class ShortcodesTest extends TestCase
 {
-    /** @test */
-    public function it_can_change_in_the_config_file_if_laravel()
+    public function test_it_can_change_in_the_config_file_if_laravel()
     {
         config(['corcel.shortcode_parser' => WordpressParser::class]);
 
@@ -31,11 +30,10 @@ class ShortcodesTest extends TestCase
     }
 
     /**
-     * @test
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function it_can_change_the_parser_in_runtime()
+    public function test_it_can_change_the_parser_in_runtime()
     {
         // Force Corcel::isLaravel() returning false
         $mockedCorcel = \Mockery::mock('alias:' . Corcel::class);

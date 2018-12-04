@@ -11,10 +11,7 @@ use Corcel\Model\Term;
  */
 class TermTest extends \Corcel\Tests\TestCase
 {
-    /**
-     * @test
-     */
-    public function it_can_create_term_meta()
+    public function test_it_can_create_term_meta()
     {
         $term = factory(Term::class)->create();
 
@@ -27,10 +24,7 @@ class TermTest extends \Corcel\Tests\TestCase
         $this->assertEquals('bar', $meta->meta_value);
     }
 
-    /**
-     * @test
-     */
-    public function it_can_create_meta_using_helper_method()
+    public function test_it_can_create_meta_using_helper_method()
     {
         $term = factory(Term::class)->create();
 
@@ -42,10 +36,7 @@ class TermTest extends \Corcel\Tests\TestCase
         $this->assertEquals('bar', $term->meta->foo);
     }
 
-    /**
-     * @test
-     */
-    public function it_has_meta_relation()
+    public function test_it_has_meta_relation()
     {
         $term = $this->createTermWithTwoMetaFields();
 
@@ -54,10 +45,7 @@ class TermTest extends \Corcel\Tests\TestCase
         $this->assertEquals(2, $count);
     }
 
-    /**
-     * @test
-     */
-    public function its_meta_can_be_queried_by_its_relation()
+    public function test_its_meta_can_be_queried_by_its_relation()
     {
         $term = $this->createTermWithTwoMetaFields();
 
@@ -66,10 +54,7 @@ class TermTest extends \Corcel\Tests\TestCase
         $this->assertEquals('bar', $meta->meta_value);
     }
 
-    /**
-     * @return Term
-     */
-    private function createTermWithTwoMetaFields()
+    private function createTermWithTwoMetaFields(): Term
     {
         $term = factory(Term::class)->create();
 

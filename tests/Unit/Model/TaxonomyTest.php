@@ -5,6 +5,7 @@ namespace Corcel\Tests\Unit\Model;
 use Corcel\Model\Post;
 use Corcel\Model\Taxonomy;
 use Corcel\Model\Term;
+use Illuminate\Support\Collection;
 
 /**
  * Class TermTaxonomyTest
@@ -13,10 +14,7 @@ use Corcel\Model\Term;
  */
 class TaxonomyTest extends \Corcel\Tests\TestCase
 {
-    /**
-     * @test
-     */
-    public function it_belongs_to_a_term()
+    public function test_it_belongs_to_a_term()
     {
         $taxonomy = factory(Taxonomy::class)->create([
             'term_id' => 0,
@@ -29,10 +27,7 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
         $this->assertEquals($term->term_id, $taxonomy->term_id);
     }
 
-    /**
-     * @test
-     */
-    public function it_can_filter_taxonomy_by_term()
+    public function test_it_can_filter_taxonomy_by_term()
     {
         $taxonomy = $this->createTaxonomyWithTermsAndPosts();
         $term = $taxonomy->term;
@@ -46,10 +41,7 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
         }
     }
 
-    /**
-     * @test
-     */
-    public function it_can_be_queried_by_name_and_term_slug()
+    public function test_it_can_be_queried_by_name_and_term_slug()
     {
         $taxonomy = $this->createTaxonomyWithTermsAndPosts();
 
@@ -63,10 +55,7 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
         });
     }
 
-    /**
-     * @test
-     */
-    public function it_can_be_queries_by_term_as_an_aliases_to_slug()
+    public function test_it_can_be_queries_by_term_as_an_aliases_to_slug()
     {
         $this->createTaxonomyWithTermsAndPosts();
 
@@ -75,10 +64,7 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
         $this->assertEquals('Bar', $foo->name);
     }
 
-    /**
-     * @test
-     */
-    public function it_can_query_taxonomy_by_term_and_get_all_posts_related()
+    public function test_it_can_query_taxonomy_by_term_and_get_all_posts_related()
     {
         $this->createTaxonomyWithTermsAndPosts();
 
@@ -89,10 +75,7 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
         $this->assertEquals('Foo bar', $post->title);
     }
 
-    /**
-     * @test
-     */
-    public function its_first_post_should_have_keywords_if_it_has_taxonomy_and_term()
+    public function test_its_first_post_should_have_keywords_if_it_has_taxonomy_and_term()
     {
         $taxonomy = $this->createTaxonomyWithTermsAndPosts();
 
@@ -101,10 +84,7 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
         $this->assertGreaterThan(0, count($post->keywords));
     }
 
-    /**
-     * @test
-     */
-    public function it_has_correct_query_with_callback_in_where()
+    public function test_it_has_correct_query_with_callback_in_where()
     {
         $query = Category::where(function ($q) {
             $q->where('foo', 'bar');
@@ -117,10 +97,7 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
         $this->assertSame($expectedBindings, $query->getBindings());
     }
 
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-    private function createTaxonomyWithTermsAndPosts()
+    private function createTaxonomyWithTermsAndPosts(): Taxonomy
     {
         $taxonomy = factory(Taxonomy::class)->create([
             'taxonomy' => 'foo',

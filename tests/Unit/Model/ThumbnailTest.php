@@ -13,20 +13,14 @@ use Corcel\Model\Post;
  */
 class ThumbnailTest extends \Corcel\Tests\TestCase
 {
-    /**
-     * @test
-     */
-    public function its_meta_belongs_to_post()
+    public function test_its_meta_belongs_to_post()
     {
         $meta = factory(ThumbnailMeta::class)->create();
 
         $this->assertInstanceOf(Post::class, $meta->post);
     }
     
-    /**
-     * @test
-     */
-    public function its_post_has_thumbnail_relation()
+    public function test_its_post_has_thumbnail_relation()
     {
         $meta = factory(ThumbnailMeta::class)->create();
 
@@ -35,10 +29,7 @@ class ThumbnailTest extends \Corcel\Tests\TestCase
         $this->assertInstanceOf(ThumbnailMeta::class, $post->thumbnail);
     }
 
-    /**
-     * @test
-     */
-    public function it_has_an_attachment()
+    public function test_it_has_an_attachment()
     {
         $meta = $this->createThumbnailMetaWithAttachment();
 
@@ -46,20 +37,14 @@ class ThumbnailTest extends \Corcel\Tests\TestCase
         $this->assertInternalType('string', $meta->post->image);
     }
 
-    /**
-     * @test
-     */
-    public function its_post_thumbnail_attachment_url_is_valid()
+    public function test_its_post_thumbnail_attachment_url_is_valid()
     {
         $post = $this->createPostWithThumbnail();
 
         $this->assertEquals('http://google.com', $post->thumbnail->attachment->url);
     }
 
-    /**
-     * @test
-     */
-    public function it_has_different_sizes()
+    public function test_it_has_different_sizes()
     {
         $meta = $this->createThumbnailMetaWithAttachment();
 
@@ -72,10 +57,7 @@ class ThumbnailTest extends \Corcel\Tests\TestCase
         $this->assertEquals('image/jpeg', $thumbnail['mime-type']);
     }
 
-    /**
-     * @test
-     */
-    public function it_returns_full_size_for_unknown_size()
+    public function test_it_returns_full_size_for_unknown_size()
     {
         $meta = $this->createThumbnailMetaWithAttachment();
 
@@ -85,10 +67,7 @@ class ThumbnailTest extends \Corcel\Tests\TestCase
         $this->assertEquals($fullSize, $unknownSize);
     }
 
-    /**
-     * @return ThumbnailMeta
-     */
-    private function createThumbnailMetaWithAttachment()
+    private function createThumbnailMetaWithAttachment(): ThumbnailMeta
     {
         $attachment = factory(Attachment::class)->create();
         $this->saveThumbnailSizes($attachment);
@@ -102,10 +81,7 @@ class ThumbnailTest extends \Corcel\Tests\TestCase
         return $meta;
     }
 
-    /**
-     * @return Post
-     */
-    private function createPostWithThumbnail()
+    private function createPostWithThumbnail(): Post
     {
         $thumbnail = factory(ThumbnailMeta::class)->create([
             'meta_value' => function () {
@@ -118,11 +94,7 @@ class ThumbnailTest extends \Corcel\Tests\TestCase
         return $thumbnail->post;
     }
 
-    /**
-     * @param Attachment $attachment
-     * @return Attachment
-     */
-    private function saveThumbnailSizes(Attachment $attachment)
+    private function saveThumbnailSizes(Attachment $attachment): Attachment
     {
         $attachment->saveMeta('_wp_attachment_metadata', serialize([
             'sizes' => [

@@ -16,20 +16,14 @@ use Corcel\Model\Taxonomy;
  */
 class MenuTest extends \Corcel\Tests\TestCase
 {
-    /**
-     * @test
-     */
-    public function it_has_the_correct_class_name()
+    public function test_it_has_the_correct_class_name()
     {
         $menu = factory(Menu::class)->create();
 
         $this->assertInstanceOf(Menu::class, $menu);
     }
 
-    /**
-     * @test
-     */
-    public function it_has_integer_id()
+    public function test_it_has_integer_id()
     {
         $menus = factory(Menu::class, 2)->create();
 
@@ -39,10 +33,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         });
     }
 
-    /**
-     * @test
-     */
-    public function it_can_be_queried_by_slug()
+    public function test_it_can_be_queried_by_slug()
     {
         factory(Menu::class)->create();
         $menu = Menu::slug('foo')->first();
@@ -50,10 +41,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         $this->assertGreaterThanOrEqual(0, count($menu->items));
     }
 
-    /**
-     * @test
-     */
-    public function it_has_items_as_posts()
+    public function test_it_has_items_as_posts()
     {
         $menu = $this->createMenu();
 
@@ -66,10 +54,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         });
     }
 
-    /**
-     * @test
-     */
-    public function it_can_have_multilevel_children()
+    public function test_it_can_have_multilevel_children()
     {
         $menu = $this->createMenu();
 
@@ -82,10 +67,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         $this->assertEquals(0, $parent->_menu_item_menu_item_parent);
     }
 
-    /**
-     * @test
-     */
-    public function it_has_parent_relation()
+    public function test_it_has_parent_relation()
     {
         $menu = $this->createComplexMenu();
 
@@ -100,10 +82,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         $this->assertEquals($parent->post_name, $child->parent()->post_name);
     }
 
-    /**
-     * @test
-     */
-    public function it_can_have_custom_links_associated_as_meta()
+    public function test_it_can_have_custom_links_associated_as_meta()
     {
         $item = factory(MenuItem::class)->create([
             'post_title' => 'Foobar',
@@ -126,10 +105,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         $this->assertEquals('http://example.com', $item->instance()->url);
     }
 
-    /**
-     * @test
-     */
-    public function it_can_have_pages()
+    public function test_it_can_have_pages()
     {
         $menu = $this->createComplexMenu();
 
@@ -143,10 +119,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         });
     }
 
-    /**
-     * @test
-     */
-    public function it_can_have_posts()
+    public function test_it_can_have_posts()
     {
         $menu = $this->createComplexMenu();
 
@@ -160,10 +133,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         });
     }
 
-    /**
-     * @test
-     */
-    public function it_can_have_custom_links()
+    public function test_it_can_have_custom_links()
     {
         $menu = $this->createComplexMenu();
 
@@ -177,10 +147,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         });
     }
 
-    /**
-     * @test
-     */
-    public function it_can_have_categories()
+    public function test_it_can_have_categories()
     {
         $menu = $this->createComplexMenu();
 
@@ -194,10 +161,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         });
     }
 
-    /**
-     * @return Menu
-     */
-    private function createMenu()
+    private function createMenu(): Menu
     {
         $parent = factory(Post::class)->create(['post_type' => 'nav_menu_item']);
         $parent->saveMeta('_menu_item_menu_item_parent', 0);
@@ -210,10 +174,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         });
     }
 
-    /**
-     * @return Menu
-     */
-    private function createComplexMenu()
+    private function createComplexMenu(): Menu
     {
         $menu = factory(Menu::class)->create();
 
@@ -228,10 +189,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         return $menu;
     }
 
-    /**
-     * @param Menu $menu
-     */
-    private function buildPage(Menu $menu)
+    private function buildPage(Menu $menu): void
     {
         $page = factory(Post::class)->create([
             'post_type' => 'page',
@@ -255,12 +213,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         $menu->items()->save($item);
     }
 
-    /**
-     * @param Menu $menu
-     * @param int $parentId
-     * @return mixed
-     */
-    private function buildPost(Menu $menu, $parentId = 0)
+    private function buildPost(Menu $menu, int $parentId = 0): Post
     {
         $post = factory(Post::class)->create([
             'post_title' => 'post-title',
@@ -285,10 +238,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         return $post;
     }
 
-    /**
-     * @param Menu $menu
-     */
-    private function buildCustomLink(Menu $menu)
+    private function buildCustomLink(Menu $menu): void
     {
         $link = factory(CustomLink::class)->create([
             'post_title' => 'custom-link-text',
@@ -308,10 +258,7 @@ class MenuTest extends \Corcel\Tests\TestCase
         $menu->items()->save($link);
     }
 
-    /**
-     * @param Menu $menu
-     */
-    private function buildCategory(Menu $menu)
+    private function buildCategory(Menu $menu): void
     {
         $taxonomy = factory(Taxonomy::class)->create([
             'taxonomy' => 'category',
