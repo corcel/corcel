@@ -22,7 +22,7 @@ class MenuItem extends Post
      */
     private $instanceRelations = [
         'post' => Post::class,
-        'page' => Page::class,
+        'page' => PageMenu::class,
         'custom' => CustomLink::class,
         'category' => Taxonomy::class,
     ];
