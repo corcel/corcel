@@ -20,7 +20,7 @@ You can use WordPress as the backend (administration panel) or CMS, for insertin
 
 
 - [Version Compatibility](#versions)
-- [Installing Corcel](#install)
+- [Installing Corcel](#installing-corcel)
 - [Database Setup](#database-setup)
 - [Usage](#usage)
     - [Posts](#posts)
@@ -53,7 +53,7 @@ You can use WordPress as the backend (administration panel) or CMS, for insertin
  5.6.x    | 2.6.x
  5.7.x    | 2.7.x
 
-# <a id="install"></a> Installing Corcel
+# <a id="installing-corcel"></a> Installing Corcel
 
 You need to use Composer to install Corcel into your project:
 
