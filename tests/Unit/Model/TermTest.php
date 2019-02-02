@@ -2,6 +2,7 @@
 
 namespace Corcel\Tests\Unit\Model;
 
+use Corcel\Model\Taxonomy;
 use Corcel\Model\Term;
 
 /**
@@ -62,5 +63,45 @@ class TermTest extends \Corcel\Tests\TestCase
         $term->saveMeta('fee', 'baz');
 
         return $term;
+    }
+
+    public function test_it_can_be_queried_with_specified_taxonomy()
+    {
+        $this->createTermsAssignedToTaxonomy('foo', 5);
+
+        $terms = Term::whereTaxonomy('foo')->get();
+
+        $this->assertCount(5, $terms);
+        $this->assertInstanceOf(Term::class, $terms->first());
+    }
+
+    public function test_it_can_be_queried_with_specified_taxonomies()
+    {
+        $this->createTermsAssignedToTaxonomy('foo', 5);
+        $this->createTermsAssignedToTaxonomy('bar', 2);
+
+        $terms = Term::whereTaxonomies(['foo', 'bar'])->get();
+
+        $this->assertCount(7, $terms);
+        $this->assertInstanceOf(Term::class, $terms->first());
+    }
+
+    public function test_it_returns_empty_collection_with_unknown_taxonomy()
+    {
+        $this->createTermsAssignedToTaxonomy('foo', 1);
+
+        $terms = Term::whereTaxonomy('unknown')->get();
+
+        $this->assertCount(0, $terms);
+    }
+
+    private function createTermsAssignedToTaxonomy($taxonomy, $termCount)
+    {
+        factory(Taxonomy::class, $termCount)->create([
+            'taxonomy' => $taxonomy,
+            'term_id'  => function () {
+                return factory(Term::class)->create()->term_id;
+            },
+        ]);
     }
 }
