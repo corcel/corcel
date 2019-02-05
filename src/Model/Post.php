@@ -272,6 +272,20 @@ class Post extends Model
     }
 
     /**
+     * Gets the formatted content attribute.
+     *
+     * @return string
+     */
+    public function getFormattedContentAttribute()
+    {
+        $postFormatter = new PostFormatter();
+
+        $content = $postFormatter->process($this->post_content);
+
+        return $this->stripShortcodes($content);
+    }
+
+    /**
      * @return string
      */
     public function getExcerptAttribute()
