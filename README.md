@@ -52,6 +52,7 @@ You can use WordPress as the backend (administration panel) or CMS, for insertin
  5.5.x    | 2.5.x
  5.6.x    | 2.6.x
  5.7.x    | 2.7.x
+ 5.8.x    | 2.8.x
 
 # <a id="installing-corcel"></a> Installing Corcel
 
