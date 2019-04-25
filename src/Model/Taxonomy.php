@@ -103,4 +103,15 @@ class Taxonomy extends Model
 
         return parent::__get($key);
     }
+
+    public function __isset($key)
+    {
+        $isset = parent::__get($key);
+
+        if (!$isset) {
+            return isset($this->term->$key) && !is_null($this->term->$key);
+        }
+
+        return $isset;
+    }
 }

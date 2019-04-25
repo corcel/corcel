@@ -403,4 +403,15 @@ class Post extends Model
 
         return $value;
     }
+
+    public function __isset($key)
+    {
+        $value = parent::__isset($key);
+
+        if ($value === false && !property_exists($this, $key)) {
+            return !is_null($this->meta->$key);
+        }
+
+        return $value;
+    }
 }
