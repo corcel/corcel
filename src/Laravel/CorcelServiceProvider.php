@@ -42,9 +42,11 @@ class CorcelServiceProvider extends ServiceProvider
      */
     private function registerAuthProvider()
     {
-        Auth::provider('corcel', function ($app, array $config) {
-            return new AuthUserProvider($config);
-        });
+        if (Corcel::isLaravel()) {
+            Auth::provider('corcel', function ($app, array $config) {
+                return new AuthUserProvider($config);
+            });
+        }
     }
 
     /**
@@ -52,7 +54,7 @@ class CorcelServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(ShortcodeFacade::class, function () {
+        $this->app-     >bind(ShortcodeFacade::class, function () {
             return tap(new ShortcodeFacade(), function (ShortcodeFacade $facade) {
                 $parser_class = config('corcel.shortcode_parser', RegularParser::class);
                 $facade->setParser(new $parser_class);
