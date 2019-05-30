@@ -38,7 +38,6 @@ class ShortcodesTest extends TestCase
         // Force Corcel::isLaravel() returning false
         $mockedCorcel = \Mockery::mock('alias:' . Corcel::class);
         $mockedCorcel->shouldReceive('isLaravel')->andReturn(false);
-
         /** @var Post $post */
         $post = factory(Post::class)->create();
         $post->setShortcodeParser(new WordpressParser());

@@ -42,11 +42,11 @@ class CorcelServiceProvider extends ServiceProvider
      */
     private function registerAuthProvider()
     {
-        if (Corcel::isLaravel()) {
+        if (app() instanceof \Illuminate\Foundation\Application) {
             Auth::provider('corcel', function ($app, array $config) {
                 return new AuthUserProvider($config);
             });
-        }
+        } 
     }
 
     /**
