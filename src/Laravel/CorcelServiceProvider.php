@@ -47,7 +47,8 @@ class CorcelServiceProvider extends ServiceProvider
             Auth::provider('corcel', function ($app, array $config) {
                 return new AuthUserProvider($config);
             });
-        } 
+
+        }
     }
 
     /**
