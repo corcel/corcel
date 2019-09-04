@@ -13,16 +13,16 @@
     ],
     "require": {
         "php": ">=7.2",
-        "illuminate/database": "5.8.*",
-        "illuminate/filesystem": "5.8.*",
-        "illuminate/support": "5.8.*",
+        "illuminate/database": "^6.0",
+        "illuminate/filesystem": "^6.0",
+        "illuminate/support": "^6.0",
         "fzaninotto/faker": "^1.6",
         "hautelook/phpass": "0.3.*",
         "thunderer/shortcode": "^0.6.2"
     },
     "require-dev": {
-        "orchestra/testbench": "3.7.x@dev",
-        "orchestra/database": "3.7.x@dev",
+        "orchestra/testbench": "^4.0",
+        "orchestra/database": "^4.0",
         "symfony/thanks": "^1.0",
         "mockery/mockery": "^1.0",
         "codeclimate/php-test-reporter": "dev-master"
