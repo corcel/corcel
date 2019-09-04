@@ -24,7 +24,7 @@ class CommentTest extends \Corcel\Tests\TestCase
     {
         $comment = factory(Comment::class)->create();
 
-        $this->assertInternalType('integer', $comment->comment_ID);
+        $this->assertIsInt($comment->comment_ID);
     }
 
     public function test_it_has_approved_scope()
@@ -40,14 +40,14 @@ class CommentTest extends \Corcel\Tests\TestCase
         $this->assertEquals($comment->comment_author, $lastComment->comment_author);
         $this->assertEquals($comment->comment_date, $lastComment->comment_date);
     }
-    
+
     public function test_it_has_post_relation()
     {
         $comment = factory(Comment::class)->create();
 
         $this->assertNotNull($post = $comment->post);
         $this->assertInstanceOf(Post::class, $post);
-        $this->assertInternalType('integer', $post->ID);
+        $this->assertIsInt($post->ID);
     }
 
     public function test_it_can_query_post_by_id()
@@ -72,7 +72,7 @@ class CommentTest extends \Corcel\Tests\TestCase
     {
         $comment = factory(Comment::class)->create();
 
-        $this->assertInternalType('boolean', $comment->isApproved());
+        $this->assertIsBool($comment->isApproved());
         $this->assertTrue($comment->isApproved());
     }
 
@@ -82,7 +82,7 @@ class CommentTest extends \Corcel\Tests\TestCase
 
         $this->assertCount(3, $comment->replies);
         $this->assertInstanceOf(Comment::class, $comment->replies->first());
-        $this->assertInternalType('boolean', $comment->replies->first()->isReply());
+        $this->assertIsBool($comment->replies->first()->isReply());
         $this->assertTrue($comment->replies->first()->isReply());
     }
 
@@ -91,7 +91,7 @@ class CommentTest extends \Corcel\Tests\TestCase
         $comment = $this->createCommentWithReplies();
 
         $this->assertTrue($comment->hasReplies());
-        $this->assertInternalType('boolean', $comment->hasReplies());
+        $this->assertIsBool($comment->hasReplies());
     }
 
     public function test_it_can_have_a_different_database_connection_name()

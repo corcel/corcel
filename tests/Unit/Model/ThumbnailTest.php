@@ -34,7 +34,7 @@ class ThumbnailTest extends \Corcel\Tests\TestCase
         $meta = $this->createThumbnailMetaWithAttachment();
 
         $this->assertInstanceOf(Attachment::class, $meta->attachment);
-        $this->assertInternalType('string', $meta->post->image);
+        $this->assertIsString($meta->post->image);
     }
 
     public function test_its_post_thumbnail_attachment_url_is_valid()
