@@ -45,14 +45,15 @@ You can use WordPress as the backend (administration panel) or CMS, for insertin
 
  Laravel  | Corcel
 :---------|:----------
- 5.1.x    | 2.1.x
- 5.2.x    | 2.2.x
- 5.3.x    | 2.3.x
- 5.4.x    | 2.4.x
- 5.5.x    | 2.5.x
- 5.6.x    | 2.6.x
- 5.7.x    | 2.7.x
- 5.8.x    | 2.8.x
+ 5.1.x    | `~2.1.0`
+ 5.2.x    | `~2.2.0`
+ 5.3.x    | `~2.3.0`
+ 5.4.x    | `~2.4.0`
+ 5.5.x    | `~2.5.0`
+ 5.6.x    | `~2.6.0`
+ 5.7.x    | `~2.7.0`
+ 5.8.x    | `~2.8.0`
+ 6.0.x    | `^3.0.0` (supports semantic versioning)
 
 # <a id="installing-corcel"></a> Installing Corcel
 
