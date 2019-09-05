@@ -65,7 +65,13 @@ composer require jgrossi/corcel
 
 ## Configuring (Laravel)
 
-Now you have to include `CorcelServiceProvider` in your `config/app.php`:
+### <a name="config-auto-discovery"></a> Laravel 5.5 and newer
+
+Corcel wil register itself using Laravel's [Auto Discovery](https://laravel.com/docs/5.5/packages#package-discovery).
+
+### <a name="config-service-loader"></a> Laravel 5.4 and older
+
+You'll have to include `CorcelServiceProvider` in your `config/app.php`:
 
 ```php
 'providers' => [
@@ -75,6 +81,8 @@ Now you have to include `CorcelServiceProvider` in your `config/app.php`:
     Corcel\Laravel\CorcelServiceProvider::class,
 ]
 ```
+
+### <a name="config-publish"></a> Publishing the configuration file
 
 Now configure our config file to make sure your database is set correctly and to allow you to register custom post types and shortcodes in a very easy way:
 
@@ -691,15 +699,7 @@ echo $user->user_login;
 
 ### Using Laravel
 
-Make sure you have `CorcelServiceProvider` provider registered in `config/app.php` :
-
-```php
-'providers' => [
-    // Other Service Providers
-
-    Corcel\Laravel\CorcelServiceProvider::class,
-],
-```
+If you're using Laravel 5.4 or older, make sure you have the [`CorcelServiceProvider` provider registered](#config-service-loader).
 
 And then, define the user provider in `config/auth.php` to allow Laravel to login with WordPress users:
 
