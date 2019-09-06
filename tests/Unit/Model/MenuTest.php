@@ -29,7 +29,7 @@ class MenuTest extends \Corcel\Tests\TestCase
 
         collect($menus)->each(function ($menu) {
             $this->assertNotNull($menu);
-            $this->assertInternalType('integer', $menu->term_taxonomy_id);
+            $this->assertIsInt($menu->term_taxonomy_id);
         });
     }
 

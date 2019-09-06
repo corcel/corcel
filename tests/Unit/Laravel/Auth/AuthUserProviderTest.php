@@ -5,6 +5,7 @@ namespace Corcel\Tests\Unit\Laravel\Auth;
 use Corcel\Laravel\Auth\AuthUserProvider;
 use Corcel\Model\User;
 use Corcel\Tests\TestCase;
+use Illuminate\Support\Str;
 
 class AuthUserProviderTest extends TestCase
 {
@@ -22,7 +23,7 @@ class AuthUserProviderTest extends TestCase
     {
         /** @var User $user */
         $user = factory(User::class)->create();
-        $user->saveMeta('remember_token', $token = str_random());
+        $user->saveMeta('remember_token', $token = Str::random());
 
         $provider = new AuthUserProvider();
         $new_user = $provider->retrieveByToken($user->ID, $token);
@@ -35,7 +36,7 @@ class AuthUserProviderTest extends TestCase
         $user = factory(User::class)->create();
         $provider = new AuthUserProvider();
 
-        $provider->updateRememberToken($user, $token = str_random());
+        $provider->updateRememberToken($user, $token = Str::random());
         $new_user = $provider->retrieveByToken($user->ID, $token);
 
         $this->assertEquals($user->fresh(), $new_user);

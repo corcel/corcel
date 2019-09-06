@@ -1,6 +1,7 @@
 <?php
 
 use Corcel\Model\User;
+use Illuminate\Support\Str;
 
 $factory->define(User::class, function (Faker\Generator $faker) {
     return [
@@ -10,7 +11,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'user_email' => 'admin@example.com',
         'user_url' => 'http://admin.example.com',
         'user_registered' => $faker->dateTime,
-        'user_activation_key' => str_random(10),
+        'user_activation_key' => Str::random(10),
         'user_status' => 0,
         'display_name' => 'Administrator',
     ];
