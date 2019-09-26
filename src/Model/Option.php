@@ -74,7 +74,7 @@ class Option extends Model
 
     /**
      * Creates or updates an option based on the $key parameter.
-     * 
+     *
      * @param string $key
      * @param mixed $value
      * @return Option
