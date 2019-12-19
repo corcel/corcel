@@ -274,6 +274,24 @@ class Post extends Model
     /**
      * @return string
      */
+    public function getShortContentAttribute()
+    {
+        $caracteres = 400;
+
+        preg_match_all('/<p>(.*?)<\/p>/', $this->content, $content);
+
+        $excerpt_content =  implode('', $content[0]);
+
+        if (strlen($excerpt_content) > $caracteres) {
+            return substr($excerpt_content, 0, $caracteres) . '...';
+        }
+
+        return $excerpt_content;
+    }
+
+    /**
+     * @return string
+     */
     public function getExcerptAttribute()
     {
         return $this->stripShortcodes($this->post_excerpt);
