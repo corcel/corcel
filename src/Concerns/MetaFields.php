@@ -126,7 +126,7 @@ trait MetaFields
     }
 
     /**
-     * @param string $key
+     * @param string|array $key
      * @param mixed $value
      * @return bool
      */
