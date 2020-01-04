@@ -83,7 +83,7 @@ class Option extends Model
         $option = static::where('option_name', $key)
             ->first();
         
-        if ( $option instanceof Option ) {
+        if ($option instanceof Option) {
             $option->value = is_array($value) ? serialize($value) : $value;
             $option->save();
             return $option;
