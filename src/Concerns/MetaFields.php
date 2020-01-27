@@ -77,7 +77,7 @@ trait MetaFields
 
     /**
      * @param Builder $query
-     * @param string $meta
+     * @param string|array $meta
      * @param mixed $value
      * @param string $operator
      * @return Builder
@@ -126,7 +126,7 @@ trait MetaFields
     }
 
     /**
-     * @param string $key
+     * @param string|array $key
      * @param mixed $value
      * @return bool
      */
@@ -171,7 +171,7 @@ trait MetaFields
     }
 
     /**
-     * @param string $key
+     * @param string|array $key
      * @param mixed $value
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Support\Collection
      */
