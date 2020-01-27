@@ -18,7 +18,8 @@ install:
   - composer install
 
 script:
-  - phpdbg -qrr -d memory_limit=-1 ./vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml
+  - pecl install pcov
+  - ./vendor/bin/phpunit --coverage-text --coverage-clover build/logs/clover.xml
 
 after_script:
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
