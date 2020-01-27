@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "930622d4fb44efbb567b924a663eba6f",
+    "content-hash": "109d16a113d215ccb6ca067078360daa",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -2683,23 +2683,24 @@
         },
         {
             "name": "thunderer/shortcode",
-            "version": "v0.6.5",
+            "version": "v0.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thunderer/Shortcode.git",
-                "reference": "997418e71f997de98a73a41cf102b3310372ac64"
+                "reference": "084ed05cdd759d318f7b75e370830bd135eadc8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thunderer/Shortcode/zipball/997418e71f997de98a73a41cf102b3310372ac64",
-                "reference": "997418e71f997de98a73a41cf102b3310372ac64",
+                "url": "https://api.github.com/repos/thunderer/Shortcode/zipball/084ed05cdd759d318f7b75e370830bd135eadc8a",
+                "reference": "084ed05cdd759d318f7b75e370830bd135eadc8a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.1|^5.0"
+                "phpunit/phpunit": ">=4.1",
+                "symfony/yaml": ">=2.0"
             },
             "suggest": {
                 "ext-dom": "if you want to use XML serializer",
@@ -2709,8 +2710,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Thunder\\Shortcode\\": "src/",
-                    "Thunder\\Shortcode\\Tests\\": "tests/"
+                    "Thunder\\Shortcode\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2731,7 +2731,7 @@
                 "parser",
                 "shortcode"
             ],
-            "time": "2017-01-08T00:22:37+00:00"
+            "time": "2019-12-03T22:05:36+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
