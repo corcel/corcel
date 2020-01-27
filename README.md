@@ -19,7 +19,7 @@ You can use WordPress as the backend (administration panel) or CMS, for insertin
 # <a id="install"></a> Installing Corcel
 
 
-- [Version Compatibility](#versions)
+- [Version Compatibility](#version-compatibility)
 - [Installing Corcel](#installing-corcel)
 - [Database Setup](#database-setup)
 - [Usage](#usage)
@@ -41,7 +41,7 @@ You can use WordPress as the backend (administration panel) or CMS, for insertin
 - [Contributing](#contrib)
 - [License](#license)
 
-# <a id="versions"></a> Version Compatibility
+# Version Compatibility
 
  Laravel  | Corcel
 :---------|:----------
