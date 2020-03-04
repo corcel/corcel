@@ -53,7 +53,8 @@ You can use WordPress as the backend (administration panel) or CMS, for insertin
  5.6.x    | `~2.6.0`
  5.7.x    | `~2.7.0`
  5.8.x    | `~2.8.0`
- 6.0.x    | `^3.0.0` (supports semantic versioning)
+ 6.0.x    | `^3.0.0`
+ 7.0.x    | `^4.0.0`
 
 # <a id="installing-corcel"></a> Installing Corcel
 
