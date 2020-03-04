@@ -2,11 +2,10 @@
 
 namespace Corcel\Tests\Unit\Laravel\Auth;
 
-use Corcel\Laravel\Auth\ResetsPasswords as CorcelResetsPasswords;
+use Corcel\Laravel\Auth\ResetsPasswords;
 use Corcel\Model\User;
 use Corcel\Services\PasswordService;
 use Corcel\Tests\TestCase;
-use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Routing\Controller;
 
 class ResetPasswordsTest extends TestCase
@@ -26,7 +25,5 @@ class ResetPasswordsTest extends TestCase
 
 class FakeController extends Controller
 {
-    use ResetsPasswords, CorcelResetsPasswords {
-        CorcelResetsPasswords::resetPassword insteadof ResetsPasswords;
-    }
+    use ResetsPasswords;
 }
