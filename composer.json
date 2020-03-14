@@ -22,7 +22,6 @@
     },
     "require-dev": {
         "orchestra/testbench": "^5.0",
-        "orchestra/database": "^5.0-dev",
         "symfony/thanks": "^1.0",
         "mockery/mockery": "^1.0",
         "dms/phpunit-arraysubset-asserts": "^0.1.0"
