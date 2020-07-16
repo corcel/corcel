@@ -119,6 +119,15 @@ class PostMetaTest extends \Corcel\Tests\TestCase
         $this->assertEquals($post->ID, $newPost->ID);
     }
 
+    public function test_higher_order_functions_can_be_executed()
+    {
+        $post = factory(Post::class)->create();
+        $post->saveMeta('one', 'two');
+        $post->saveMeta('three', 'four');
+
+        $this->assertEquals($post->meta->pluck('value'), collect(['two','four']));
+    }
+
     /**
      * @return PostMeta
      */
