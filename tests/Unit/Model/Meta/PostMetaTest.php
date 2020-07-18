@@ -125,7 +125,8 @@ class PostMetaTest extends \Corcel\Tests\TestCase
         $post->saveMeta('one', 'two');
         $post->saveMeta('three', 'four');
 
-        $this->assertEquals($post->meta->pluck('value'), collect(['two','four']));
+        $this->assertEquals($post->meta->map->getQueueableId()->all(), [1, 2]);
+        $this->assertEquals($post->meta->one, 'two');
     }
 
     /**
