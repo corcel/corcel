@@ -59,7 +59,8 @@ class MenuItem extends Post
     protected function getClassName()
     {
         return Arr::get(
-            $this->instanceRelations, $this->meta->_menu_item_object
+            $this->instanceRelations,
+            $this->meta->_menu_item_object
         );
     }
 }
