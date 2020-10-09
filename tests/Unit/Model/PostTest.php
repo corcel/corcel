@@ -11,6 +11,7 @@ use Corcel\Model\Term;
 use Corcel\Model\User;
 use Corcel\Shortcode;
 use Illuminate\Support\Arr;
+use Illuminate\Pagination\Paginator;
 use Thunder\Shortcode\Shortcode\ShortcodeInterface;
 
 /**
@@ -280,6 +281,7 @@ class PostTest extends \Corcel\Tests\TestCase
 
     public function test_it_can_be_paginated()
     {
+        Paginator::useBootstrap();
         $post = factory(Post::class)->create();
         factory(Post::class)->create();
         factory(Post::class)->create();
