@@ -2,9 +2,9 @@
 
 namespace Corcel\Laravel;
 
-use Auth;
 use Corcel\Corcel;
 use Corcel\Laravel\Auth\AuthUserProvider;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Thunder\Shortcode\Parser\RegularParser;
 use Thunder\Shortcode\ShortcodeFacade;
