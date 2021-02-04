@@ -9,7 +9,7 @@ $factory->define(Post::class, function (Faker\Generator $faker) {
         'post_date' => $faker->dateTimeThisYear,
         'post_date_gmt' => $faker->dateTimeThisYear,
         'post_content' => $faker->text(),
-        'post_title' => $title = $faker->title,
+        'post_title' => $title = Str::ucfirst($faker->words(3, true)),
         'post_excerpt' => $faker->text(100),
         'post_status' => 'publish',
         'comment_status' => 'closed',
