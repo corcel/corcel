@@ -698,7 +698,7 @@ $user = User::find(1);
 echo $user->user_login;
 ```
 ## <a id="roles"></a> Roles
-To get the user roles and capabilities just add the HasRoles trait to your user model like this:
+To get the user roles and capabilities just add the HasRoles trait to your user model:
 
 ```php
 // User model
