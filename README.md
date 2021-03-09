@@ -36,6 +36,7 @@ You can use WordPress as the backend (administration panel) or CMS, for insertin
     - [Options](#options)
     - [Menu](#menu)
     - [Users](#users)
+    - [Roles](#roles)
     - [Authentication](#auth)
     - [Running Tests](#tests)
 - [Contributing](#contrib)
@@ -695,6 +696,26 @@ $users = User::get();
 // A specific user
 $user = User::find(1);
 echo $user->user_login;
+```
+## <a id="roles"></a> Roles
+To get the user roles and capabilities just add the HasRoles trait to your user model like this:
+
+```php
+// User model
+class User extends Model
+{
+    use HasRoles;
+}
+```
+And some where in your application:
+
+```php
+// A specific user
+$user = User::find(1);
+echo $user->isAdmin;
+echo $user->capabilities;
+echo $user->hasAnyRoles('administrator','editor');
+echo $user->hasRole('administrator');
 ```
 
 ## <a id="auth"></a>Authentication
