@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Concerns;
+namespace Corcel\Concerns;
 
 use Corcel\Concerns\MetaFields;
 
