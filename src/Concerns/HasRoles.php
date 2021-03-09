@@ -27,14 +27,16 @@ trait HasRoles
      */
     public function hasAnyRoles($roles = [])
     {
-        if (!empty($roles)) {
-            foreach ($roles as $role) {
-                if ($this->hasRole($role)) {
-                    return true;
-                }
-            }
+        if (empty($roles)) {
+            return false;
         }
-
+        
+       foreach ($roles as $role) {
+           if ($this->hasRole($role)) {
+                return true;
+           }
+        }
+        
         return false;
     }
 
