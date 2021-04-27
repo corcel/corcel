@@ -3,6 +3,7 @@
 namespace Corcel\Tests\Unit\Model;
 
 use Corcel\Model\Post;
+use Illuminate\Support\Facades\Event;
 
 /**
  * Class PostTypeTest
@@ -53,6 +54,18 @@ class PostTypeTest extends \Corcel\Tests\TestCase
 
         $this->assertInstanceOf(Video::class, $video);
         $this->assertEquals('video', $video->post_type);
+    }
+
+    public function test_it_has_fire_retrieved_event_using_custom_class_builder()
+    {
+        Event::fake();
+        Post::registerPostType('video', Video::class);
+        factory(Post::class)->create(['post_type' => 'video']);
+
+        Video::first();
+
+        Event::assertDispatched('eloquent.retrieved: ' . Video::class, 1);
+        Event::assertNotDispatched('eloquent.retrieved: ' . Post::class);
     }
 
     public function test_it_is_configurable_by_the_config_file()
