@@ -334,6 +334,26 @@ class PostTest extends \Corcel\Tests\TestCase
         $this->assertEquals('Bar', $post->keywords_str);
     }
 
+    /** @doesNotPerformAssertions */
+    public function test_it_can_handle_corrupted_term()
+    {
+        $post = factory(Post::class)->create();
+
+        $taxonomy = factory(Taxonomy::class)->create([
+            'term_id' => 0,
+            'taxonomy' => 'category'
+        ]);
+
+        $post->taxonomies()->attach(
+            $taxonomy->getKey(),
+            [
+                'term_order' => 0,
+            ]
+        );
+
+        $post->terms;
+    }
+
     public function test_it_can_have_author_relation()
     {
         $post = $this->createPostWithAuthor();
