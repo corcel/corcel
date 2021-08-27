@@ -88,14 +88,14 @@ trait MetaFields
             $meta = [$meta => $value];
         }
 
-        foreach ($meta as $key => $value) {
-            $query->whereHas('meta', function (Builder $query) use ($key, $value, $operator) {
+        $query->whereHas('meta', function (Builder $query) use ($meta, $operator) {
+            foreach ($meta as $key => $value) {
                 $query->where('meta_key', $key);
 
                 return is_null($value) ? $query :
                     $query->where('meta_value', $operator, $value);
-            });
-        }
+            }
+        });
 
         return $query;
     }
@@ -190,7 +190,7 @@ trait MetaFields
      */
     private function createOneMeta($key, $value)
     {
-        $meta = $this->meta()->create([
+        $meta =  $this->meta()->create([
             'meta_key' => $key,
             'meta_value' => $value,
         ]);
