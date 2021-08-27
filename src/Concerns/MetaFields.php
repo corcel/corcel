@@ -90,10 +90,7 @@ trait MetaFields
 
         foreach ($meta as $key => $value) {
             $query->whereHas('meta', function (Builder $query) use ($key, $value, $operator) {
-                if (!is_string($key)) {
-                    return $query->where('meta_key', $operator, $value);
-                }
-                $query->where('meta_key', $operator, $key);
+                $query->where('meta_key', $key);
 
                 return is_null($value) ? $query :
                     $query->where('meta_value', $operator, $value);
@@ -193,7 +190,7 @@ trait MetaFields
      */
     private function createOneMeta($key, $value)
     {
-        $meta =  $this->meta()->create([
+        $meta = $this->meta()->create([
             'meta_key' => $key,
             'meta_value' => $value,
         ]);
