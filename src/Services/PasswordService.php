@@ -2,7 +2,7 @@
 
 namespace Corcel\Services;
 
-use Hautelook\Phpass\PasswordHash;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class PasswordService
@@ -13,11 +13,6 @@ use Hautelook\Phpass\PasswordHash;
  */
 class PasswordService
 {
-    public function __construct()
-    {
-        $this->hasher = new PasswordHash(8, true);
-    }
-
     /**
      * Create a hash (encrypt) of a plain text password.
      *
@@ -26,7 +21,7 @@ class PasswordService
      */
     public function makeHash($password)
     {
-        return $this->hasher->HashPassword(trim($password));
+        return Hash::make(trim($password));
     }
 
     /**
@@ -42,6 +37,6 @@ class PasswordService
             return $hash === md5($password);
         }
 
-        return $this->hasher->CheckPassword($password, $hash);
+        return Hash::check($password, $hash);
     }
 }
