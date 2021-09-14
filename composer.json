@@ -16,11 +16,10 @@
         "illuminate/database": "^6.0",
         "illuminate/filesystem": "^6.0",
         "illuminate/support": "^6.0",
-        "fzaninotto/faker": "^1.6",
-        "hautelook/phpass": "0.3.*",
         "thunderer/shortcode": "^0.7.3"
     },
     "require-dev": {
+        "fzaninotto/faker": "^1.6",
         "orchestra/testbench": "^4.0",
         "orchestra/database": "^4.0",
         "symfony/thanks": "^1.0",

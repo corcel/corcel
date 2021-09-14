@@ -31,7 +31,6 @@ class AuthenticationTest extends \Corcel\Tests\TestCase
     public function test_it_can_check_passwords()
     {
         $this->assertTrue($this->checker->check('admin', $this->checker->makeHash('admin')));
-        $this->assertTrue($this->checker->check('admin', '$P$BrYiES.08ardK6pQme0LdlmQ0idrIe/'));
         $this->assertTrue($this->checker->check('rEn2b2N3TX', $this->checker->makeHash('rEn2b2N3TX')));
 
         $this->assertTrue(
