@@ -1,3 +1,6 @@
-.idea
 vendor
 .DS_Store
+.idea
+.phpcd
+.phpunit.result.cache
+composer.lock
