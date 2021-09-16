@@ -3,17 +3,14 @@ name: CI
 on: [push]
 
 jobs:
-  build-test:
+  build-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-
-      - uses: php-actions/composer@v5
-
-      - name: PHPUnit Tests
-        uses: php-actions/phpunit@v2
-        with:
-          php_version: 7.3
-          bootstrap: vendor/autoload.php
-          configuration: phpunit.xml
+    - uses: actions/checkout@v1
+    - name: Show actual PHP version
+      run: php -v
+    - name: Install composer dependencies
+      run: composer install --prefer-dist
+    - name: Run tests
+      run: php vendor/bin/phpunit
