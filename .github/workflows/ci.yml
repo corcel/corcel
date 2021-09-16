@@ -9,11 +9,11 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: install composer dependencies
-      run: composer install --prefer-dist
+    - name: Install composer dependencies
+      run: php7.3 composer install --prefer-dist
 
-    - name: run tests with php73
+    - name: Run tests with php73
       run: php7.3 vendor/bin/phpunit
 
-    - name: run tests with php74
+    - name: Run tests with php74
       run: php7.4 vendor/bin/phpunit
