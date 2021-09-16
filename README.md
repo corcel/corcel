@@ -2,7 +2,7 @@
 
 **A collection of Model classes that allows you to get data directly from a WordPress database.**
 
-[![Travis](https://travis-ci.org/corcel/corcel.svg?branch=master)](https://travis-ci.org/corcel/corcel?branch=master)
+[![Actions Status](https://github.com/corcel/corcel/workflows/CI/badge.svg)](https://github.com/corcel/corcel/actions)
 [![Packagist](https://img.shields.io/packagist/v/jgrossi/corcel.svg)](https://packagist.org/packages/jgrossi/corcel)
 [![Packagist](https://img.shields.io/packagist/dt/jgrossi/corcel.svg)](https://github.com/jgrossi/corcel/releases)
 [![Test Coverage](https://codeclimate.com/github/corcel/corcel/badges/coverage.svg)](https://codeclimate.com/github/corcel/corcel/coverage)
