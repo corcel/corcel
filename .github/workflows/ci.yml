@@ -8,9 +8,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Show actual PHP version
-      run: php -v
-    - name: Install composer dependencies
+    - name: Setup PHP 7.3
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.3'
+    - name: Composer dependencies
       run: composer install --prefer-dist
     - name: Run tests
       run: php vendor/bin/phpunit
