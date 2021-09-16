@@ -154,12 +154,12 @@ require __DIR__ . '/vendor/autoload.php';
 Now you must set your WordPress database params:
 
 ```php
-$params = array(
+$params = [
     'database'  => 'database_name',
     'username'  => 'username',
     'password'  => 'pa$$word',
     'prefix'    => 'wp_' // default prefix is 'wp_', you can change to your own prefix
-);
+];
 Corcel\Database::connect($params);
 ```
 
