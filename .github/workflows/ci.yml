@@ -8,11 +8,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Setup PHP 7.3
+    - name: Running tests with php73
       uses: shivammathur/setup-php@v2
       with:
         php-version: '7.3'
-    - name: Composer dependencies
-      run: composer install --prefer-dist
-    - name: Run tests
-      run: php vendor/bin/phpunit
+      run: |
+        composer install --prefer-dist --quiet
+        php vendor/bin/phpunit
+    - name: Running tests with php74
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+      run: |
+        composer install --prefer-dist --quiet
+        php vendor/bin/phpunit
