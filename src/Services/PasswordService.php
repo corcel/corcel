@@ -2,7 +2,7 @@
 
 namespace Corcel\Services;
 
-use Hautelook\Phpass\PasswordHash;
+use Openwall\Phpass\PasswordHash;
 
 /**
  * Class PasswordService
