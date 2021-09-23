@@ -17,7 +17,7 @@
         "illuminate/filesystem": "5.7.*",
         "illuminate/support": "5.7.*",
         "fzaninotto/faker": "^1.6",
-        "hautelook/phpass": "0.3.*",
+        "openwall/phpass": "main",
         "thunderer/shortcode": "^0.6.2"
     },
     "require-dev": {
