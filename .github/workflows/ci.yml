@@ -9,6 +9,16 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: Setup php72
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.2'
+
+      - name: Running tests php72
+        run: |
+          composer install --prefer-dist --quiet
+          php vendor/bin/phpunit
+
       - name: Setup php73
         uses: shivammathur/setup-php@v2
         with:
@@ -27,14 +37,3 @@ jobs:
       - name: Running tests php74
         run: |
           composer install --prefer-dist --quiet
-          php vendor/bin/phpunit
-
-      - name: Setup php80
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.0'
-
-      - name: Running tests php80
-        run: |
-          composer install --prefer-dist --quiet
-          php vendor/bin/phpunit
