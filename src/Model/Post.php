@@ -128,6 +128,8 @@ class Post extends Model
             $connection ?: $this->getConnectionName()
         );
 
+        $model->fireModelEvent('retrieved', false);
+
         return $model;
     }
 

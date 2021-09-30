@@ -295,7 +295,7 @@ class PostTest extends \Corcel\Tests\TestCase
         $this->assertEquals(3, $paginator->total());
         $this->assertInstanceOf(Post::class, $firstPost);
         $this->assertEquals($post->post_title, $firstPost->post_title);
-        $this->assertRegExp('/\<nav\>\s*\<ul class="pagination/', $paginator->toHtml());
+        $this->assertMatchesRegularExpression('/\<nav\>\s*\<ul class="pagination/', $paginator->toHtml());
     }
     
     public function test_it_can_have_taxonomy()
