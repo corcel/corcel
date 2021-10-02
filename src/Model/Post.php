@@ -188,7 +188,10 @@ class Post extends Model
     public function taxonomies()
     {
         return $this->belongsToMany(
-            Taxonomy::class, 'term_relationships', 'object_id', 'term_taxonomy_id'
+            Taxonomy::class,
+            'term_relationships',
+            'object_id',
+            'term_taxonomy_id'
         );
     }
 
@@ -382,7 +385,9 @@ class Post extends Model
 
         if ($taxonomy && $taxonomy->term) {
             return str_replace(
-                'post-format-', '', $taxonomy->term->slug
+                'post-format-',
+                '',
+                $taxonomy->term->slug
             );
         }
 
