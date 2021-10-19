@@ -214,4 +214,16 @@ trait MetaFields
 
         return null;
     }
+
+    /**
+     * @param string $key
+     * @return bool
+     * @throws \Exception
+     */
+    public function deleteMeta($key): bool
+    {
+        $meta = $this->meta()->where('meta_key', $key)->first();
+
+        return $meta ? $meta->delete() : false;
+    }
 }

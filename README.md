@@ -261,6 +261,16 @@ $postMeta = $post->createMeta('foo', 'bar'); // instance of PostMeta class
 $trueOrFalse = $post->saveMeta('foo', 'baz'); // boolean
 ```
 
+You can delete any metadata:
+
+```php
+$post = Post::find(1);
+$post->saveMeta('foo', 'baz');
+
+$post->deleteMeta('foo'); // true
+$post->deleteMeta('bar'); // false
+```
+
 ### Querying Posts by Custom Fields (Meta)
 
 There are multiples possibilities to query posts by their custom fields (meta) by using scopes on a `Post` (or another other model which uses the `HasMetaFields` trait) class:

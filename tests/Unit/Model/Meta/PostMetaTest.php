@@ -129,6 +129,16 @@ class PostMetaTest extends \Corcel\Tests\TestCase
         $this->assertEquals($post->meta->one, 'two');
     }
 
+    public function test_its_value_can_be_removed()
+    {
+        $post = factory(Post::class)->create();
+        $post->saveMeta('foo', 'bar');
+
+        $this->assertFalse($post->deleteMeta('bar'));
+        $this->assertTrue($post->deleteMeta('foo'));
+        $this->assertFalse($post->deleteMeta('foo'));
+    }
+
     /**
      * @return PostMeta
      */
