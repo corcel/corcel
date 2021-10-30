@@ -117,8 +117,7 @@ class Model extends Eloquent
         $parentKey = null,
         $relatedKey = null,
         $relation = null
-    )
-    {
+    ) {
         if (is_null($relation)) {
             $relation = $this->guessBelongsToManyRelation();
         }
