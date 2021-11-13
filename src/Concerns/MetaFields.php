@@ -208,8 +208,8 @@ trait MetaFields
      */
     public function getMeta($attribute)
     {
-        if ($meta = $this->meta->{$attribute}) {
-            return $meta;
+	    if ($meta = $this->meta()->where('meta_key',$attribute)->value('meta_value')) {
+	    	return $meta;
         }
 
         return null;
