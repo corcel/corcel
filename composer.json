@@ -15,10 +15,11 @@
     ],
     "require": {
         "php": ">=7.2",
-        "bordoni/phpass": "0.3.*",
         "illuminate/database": "^6.0",
         "illuminate/filesystem": "^6.0",
         "illuminate/support": "^6.0",
+        "fzaninotto/faker": "^1.6",
+        "bordoni/phpass": "0.3.*",
         "thunderer/shortcode": "^0.7.3"
     },
     "require-dev": {
