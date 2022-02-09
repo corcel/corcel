@@ -13,10 +13,10 @@
     ],
     "require": {
         "php": ">=7.3",
-        "illuminate/database": "^8.0",
-        "illuminate/filesystem": "^8.0",
-        "illuminate/support": "^8.0",
-        "fakerphp/faker": "^1.10",
+        "illuminate/database": "^9.0",
+        "illuminate/filesystem": "^9.0",
+        "illuminate/support": "^9.0",
+        "fakerphp/faker": "^1.19",
         "bordoni/phpass": "0.3.*",
         "thunderer/shortcode": "^0.7.3"
     },
