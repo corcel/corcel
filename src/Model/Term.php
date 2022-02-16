@@ -39,4 +39,32 @@ class Term extends Model
     {
         return $this->hasOne(Taxonomy::class, 'term_id');
     }
+
+    /**
+     * @param   \Illuminate\Database\Query\Builder  $query
+     * @param   string|array  $taxonomies
+     * @return  void
+     */
+    public function scopeWhereTaxonomy($query, $taxonomies)
+    {
+        if (!is_array($taxonomies)) {
+            $taxonomies = [$taxonomies];
+        }
+
+        $query->whereHas('taxonomy', function ($query) use ($taxonomies) {
+            $query->whereIn('taxonomy', $taxonomies);
+        });
+    }
+
+    /**
+     * Alias of scopeWhereTaxonomy method.
+     *
+     * @param   \Illuminate\Database\Query\Builder  $query
+     * @param   array  $taxonomies
+     * @return  void
+     */
+    public function scopeWhereTaxonomies($query, array $taxonomies = [])
+    {
+        $this->scopeWhereTaxonomy($query, $taxonomies);
+    }
 }
