@@ -555,7 +555,8 @@ class PostTest extends \Corcel\Tests\TestCase
         $post->taxonomies()->attach(
             factory(Taxonomy::class)->create([
                 'taxonomy' => 'foo',
-            ])->term_taxonomy_id, [
+            ])->term_taxonomy_id,
+            [
                 'term_order' => 0,
             ]
         );
@@ -599,7 +600,8 @@ class PostTest extends \Corcel\Tests\TestCase
                         'slug' => $name,
                     ])->term_id;
                 },
-            ])->term_taxonomy_id, [
+            ])->term_taxonomy_id,
+            [
                 'term_order' => 0,
             ]
         );
