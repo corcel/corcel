@@ -47,7 +47,7 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "7.2"
+            "php": "7.2.5"
         },
         "allow-plugins": {
             "symfony/thanks": true
