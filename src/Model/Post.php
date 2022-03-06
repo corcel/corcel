@@ -8,6 +8,7 @@ use Corcel\Concerns\CustomTimestamps;
 use Corcel\Concerns\MetaFields;
 use Corcel\Concerns\OrderScopes;
 use Corcel\Concerns\Shortcodes;
+use Corcel\Concerns\GetByPath;
 use Corcel\Corcel;
 use Corcel\Model;
 use Corcel\Model\Builder\PostBuilder;
@@ -26,6 +27,7 @@ class Post extends Model
     use AdvancedCustomFields;
     use MetaFields;
     use Shortcodes;
+    use GetByPath;
     use OrderScopes;
     use CustomTimestamps;
 
