@@ -8,6 +8,7 @@ use Corcel\Laravel\Auth\AuthUserProvider;
 use Illuminate\Support\ServiceProvider;
 use Thunder\Shortcode\Parser\RegularParser;
 use Thunder\Shortcode\ShortcodeFacade;
+use Illuminate\Foundation\Application;
 
 /**
  * Class CorcelServiceProvider
@@ -42,9 +43,11 @@ class CorcelServiceProvider extends ServiceProvider
      */
     private function registerAuthProvider()
     {
-        Auth::provider('corcel', function ($app, array $config) {
-            return new AuthUserProvider($config);
-        });
+        if (app() instanceof Application) {
+            Auth::provider('corcel', function ($app, array $config) {
+                return new AuthUserProvider($config);
+            });
+        }
     }
 
     /**
