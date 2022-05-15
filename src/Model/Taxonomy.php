@@ -41,7 +41,7 @@ class Taxonomy extends Model
     {
         return $this->hasMany(TermMeta::class, 'term_id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -55,7 +55,15 @@ class Taxonomy extends Model
      */
     public function parent()
     {
-        return $this->belongsTo(Taxonomy::class, 'parent');
+        return $this->belongsTo(Taxonomy::class, 'parent', 'term_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function children()
+    {
+        return $this->hasMany(Taxonomy::class, 'parent', 'term_id');
     }
 
     /**

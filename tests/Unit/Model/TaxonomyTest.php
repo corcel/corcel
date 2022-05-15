@@ -116,9 +116,21 @@ class TaxonomyTest extends \Corcel\Tests\TestCase
         /** @var Taxonomy $parent */
         $parent = factory(Taxonomy::class)->create();
         /** @var Taxonomy $taxonomy */
-        $taxonomy = factory(Taxonomy::class)->create(['parent' => $parent->term_taxonomy_id]);
+        $taxonomy = factory(Taxonomy::class)->create(['parent' => $parent->term_id]);
 
         $this->assertEquals($parent->fresh(), $taxonomy->parent()->first());
+    }
+
+    public function test_it_has_children()
+    {
+        /** @var Taxonomy $parent */
+        $parent = factory(Taxonomy::class)->create();
+        /** @var Taxonomy $child1 */
+        $child1 = factory(Taxonomy::class)->create(['parent' => $parent->term_id]);
+        /** @var Taxonomy $child2 */
+        $child2 = factory(Taxonomy::class)->create(['parent' => $parent->term_id]);
+
+        $this->assertEquals([$child1->getKey(), $child2->getKey()], $parent->children->sortBy('term_taxonomy_id')->modelKeys());
     }
 
     private function createTaxonomyWithTermsAndPosts(): Taxonomy
