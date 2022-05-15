@@ -73,6 +73,26 @@ class Option extends Model
     }
 
     /**
+     * Creates or updates an option based on the $key parameter.
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return Option
+     */
+    public static function set($key, $value)
+    {
+        return static::updateOrCreate(
+            [
+                'option_name' => $key,
+            ],
+            [
+                'option_name' => $key,
+                'option_value' => is_array($value) ? serialize($value) : $value,
+            ]
+        );
+    }
+
+    /**
      * @param string $name
      * @return mixed
      */
