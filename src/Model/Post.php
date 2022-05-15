@@ -12,6 +12,7 @@ use Corcel\Corcel;
 use Corcel\Model;
 use Corcel\Model\Builder\PostBuilder;
 use Corcel\Model\Meta\ThumbnailMeta;
+use Illuminate\Support\Str;
 
 /**
  * Class Post
@@ -110,6 +111,11 @@ class Post extends Model
         'updated_at' => 'post_modified',
         'status' => 'post_status',
     ];
+
+    /**
+     * @var int
+     */
+    protected $characters = 400;
 
     /**
      * @param array $attributes
@@ -272,6 +278,22 @@ class Post extends Model
     public function getContentAttribute()
     {
         return $this->stripShortcodes($this->post_content);
+    }
+
+    /**
+     * @return string
+     */
+    public function getShortContentAttribute()
+    {
+        preg_match_all('/<p>(.*?)<\/p>/', $this->content, $content);
+
+        $excerpt_content =  implode('', $content[0]);
+
+        if (strlen($excerpt_content) > $this->characters) {
+            return Str::limit($excerpt_content, $this->characters);
+        }
+
+        return $excerpt_content;
     }
 
     /**
