@@ -61,6 +61,6 @@ class ThumbnailMeta extends PostMeta
      */
     public function __toString()
     {
-        return $this->attachment->guid;
+        return $this->attachment->guid ?? '';
     }
 }
