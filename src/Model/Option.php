@@ -62,13 +62,17 @@ class Option extends Model
     /**
      * @param string $key
      * @param mixed $value
+     * @param bool $autoload
+     *
      * @return Option
      */
-    public static function add($key, $value)
+    public static function add($key, $value, $autoload = true)
     {
-        return static::create([
+        return static::updateOrCreate([
             'option_name' => $key,
+        ], [
             'option_value' => is_array($value) ? serialize($value) : $value,
+            'autoload'     => $autoload ? "yes" : "no"
         ]);
     }
 
