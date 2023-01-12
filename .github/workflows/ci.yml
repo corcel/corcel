@@ -28,3 +28,13 @@ jobs:
       run: |
         composer install --prefer-dist --quiet
         php vendor/bin/phpunit
+        
+    - name: Setup php82
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+
+    - name: Running tests php82
+      run: |
+        composer install --prefer-dist --quiet
+        php vendor/bin/phpunit
