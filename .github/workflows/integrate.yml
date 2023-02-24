@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+
+name: Integrate
+
+on:
+  pull_request: null
+  push:
+    branches:
+    - '6.0'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  unit-tests:
+    name: Unit tests
+    strategy:
+      matrix:
+        php-version:
+        - '8.0'
+        - '8.1'
+        dependencies:
+        - lowest
+        - locked
+        - highest
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '${{ matrix.php-version }}'
+
+    - name: Install dependencies
+      uses: ramsey/composer-install@v2
+      with:
+        dependency-versions: '${{ matrix.dependencies }}'
+
+    - name: Execute unit tests
+      run: composer exec -- phpunit
