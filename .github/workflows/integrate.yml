@@ -25,6 +25,7 @@ jobs:
         - '8.1'
         dependencies:
         - lowest
+        - locked
         - highest
     runs-on: ubuntu-latest
     timeout-minutes: 5
