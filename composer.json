@@ -1,6 +1,8 @@
 {
     "name": "jgrossi/corcel",
-    "replace": { "juniorgrossi/corcel": "self.version" },
+    "replace": {
+        "juniorgrossi/corcel": "self.version"
+    },
     "description": "Use WordPress backend with Laravel or any PHP framework",
     "homepage": "http://github.com/corcel/corcel",
     "license": "MIT",
@@ -13,9 +15,9 @@
     ],
     "require": {
         "php": "^8.0.2",
-        "illuminate/database": "^9.0",
-        "illuminate/filesystem": "^9.0",
-        "illuminate/support": "^9.0",
+        "illuminate/database": "^9.0|^10.0",
+        "illuminate/filesystem": "^9.0|^10.0",
+        "illuminate/support": "^9.0|^10.0",
         "fakerphp/faker": "^1.19",
         "bordoni/phpass": "0.3.*",
         "thunderer/shortcode": "^0.7.3"
