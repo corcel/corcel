@@ -12,11 +12,10 @@
         }
     ],
     "require": {
-        "php": "^8.0.2",
-        "illuminate/database": "^9.0",
-        "illuminate/filesystem": "^9.0",
-        "illuminate/support": "^9.0",
-        "fakerphp/faker": "^1.19",
+        "php": ">=8.2.0",
+        "illuminate/database": "9.*",
+        "illuminate/filesystem": "9.*",
+        "illuminate/support": "9.*",
         "bordoni/phpass": "0.3.*",
         "thunderer/shortcode": "^0.7.3"
     },
@@ -38,6 +37,11 @@
             "providers": [
                 "Corcel\\Laravel\\CorcelServiceProvider"
             ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/thanks": true
         }
     }
 }
