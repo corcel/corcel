@@ -82,6 +82,7 @@ class User extends Model implements Authenticatable, CanResetPassword
         'first_name',
         'last_name',
         'avatar',
+        'description',
         'created_at',
     ];
 
