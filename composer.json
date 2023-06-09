@@ -22,7 +22,7 @@
     },
     "require-dev": {
         "laravel/legacy-factories": "^1.0",
-        "orchestra/testbench": "^7.0",
+        "orchestra/testbench": "^8.0",
         "symfony/thanks": "^1.0",
         "mockery/mockery": "^1.4.4",
         "dms/phpunit-arraysubset-asserts": "^0.3"

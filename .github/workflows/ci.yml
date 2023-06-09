@@ -9,22 +9,22 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     
-    - name: Setup php80
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.0'
-
-    - name: Running tests php80
-      run: |
-        composer install --prefer-dist --quiet
-        php vendor/bin/phpunit
-
     - name: Setup php81
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.1'
 
     - name: Running tests php81
+      run: |
+        composer install --prefer-dist --quiet
+        php vendor/bin/phpunit
+
+    - name: Setup php82
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+
+    - name: Running tests php82
       run: |
         composer install --prefer-dist --quiet
         php vendor/bin/phpunit
