@@ -68,6 +68,7 @@ class Post extends Model
         'to_ping',
         'pinged',
         'post_content_filtered',
+        'guid'
     ];
 
     /**
