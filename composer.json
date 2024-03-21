@@ -41,5 +41,10 @@
                 "Corcel\\Laravel\\CorcelServiceProvider"
             ]
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/thanks": true
+        }
     }
 }
