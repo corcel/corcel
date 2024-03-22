@@ -135,7 +135,19 @@ class User extends Model implements Authenticatable, CanResetPassword
      */
     public function getAuthPassword()
     {
-        return $this->user_pass;
+        $authPasswordName = $this->getAuthPasswordName();
+
+        return $this->{$authPasswordName};
+    }
+
+    /**
+     * Get the name of the password attribute for the user.
+     *
+     * @return string
+     */
+    public function getAuthPasswordName()
+    {
+        return 'user_pass';
     }
 
     /**
