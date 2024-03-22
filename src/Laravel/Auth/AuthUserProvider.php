@@ -123,4 +123,9 @@ class AuthUserProvider implements UserProvider
 
         return $model ? new $model : new User;
     }
+
+    public function rehashPasswordIfRequired(Authenticatable $user, array $credentials, bool $force = false)
+    {
+        //
+    }
 }
