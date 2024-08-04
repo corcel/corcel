@@ -269,7 +269,7 @@ $trueOrFalse = $post->saveMeta('foo', 'baz'); // boolean
 There are multiples possibilities to query posts by their custom fields (meta) by using scopes on a `Post` (or another other model which uses the `HasMetaFields` trait) class:
 
 To check if a meta key exists, use the `hasMeta()` scope:
-```
+```php
 // Finds a published post with a meta flag.
 $post = Post::published()->hasMeta('featured_article')->first();
 ```
