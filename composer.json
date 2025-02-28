@@ -13,8 +13,8 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/database": "^11.0|^12.0",
-        "illuminate/filesystem": "^11.0|^12.0",
+        "illuminate/database": "^11.0",
+        "illuminate/filesystem": "^11.0",
         "illuminate/support": "^11.0|^12.0",
         "fakerphp/faker": "^1.19",
         "bordoni/phpass": "0.3.*",
