@@ -1,5 +1,5 @@
 {
-    "name": "jgrossi/corcel",
+    "name": "bannerworld/corcel",
     "replace": { "juniorgrossi/corcel": "self.version" },
     "description": "Use WordPress backend with Laravel or any PHP framework",
     "homepage": "http://github.com/corcel/corcel",
