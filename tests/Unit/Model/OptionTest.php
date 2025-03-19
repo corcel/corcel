@@ -3,7 +3,6 @@
 namespace Corcel\Tests\Unit\Model;
 
 use Corcel\Model\Option;
-use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
 
 /**
  * Class OptionTest
@@ -12,8 +11,6 @@ use DMS\PHPUnitExtensions\ArraySubset\ArraySubsetAsserts;
  */
 class OptionTest extends \Corcel\Tests\TestCase
 {
-    use ArraySubsetAsserts;
-
     public function test_it_can_return_all_configs_as_array()
     {
         factory(Option::class)->create([
@@ -24,7 +21,7 @@ class OptionTest extends \Corcel\Tests\TestCase
         $options = Option::asArray();
         $expected = ['foo' => 'bar'];
 
-        self::assertArraySubset($expected, $options);
+        $this->assertEquals(json_encode($expected), json_encode($options));
         $this->assertArrayHasKey('foo', $options);
         $this->assertEquals('bar', $options['foo']);
     }
@@ -66,7 +63,7 @@ class OptionTest extends \Corcel\Tests\TestCase
         $this->assertArrayHasKey('foo', $options);
         $this->assertIsArray($options['foo']);
         $this->assertContains($array, $options);
-        self::assertArraySubset($array, $options['foo']);
+        $this->assertEquals(json_encode($array), json_encode($options['foo']));
     }
 
     public function test_it_returns_null_if_not_found()
@@ -103,7 +100,7 @@ class OptionTest extends \Corcel\Tests\TestCase
             'option_value' => 'bar',
         ]);
 
-        self::assertArraySubset(['foo' => 'bar'], $option->toArray());
+        $this->assertEquals(json_encode(['foo' => 'bar']), json_encode($option->toArray()));
     }
 
     public function test_it_can_add_new_option_using_add_static_method()
@@ -111,6 +108,6 @@ class OptionTest extends \Corcel\Tests\TestCase
         $option = Option::add('foo', 'bar');
 
         $this->assertEquals('bar', $option->value);
-        self::assertArraySubset(['foo' => 'bar'], $option->toArray());
+        $this->assertEquals(json_encode(['foo' => 'bar']), json_encode($option->toArray()));
     }
 }
