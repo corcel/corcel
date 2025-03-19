@@ -6,6 +6,8 @@ use Corcel\Corcel;
 use Corcel\Model;
 use Corcel\Model\Post;
 use Corcel\Tests\TestCase;
+use PHPUnit\Framework\Attributes\PreserveGlobalState;
+use PHPUnit\Framework\Attributes\RunInSeparateProcess;
 use Thunder\Shortcode\Parser\ParserInterface;
 use Thunder\Shortcode\Parser\WordpressParser;
 use Thunder\Shortcode\ShortcodeFacade;
@@ -29,10 +31,7 @@ class ShortcodesTest extends TestCase
         $this->assertInstanceOf(WordpressParser::class, $value);
     }
 
-    /**
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
+    #[RunInSeparateProcess, PreserveGlobalState(false)]
     public function test_it_can_change_the_parser_in_runtime()
     {
         // Force Corcel::isLaravel() returning false
