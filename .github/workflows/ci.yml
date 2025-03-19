@@ -18,3 +18,23 @@ jobs:
       run: |
         composer install --prefer-dist --quiet
         php vendor/bin/phpunit
+
+    - name: Setup php82
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+
+    - name: Running tests php83
+      run: |
+        composer install --prefer-dist --quiet
+        php vendor/bin/phpunit
+
+    - name: Setup php84
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.4'
+
+    - name: Running tests php84
+      run: |
+        composer install --prefer-dist --quiet
+        php vendor/bin/phpunit
