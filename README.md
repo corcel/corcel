@@ -59,6 +59,7 @@ You can use WordPress as the backend (administration panel) or CMS, for insertin
  9.0.x    | `^6.0.0`
  10.0.x   | `^7.0.0`
  11.0.x   | `^8.0.0`
+ 12.0.x   | `^9.0.0`
 
 # <a id="installing-corcel"></a> Installing Corcel
 
