@@ -16,15 +16,15 @@
         "illuminate/database": "^12.0",
         "illuminate/filesystem": "^12.0",
         "illuminate/support": "^12.0",
-        "fakerphp/faker": "^1.19",
+        "fakerphp/faker": "^1.24",
         "bordoni/phpass": "0.3.*",
-        "thunderer/shortcode": "^0.7.3"
+        "thunderer/shortcode": "^0.7.6"
     },
     "require-dev": {
         "laravel/legacy-factories": "^1.0",
         "orchestra/testbench": "^10.1",
-        "symfony/thanks": "^1.0",
-        "mockery/mockery": "^1.4.4"
+        "symfony/thanks": "^1.4",
+        "mockery/mockery": "^1.6.12"
     },
     "autoload": {
         "psr-4": {
